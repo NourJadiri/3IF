@@ -1,4 +1,4 @@
-# TdAlgo
+# 3IF
 
 Si t'es la, c'est que soit tu es perdu, ou que somehow quelqu'un t'as envoyé ce lien pour faire tes TD d'algos... petite merde (pour des raisons légales c'est une blague)
 

@@ -6,3 +6,5 @@ J'espère que ce repo, qui sera alimentée par les douces main d'un Nour, une Ma
 à ton tour tu pourras l'alimenter et l'envoyer à quelqu'un d'autre.
 
 :D
+
+cc <3

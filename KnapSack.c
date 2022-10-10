@@ -31,5 +31,6 @@ int main(){
 
     if(sacs[capacite]) printf("OUI\r\n");
     else printf("NON\r\n");
-
+    
+    return 0; //on l'oublie pas celui la!!!!!!!
 }

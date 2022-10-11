@@ -19,7 +19,8 @@ int main () {
     nrOfPaths[0][0] = 1;
     for (nPosI = 0; nPosI < n; nPosI++) {
         for (nPosJ = 0; nPosJ < n; nPosJ++) {
-            if (arrGrid[nPosI][nPosJ] == -1) nrOfPaths[nPosI][nPosJ] = 0;
+            if (nPosI == 0 && nPosJ == 0) continue;
+            else if (arrGrid[nPosI][nPosJ] == -1) nrOfPaths[nPosI][nPosJ] = 0;
             else if (nPosJ-1<0) nrOfPaths[nPosI][nPosJ] = nrOfPaths[nPosI-1][nPosJ];
             else if (nPosI-1<0) nrOfPaths[nPosI][nPosJ] = nrOfPaths[nPosI][nPosJ-1];
             else nrOfPaths[nPosI][nPosJ] = nrOfPaths[nPosI][nPosJ-1] + nrOfPaths[nPosI-1][nPosJ];

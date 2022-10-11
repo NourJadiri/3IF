@@ -4,41 +4,44 @@
 #define FALSE 0
 
 int main(){
-    int capacite;
-    int i, j, k;
+    int totalCapacity;
+    int capacity, object; // iterator variables
+    scanf("%d" , &totalCapacity);
 
-    int objets[101];
 
-    scanf("%d" , &capacite);
-
-    int lengthObjects = 0;
+    // read object list
+    int weights[101];
+    int nrOfObjects = 0;
     do {
-        scanf("%d",&objets[lengthObjects]);
-    } while (objets[lengthObjects++] != -1);
-    lengthObjects--;
+        scanf("%d",&weights[nrOfObjects]);
+    } while (weights[nrOfObjects++] != -1);
+    nrOfObjects--;
 
-    int sacs[capacite + 1];
-    sacs[0] = TRUE;
 
-    for(k = 1 ; k <= capacite ; k++) sacs[k] = 0;
-
-    // IDEE ?
-    //Somehow la le programme ne gère pas les cas ou tu peut ajouter un poids à un autre
-
-    //---TO DO--- Trouver un moyen de faire ça
-
-    for(i = 1 ; i <= capacite ; i++){
-        for(j = 0 ; j < lengthObjects ; j++){
-            if(i - objets[j] >= 0 && (sacs[i - objets[j]]) && objets[j] != -69) {
-                sacs[i] = TRUE;
-                objets[j] = -69;
-            }
-        }
-        printf("sac[%d] : %d \n" ,i, sacs[i]);
+    // initialisation of 2D array (first column to 1, rest 0)
+    int fillable[totalCapacity + 1][nrOfObjects + 1];
+    for(capacity = 0 ; capacity <= totalCapacity ; capacity++) {
+        for (object = 0 ; object <= nrOfObjects ; object++) fillable[capacity][object] = capacity == 0;
     }
-    printf("\n\r");
-    if(sacs[capacite]) printf("OUI\r\n");
+
+
+    // calculation of fillable_matrix
+    for(object = 1 ; object <= nrOfObjects ; object++) {
+        for (capacity = 1 ; capacity <= totalCapacity ; capacity++) {
+            if (capacity - weights[object - 1] < 0)
+                fillable[capacity][object] = fillable[capacity][object-1];
+            else
+                fillable[capacity][object] = fillable[capacity][object-1] ||
+                                             fillable[capacity - weights[object - 1]][object - 1];
+            //printf("fillable[capacity %d][object %d] = %d\r\n", capacity, object, fillable[capacity][object]);
+        }
+    }
+
+
+    // output
+    if(fillable[totalCapacity][nrOfObjects]) printf("OUI\r\n");
     else printf("NON\r\n");
 
     return 0; //on l'oublie pas celui la!!!!!!!
+    //cc <3
 }

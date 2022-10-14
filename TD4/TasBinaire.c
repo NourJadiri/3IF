@@ -65,8 +65,8 @@ BinaryHeap * Init(int size)
     BinaryHeap *heap1;
     heap1 = (BinaryHeap*)malloc(sizeof(BinaryHeap));
     heap1 -> allocated = size;
-    heap1->filled = 0;
-    heap1->array = (int*)malloc(sizeof(int) * size);
+    heap1 -> filled = 0;
+    heap1 -> array = (int*)malloc(sizeof(int) * size);
 
     return heap1;
 }
@@ -78,18 +78,20 @@ void InsertValue(BinaryHeap * heap, int value)
         heap->allocated *= 2;
         heap->array = (int*) realloc(heap->array,heap->allocated);
     }
-    heap->array[heap->filled++] = value;
+    heap -> array[heap->filled] = value;
+    heap -> filled++;
 
-    int i = heap->filled;
+    int i = heap -> filled - 1;
 
     while(heap->array[(i-1)/2] < heap->array[i]){
         swap(&(heap->array[i]),&(heap->array[(i-1)/2]));
         i = (i-1)/2;
     }
 
-    for(int i = 0 ; i < sizeof(heap->array)/sizeof(int) ; i++){
-        printf("%d ",heap->array[i]);
+    for(int j = 0 ; j < heap->filled ; j++){
+        printf("%d ",heap->array[j]);
     }
+    printf("\n");
 
 }
 

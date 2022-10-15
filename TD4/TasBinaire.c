@@ -128,5 +128,4 @@ void Destroy(Queue * heap)
 {
     free(heap->array);
     free(heap);
-
 }

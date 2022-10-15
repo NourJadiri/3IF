@@ -73,7 +73,7 @@ BinaryHeap * Init(int size)
 void InsertValue(BinaryHeap * heap, int value)
 {
     if (heap->filled == heap->allocated){
-        heap->allocated *= 2;
+        heap->allocated = heap->allocated * 2;
         heap->array = (int*) realloc(heap->array,heap->allocated);
     }
     heap -> array[heap->filled] = value;

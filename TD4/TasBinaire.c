@@ -25,18 +25,13 @@ void InsertValue(BinaryHeap * heap, int value);
  * value present in the binary heap
  * filled is decremented by 1  and the max value is removed
  * from the binary heap */
-int ExtractMax(BinaryHeap * heap, int * val);
+int ExtractMax(BinaryHeap * heap, int * res);
 
 /* Destroy frees the structure and the array */
 void Destroy(BinaryHeap * heap);
 
 /*Cette fonction sera super utile hihi*/
 void swap(int *xp, int *yp);
-
-int TestChildren(BinaryHeap * heap, int i);
-
-//Evaluate the maximum between two numbers
-int max(int num1, int num2);
 
 int main(void)
 {
@@ -91,11 +86,6 @@ void InsertValue(BinaryHeap * heap, int value)
         i = (i-1)/2;
     }
 
-    for(int j = 0 ; j < heap->filled ; j++){
-        printf("%d ",heap->array[j]);
-    }
-    printf("\n");
-
 }
 
 void swap(int *xp, int *yp)
@@ -103,11 +93,6 @@ void swap(int *xp, int *yp)
     int temp = *xp;
     *xp = *yp;
     *yp = temp;
-}
-
-int max(int num1, int num2)
-{
-    return (num1 > num2) ? num1 : num2;
 }
 
 int ExtractMax(BinaryHeap * heap, int *res)
@@ -134,22 +119,7 @@ int ExtractMax(BinaryHeap * heap, int *res)
         i++;
     }
 
-    for(int j = 0; j < heap->filled ; j++){
-        printf("%d ",heap->array[j]);
-    }
-
-    printf("\n");
-
-
     return 1;
-}
-
-int TestChildren(BinaryHeap * heap, int i) {
-    if (2*i+1 >= heap->filled) return 0; // pas d'enfants
-    else if (2*i+2 >= heap->filled){ // seulement enfant a gauche
-        if(heap->array[i] < heap->array[2*i+1]) return 1;
-    }
-    return 1 + heap->array[2*i+1] < heap->array[2*i+2];
 }
 
 

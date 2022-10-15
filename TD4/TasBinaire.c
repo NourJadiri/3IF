@@ -6,29 +6,29 @@ typedef struct {
     int allocated; /* current allocation of array */
     int filled;    /* number of items present in the binheap */
     int *array;/* array of values */
-} BinaryHeap;
+} Queue;
 
-/* Init allocates the structure BinaryHeap and
+/* Init allocates the structure Queue and
  * also the membre array with the given size
  * it also fills allocated (size) and initializes
  * filled to 0 */
-BinaryHeap * Init(int size);
+Queue * Init(int size);
 
 /* InsertValue insert value into the binary heap
  * the array is reallocated if necessary (allocated changed
  * with respect to the new size )
  * filled is incremented by 1 */
-void InsertValue(BinaryHeap * heap, int value);
+void InsertValue(Queue * heap, int value);
 
 /* ExtractMAx returns 0 if the binary heap is empty
  * otherwise it returns 1 and fills *val with the maximum
  * value present in the binary heap
  * filled is decremented by 1  and the max value is removed
  * from the binary heap */
-int ExtractMax(BinaryHeap * heap, int * res);
+int ExtractMax(Queue * heap, int * res);
 
 /* Destroy frees the structure and the array */
-void Destroy(BinaryHeap * heap);
+void Destroy(Queue * heap);
 
 /*Cette fonction sera super utile hihi*/
 void swap(int *xp, int *yp);
@@ -37,7 +37,7 @@ int main(void)
 {
     char lecture[100];
     int val;
-    BinaryHeap * heap;
+    Queue * heap;
     heap = Init(10);
 
     fscanf(stdin,"%99s",lecture);
@@ -58,10 +58,10 @@ int main(void)
     return 0;
 }
 
-BinaryHeap * Init(int size)
+Queue * Init(int size)
 {
-    BinaryHeap *heap1;
-    heap1 = (BinaryHeap*)malloc(sizeof(BinaryHeap));
+    Queue *heap1;
+    heap1 = (Queue*)malloc(sizeof(Queue));
     heap1 -> allocated = size;
     heap1 -> filled = 0;
     heap1 -> array = (int*)malloc(sizeof(int) * size);
@@ -70,11 +70,11 @@ BinaryHeap * Init(int size)
 }
 
 // Voir si un tas binaire est toujours ordonné
-void InsertValue(BinaryHeap * heap, int value)
+void InsertValue(Queue * heap, int value)
 {
     if (heap->filled == heap->allocated){
-        heap->allocated = heap->allocated * 2;
-        heap->array = (int*) realloc(heap->array,sizeof(int)*heap->allocated);
+        heap->allocated *= 2;
+        heap->array = (int*) realloc(heap->array,sizeof(int)*heap->allocated); // ON OUBLIE PAS LE SIZEOF!!!
     }
     heap -> array[heap->filled] = value;
     heap -> filled++;
@@ -95,7 +95,7 @@ void swap(int *xp, int *yp)
     *yp = temp;
 }
 
-int ExtractMax(BinaryHeap * heap, int *res)
+int ExtractMax(Queue * heap, int *res)
 {
     if(heap->filled == 0) return 0;
 
@@ -124,7 +124,7 @@ int ExtractMax(BinaryHeap * heap, int *res)
     return 1;
 }
 
-void Destroy(BinaryHeap * heap)
+void Destroy(Queue * heap)
 {
     free(heap->array);
     free(heap);

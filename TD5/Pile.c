@@ -28,6 +28,7 @@ int ExtractVal(Queue * aQueue, int * val);
 /* Destroy frees the structure and the array */
 void Destroy(Queue * aQueue);
 
+
 int main(void)
 {
     char lecture[100];

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_QUEUE 3
+#define MAX_QUEUE 100
 
 typedef struct {
     int firstIndex; // index of first elem

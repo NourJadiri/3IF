@@ -3,14 +3,14 @@
 #include <string.h>
 
 typedef struct {
-    int allocated; /* current allcoation of array */
+    int allocated; /* current allocation of array */
     int filled;    /* number of items present in the binheap */
     int *array;/* array of values */
 } BinaryHeap;
 
 /* Init allocates the structure BinaryHeap and
  * also the membre array with the given size
- * it also fill allocated (size) and intializes
+ * it also fills allocated (size) and initializes
  * filled to 0 */
 BinaryHeap * Init(int size);
 
@@ -21,7 +21,7 @@ BinaryHeap * Init(int size);
 void InsertValue(BinaryHeap * heap, int value);
 
 /* ExtractMAx returns 0 if the binary heap is empty
- * otherwise it return 1 and fills *val with the maximum
+ * otherwise it returns 1 and fills *val with the maximum
  * value present in the binary heap
  * filled is decremented by 1  and the max value is removed
  * from the binary heap */
@@ -74,7 +74,7 @@ void InsertValue(BinaryHeap * heap, int value)
 {
     if (heap->filled == heap->allocated){
         heap->allocated = heap->allocated * 2;
-        heap->array = (int*) realloc(heap->array,heap->allocated);
+        heap->array = (int*) realloc(heap->array,sizeof(int)*heap->allocated);
     }
     heap -> array[heap->filled] = value;
     heap -> filled++;
@@ -102,17 +102,19 @@ int ExtractMax(BinaryHeap * heap, int *res)
     *res = heap->array[0];
 
     heap->array[0] = heap->array[heap->filled - 1];
+    heap->array[heap->filled-1] = 0;
     int i = 0;
 
     heap->filled--;
 
     while(heap->array[i] < heap->array[2*i+1] || heap->array[i] < heap->array[2*i+2]){
-        if(2*i+1 <= heap->filled && 2*i+2 <= heap->filled){
+        if(2*i+1 < heap->filled && 2*i+2 < heap->filled){ //les deux fils existent
             if(heap->array[2*i+1] < heap->array[2*i+2]) swap(&heap->array[i],&heap->array[2*i+2]);
             else swap(&heap->array[i],&heap->array[2*i+1]);
         }
 
-        else if (2*i+1 <= heap->filled && 2*i+2 > heap->filled) swap(&heap->array[i],&heap->array[2*i+1]);
+        //si ya uniquement fils gauche
+        else if (2*i+1 < heap->filled && 2*i+2 >= heap->filled) swap(&heap->array[i],&heap->array[2*i+1]);
 
         else break;
 
@@ -121,7 +123,6 @@ int ExtractMax(BinaryHeap * heap, int *res)
 
     return 1;
 }
-
 
 void Destroy(BinaryHeap * heap)
 {

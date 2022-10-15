@@ -35,6 +35,9 @@ void swap(int *xp, int *yp);
 
 int TestChildren(BinaryHeap * heap, int i);
 
+//Evaluate the maximum between two numbers
+int max(int num1, int num2);
+
 int main(void)
 {
     char lecture[100];
@@ -102,34 +105,48 @@ void swap(int *xp, int *yp)
     *yp = temp;
 }
 
+int max(int num1, int num2)
+{
+    return (num1 > num2) ? num1 : num2;
+}
+
 int ExtractMax(BinaryHeap * heap, int *res)
 {
-    if(!heap->filled) return -1;
+    if(heap->filled == 0) return 0;
 
-    int max = heap->array[0];
+    *res = heap->array[0];
 
-    swap(&(heap->array[0]),&(heap->array[heap->filled]));
-    heap->filled--;
+    heap->array[0] = heap->array[heap->filled - 1];
     int i = 0;
 
-    while(TestChildren(heap,i)){
-        if(TestChildren(heap,i) == 1) {
-            swap((&heap->array[i]), &(heap->array[2*i+1]));
-            i = 2*i+1;
+    heap->filled--;
+
+    while(heap->array[i] < heap->array[2*i+1] || heap->array[i] < heap->array[2*i+2]){
+        if(2*i+1 <= heap->filled && 2*i+2 <= heap->filled){
+            if(heap->array[2*i+1] < heap->array[2*i+2]) swap(&heap->array[i],&heap->array[2*i+2]);
+            else swap(&heap->array[i],&heap->array[2*i+1]);
         }
-        else {
-            swap((&heap->array[i]), &(heap->array[2*i+2]));
-            i = 2*i + 2 ;
-        }
+
+        else if (2*i+1 <= heap->filled && 2*i+2 > heap->filled) swap(&heap->array[i],&heap->array[2*i+1]);
+
+        else break;
+
+        i++;
     }
 
+    for(int j = 0; j < heap->filled ; j++){
+        printf("%d ",heap->array[j]);
+    }
 
-    return max;
+    printf("\n");
+
+
+    return 1;
 }
 
 int TestChildren(BinaryHeap * heap, int i) {
     if (2*i+1 >= heap->filled) return 0; // pas d'enfants
-    if (2*i+2 >= heap->filled){ // seulement enfant a gauche
+    else if (2*i+2 >= heap->filled){ // seulement enfant a gauche
         if(heap->array[i] < heap->array[2*i+1]) return 1;
     }
     return 1 + heap->array[2*i+1] < heap->array[2*i+2];

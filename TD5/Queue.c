@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Queue.h"
 
 Queue* Init(){
@@ -22,6 +23,7 @@ void InsertValue(Queue* q , int val){
     q->rear->next = n;
     q->rear = n;
 
+    toString(q);
     //il se peut que y ait une confusion ici, mais il faut voir la liste un peu à l'envers.. comme ça genre
     /*
      * Node(N) <- Node(N-1) <- Node(N-2) <- ... Node(1)
@@ -43,6 +45,9 @@ int Dequeue(Queue* q){
     //si front devient NULL (plus d'élements dans la pile), alors on update rear aussi
     if(q->front == NULL) q->rear = NULL;
 
+    toString(q);
+
+
     return 1;
 
 }
@@ -51,4 +56,35 @@ void Destroy(Queue* q){
     free(q->front);
     free(q->rear);
     free(q);
+}
+
+void toString(Queue* queue){
+
+    if(queue->front == NULL) return;
+
+    Node* iterator = queue->front;
+
+    //Tant que y'a un node dans ma liste, je print la valeur du node
+    while(iterator->next != NULL){
+        printf("%d ", iterator->value);
+        iterator = iterator->next;
+    }
+
+    printf("%d ",iterator->value);
+
+    printf("\n\r");
+}
+
+int nElements(Queue* q){
+    Node* iter = q->front;
+    int i = 0;
+
+    if(q->front == NULL) return 0;
+    else{
+        while(iter != NULL){
+            i++;
+            iter = iter->next;
+        }
+        return i;
+    }
 }

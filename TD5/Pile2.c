@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
+
 #include "Queue.h"
+
 #define MAX_QUEUE_SIZE 100
 
 
-
-void toString(Queue* queue);
 
 int main(void)
 {
@@ -22,10 +22,15 @@ int main(void)
             val = strtol(lecture,NULL,10);
             InsertValue(aQueue, val);
         } else if (strcmp(lecture, "dequeue") == 0) {
+
+            Node* temp = newNode(aQueue->front->value);
+
             if(Dequeue(aQueue))
             {
-                printf("%d\r\n",val);
+                printf("%d\r\n",temp->value);
+
             }
+            free(temp);
         }
         fscanf(stdin, "%99s", lecture);
     }
@@ -34,18 +39,5 @@ int main(void)
 }
 
 
-void toString(Queue* queue){
 
-    if(queue->front == NULL) return;
-
-    Node* iterator = queue->front;
-
-    //Tant que y'a un node dans ma liste, je print la valeur du node
-    while(iterator->next != NULL){
-        printf("%d ", iterator->value);
-        iterator = iterator->next;
-    }
-
-    printf("\n\r");
-}
 

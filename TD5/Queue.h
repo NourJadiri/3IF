@@ -15,4 +15,6 @@ void InsertValue(Queue* q, int val);
 int Dequeue(Queue* q);
 
 void Destroy(Queue* q);
+
+void toString(Queue* queue);
 #endif //INC_3IF_QUEUE_H

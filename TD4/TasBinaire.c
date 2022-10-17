@@ -6,7 +6,7 @@ typedef struct {
     int allocated; /* current allocation of array */
     int filled;    /* number of items present in the binheap */
     int *array;/* array of values */
-} Queue;
+}Queue;
 
 /* Init allocates the structure Queue and
  * also the membre array with the given size

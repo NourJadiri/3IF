@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int moyenne(int * tab , int size);
-
 int somme(int* tab, int size);
 
-int moyenne(int* tab, int size);
+double moyenne(int* tab, int size);
 
 int main(){
 
@@ -30,13 +28,11 @@ int main(){
 
     else printf("RN\n\r");
 
-
     return 0;
 }
 
-int moyenne(int* tab , int size){
-
-    return somme(tab,size)/size;
+double moyenne(int* tab , int size){
+    return ((double)(somme(tab,size))/(double)(size));
 }
 
 int somme(int* tab , int size){
@@ -47,4 +43,38 @@ int somme(int* tab , int size){
     }
     return s;
 }
+/* VOICI UNE AUTRE SOLUTION
+ * (PCQ NOUR SE COMPLIQUE BCP TROP LA VIE ET QUON EST DES FLEMMARDS)
+ * ((ET QUE MALLOC + FREE CA FAIT CHIER))
+ *
 
+#include <stdio.h>
+
+int main() {
+    int n, m, sum_n=0, sum_m=0, temp_n, temp_m;
+    scanf("%d", &n);
+    scanf("%d", &m);
+
+    //calcul de la somme des poids
+    int i, j;
+    for (i = 0; i<n; i++){
+        scanf("%d", &temp_n);
+        sum_n += temp_n;
+    }
+    for (j = 0; j<m; j++){
+        scanf("%d", &temp_m);
+        sum_m += temp_m;
+    }
+
+    //calcul de la moyenne des poids
+    double avg_n, avg_m;
+    avg_n = (double)(sum_n)/(double)(n);
+    avg_m = (double)(sum_m)/(double)(m);
+
+    //printing
+    if (avg_n > avg_m) printf("R\r\n");
+    else if (avg_n < avg_m) printf("N\r\n");
+    else if (avg_n == avg_m) printf("RN\r\n");
+
+    return 0;
+}*/

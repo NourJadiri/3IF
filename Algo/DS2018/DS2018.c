@@ -23,10 +23,11 @@ int main(){
         scanf("%d",&nTab[i]);
     }
 
-    if(moyenne(rTab,r) > moyenne(nTab,n)) printf("R\n\r");
-    else if(moyenne(rTab,r) < moyenne(nTab,n)) printf("N\n\r");
+    //LES \r\n CA SE MET DANS CET ORDRE LA ET PAS L'INVERSE!!!!!!
+    if(moyenne(rTab,r) > moyenne(nTab,n)) printf("R\r\n");
+    else if(moyenne(rTab,r) < moyenne(nTab,n)) printf("N\r\n");
 
-    else printf("RN\n\r");
+    else printf("RN\r\n");
 
     return 0;
 }

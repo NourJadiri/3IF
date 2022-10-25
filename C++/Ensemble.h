@@ -66,6 +66,18 @@ public:
     // retirer element de ensemble s'il existe, renvoie true si retire, false si non retire
     // + reajustement
 
+    unsigned int Retirer ( const Ensemble & unEnsemble );
+    // Mode d'emploi :
+    // retire si possible les elements donnes dans unEnsemble
+    // renvoie le nombre d'elements retires
+
+    int Reunir ( const Ensemble & unEnsemble );
+    // Mode d'emploi :
+    // rajoute a l'ensemble courant les elements d'unEnsemble qui ne sont pas deja dedans
+    // renvoie un chiffre <0 si reajustement ; >0 si pas de reajustement
+    // renvoie nombre d'elements rajoutes en val absolue
+
+
 //------------------------------------------------- Surcharge d'opérateurs
     //Ensemble & operator = ( const Ensemble & unEnsemble );
     // Mode d'emploi :

@@ -156,6 +156,51 @@ bool Ensemble::Retirer ( int element )
     return true;
 } //----- Fin de Méthode
 
+
+unsigned int Ensemble::Retirer ( const Ensemble & unEnsemble )
+{
+    unsigned int count = 0;
+
+    // on garde les valeurs initiales pour les ajustements après
+    int cardActuIni = unEnsemble.cardActuelle;
+    int cardMaxIni = cardMax;
+
+    // on va creer un tableau de tous les elements a supprimer
+    int *toDelete = new int [ unEnsemble.cardActuelle ];
+
+    unsigned int i;
+    for (i = 0; i < cardActuIni; i++)
+    {
+        toDelete[i] = unEnsemble.elements[i];
+    }
+
+    // on essaie de les retirer un par un
+    // on oublie pas le compteur
+    for (i = 0; i < cardActuIni; i++)
+    {
+        if (Retirer(toDelete[i])) count++;
+        // en faisant appel a Retirer on a bien un ajustement de cardActuelle
+    }
+
+    delete [] toDelete;
+
+    // on ajuste la taille
+    Ajuster(cardMaxIni - cardMax);
+
+    // pareil on oublie pas le sorting
+    Sort();
+
+    return count;
+} //----- Fin de Méthode
+
+
+int Ensemble::Reunir ( const Ensemble & unEnsemble )
+{
+    // JSP COMMENT FAIRE LA MAIS C EST L IDEE
+    if (unEnsemble.EstInclus( this.Ensemble ) != NON_INCLUSION) return 0;
+
+} //----- Fin de Méthode
+
 //------------------------------------------------- Surcharge d'opérateurs
 //Ensemble & Ensemble::operator = ( const Ensemble & unEnsemble )
 // Algorithme :

@@ -75,8 +75,13 @@ public:
     // Mode d'emploi :
     // rajoute a l'ensemble courant les elements d'unEnsemble qui ne sont pas deja dedans
     // renvoie un chiffre <0 si reajustement ; >0 si pas de reajustement
-    // renvoie nombre d'elements rajoutes en val absolue
+    // renvoie nombre elements rajoutes en valeur absolue
 
+    unsigned int Intersection(const Ensemble &unEnsemble);
+    //Mode d'emploi :
+    //Modifie l'ensemble courant en ne gardant que les éléments contenus dans unEnsemble
+    //renvoie le nombre d'éléments retirés
+    //réajustement obligatoire
 
 //------------------------------------------------- Surcharge d'opérateurs
     //Ensemble & operator = ( const Ensemble & unEnsemble );
@@ -123,6 +128,7 @@ protected:
     int * elements;
     unsigned int cardActuelle; // peut être considere comme size du tableau
     unsigned int cardMax;
+
 };
 
 //-------------------------------- Autres définitions dépendantes de <Ensemble>

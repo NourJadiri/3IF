@@ -196,10 +196,64 @@ unsigned int Ensemble::Retirer ( const Ensemble & unEnsemble )
 
 int Ensemble::Reunir ( const Ensemble & unEnsemble )
 {
-    // JSP COMMENT FAIRE LA MAIS C EST L IDEE
-    if (unEnsemble.EstInclus( this.Ensemble ) != NON_INCLUSION) return 0;
+    // JSP COMMENT FAIRE LA MAIS C EST L IDEE... tkt
+    if (unEnsemble.EstInclus( *this ) != NON_INCLUSION) return 0;
 
+    int delta = 0;
+    unsigned int start_index = cardActuelle;
+    unsigned int i;
+
+    //On trouve la valeur effective d'éléments qu'on va rajouter à la réunion
+    for(i = 0 ; i < unEnsemble.cardActuelle ; i++){
+        if(!this->Contains(unEnsemble.elements[i])) delta++;
+    }
+
+    //Si on est obligés de réajuster l'ensemble
+    if(cardActuelle + delta > cardMax){
+
+        //on ajuste de delta
+        this->Ajuster(delta);
+
+        //On rajoute les différentes valeurs
+        for(i = start_index ; i < cardMax ; i++){
+
+            this->Ajouter(unEnsemble.elements[i - start_index]);
+        }
+
+        //On retourne un nombre négatif
+        return -delta;
+    }else{
+
+        //Sinon on fait juste qu'ajouter les nouveaux éléments
+        for(i = start_index ; i < cardActuelle + delta ; i++){
+            this->Ajouter(unEnsemble.elements[i - start_index]);
+        }
+
+        //Et on retourne une valeur positive
+        return delta;
+    }
 } //----- Fin de Méthode
+
+unsigned int Ensemble::Intersection(const Ensemble & unEnsemble){
+
+    unsigned int elements_supprimes = 0; //utile pour le return à la fin
+    unsigned i;
+
+    for(i = 0 ; i < unEnsemble.cardActuelle ; i++){
+
+        //Si un élément dans this n'est pas présent dans unEnsemble
+        if(!unEnsemble.Contains(elements[i])) {
+            //On le supprime
+            this->Retirer(elements[i]);
+
+            elements_supprimes++;
+        }
+    }
+
+    this->Ajuster(-elements_supprimes); //réajustement au plus juste
+
+    return elements_supprimes;
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 //Ensemble & Ensemble::operator = ( const Ensemble & unEnsemble )
@@ -278,7 +332,7 @@ Ensemble::~Ensemble ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-void Ensemble::Sort ( )
+void Ensemble::Sort ( ) // bubble sort...
 {
     bool estTrie = false;
     int temp = 0;

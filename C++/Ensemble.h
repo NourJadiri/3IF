@@ -1,77 +1,46 @@
-/*************************************************************************
-                           Ensemble  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
-
-//---------- Interface de la classe <Ensemble> (fichier Ensemble.h) ----------------
-#if ! defined ( ENSEMBLE_H )
-#define ENSEMBLE_H
-
-//--------------------------------------------------- Interfaces utilisées
-
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
-
-//------------------------------------------------------------------------
-// Rôle de la classe <Ensemble>
 //
+// Created by Nour on 24/10/2022.
 //
-//------------------------------------------------------------------------
 
-class Ensemble
-        {
-//----------------------------------------------------------------- PUBLIC
+#ifndef PROG_C___ENSEMBLE_H
+#define PROG_C___ENSEMBLE_H
+#define CARD_MAX 5
 
-                public:
-//----------------------------------------------------- Méthodes publiques
-                // type Méthode ( liste des paramètres );
-                // Mode d'emploi :
-                //
-                // Contrat :
-                //
+#include <iostream>
+
+using namespace std;
+
+class Ensemble {
+private :
+    unsigned int card_max , card_actuelle; //card_actuelle peut être considérée comme size du tableau
+    int *elements;
+public :
+
+    //constructeurs
+    Ensemble();
+    Ensemble(unsigned int card_max = CARD_MAX);
+    Ensemble(int tab[] ,unsigned int size);
+    Ensemble ( const Ensemble & e ); //constructeur de copie
+
+    //méthodes
+    void afficher();
+    bool estEgal(const Ensemble & e) const;
+    unsigned int estInclus(const Ensemble & e) const;
+    int ajouter(int element);
+    bool retirer(int element);
+    unsigned int retirer(const Ensemble e);
+    int reunir(const Ensemble & e);
+    unsigned int intersection(const Ensemble & e);
+    unsigned int ajuster(int delta);
+
+    //destructeur
+    virtual ~Ensemble();
+private:
+
+    bool contains(int value);
 
 
-//------------------------------------------------- Surcharge d'opérateurs
-                Ensemble & operator = ( const Ensemble & unEnsemble );
-        // Mode d'emploi :
-        //
-        // Contrat :
-        //
+};
 
 
-//-------------------------------------------- Constructeurs - destructeur
-        Ensemble ( const Ensemble & unEnsemble );
-        // Mode d'emploi (constructeur de copie) :
-        //
-        // Contrat :
-        //
-
-        Ensemble ( );
-        // Mode d'emploi :
-        //
-        // Contrat :
-        //
-
-        virtual ~Ensemble ( );
-        // Mode d'emploi :
-        //
-        // Contrat :
-        //
-
-//------------------------------------------------------------------ PRIVE
-
-        protected:
-//----------------------------------------------------- Méthodes protégées
-
-//----------------------------------------------------- Attributs protégés
-
-        };
-
-//-------------------------------- Autres définitions dépendantes de <Ensemble>
-
-#endif // ENSEMBLE_H
-
+#endif //PROG_C___ENSEMBLE_H

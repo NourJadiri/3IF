@@ -1,49 +1,118 @@
+/*************************************************************************
+                           Ensemble  -  description
+                             -------------------
+    début                : 25/10
+    copyright            : (C) 2022 par ELJADIRI N, ROULIER M, VOIGTLAENDER V
+    e-mail               : $EMAIL$
+*************************************************************************/
+
+//---------- Interface de la classe <Ensemble> (fichier Ensemble.h) ----------------
+#if ! defined ( ENSEMBLE_H )
+#define ENSEMBLE_H
+
+//--------------------------------------------------- Interfaces utilisées
+
+//------------------------------------------------------------- Constantes
+const int CARD_MAX = 5;
+//------------------------------------------------------------------ Types
+
+//------------------------------------------------------------------------
+// Rôle de la classe <Ensemble>
 //
-// Created by Nour on 24/10/2022.
 //
+//------------------------------------------------------------------------
 
-#ifndef PROG_C___ENSEMBLE_H
-#define PROG_C___ENSEMBLE_H
-#define CARD_MAX 5
+enum crduEstInclus { NON_INCLUSION , INCLUSION_LARGE , INCLUSION_STRICTE };
+enum crduAjouter { DEJA_PRESENT , PLEIN , AJOUTE };
 
-#include <iostream>
+class Ensemble
+{
+//----------------------------------------------------------------- PUBLIC
 
-using namespace std;
+public:
+//----------------------------------------------------- Méthodes publiques
+    void Afficher ( );
+    // Mode d'emploi :
+    // affiche caracteristiques de Ensemble
 
-class Ensemble {
-private :
-    unsigned int card_max , card_actuelle; //card_actuelle peut être considérée comme size du tableau
-    int *elements;
-public :
+    bool Contains ( int value ) const;
+    // Mode d'emploi :
+    // verifie si element est deja dans le tableau des elements
 
-    //constructeurs
-    Ensemble();
-    Ensemble(unsigned int card_max = CARD_MAX);
+    bool EstEgal ( const Ensemble &unEnsemble ) const;
+    // Mode d'emploi :
+    // check si deux ensembles sont egaux (memes cardinalite actuelle + memes elements inside)
+
+    crduEstInclus EstInclus ( const Ensemble &unEnsemble ) const;
+    // Mode d'emploi :
+    // check si deux ensembles sont egaux (inclusion large)
+    // ou Ensemble inclut dans unEnsemble (inclusion stricte)
+    // ou Ensemble pas du tout inclus dans unEnsemble (non inclusion)
+
+    crduAjouter Ajouter ( int aAjouter );
+    // Mode d'emploi :
+    // ajoute element aAjouter dans ensemble si cest possible et necessaire
+
+    unsigned int Ajuster ( int delta );
+    // Mode d'emploi :
+    // agrandit, reduit, ou n'agit pas sur la taille de l'ensemble en fonction de la valeur de delta
+    // retourne la cardinalite max de l'ensemble
+    // Contrat :
+    // si on veut proceder a une reduction
+    // delta ne doit pas etre trop negatif pour ne pas enlever des elements de l'ensemble
+
+    bool Retirer ( int element );
+    // Mode d'emploi :
+    // retirer element de ensemble s'il existe, renvoie true si retire, false si non retire
+    // + reajustement
+
+//------------------------------------------------- Surcharge d'opérateurs
+    //Ensemble & operator = ( const Ensemble & unEnsemble );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
 
 
-    void Afficher();
-    /*Ensemble(int tab[] ,unsigned int size);
-    Ensemble ( const Ensemble & e ); //constructeur de copie
+//-------------------------------------------- Constructeurs - destructeur
+    //Ensemble ( const Xxxx & unXxxx );
+    // Mode d'emploi (constructeur de copie) :
+    //
+    // Contrat :
+    //
 
-    //méthodes
-    void afficher();
-    bool estEgal(const Ensemble & e) const;
-    unsigned int estInclus(const Ensemble & e) const;
-    int ajouter(int element);
-    bool retirer(int element);
-    unsigned int retirer(const Ensemble e);
-    int reunir(const Ensemble & e);
-    unsigned int intersection(const Ensemble & e);
-    unsigned int ajuster(int delta);*/
+    Ensemble ( unsigned int carMax = CARD_MAX);
+    // Mode d'emploi :
+    // cree tableau de int de taille max carMax ou de taille CARD_MAX = 5 par defaut
+    // Contrat :
+    //
 
-    //destructeur
-    virtual ~Ensemble();
-/*private:
+    Ensemble ( int t[], unsigned int nbElements);
+    // Mode d'emploi :
+    // cree tableau de int de taille nbElements, met valeurs dans t
+    // Contrat :
+    // nbElements >= nb elements ≠ dans t
 
-    bool contains(int value);*/
+    virtual ~Ensemble ( );
+    // Mode d'emploi :
+    // destructeur de Ensemble
+    // Contrat :
+    //
 
+//------------------------------------------------------------------ PRIVE
 
+protected:
+//----------------------------------------------------- Méthodes protégées
+    void Sort ( );
+// Mode d'emploi :
+// tri l'array d'elements
+
+//----------------------------------------------------- Attributs protégés
+    int * elements;
+    unsigned int cardActuelle; // peut être considere comme size du tableau
+    unsigned int cardMax;
 };
 
+//-------------------------------- Autres définitions dépendantes de <Ensemble>
 
-#endif //PROG_C___ENSEMBLE_H
+#endif // ENSEMBLE_H

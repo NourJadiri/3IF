@@ -1,127 +1,257 @@
-//
-// Created by Nour on 24/10/2022.
-//
+/*************************************************************************
+                           Ensemble  -  description
+                             -------------------
+    début                : 25/10
+    copyright            : (C) 2022 par ELJADIRI N, ROULIER M, VOIGTLAENDER V
+    e-mail               : $EMAIL$
+*************************************************************************/
 
+//---------- Réalisation de la classe <Ensemble> (fichier Ensemble.cpp) ------------
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
+#include <iostream>
+using namespace std;
+
+//------------------------------------------------------ Include personnel
 #include "Ensemble.h"
 
-//fonctions utiles parce que monsieur a décidé de ne pas nous laisser utiliser les fonctions de la stdlib
-bool contains(const int *tab , int size , int value);
+//------------------------------------------------------------- Constantes
 
-//constructeur par défaut
+//----------------------------------------------------------------- PUBLIC
 
+//----------------------------------------------------- Méthodes publiques
+// type Ensemble::Méthode ( liste des paramètres )
+// Algorithme :
+//
+//{
+//} //----- Fin de Méthode
 
-Ensemble::Ensemble(unsigned int card_max) {
+void Ensemble::Afficher ( )
+// Algorithme :
+{
+    Sort();
+    cout << cardActuelle << "\r\n";
+    cout << cardMax << "\r\n";
 
-    this->card_max = card_max;
-
-    if(card_max == 0){
-        this->elements = NULL;
-    }
-    else this->elements = new int[card_max];
-    this->card_actuelle = 0;
-}
-
-
-/*Ensemble::Ensemble(int tab[], unsigned int size) {
-    this->card_max = size;
-    this->card_actuelle = 0;
-    this->elements = new int[size];
-    int i = 0;
-
-    while (i < card_max) {
-        if (!contains(tab[i])) elements[card_actuelle++] = tab[i];
-        i++;
-    }
-    //sort(this->elements,this->elements + this->card_actuelle);
-}
-
-//constructeur de copie
-Ensemble::Ensemble(const Ensemble & e){
-    this->elements = new int[e.card_actuelle];
-    int i;
-    for(i = 0 ; i < card_actuelle ; i++){
-        this->elements[i] = e.elements[i];
-    }
-
-    this->card_actuelle = e.card_actuelle;
-    this->card_max = e.card_max;
-
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <Ensemble>" << endl;
-#endif
-}*/
-
-void Ensemble::Afficher(){
-    cout << this->card_actuelle << endl;
-    cout << this->card_max << endl;
-
-    if(this->card_actuelle == 0) cout << "{}" << endl;
-    else if(this->card_actuelle == 1) cout << "{" << this->elements[0] << "}" << endl;
+    if(this->cardActuelle == 0) cout << "{}" << "\r\n";
+    else if(this->cardActuelle == 1) cout << "{" << this->elements[0] << "}" << "\r\n";
     else{
         cout << "{" ;
-        int i;
-        for( i = 0 ; i < this->card_actuelle ; i++){
-            if(i != this->card_actuelle - 1) cout << this->elements[i] << ",";
+        unsigned int i;
+        for( i = 0 ; i < cardActuelle ; i++){
+            if(i != cardActuelle - 1) cout << this->elements[i] << ",";
             else cout << this->elements[i];
         }
-        cout << "}" << endl;
+        cout << "}" << "\r\n";
     }
-}
+} //----- Fin de Méthode
 
-/*bool Ensemble::estEgal(const Ensemble &e) const {
+
+bool Ensemble::Contains ( int value ) const
+// Algorithme :
+{
+    unsigned i;
+    for(i = 0 ; i < cardActuelle ; i++)
+        if(elements[i] == value) return true;
+
+    return false;
+} //----- Fin de Méthode
+
+
+bool Ensemble::EstEgal(const Ensemble &unEnsemble) const
+{
     bool estEgal = true;
 
-    if(this->card_actuelle != e.card_actuelle || (this->elements == NULL && e.elements != NULL)
-            || (this->elements != NULL && e.elements == NULL)) return false;
-    else if(this->elements == NULL && e.elements == NULL) return true;
-    else{
+    if (cardActuelle != unEnsemble.cardActuelle || (elements == NULL && unEnsemble.elements != NULL)
+        || (elements != NULL && unEnsemble.elements == NULL))
+        return false;
+    else if (elements == NULL && unEnsemble.elements == NULL) return true;
+    else
+    {
         int i;
-        for(i = 0 ; i < this->card_actuelle ; i++){
-            if(this->elements[i] != e.elements[i]){
-                estEgal = false;
-            }
+        for (i = 0; i < cardActuelle; i++) {
+            if (elements[i] != unEnsemble.elements[i]) estEgal = false;
         }
     }
 
     return estEgal;
-}
+} //----- Fin de Méthode
 
-unsigned int Ensemble::estInclus(const Ensemble &e) const {
-    enum inclusion { NON_INCLUSION ,  INCLUSION_STRICTE ,  INCLUSION_LARGE };
 
-    if(this->card_actuelle > e.card_actuelle) return NON_INCLUSION; //si l'ensemble est plus grand, then il est forcement pas inclus
-
-    //on commence à l'indice ou on trouve le premier element de notre ensemble (since les ensembles sont triés)
-    int index = find(e.elements , e.elements + e.card_actuelle , this->elements[0]) - e.elements;
-
-    int n = 0;
+crduEstInclus Ensemble::EstInclus(const Ensemble &unEnsemble) const
+{
     int i;
-    for(i = index ; i < e.card_actuelle ; i++){
-        n++;
-        if(this->elements[i-index] != e.elements[i]){
-            return NON_INCLUSION;
-        }
+    for(i = 0 ; i < cardActuelle ; i++){
+        if ( !unEnsemble.Contains(elements[i]) ) return NON_INCLUSION;
     }
-    if(n == e.card_actuelle) return INCLUSION_LARGE;
-    else if(n < e.card_actuelle)  return INCLUSION_STRICTE;
+    if(cardActuelle == unEnsemble.cardActuelle) return INCLUSION_LARGE;
+    return INCLUSION_STRICTE;
 
-}*/
+} //----- Fin de Méthode
 
-Ensemble::~Ensemble(){
-    delete[] elements;
-    ///delete this : ON NE DELETE JAMAIS THIS PCQ ON NA PAS ACTIVEMENT ALLOCATE THIS
 
+crduAjouter Ensemble::Ajouter ( int aAjouter )
+{
+    // si valeur deja presente
+    if ( Contains(aAjouter) ) return DEJA_PRESENT;
+        // si ensemble plein
+        // deja_present l'emporte bien sur plein avec la condition else if car on ne test pas la fullness d'elements
+    else if ( cardActuelle == cardMax ) return PLEIN;
+    // si ni plein ni deja_present on peut ajouter l'element
+    elements[cardActuelle] = aAjouter;
+    cardActuelle++;
+    // on sort des lors qu'on ajoute something new
+    Sort();
+    return AJOUTE;
+} //----- Fin de Méthode
+
+unsigned int Ensemble::Ajuster ( int delta )
+{
+    // reduction pas dans les limites du possible (suppression d'elements)
+    if (cardMax + delta <= cardActuelle ) cardMax = cardActuelle;
+    else
+    {
+        cardMax += delta;
+    }
+
+    // quand on est sur qu'on va pas supprimer des elem on peut reajuster la taille du tableau
+    int *copieElem = new int [cardMax];
+    unsigned int i;
+    for (i = 0; i < cardActuelle; i++)
+    {
+        copieElem[i] = elements[i];
+    }
+    delete [] elements;
+    elements = copieElem;
+
+    return cardMax;
+} //----- Fin de Méthode
+
+bool Ensemble::Retirer ( int element )
+{
+    // on cherche dabord si element existe dans ensemble
+    // dans tous les cas, il faut ajuster cardActuelle = cardMax
+
+    // on n'appelle pas Contains pcq on aura besoin de l'index de elem anyway
+    unsigned int index = 0;
+    for (index = 0; index < cardActuelle; index++)
+    {
+        if (elements[index] == element) break;
+    }
+    // si element n'existe pas dans ensemble
+    if ( index == cardActuelle ) {
+        Ajuster(cardActuelle - cardMax);
+        return false;
+    }
+
+    // si element existe
+    elements[index] = elements[cardActuelle - 1];
+    cardActuelle--;
+    Ajuster(cardActuelle-cardMax);
+    // once again on trie pcq on a fait des modifs dans ensemble
+    Sort();
+
+    return true;
+} //----- Fin de Méthode
+
+//------------------------------------------------- Surcharge d'opérateurs
+//Ensemble & Ensemble::operator = ( const Ensemble & unEnsemble )
+// Algorithme :
+//
+//{
+//} //----- Fin de operator =
+
+
+//-------------------------------------------- Constructeurs - destructeur
+//Ensemble::Ensemble ( const Ensemble & unEnsemble )
+// Algorithme :
+//
+//{
+#ifdef MAP
+//  cout << "Appel au constructeur de copie de <Ensemble>" << endl;
+#endif
+//} //----- Fin de Ensemble (constructeur de copie)
+
+
+Ensemble::Ensemble ( unsigned int card_max )
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <Ensemble>" << endl;
+#endif
+    cardMax = card_max;
+    cardActuelle = 0;
+    if(card_max == 0){
+        elements = NULL;
+    }
+    else elements = new int[card_max];
+
+} //----- Fin de Ensemble
+
+
+Ensemble::Ensemble ( int tab [], unsigned int size )
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <Ensemble>" << endl;
+#endif
+    cardMax = size;
+    cardActuelle = 0;
+    elements = new int[cardMax];
+
+    unsigned i;
+    for (i = 0; i < size; i++)
+    {
+        if ( !Contains(tab[i]) && cardActuelle != cardMax ) // not already in array nor full array
+        {
+            elements[cardActuelle] = tab[i];
+            cardActuelle++;
+            Sort();
+        }
+
+    }
+} //----- Fin de Ensemble
+
+
+Ensemble::~Ensemble ( )
+// Algorithme :
+//
+{
 #ifdef MAP
     cout << "Appel au destructeur de <Ensemble>" << endl;
 #endif
+    delete [ ] elements;
+    ///delete this : ON NE DELETE JAMAIS THIS PCQ ON NA PAS ACTIVEMENT ALLOCATE THIS
+
+} //----- Fin de ~Ensemble
+
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+void Ensemble::Sort ( )
+{
+    bool estTrie = false;
+    int temp = 0;
+
+    while ( !estTrie )
+    {
+        estTrie = true;
+
+        unsigned int i;
+        for (i = 0; i < cardActuelle - 1 && cardActuelle != 0; i++)
+        {
+            if (elements[i] > elements[i+1])
+            {
+                temp = elements[i];
+                elements[i] = elements[i+1];
+                elements[i+1] = temp;
+                estTrie = false;
+            }
+        }
+    }
 }
-
-/*
-bool Ensemble::contains(int value) {
-    int i;
-    for(i = 0 ; i < card_actuelle ; i++)
-        if(elements[i] == value) return true;
-
-    return false;
-}*/
-

@@ -22,7 +22,7 @@ Ensemble::Ensemble(unsigned int card_max) {
 }
 
 
-Ensemble::Ensemble(int tab[], unsigned int size) {
+/*Ensemble::Ensemble(int tab[], unsigned int size) {
     this->card_max = size;
     this->card_actuelle = 0;
     this->elements = new int[size];
@@ -49,11 +49,11 @@ Ensemble::Ensemble(const Ensemble & e){
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Ensemble>" << endl;
 #endif
-}
+}*/
 
-void Ensemble::afficher(){
-    cout << "cardinalité actuelle : " << this->card_actuelle << endl;
-    cout << "cardinalité maximale : " << this->card_max << endl;
+void Ensemble::Afficher(){
+    cout << this->card_actuelle << endl;
+    cout << this->card_max << endl;
 
     if(this->card_actuelle == 0) cout << "{}" << endl;
     else if(this->card_actuelle == 1) cout << "{" << this->elements[0] << "}" << endl;
@@ -68,7 +68,7 @@ void Ensemble::afficher(){
     }
 }
 
-bool Ensemble::estEgal(const Ensemble &e) const {
+/*bool Ensemble::estEgal(const Ensemble &e) const {
     bool estEgal = true;
 
     if(this->card_actuelle != e.card_actuelle || (this->elements == NULL && e.elements != NULL)
@@ -105,7 +105,7 @@ unsigned int Ensemble::estInclus(const Ensemble &e) const {
     if(n == e.card_actuelle) return INCLUSION_LARGE;
     else if(n < e.card_actuelle)  return INCLUSION_STRICTE;
 
-}
+}*/
 
 Ensemble::~Ensemble(){
     delete[] elements;
@@ -116,12 +116,12 @@ Ensemble::~Ensemble(){
 #endif
 }
 
-
+/*
 bool Ensemble::contains(int value) {
     int i;
     for(i = 0 ; i < card_actuelle ; i++)
         if(elements[i] == value) return true;
 
     return false;
-}
+}*/
 

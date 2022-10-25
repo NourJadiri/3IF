@@ -19,7 +19,10 @@ public :
     //constructeurs
     Ensemble();
     Ensemble(unsigned int card_max = CARD_MAX);
-    Ensemble(int tab[] ,unsigned int size);
+
+
+    void Afficher();
+    /*Ensemble(int tab[] ,unsigned int size);
     Ensemble ( const Ensemble & e ); //constructeur de copie
 
     //méthodes
@@ -31,13 +34,13 @@ public :
     unsigned int retirer(const Ensemble e);
     int reunir(const Ensemble & e);
     unsigned int intersection(const Ensemble & e);
-    unsigned int ajuster(int delta);
+    unsigned int ajuster(int delta);*/
 
     //destructeur
     virtual ~Ensemble();
-private:
+/*private:
 
-    bool contains(int value);
+    bool contains(int value);*/
 
 
 };

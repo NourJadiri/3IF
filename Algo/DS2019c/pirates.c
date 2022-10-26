@@ -1,21 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 void display_array(int *tab , int size);
 
 
-//AS : à supprimer
+// AS : à supprimer
 
 int main(){
 
 
-    //Gestion des entrées
-    int capacite_libre_bateau1 , capacite_libre_bateau2 , pa , po; 
+    // Gestion des entrées
+    int cap1 , cap2 , pa , po;
 
     printf("capacité libre bateau 1 :"); //AS
-    scanf("%d" , &capacite_libre_bateau1);
+    scanf("%d" , &cap1);
 
     printf("Capacité libre bateau 2 :"); //AS
-    scanf("%d",&capacite_libre_bateau2);
+    scanf("%d",&cap2);
 
     printf("Nombre objets argent :"); //AS
     scanf("%d" , &pa);
@@ -23,22 +25,18 @@ int main(){
     printf("Nombre objets or :"); //AS
     scanf("%d", &po);
 
-    int *ta = (int*)malloc(pa* sizeof(int));
-    int *to = (int*)malloc(po * sizeof(int));
+    int *ta = (int*) malloc(pa * sizeof(int));
+    int *to = (int*) malloc(po * sizeof(int));
 
     int i;
-    
     for(i = 0 ; i < pa ; i++){
-        printf("Objet argent %d :",i); //AS
-        
-        scanf("%d",&ta[i]);
+        printf("Objet argent %d :", i); //AS
+        scanf("%d", &ta[i]);
     }
 
-
     for(i = 0 ; i < po ; i++){
-        printf("Objet or %d :",i); //AS
-        
-        scanf("%d",&to[i]);
+        printf("Objet or %d :", i); //AS
+        scanf("%d", &to[i]);
     }
 
     printf("Poids objets argent : "); //AS
@@ -46,11 +44,15 @@ int main(){
 
     printf("Poids objets or : "); //AS
     display_array(to,po); //AS
-
     //Fin d'entrée des données
 
-    
 
+    int AO = knapsack2(cap1, ta) + knapsack2(cap2, to);
+    int OA = knapsack2(cap1, to) + knapsack2(cap2, ta);
+    int AA = doubleKnapcksack(cap1, cap2, ta);
+    int OO = doubleKnapcksack(cap1, cap2, to);
+
+    printf("%d\r\n", (int) fmax(fmax(fmax(AO, OA), AA),OO));
 
     return 0;
 }

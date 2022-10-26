@@ -77,11 +77,11 @@ public:
     // renvoie un chiffre <0 si reajustement ; >0 si pas de reajustement
     // renvoie nombre elements rajoutes en valeur absolue
 
-    unsigned int Intersection(const Ensemble &unEnsemble);
+    unsigned int Intersection( const Ensemble & unEnsemble );
     //Mode d'emploi :
-    //Modifie l'ensemble courant en ne gardant que les éléments contenus dans unEnsemble
-    //renvoie le nombre d'éléments retirés
-    //réajustement obligatoire
+    // modifie l'ensemble courant en ne gardant que les elements communs a unEnsemble
+    // renvoie le nombre d'elements retires
+    // reajustement obligatoire au plus juste
 
 //------------------------------------------------- Surcharge d'opérateurs
     //Ensemble & operator = ( const Ensemble & unEnsemble );

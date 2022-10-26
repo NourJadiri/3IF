@@ -52,7 +52,7 @@ void Ensemble::Afficher ( )
 bool Ensemble::Contains ( int value ) const
 // Algorithme :
 {
-    unsigned i;
+    unsigned int i;
     for(i = 0 ; i < cardActuelle ; i++)
         if(elements[i] == value) return true;
 
@@ -149,7 +149,7 @@ bool Ensemble::Retirer ( int element )
     // si element existe
     elements[index] = elements[cardActuelle - 1];
     cardActuelle--;
-    Ajuster(cardActuelle-cardMax);
+    Ajuster(cardActuelle - cardMax);
     // once again on trie pcq on a fait des modifs dans ensemble
     Sort();
 
@@ -225,24 +225,22 @@ int Ensemble::Reunir ( const Ensemble & unEnsemble )
     return delta;
 } //----- Fin de Méthode
 
-unsigned int Ensemble::Intersection( const Ensemble & unEnsemble )
-{
+unsigned int Ensemble::Intersection( const Ensemble & unEnsemble ) {
     unsigned int elements_supprimes = 0; // utile pour le return à la fin
 
-    unsigned int i;
-    for(i = 0 ; i < cardActuelle ; i++){
+    unsigned int i = 0;
+    while (i < cardActuelle)
+    {
         // si un element dans this n'est pas dans unEnsemble
-        if( !unEnsemble.Contains(elements[i]) )
-        {
+        if (!unEnsemble.Contains(elements[i])) {
             // on le supprime
-            // pas sure de ca
             Retirer(elements[i]);
-
             elements_supprimes++;
         }
+        else i++;
     }
 
-    Ajuster(-elements_supprimes); // reajustement au plus juste
+    Ajuster(cardActuelle - cardMax); // reajustement au plus juste
 
     return elements_supprimes;
 } //----- Fin de Méthode

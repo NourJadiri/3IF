@@ -3,7 +3,8 @@
 #include <math.h>
 
 void display_array(int *tab , int size);
-
+int knapsack2(int cap, int * tab, int size);
+int doubleKnapsack(cap1, cap2, ta, pa);
 
 // AS : à supprimer
 
@@ -13,16 +14,16 @@ int main(){
     // Gestion des entrées
     int cap1 , cap2 , pa , po;
 
-    printf("capacité libre bateau 1 :"); //AS
+    //printf("capacité libre bateau 1 :"); //AS
     scanf("%d" , &cap1);
 
-    printf("Capacité libre bateau 2 :"); //AS
+   // printf("Capacité libre bateau 2 :"); //AS
     scanf("%d",&cap2);
 
-    printf("Nombre objets argent :"); //AS
+    //printf("Nombre objets argent :"); //AS
     scanf("%d" , &pa);
 
-    printf("Nombre objets or :"); //AS
+    //printf("Nombre objets or :"); //AS
     scanf("%d", &po);
 
     int *ta = (int*) malloc(pa * sizeof(int));
@@ -30,27 +31,27 @@ int main(){
 
     int i;
     for(i = 0 ; i < pa ; i++){
-        printf("Objet argent %d :", i); //AS
+        //printf("Objet argent %d :", i); //AS
         scanf("%d", &ta[i]);
     }
 
     for(i = 0 ; i < po ; i++){
-        printf("Objet or %d :", i); //AS
+        //printf("Objet or %d :", i); //AS
         scanf("%d", &to[i]);
     }
 
-    printf("Poids objets argent : "); //AS
-    display_array(ta,pa); //AS
+    //printf("Poids objets argent : "); //AS
+    //display_array(ta,pa); //AS
 
-    printf("Poids objets or : "); //AS
-    display_array(to,po); //AS
+    //printf("Poids objets or : "); //AS
+    //display_array(to,po); //AS
     //Fin d'entrée des données
 
 
     int AO = knapsack2(cap1, ta, pa) + knapsack2(cap2, to, po);
     int OA = knapsack2(cap1, to, po) + knapsack2(cap2, ta, pa);
-    int AA = doubleKnapcksack(cap1, cap2, ta, pa);
-    int OO = doubleKnapcksack(cap1, cap2, to, po);
+    int AA = doubleKnapsack(cap1, cap2, ta, pa);
+    int OO = doubleKnapsack(cap1, cap2, to, po);
 
     printf("%d\r\n", (int) fmax(fmax(fmax(AO, OA), AA),OO));
 
@@ -58,7 +59,8 @@ int main(){
 }
 
 void display_array(int *tab , int size){
-    for(int i = 0 ; i < size ; i++){
+    int i;
+    for( i = 0 ; i < size ; i++){
         printf("%d ",tab[i]);
     }
     printf("\n");
@@ -66,8 +68,68 @@ void display_array(int *tab , int size){
 
 int knapsack2(int cap, int * tab, int size){
 
+    // initialisation of 2D array (first column to 1, rest 0)
+    int fillable[cap + 1][size + 1];
+    int capacity, object;
+    for(capacity = 0 ; capacity <= cap ; capacity++) {
+        for (object = 0 ; object <= size ; object++) fillable[capacity][object] = capacity == 0;
+    }
 
-    return 0;
+    // calculation of fillable_matrix
+    for(object = 1 ; object <= size ; object++) {
+        for (capacity = 1 ; capacity <= cap ; capacity++) {
+            if (capacity - tab[object - 1] < 0)
+                fillable[capacity][object] = fillable[capacity][object-1];
+            else
+                fillable[capacity][object] = fillable[capacity][object-1] ||
+                                             fillable[capacity - tab[object - 1]][object - 1];
+            //printf("fillable[capacity %d][object %d] = %d\r\n", capacity, object, fillable[capacity][object]);
+        }
+    }
+
+    int max = 0;
+    for (capacity = 1 ; capacity <= cap ; capacity++) {
+        if (fillable[capacity][size]) max = capacity;
+    }
+
+    return max;
+}
+
+int doubleKnapsack(int cap1, int cap2, int * tab, int size){
+
+    // initialisation of 2D array (first column to 1, rest 0)
+    int fillable[cap1 + 1][cap2][size + 1];
+    int capacity1, capacity2, object;
+    for(capacity1 = 0 ; capacity1 <= cap1; capacity1++) {
+        for(capacity2 = 0 ; capacity2 <= cap2; capacity2++) {
+            for (object = 0 ; object <= size ; object++)
+                fillable[capacity1][capacity2][object] = capacity1 == 0 && capacity2 == 0;
+        }
+    }
+
+    // calculation of fillable_matrix
+    for(object = 1 ; object <= size ; object++) {
+        for (capacity1 = 1 ; capacity1 <= size ; capacity1++) {
+            for (capacity2 = 1 ; capacity2 <= size ; capacity2++) {
+                if (capacity1 - tab[object - 1] < 0) {
+                    if (capacity2 - tab[object - 1] < 0)
+                        fillable[capacity1][capacity2][object] = fillable[capacity1][capacity2][object-1];
+                    else
+                        fillable[capacity1][capacity2][object] = fillable[capacity1][capacity2][object] ||
+                                fillable[capacity1][capacity2 - tab[object - 1]][object];
+                }
+
+                //printf("fillable[capacity %d][object %d] = %d\r\n", capacity, object, fillable[capacity][object]);
+            }
+        }
+    }
+
+    int max = 0;
+    for (capacity = 1 ; capacity <= cap ; capacity++) {
+        if (fillable[capacity][size]) max = capacity;
+    }
+
+    return max;
 }
 
 

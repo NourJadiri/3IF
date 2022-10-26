@@ -47,10 +47,10 @@ int main(){
     //Fin d'entrée des données
 
 
-    int AO = knapsack2(cap1, ta) + knapsack2(cap2, to);
-    int OA = knapsack2(cap1, to) + knapsack2(cap2, ta);
-    int AA = doubleKnapcksack(cap1, cap2, ta);
-    int OO = doubleKnapcksack(cap1, cap2, to);
+    int AO = knapsack2(cap1, ta, pa) + knapsack2(cap2, to, po);
+    int OA = knapsack2(cap1, to, po) + knapsack2(cap2, ta, pa);
+    int AA = doubleKnapcksack(cap1, cap2, ta, pa);
+    int OO = doubleKnapcksack(cap1, cap2, to, po);
 
     printf("%d\r\n", (int) fmax(fmax(fmax(AO, OA), AA),OO));
 
@@ -63,6 +63,13 @@ void display_array(int *tab , int size){
     }
     printf("\n");
 }
+
+int knapsack2(int cap, int * tab, int size){
+
+
+    return 0;
+}
+
 
 /* Deux bateaux de pirates découvrent un trésor sur une ile déserte. Le trésor 
 est composé d’objets en or et en argent, chaque objet ayant un certain poids. 

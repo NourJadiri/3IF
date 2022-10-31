@@ -31,22 +31,25 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% THE ACTUAL GAUSS SEIDEL METHOD
+% ACTUAL JACOBI
+
 x = ones(size(A,1),1);
 y = x;
+iterations = 0;
 err = inf;
 
 while err > tol
     for i = 1 : size(A,1)
         y(i) = B(i);
-        for j = 1 : i-1
-            y(i) = y(i) - A(i,j) * y(j);
-        end
-        for j = i+1 : size(A,1)
-            y(i) = y(i) - A(i,j) * x(j);
+        for j = 1 : size(A,1)
+            if i~=j
+                y(i) = y(i) - A(i,j)*x(j);
+            end
         end
         y(i) = y(i)/A(i,i);
         err = max(abs(x - y));
         x = y;
     end
+    iterations = iterations + 1;
 end
+

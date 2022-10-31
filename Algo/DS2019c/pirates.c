@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-void display_array(int *tab , int size);
 int knapsack2(int cap, int * tab, int size);
-int doubleKnapsack(cap1, cap2, ta, pa);
+int doubleKnapsack(int cap1, int cap2, int * tab, int size);
 
 // AS : à supprimer
 
@@ -50,6 +49,7 @@ int main(){
 
     int AO = knapsack2(cap1, ta, pa) + knapsack2(cap2, to, po);
     int OA = knapsack2(cap1, to, po) + knapsack2(cap2, ta, pa);
+
     int AA = doubleKnapsack(cap1, cap2, ta, pa);
     int OO = doubleKnapsack(cap1, cap2, to, po);
 
@@ -58,13 +58,6 @@ int main(){
     return 0;
 }
 
-void display_array(int *tab , int size){
-    int i;
-    for( i = 0 ; i < size ; i++){
-        printf("%d ",tab[i]);
-    }
-    printf("\n");
-}
 
 int knapsack2(int cap, int * tab, int size){
 
@@ -98,40 +91,105 @@ int knapsack2(int cap, int * tab, int size){
 int doubleKnapsack(int cap1, int cap2, int * tab, int size){
 
     // initialisation of 2D array (first column to 1, rest 0)
-    int fillable[cap1 + 1][cap2][size + 1];
+    /*int fillable[cap1 + 1][cap2+1][size + 1];
     int capacity1, capacity2, object;
+    // on fill l'array avec des 0 sauf pour les capacites nulles
     for(capacity1 = 0 ; capacity1 <= cap1; capacity1++) {
         for(capacity2 = 0 ; capacity2 <= cap2; capacity2++) {
             for (object = 0 ; object <= size ; object++)
-                fillable[capacity1][capacity2][object] = capacity1 == 0 && capacity2 == 0;
+                fillable[capacity1][capacity2][object] = capacity1 == 0 || capacity2 == 0;
         }
     }
 
     // calculation of fillable_matrix
     for(object = 1 ; object <= size ; object++) {
-        for (capacity1 = 1 ; capacity1 <= size ; capacity1++) {
-            for (capacity2 = 1 ; capacity2 <= size ; capacity2++) {
+        for (capacity1 = 1 ; capacity1 <= cap1 ; capacity1++) {
+            for (capacity2 = 1 ; capacity2 <= cap2 ; capacity2++) {
                 if (capacity1 - tab[object - 1] < 0) {
-                    if (capacity2 - tab[object - 1] < 0)
-                        fillable[capacity1][capacity2][object] = fillable[capacity1][capacity2][object-1];
-                    else
-                        fillable[capacity1][capacity2][object] = fillable[capacity1][capacity2][object] ||
-                                fillable[capacity1][capacity2 - tab[object - 1]][object];
-                }
+                    if (capacity2 - tab[object - 1] < 0) {
+                        fillable[capacity1][capacity2][object] = fillable[capacity1][capacity2][object - 1];
+                        printf("les deux\n");
+                    }
+                    else {
+                        fillable[capacity1][capacity2][object] =
+                                fillable[capacity1][capacity2 - tab[object - 1]][object] ||
+                                fillable[capacity1][capacity2][object - 1];
+                        printf("juste cap1\n");
+                        //printf("fill: %d\n",fillable[capacity1][capacity2 - tab[object - 1]][object]);
+                    }
 
-                //printf("fillable[capacity %d][object %d] = %d\r\n", capacity, object, fillable[capacity][object]);
+                } else if (capacity2 - tab[object - 1] < 0){
+                    fillable[capacity1][capacity2][object] =
+                            fillable[capacity1 - tab[object - 1]][capacity2][object] ||
+                            fillable[capacity1][capacity2][object - 1];
+                    printf("juste cap2\n");
+                } else {
+                    fillable[capacity1][capacity2][object] =
+                            fillable[capacity1 - tab[object - 1]][capacity2][object] ||
+                            fillable[capacity1][capacity2 - tab[object - 1]][object] ||
+                            fillable[capacity1][capacity2][object - 1];
+                    printf("aucun\n");
+                }
+                //printf("fill[cap1 %d][cap2 %d][obj %d] = %d\r\n", capacity1, capacity2, object, fillable[capacity1][capacity2][object]);
             }
         }
     }
 
     int max = 0;
-    for (capacity = 1 ; capacity <= cap ; capacity++) {
-        if (fillable[capacity][size]) max = capacity;
+    for (capacity1 = 1 ; capacity1 <= cap1 ; capacity1++) {
+        for (capacity2 = 1 ; capacity2 <= cap2 ; capacity2++) {
+            if (fillable[capacity1][capacity2][size] && capacity1 + capacity2 > max) {
+                max = capacity1 + capacity2;
+                printf("cap 1: %d, cap 2: %d\n", capacity1, capacity2);
+            }
+        }
     }
 
-    return max;
-}
+    return max;*/
 
+    int res[cap1 + 1][cap2+1];
+    int capacity1, capacity2, object;
+
+    for(capacity1 = 0 ; capacity1 <= cap1; capacity1++) {
+        for(capacity2 = 0 ; capacity2 <= cap2; capacity2++)
+            res[capacity1][capacity2] = 0 ;
+    }
+
+    for(object = 0 ; object < size ; object++) {
+        for (capacity1 = cap1; capacity1 >= 0; capacity1--) {
+            for (capacity2 = cap2; capacity2 >= 0; capacity2--) {
+                if (capacity1 - tab[object] < 0){
+                    if (capacity2 - tab[object] >= 0){
+                        res[capacity1][capacity2] = fmax(
+                                res[capacity1][capacity2],
+                                res[capacity1][capacity2 - tab[object]] + tab[object]
+                        );
+                    }
+                } else if (capacity1 - tab[object] < 0){
+                    res[capacity1][capacity2] = fmax(
+                            res[capacity1][capacity2],
+                            res[capacity1 - tab[object - 1]][capacity2] + tab[object]
+                    );
+                } else {
+                    res[capacity1][capacity2] = fmax(
+                            res[capacity1][capacity2],
+                            fmax(res[capacity1 - tab[object]][capacity2] + tab[object],
+                                 res[capacity1][capacity2 - tab[object]] + tab[object])
+                    );
+                }
+            }
+        }
+    }
+
+    /*printf("printing array\n");
+    for (int i = 0; i <= cap1; i++){
+        for (int j = 0; j <= cap2; j++)
+            printf("%d  ", res[i][j]);
+        printf("\n");
+    }*/
+
+    return res[cap1][cap2];
+}
 
 /* Deux bateaux de pirates découvrent un trésor sur une ile déserte. Le trésor 
 est composé d’objets en or et en argent, chaque objet ayant un certain poids. 
@@ -179,4 +237,18 @@ Sortie :
 Explication : 
  - Bateau 1 : les objets en argent de poids 5 et 4 ; 
  - Bateau 2 : les objets en or de poids 7 et 5
-*/
+
+
+
+
+ 12
+ 10
+ 3
+ 2
+ 7
+ 5
+ 10
+ 4
+ 5
+
+ should return 10 + (7+5) = 22*/

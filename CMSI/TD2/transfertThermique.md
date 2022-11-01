@@ -74,7 +74,6 @@ for i=1:size(B,1)
     if B(i,1) ~= 0
         A(i,i) = 1;
     else
-        %mettre des conditions si on est aux bord
         A(i,i) = -4;
         A(i,i-50) = 1;
         A(i,i+50) = 1;

@@ -1,4 +1,4 @@
-% DEFINE A 
+% DEFINE A (Test Matrix)
 
 A = [8 2 3 1 ;
      0 6 4 0 ;

@@ -1,10 +1,11 @@
-function evolLibre(A, B, time)
-%EVOLLIBRE evolution libre jusque etat d'equilibre 
+function chauffage(A, time)
+%CHAUFFAGE chauffage a partir des 9 points rouges jusqu'état d'équilibre
 % (ou ce qu'il en est au bout de 'time')
 
-X = A\B;
+% redefinition du vecteur solution X (temperature surface à 0 °C)
+X = zeros(1000,1);
 
-% on update A car à t=0+, la t° n'est plus fixée
+% redefinition de la matrice A (pareil que pour evolLibre)
 
 % BORDS ORANGES
 for i = 2 : 49
@@ -105,10 +106,17 @@ E = expm(A); % exponentielle de la matrice
 figure(2)
 surf(reshape(X,[50,20])')
 for t = 1 : time
+    % on chauffe les points rouges a chaque pas de temps
+    for i = 0 : 2
+        for j = 0 : 2
+            X(50*i+341+j,1) = 500;
+        end
+    end
+    
     X = E * X; % a chaque pas de temps on update
     surf(reshape(X',[50,20])')
     title('evolution de la repartition de temperature au cours du temps')
-    axis([0 50 0 20 200 350]) % si on veut eviter le rescaling
+    axis([0 50 0 20 200 510]) % si on veut eviter le rescaling
     pause(.001) % pour avoir le temps de visualiser les surf
 end
 

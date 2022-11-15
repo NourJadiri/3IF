@@ -19,14 +19,19 @@ Y = rand(n,1);
 lambda = 2;
 X = Y / norm(Y);
 
+% et pour mettre une condition d'arret au cas ou
+it = 0;
+
 % tant que le vecteur updated n'est pas assez colinéaire avec le eigenvec
-while (max(abs(lambda*X-Y)) >= prec)
+while (max(abs(lambda*X-Y)) >= prec && it < 1e3)
     X = Y / norm(Y); % on a dit qu'on retournait un eigenvec normé
     Y = A * X;
 
     % juste pour get un index i tel qu'on n'ait pas de div par 0
     [~,i] = max(abs(X));
     lambda = Y(i) / X(i); % eigenval correspond au coef de proportionnalite
+
+    it = it + 1;
 end
 
 % once again, on veut un eigenvec normé

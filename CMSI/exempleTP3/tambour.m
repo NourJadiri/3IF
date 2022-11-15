@@ -99,8 +99,8 @@ vib = [v25 v80 v73];
 
 % now on va faire comme tp2 et visualiser les vibrations pour chaque freq
 figure(1)
-for i = 0 : 80+25
-    surf(reshape(vib(i*columns*lines+1 : (i+1)*columns*lines),[50,20])')
+for i = 0 : size(vib,2)
+    surf(reshape(vib(:,i),[50,20])')
     title('vibration a une certaine frequence')
     axis([0 50 0 20 -0.2 0.2]);
     pause(.5) % pour avoir le time de visualiser les surf - 2 par seconde -

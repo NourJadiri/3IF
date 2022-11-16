@@ -105,7 +105,10 @@ end
 E = expm(A); % exponentielle de la matrice
 figure(2)
 surf(reshape(X,[50,20])')
+
 for t = 1 : time
+    X = E * X; % a chaque pas de temps on update
+    
     % on chauffe les points rouges a chaque pas de temps
     for i = 0 : 2
         for j = 0 : 2
@@ -113,7 +116,6 @@ for t = 1 : time
         end
     end
     
-    X = E * X; % a chaque pas de temps on update
     surf(reshape(X,[50,20])')
     title('evolution de la repartition de temperature au cours du temps')
     axis([0 50 0 20 200 510]) % si on veut eviter le rescaling

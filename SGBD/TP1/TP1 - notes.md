@@ -146,7 +146,7 @@ select NAME
 from COUNTRY  
 order by NAME;
 ```
-![[Capture d’écran 2022-11-21 à 21.33.43.png|200]]
+<img width="291" alt="Capture d’écran 2022-11-21 à 21 33 43" src="https://user-images.githubusercontent.com/100949054/203164576-6a1892da-5660-4480-89df-8115fd5330a0.png">
 
 ###### 2.3
 ```
@@ -161,7 +161,7 @@ where m.ORGANIZATION = o.ABBREVIATION
         group by ORGANIZATION  
     );
 ```
-![[Capture d’écran 2022-11-21 à 21.37.10.png]]
+<img width="593" alt="Capture d’écran 2022-11-21 à 21 37 10" src="https://user-images.githubusercontent.com/100949054/203164644-4160bd85-60f9-4727-a914-23755800ae00.png">
 **Problème :** bien faire gaffe parce que dans la table isMember on n'a pas le nom complet de l'orga, alors qu'on demande son abbreviation + nom complet **ET** on n'oublie pas de mettre les attributs du `SELECT` dans le `GROUP BY`!!!
 
 ###### 2.4
@@ -174,7 +174,7 @@ group by p.CODE, p.NAME
 having (sum(v.POPULATION/p.POPULATION))*100 is not null  
 order by pourcentage;
 ```
-![[Capture d’écran 2022-11-21 à 21.48.02.png|400]]
+<img width="714" alt="Capture d’écran 2022-11-21 à 21 48 02" src="https://user-images.githubusercontent.com/100949054/203164701-d6d65dd3-9361-42f2-8208-dedabf2eced7.png">
 **Problème :** pour gérer les nuls, on a tout simplement enlever les résultats pour lesquels ça donnait du null (et encore une fois faire gaffe entre `CODE` et `NAME`) ((et d'ailleurs on avait 245 pays alors que là on n'a que 214 résultats ce qui montre bien qu'on avait des null))
 
 ###### 2.5
@@ -187,7 +187,7 @@ and c.NAME = e.CONTINENT
 group by c.NAME  
 order by pop;
 ```
-![[Capture d’écran 2022-11-21 à 21.54.55.png|300]]
+<img width="323" alt="Capture d’écran 2022-11-21 à 21 54 55" src="https://user-images.githubusercontent.com/100949054/203164764-3776409c-7cac-49fd-879f-c705ad981356.png">
 **Problème :** same thing on n'oublie pas de mettre les attributs du `SELECT` dans le `GROUP BY` :)
 
 ###### 2.6
@@ -204,7 +204,7 @@ having sum(length) = (
     group by c.NAME  
     );
 ```
-![[Capture d’écran 2022-11-21 à 22.11.54.png|250]]
+<img width="285" alt="Capture d’écran 2022-11-21 à 22 11 54" src="https://user-images.githubusercontent.com/100949054/203164801-e174f527-b2b9-4d22-8f48-5e8440c480d8.png">
 **Problème :** déjà faire gaffe à bien renommer les tables dans les requêtes imbriquées si jamais on veut (ré)utiliser les abréviations. Ensuite, il faut bien mettre `COUNTRY1` OU `COUNTRY2` dans les requetes pour bien avoir toutes les frontières d'un même pays
 
 ###### 2.7
@@ -216,7 +216,7 @@ group by NAME
 having count(*) > 1  
 order by apparition desc, NAME;
 ```
-![[Capture d’écran 2022-11-21 à 22.19.52.png|300]]
+<img width="327" alt="Capture d’écran 2022-11-21 à 22 19 52" src="https://user-images.githubusercontent.com/100949054/203164869-381b3c11-304d-4631-a10c-ff7726bb00d4.png">
 
 ###### 2.8
 ```
@@ -240,4 +240,4 @@ minus
  where COUNTRY = CODE  
  and ORGANIZATION is not null);
 ```
-![[Capture d’écran 2022-11-21 à 22.29.10.png|300]]
+<img width="302" alt="Capture d’écran 2022-11-21 à 22 29 10" src="https://user-images.githubusercontent.com/100949054/203164957-b23742aa-4da4-4b69-8a5e-1d32d664f806.png">

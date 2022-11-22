@@ -1,29 +1,28 @@
 /*************************************************************************
-                           SimpleTrip  -  description
+                           Trip  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface de la classe <SimpleTrip> (fichier SimpleTrip.h) ----------------
-#if ! defined ( SimpleTrip_H )
-#define SimpleTrip_H
+//---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
+#if ! defined ( Trip_H )
+#define Trip_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include "Trip.h"
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <SimpleTrip>
+// Rôle de la classe <Trip>
 //
 //
 //------------------------------------------------------------------------
 
-class SimpleTrip : public Trip
+class Trip
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -35,7 +34,19 @@ public:
     // Contrat :
     //
 
-    void Display ( );
+    char* GetStart ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    char* GetEnd ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    virtual void Display ( );
     // Mode d'emploi :
     //
     // Contrat :
@@ -43,7 +54,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    SimpleTrip & operator = ( const SimpleTrip & aSimpleTrip );
+    Trip & operator = ( const Trip & unTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -51,13 +62,13 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    SimpleTrip (char* aStart, char* aEnd, char* aTransportation);
+    Trip ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~SimpleTrip ( );
+    virtual ~Trip ( );
     // Mode d'emploi :
     //
     // Contrat :
@@ -69,9 +80,10 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    char* transportation;
+    char* start;
+    char* end;
 };
 
-//-------------------------------- Autres définitions dépendantes de <SimpleTrip>
+//-------------------------------- Autres définitions dépendantes de <Trip>
 
-#endif // SimpleTrip_H
+#endif // Trip_H

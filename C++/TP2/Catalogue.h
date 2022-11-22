@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Catalogue  -  description
+                           Catalogue  -  catalogue de tous les trajets
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -44,7 +44,7 @@ public:
     // Contrat :
     // il faut entrer un CHIFFRE
 
-    void Display ( );
+    virtual void Display ( );
     // Mode d'emploi :
     //
     // Contrat :
@@ -95,6 +95,7 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
+List tripList;
 
 };
 

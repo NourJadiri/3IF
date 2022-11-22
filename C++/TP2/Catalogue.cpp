@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Catalogue  -  description
+                           Catalogue  -  catalogue de tous les trajets
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -19,6 +19,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
+#include "List.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -90,6 +91,12 @@ void Catalogue::Display (  )
 // Algorithme :
 //
 {
+    if (tripList.size == nullptr)
+    {
+        cout << "there are no trips yet" << endl;
+    } else {
+        tripList.Display();
+    }
     cout << "le display ca marche" << endl;
 } //----- Fin de Display
 
@@ -97,7 +104,7 @@ void Catalogue::Add (  )
 // Algorithme :
 //
 {
-    cout << "le add ca marche" << endl;
+    tripList.Add();
 } //----- Fin de Add
 
 void Catalogue::Fetch (  )

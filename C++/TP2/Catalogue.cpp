@@ -40,14 +40,29 @@ void Catalogue::Launch ( )
     while (1)
     {
         cout << "\n==================== Menu. ====================" << endl;
-        cout << "Chose between all the options listed below" << endl;
+        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: display the catalogue" << endl;
         cout << "\t2: add a trip" << endl;
         cout << "\t3: look for a trip" << endl;
         cout << "\t4: close Gouggle Mapse" << endl;
 
         int choice;
-        cin >> choice;
+        // pour bien avoir un CHIFFRE et pas une lettre par exemple
+        while (true)
+        {
+            cin >> choice;
+            if (!cin)
+            {
+                cout << "Wrong input, please enter a NUMBER" << endl;
+                // pour clear l'erreur
+                cin.clear();
+                // pour enlever ce qui reste dans le buffer
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+
+            }
+            else break;
+        }
 
         switch (choice)
         {

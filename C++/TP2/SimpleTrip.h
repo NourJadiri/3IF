@@ -12,6 +12,8 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trip.h"
+#include <cstring>
+using namespace std;
 
 //------------------------------------------------------------- Constantes
 
@@ -29,13 +31,7 @@ class SimpleTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    void Display ( );
+    void Display ( ostream & os ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -43,7 +39,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    SimpleTrip & operator = ( const SimpleTrip & aSimpleTrip );
+    friend ostream& operator<<(ostream& os, const SimpleTrip & aSimpleTrip);
     // Mode d'emploi :
     //
     // Contrat :
@@ -51,7 +47,7 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    SimpleTrip (char* aStart, char* aEnd, char* aTransportation);
+    SimpleTrip (const char* aStart, const char* aEnd, const char* aTransportation);
     // Mode d'emploi :
     //
     // Contrat :

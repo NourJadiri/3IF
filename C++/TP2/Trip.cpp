@@ -1,12 +1,9 @@
 /*************************************************************************
                            Trip  -  description
                              -------------------
-    début                : 22/11/2022
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
-                                        Vincent VOIGTLÄNDER
-    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
-                           marie.roulier@insa-lyon.fr
-                           vincent.voigtlander@insa-lyon.fr
+    début                : $DATE$
+    copyright            : (C) $YEAR$ par $AUTHOR$
+    e-mail               : $EMAIL$
 *************************************************************************/
 
 //---------- Réalisation de la classe <Trip> (fichier Trip.cpp) ------------
@@ -31,34 +28,28 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-char* Trip::GetStart ( )
+char* Trip::GetStart ( ) const
 // Algorithme :
 //
 {
     return start;
-} //----- Fin de GetStart
+} //----- Fin de Méthode
 
-char* Trip::GetEnd ( )
+char* Trip::GetEnd ( ) const
 // Algorithme :
 //
 {
     return end;
-} //----- Fin de GetEnd
-
-void Trip::Display ( )
-// Algorithme :
-//
-{
-    cout << "Trip from " << start << " to " << end << endl;
-} //----- Fin de Display
+} //----- Fin de Méthode
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Trip & Trip::operator = ( const Trip & unTrip )
+ostream& operator<< (ostream& os, const Trip & aTrip) {
 // Algorithme :
 //
-{
-} //----- Fin de operator =
+    aTrip.Display(os);
+    return os;
+} //----- Fin de operator <<
 
 
 //-------------------------------------------- Constructeurs - destructeur

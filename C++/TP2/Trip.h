@@ -1,28 +1,29 @@
 /*************************************************************************
-                           Trip  -  description
+                           SimpleTrip  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
-#if ! defined ( Trip_H )
-#define Trip_H
+//---------- Interface de la classe <SimpleTrip> (fichier SimpleTrip.h) ----------------
+#if ! defined ( SimpleTrip_H )
+#define SimpleTrip_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include "Trip.h"
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Trip>
+// Rôle de la classe <SimpleTrip>
 //
 //
 //------------------------------------------------------------------------
 
-class Trip
+class SimpleTrip : public Trip
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -34,9 +35,15 @@ public:
     // Contrat :
     //
 
+    void Display ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
 
 //------------------------------------------------- Surcharge d'opérateurs
-    Trip & operator = ( const Trip & unTrip );
+    SimpleTrip & operator = ( const SimpleTrip & aSimpleTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -44,13 +51,13 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    Trip ( );
+    SimpleTrip (char* aStart, char* aEnd, char* aTransportation);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Trip ( );
+    virtual ~SimpleTrip ( );
     // Mode d'emploi :
     //
     // Contrat :
@@ -62,9 +69,9 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-
+    char* transportation;
 };
 
-//-------------------------------- Autres définitions dépendantes de <Trip>
+//-------------------------------- Autres définitions dépendantes de <SimpleTrip>
 
-#endif // Trip_H
+#endif // SimpleTrip_H

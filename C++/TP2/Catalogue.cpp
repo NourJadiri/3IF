@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Catalogue  -  catalogue de tous les trajets
+                           Catalogue  -  repertoire de tous les trajets
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -21,33 +21,26 @@ using namespace std;
 #include "Catalogue.h"
 #include "List.h"
 
-//------------------------------------------------------------- Constantes
-
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Catalogue::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
 void Catalogue::Launch ( )
 // Algorithme :
-//
+// Menu de l'interface utilisateur sur la sortie standard, qui lui
+// propose plusieurs options, tant qu'il ne choisit pas de quitter
 {
     cout << "\nWelcome to the worst version of Gouggle Mapse :)" << endl;
 
+    int choice;
     while (1)
     {
-        cout << "\n==================== Menu. ====================" << endl;
+        cout << "\n-------------------- Menu. --------------------" << endl;
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: display the catalogue" << endl;
+        cout << "\t1: display the catalogue of the available trips" << endl;
         cout << "\t2: add a trip" << endl;
         cout << "\t3: look for a trip" << endl;
         cout << "\t4: close Gouggle Mapse" << endl;
 
-        int choice;
         // pour bien avoir un CHIFFRE et pas une lettre par exemple
         while (true)
         {
@@ -60,7 +53,6 @@ void Catalogue::Launch ( )
                 // pour enlever ce qui reste dans le buffer
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
-
             }
             else break;
         }
@@ -87,40 +79,10 @@ void Catalogue::Launch ( )
     cout << "See you soon on Gouggle Mapse :)" << endl;
 } //----- Fin de Launch
 
-void Catalogue::Display (  )
-// Algorithme :
-//
-{
-    if (tripList.size == nullptr)
-    {
-        cout << "there are no trips yet" << endl;
-    } else {
-        tripList.Display();
-    }
-    cout << "le display ca marche" << endl;
-} //----- Fin de Display
-
-void Catalogue::Add (  )
-// Algorithme :
-//
-{
-    tripList.Add();
-} //----- Fin de Add
-
-void Catalogue::Fetch (  )
-// Algorithme :
-//
-{
-    cout << "le fetch ca marche" << endl;
-} //----- Fin de Fetch
-
-//------------------------------------------------- Surcharge d'opérateurs
-
-
 //-------------------------------------------- Constructeurs - destructeur
 Catalogue::Catalogue ( )
 // Algorithme :
-//
+// Constructeur
 {
 #ifdef MAP
     cout << "Appel au constructeur de <Catalogue>" << endl;
@@ -130,15 +92,64 @@ Catalogue::Catalogue ( )
 
 Catalogue::~Catalogue ( )
 // Algorithme :
-//
+// Destructeur
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Catalogue>" << endl;
 #endif
-} //----- Fin de Catalogue
+} //----- Fin de ~Catalogue
 
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+void Catalogue::Display ( ) const
+// Algorithme :
+// Affichage du catalogue en appelant la fonction de la classe List
+{
+    if (tripList.size == nullptr)
+    {
+        cout << "Unfortunately, there are no trips yet" << endl;
+    } else {
+        if (tripList.size > 1)
+        {
+            cout << "There are " << tripList.size << " trips ";
+        }
+        else
+        {
+            cout << "There is only 1 trip ";
+        }
+        cout << "available at the moment" << endl;
+        tripList.Display();
+    }
+} //----- Fin de Display
 
+void Catalogue::Add ( )
+// Algorithme :
+//
+{
+    tripList.Add();
+} //----- Fin de Add
+
+void Catalogue::Fetch ( )
+// Algorithme :
+//
+{
+    tripList.Fetch();
+} //----- Fin de Fetch
+
+
+
+
+////////////////////
+/*
+ * pour ADD
+ * bien faire gaffe à preciser qu'il ne faut pas mettre despaces
+ * cout << "Departure city : ";
+ * cin >> start;
+ * cout << "Transportation mode : ";
+ * cin >> transport;
+ * cout << "Arrival city : ";
+ * cin >> end;
+ * puis créer un nouveau trip avec tous ces param et l'ajouter à la liste
+ */

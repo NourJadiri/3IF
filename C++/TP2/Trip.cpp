@@ -28,6 +28,20 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+char* Trip::GetStart ( )
+// Algorithme :
+//
+{
+    return start;
+} //----- Fin de Méthode
+
+char* Trip::GetEnd ( )
+// Algorithme :
+//
+{
+    return end;
+} //----- Fin de Méthode
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 Trip & Trip::operator = ( const Trip & unTrip )

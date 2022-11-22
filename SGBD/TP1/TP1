@@ -1,0 +1,83 @@
+-- La capitale d'un pays doit être connue
+alter table country
+  drop constraint fk_capitalCity;
+  
+ALTER TABLE country
+  ADD CONSTRAINT fk_capitalCity
+  FOREIGN KEY (capital,code,province) 
+  references City(Name,Country,Province)
+  deferrable initially immediate;
+  
+-- Tous les pays doivent avoir des noms différents
+-- No need to car la contrainte existe déjà
+
+-- Le nom d'un pays doit être connu
+-- Aussi déjà fait CHECK(name is not null)
+
+-- La capitale d'une province doit être une ville de CITY
+alter table province
+  drop constraint fk_capitalProvince;
+  
+alter table province
+  add constraint fk_capitalProvince
+  foreign key    (capital , country , capprov) 
+  references city(name , country , province)
+  deferrable initially immediate;
+
+-- Le pays d'une province doit être un pays de country
+alter table province
+  drop constraint fk_provinceCountry;
+  
+alter table province
+  add constraint fk_provinceCountry
+  foreign key (country) 
+  references country(code)
+  deferrable initially immediate;
+  
+-- Le pays d'une ville doit etre dans country
+alter table city
+  drop constraint fk_cityCountry;
+  
+alter table city
+  add constraint fk_cityCountry
+  foreign key (country) 
+  references country(code)
+  deferrable initially immediate;
+  
+-- La province d'une ville doit être dans province
+alter table city
+  drop constraint fk_cityProvince;
+  
+alter table city
+  add constraint fk_cityProvince
+  foreign key (province,country) 
+  references province(name,country)
+  deferrable initially immediate;
+
+-- La longueur d’une frontière ne peut qu’être strictement positive (sinon, il n’y a pas de frontière)
+alter table borders
+  add constraint positiveBorder
+  check (length > 0);
+
+-- Deux villes ne peuvent avoir les mêmes coordonnées (à la fois même longitude et même latitude)
+alter table city
+  add constraint pk_coord
+  unique(latitude, longitude);
+
+-- au final on a des doublons 
+
+
+
+-- Inserer nouveau pays
+
+set constraints fk_capitalCity,fk_capitalProvince,fk_provinceCountry,fk_cityCountry,fk_cityProvince deferred;
+
+insert into country (name , code , capital , province , area , population)
+  values('Bascrit', 'BC', 'Demoi', 'Bascrit', 1250, 1250000);
+  
+  insert into province(name, country, population, area, capital, capprov)
+  values ('Bascrit', 'BC', 1250000, 1250, 'Demoi', 'Bascrit');
+  
+  insert into city(name, country, province, population, latitude, longitude, elevation)
+  values('Demoi', 'BC', 'Bascrit', 1250000, null, null, null);
+commit;

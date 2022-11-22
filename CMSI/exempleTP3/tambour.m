@@ -12,7 +12,7 @@ function tambour()
 lines = 20;
 columns = 50;
 
-B = ones(20,50);
+B = ones(lines,columns);
 % points fixes
 % cote gauche
 B(:,1) = 0;
@@ -91,26 +91,16 @@ disp(lambda73);
 
 % let's do la visualisation des vibrations
 % first on va rassembler tous les eigenvec dans une seule big matrice
-vib = zeros(lines*columns,25+80+1);
-for i = 1 : 25
-    for j = 1 : lines*columns
-        vib(j,i) = v25(j,i);
-    end
-end
-for i = 26 : (80+25)
-    for j = 1 : lines*columns
-        vib(j,i) = v80(j,i-25);
-    end
-end
-for j = 1 : lines*columns
-    vib(j,80+25+1) = v73(j,1);
-end
+% la on rajoute la vibration correspondant à la eigenval proche de 0.73
+% cette partie est utile dans le cas general, si cette vibration n'etait
+% pas comprise dans les 25 / 80 autres eigenval
+% ici though, elle est comprise dans les plus petites donc c est inutile
+vib = [v25 v80 v73];
 
 % now on va faire comme tp2 et visualiser les vibrations pour chaque freq
-
 figure(1)
-for i = 0 : 80+25
-    surf(reshape(vib(i*columns*lines+1 : (i+1)*columns*lines),[50,20])')
+for i = 1 : size(vib,2)
+    surf(reshape(vib(:,i),[50,20])')
     title('vibration a une certaine frequence')
     axis([0 50 0 20 -0.2 0.2]);
     pause(.5) % pour avoir le time de visualiser les surf - 2 par seconde -

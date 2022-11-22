@@ -104,12 +104,24 @@ end
 E = expm(A); % exponentielle de la matrice
 figure(2)
 surf(reshape(X,[50,20])')
-for t = 1 : time
-    X = E * X; % a chaque pas de temps on update
+
+err = inf;
+t = 0;
+
+while err >= 0.0001 && t < time
+    Xa = X;
+    X = E * Xa; % a chaque pas de temps on update
+
     surf(reshape(X,[50,20])')
     title('evolution de la repartition de temperature au cours du temps')
     axis([0 50 0 20 200 350]) % si on veut eviter le rescaling
     pause(.001) % pour avoir le temps de visualiser les surf
+   
+    err = max(abs(X - Xa));
+        
+    t = t + 1;
+    pause(0.001);
+
 end
 
 disp(['la temperature a l equilibre est de ' num2str(mean(X))]);

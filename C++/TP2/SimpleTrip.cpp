@@ -22,30 +22,26 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type SimpleTrip::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
-void SimpleTrip::Display ( )
+void SimpleTrip::Display ( ostream& os ) const
 // Algorithme :
 //
 {
-    std::cout << "de " << start << " a " << end << " en " << transportation; 
+    os << "de " << start << " a " << end << " en " << transportation; 
 } //----- Fin de Méthode
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-SimpleTrip & SimpleTrip::operator = ( const SimpleTrip & aSimpleTrip )
+ostream& operator<<(ostream& os, const SimpleTrip& aSimpleTrip)
 // Algorithme :
 //
 {
-} //----- Fin de operator =
+    aSimpleTrip.Display(os);
+    return os;
+} //----- Fin de operator <<
 
 
 //-------------------------------------------- Constructeurs - destructeur
-SimpleTrip::SimpleTrip (char* aStart, char* aEnd, char* aTransportation)
+SimpleTrip::SimpleTrip (const char* aStart, const char* aEnd, const char* aTransportation)
 // Algorithme :
 //
 {
@@ -53,9 +49,9 @@ SimpleTrip::SimpleTrip (char* aStart, char* aEnd, char* aTransportation)
     cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
     
-    start = aStart;
-    end = aEnd;
-    transportation = aTransportation;
+    strcpy(start, aStart);
+    strcpy(end, aEnd);
+    strcpy(transportation, aTransportation);
 } //----- Fin de SimpleTrip
 
 

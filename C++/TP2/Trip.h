@@ -1,12 +1,9 @@
 /*************************************************************************
                            Trip  -  description
                              -------------------
-    début                : 22/11/2022
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
-                                        Vincent VOIGTLÄNDER
-    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
-                           marie.roulier@insa-lyon.fr
-                           vincent.voigtlander@insa-lyon.fr
+    début                : $DATE$
+    copyright            : (C) $YEAR$ par $AUTHOR$
+    e-mail               : $EMAIL$
 *************************************************************************/
 
 //---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
@@ -37,19 +34,19 @@ public:
     // Contrat :
     //
 
-    char* GetStart ( );
+    char* GetStart ( ) const;
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    char* GetEnd ( );
+    char* GetEnd ( ) const;
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual void Display ( );
+    virtual void Display ( ostream& os ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -57,7 +54,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    Trip & operator = ( const Trip & unTrip );
+    friend ostream& operator<<(ostream & os, const Trip & aTrip);
     // Mode d'emploi :
     //
     // Contrat :

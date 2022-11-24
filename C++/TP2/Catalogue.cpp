@@ -131,7 +131,7 @@ void Catalogue::Add ( )
     tripList.Add();
 } //----- Fin de Add
 
-void Catalogue::Fetch ( )
+void Catalogue::Fetch ( ) const
 // Algorithme :
 //
 {

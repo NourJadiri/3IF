@@ -1,18 +1,20 @@
 /*************************************************************************
-                           ComposedTrip  -  description
+                           ComposedTrip  -  Objet d'un trajet compose
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 22/11/2022
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
+                                        Vincent VOIGTLÄNDER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+                           vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <ComposedTrip> (fichier ComposedTrip.h) ----------------
-#if ! defined ( ComposedTrip_H )
-#define ComposedTrip_H
+#if ! defined ( COMPOSEDTRIP_H )
+#define COMPOSEDTRIP_H
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trip.h"
-using namespace std;
 
 //------------------------------------------------------------- Constantes
 
@@ -30,7 +32,7 @@ class ComposedTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display ( ostream & os ) const;
+    void Display ( std::ostream & os ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -38,7 +40,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend ostream& operator<<(ostream & os, const ComposedTrip & aComposedTrip);
+    friend std::ostream& operator<< ( std::ostream & os, const ComposedTrip & aComposedTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -70,4 +72,4 @@ protected:
 
 //-------------------------------- Autres définitions dépendantes de <ComposedTrip>
 
-#endif // ComposedTrip_H
+#endif // COMPOSEDTRIP_H

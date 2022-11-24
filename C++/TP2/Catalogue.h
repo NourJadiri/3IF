@@ -56,7 +56,7 @@ public:
     // Contrat :
     //
 
-    void Fetch ( );
+    void Fetch ( ) const;
     // Mode d'emploi :
     //
     // Contrat :

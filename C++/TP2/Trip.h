@@ -1,16 +1,20 @@
 /*************************************************************************
-                           Trip  -  description
+                           Trip  -  Objet trajet
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 22/11/2022
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
+                                        Vincent VOIGTLÄNDER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+                           vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
-#if ! defined ( Trip_H )
-#define Trip_H
+#if ! defined ( TRIP_H )
+#define TRIP_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <iostream>
 
 //------------------------------------------------------------- Constantes
 
@@ -46,7 +50,7 @@ public:
     // Contrat :
     //
 
-    virtual void Display ( ostream& os ) const;
+    virtual void Display ( std::ostream& os ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -54,7 +58,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend ostream& operator<<(ostream & os, const Trip & aTrip);
+    friend std::ostream& operator<< ( std::ostream & os, const Trip & aTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -86,4 +90,4 @@ protected:
 
 //-------------------------------- Autres définitions dépendantes de <Trip>
 
-#endif // Trip_H
+#endif // TRIP_H

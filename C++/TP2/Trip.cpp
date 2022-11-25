@@ -37,7 +37,7 @@ bool Trip::operator==(const Trip &aTrip) const
 void Trip::Display() const
 // Displays the trip
 {
-    cout << "Start : " << start << " , End : " << end << " by " << transport << endl;
+    cout << "from: " << start << " to: " << end << ", by " << transport << endl;
 }
 
 Trip::~Trip()= default;

@@ -38,14 +38,19 @@ void List::AddTrip(const Trip &aTrip)
 
 void List::DisplayTrip() const {
     if(size == 1){
+        cout << "\ttrip 1 -> ";
         first->Display();
         return;
     } else {
         Node *current = first;
+        int i = 1;
         while (current->getNext() != nullptr) {
+            cout << "\ttrip " << i << " -> ";
             current->Display();
             current = current->getNext();
+            i++;
         }
+        cout << "\ttrip " << i << " -> ";
         current->Display();
     }
 }
@@ -84,17 +89,24 @@ void List::FetchTrip(char *start, char *end) const
 
     // If list is empty, throws error
 
+    int found = 0;
     while(current != nullptr){
         if(current->getTrip() == trip){
-            cout << "Trip found !"<<endl;
-            cout << "  -> ";
+            if (!found)
+            { // if this is the first trip found, print a txt
+                cout << "Trip found !"<<endl;
+            }
+            found = 1;
+            cout << "\t-> ";
             current->Display();
-            return;
         }
         current = current->getNext();
     }
 
-    cout << "Trip from " << start << " to " << end << " does not exist" << endl;
+    if (!found)
+    {
+        cout << "Trip from " << start << " to " << end << " does not exist" << endl;
+    }
 }
 
 int List::GetSize() const

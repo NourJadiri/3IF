@@ -143,10 +143,12 @@ void Catalogue::Add ( )
         cin >> end;
         Trip newTrip = Trip(start, end, transport);
         tripList.AddTrip(newTrip);
-        cout << "\ndo you wish to add another trip from the city of arrival? (composed Trip)" << endl;
+        cout << "\ndo you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
         cin >> going;
-        start = end;
+        if (going){
+            strcpy(start, end);
+        }
     }
 
 } //----- Fin de Add

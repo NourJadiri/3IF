@@ -1,19 +1,21 @@
 /*************************************************************************
-                           SimpleTrip  -  description
+                           SimpleTrip  -  Objet d'un trajet simple
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 22/11/2022
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
+                                        Vincent VOIGTLÄNDER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+                           vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <SimpleTrip> (fichier SimpleTrip.h) ----------------
-#if ! defined ( SimpleTrip_H )
-#define SimpleTrip_H
+#if ! defined ( SIMPLETRIP_H )
+#define SIMPLETRIP_H
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trip.h"
 #include <cstring>
-using namespace std;
 
 //------------------------------------------------------------- Constantes
 
@@ -31,7 +33,7 @@ class SimpleTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display ( ostream & os ) const;
+    void Display ( std::ostream & os ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -39,7 +41,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend ostream& operator<<(ostream& os, const SimpleTrip & aSimpleTrip);
+    friend std::ostream& operator<< ( std::ostream& os, const SimpleTrip & aSimpleTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -47,13 +49,13 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    SimpleTrip (const char* aStart, const char* aEnd, const char* aTransportation);
+    SimpleTrip ( const char* aStart, const char* aEnd, const char* aTransportation );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~SimpleTrip ( );
+    virtual ~SimpleTrip ( ); ///////////// pourquoi un destructeur en virtual??
     // Mode d'emploi :
     //
     // Contrat :
@@ -70,4 +72,4 @@ protected:
 
 //-------------------------------- Autres définitions dépendantes de <SimpleTrip>
 
-#endif // SimpleTrip_H
+#endif // SIMPLETRIP_H

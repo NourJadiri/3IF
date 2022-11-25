@@ -1,9 +1,12 @@
 /*************************************************************************
-                           ComposedTrip  -  description
+                           ComposedTrip  -  Objet d'un trajet compose
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 22/11/2022
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
+                                        Vincent VOIGTLÄNDER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+                           vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <ComposedTrip> (fichier ComposedTrip.cpp) ------------
@@ -26,17 +29,17 @@ void ComposedTrip::Display ( ostream& os ) const
 //
 {
     os << "not yet implemented!"; 
-} //----- Fin de Méthode
+} //----- Fin de Display
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-ostream& ostream& operator<<(ostream & os, const ComposedTrip & aComposedTrip)
+ostream& operator<< ( ostream & os, const ComposedTrip & aComposedTrip )
 // Algorithme :
 //
 {
     aComposedTrip.Display(os);
     return os;
-} //----- Fin de operator <<
+} //----- Fin de operator<<
 
 
 //-------------------------------------------- Constructeurs - destructeur

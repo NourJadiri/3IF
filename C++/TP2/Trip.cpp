@@ -11,9 +11,9 @@ using namespace std;
 Trip::Trip(char* start, char* end, char* transport)
 // Constructor that takes start and end as a parameter
 {
-    start = start;
-    end = end;
-    transport = transport;
+    this->start = start;
+    this->end = end;
+    this->transport = transport;
 }
 
 char *Trip::GetStart()

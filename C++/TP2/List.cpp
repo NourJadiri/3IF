@@ -1,4 +1,5 @@
 #include "List.h"
+#include "Node.h"
 using namespace std;
 
 
@@ -39,17 +40,14 @@ void List::DisplayTrip() const {
     if(size == 1){
         first->Display();
         return;
-    }
-
-    Node *current = first;
-
-    while(current->getNext() != nullptr)
-    {
+    } else {
+        Node *current = first;
+        while (current->getNext() != nullptr) {
+            current->Display();
+            current = current->getNext();
+        }
         current->Display();
-        current = current->getNext();
     }
-
-    current->Display();
 }
 
 List::~List(){

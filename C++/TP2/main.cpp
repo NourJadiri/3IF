@@ -1,10 +1,20 @@
 #include <iostream>
-#include "Catalogue.h"
+#include "List.h"
 
-using namespace std;
 
 int main(){
-    Catalogue c;
-    c.Launch();
-    return 0;
+    Trip trip = Trip("Lyon" , "Paris");
+    Trip trip2 = Trip("Lyon" , "Rabat");
+    Trip trip3 = Trip("Paris", "Loire");
+
+    List list = List();
+
+    list.Add(trip);
+    list.Add(trip2);
+    list.Add(trip3);
+
+    list.Display();
+
+    list.Fetch("Lyon" , "Paris");
+
 }

@@ -159,8 +159,8 @@ void Catalogue::Fetch ( ) const
         cout << "Unfortunately, there are no trips yet..." << endl;
     } else {
         cout << "let's find you the best way to get to your destination!" << endl;
-        char *start;
-        char *end;
+        char *start = (char*)malloc(sizeof(char)*64);;
+        char *end = (char*)malloc(sizeof(char)*64);;
         cout << "where do you wanna go to?" << endl;
         cin >> end;
         cout << "and where do you wanna leave from?" << endl;

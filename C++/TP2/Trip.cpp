@@ -1,81 +1,43 @@
-/*************************************************************************
-                           Trip  -  Objet trajet
-                             -------------------
-    début                : 22/11/2022
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
-                                        Vincent VOIGTLÄNDER
-    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
-                           marie.roulier@insa-lyon.fr
-                           vincent.voigtlander@insa-lyon.fr
-*************************************************************************/
-
-//---------- Réalisation de la classe <Trip> (fichier Trip.cpp) ------------
-
-//---------------------------------------------------------------- INCLUDE
-
-//-------------------------------------------------------- Include système
-using namespace std;
-#include <iostream>
-
-//------------------------------------------------------ Include personnel
 #include "Trip.h"
 
-//------------------------------------------------------------- Constantes
+Trip::Trip()
+// Default constructor
+{
+    start = "Null";
+    end = "Null";
+}
 
-//----------------------------------------------------------------- PUBLIC
+Trip::Trip(char * start, char * end)
+// Constructor that takes start and end as a parameter
+{
+    this->start = start;
+    this->end = end;
+}
 
-//----------------------------------------------------- Méthodes publiques
-// type Trip::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
-char* Trip::GetStart ( ) const
-// Algorithme :
-//
+char *Trip::GetStart()
+// returns attribute char* start
 {
     return start;
-} //----- Fin de GetStart
+}
 
-char* Trip::GetEnd ( ) const
-// Algorithme :
-//
+char *Trip::GetEnd()
+// returns attribute char* end
 {
     return end;
-} //----- Fin de GetEnd
+}
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-ostream& operator<< ( ostream& os, const Trip & aTrip ) {
-// Algorithme :
-//
-    aTrip.Display(os);
-    return os;
-} //----- Fin de operator<<
-
-
-//-------------------------------------------- Constructeurs - destructeur
-Trip::Trip ( )
-// Algorithme :
-//
+bool Trip::operator==(const Trip &aTrip) const
+// Two trips are equal if their start and their ends are the same
 {
-#ifdef MAP
-    cout << "Appel au constructeur de <Trip>" << endl;
-#endif
-} //----- Fin de Trip
+    return (!strcmp(start,aTrip.start) && !strcmp(end,aTrip.end));
+}
 
-
-Trip::~Trip ( )
-// Algorithme :
-//
+void Trip::Display()
+// Displays the trip
 {
-#ifdef MAP
-    cout << "Appel au destructeur de <Trip>" << endl;
-#endif
-} //----- Fin de ~Trip
+    cout << "Start : " << start << " , End : " << end << endl;
+}
+
+Trip::~Trip()= default;
 
 
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées

@@ -1,93 +1,30 @@
-/*************************************************************************
-                           Trip  -  Objet trajet
-                             -------------------
-    début                : 22/11/2022
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
-                                        Vincent VOIGTLÄNDER
-    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
-                           marie.roulier@insa-lyon.fr
-                           vincent.voigtlander@insa-lyon.fr
-*************************************************************************/
+#ifndef INC_3IF_TRIP_H
+#define INC_3IF_TRIP_H
 
-//---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
-#if ! defined ( TRIP_H )
-#define TRIP_H
-
-//--------------------------------------------------- Interfaces utilisées
 #include <iostream>
+#include <cstring>
 
-//------------------------------------------------------------- Constantes
+using namespace std;
 
-//------------------------------------------------------------------ Types
-
-//------------------------------------------------------------------------
-// Rôle de la classe <Trip>
-//
-//
-//------------------------------------------------------------------------
-
-class Trip
-{
-//----------------------------------------------------------------- PUBLIC
+class Trip {
+protected:
+    char* start ;
+    char* end;
 
 public:
-//----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
-    char* GetStart ( ) const;
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    Trip();
+    Trip(char* start ,char*  end);
 
-    char* GetEnd ( ) const;
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    char* GetStart();
+    char* GetEnd();
 
-    virtual void Display ( std::ostream& os ) const;
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    bool operator == (const Trip & aTrip) const;
 
+    virtual void Display();
 
-//------------------------------------------------- Surcharge d'opérateurs
-    friend std::ostream& operator<< ( std::ostream & os, const Trip & aTrip );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
-//-------------------------------------------- Constructeurs - destructeur
-    Trip ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Trip ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-//------------------------------------------------------------------ PRIVE
-
-protected:
-//----------------------------------------------------- Méthodes protégées
-
-//----------------------------------------------------- Attributs protégés
-    char* start;
-    char* end;
+    virtual ~Trip();
 };
 
-//-------------------------------- Autres définitions dépendantes de <Trip>
 
-#endif // TRIP_H
+#endif //INC_3IF_TRIP_H

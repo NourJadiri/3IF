@@ -1,30 +1,30 @@
-#ifndef INC_3IF_TRIP_H
-#define INC_3IF_TRIP_H
+#ifndef TRIP_H
+#define TRIP_H
 
 #include <iostream>
 #include <cstring>
 
-using namespace std;
 
 class Trip {
 protected:
-    char* start ;
-    char* end;
+    char* start{} ;
+    char* end{};
+    char* transport{};
 
 public:
 
-    Trip();
-    Trip(char* start ,char*  end);
+    //Trip();
+    Trip(char* start = nullptr, char*  end = nullptr, char* transport = nullptr);
 
     char* GetStart();
     char* GetEnd();
 
     bool operator == (const Trip & aTrip) const;
 
-    virtual void Display();
+    virtual void Display() const;
 
     virtual ~Trip();
 };
 
 
-#endif //INC_3IF_TRIP_H
+#endif //TRIP_H

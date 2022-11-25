@@ -26,7 +26,7 @@ void Node::setNext(Node * aNode)
     this->next = aNode;
 }
 
-void Node::Display()
+void Node::Display() const
 // Displays the content of the node
 {
     trip.Display();

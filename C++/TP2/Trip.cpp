@@ -1,17 +1,19 @@
 #include "Trip.h"
+using namespace std;
 
-Trip::Trip()
+/*Trip::Trip()
 // Default constructor
 {
     start = "Null";
     end = "Null";
-}
+}*/ ///////////// je crois yen a pas besoin mais a verifier
 
-Trip::Trip(char * start, char * end)
+Trip::Trip(char* start, char* end, char* transport)
 // Constructor that takes start and end as a parameter
 {
-    this->start = start;
-    this->end = end;
+    start = start;
+    end = end;
+    transport = transport;
 }
 
 char *Trip::GetStart()
@@ -32,10 +34,10 @@ bool Trip::operator==(const Trip &aTrip) const
     return (!strcmp(start,aTrip.start) && !strcmp(end,aTrip.end));
 }
 
-void Trip::Display()
+void Trip::Display() const
 // Displays the trip
 {
-    cout << "Start : " << start << " , End : " << end << endl;
+    cout << "Start : " << start << " , End : " << end << " by " << transport << endl;
 }
 
 Trip::~Trip()= default;

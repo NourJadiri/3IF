@@ -14,8 +14,8 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
 #include <iostream>
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
@@ -107,20 +107,20 @@ void Catalogue::Display ( ) const
 // Algorithme :
 // Affichage du catalogue en appelant la fonction de la classe List
 {
-    if (tripList.size == nullptr)
+    if (tripList.GetSize() == 0)
     {
-        cout << "Unfortunately, there are no trips yet" << endl;
+        cout << "Unfortunately, there are no trips yet..." << endl;
     } else {
-        if (tripList.size > 1)
+        if (tripList.GetSize() > 1)
         {
-            cout << "There are " << tripList.size << " trips ";
+            cout << "There are " << tripList.GetSize() << " trips ";
         }
         else
         {
             cout << "There is only 1 trip ";
         }
-        cout << "available at the moment" << endl;
-        tripList.Display();
+        cout << "available at the moment:" << endl;
+        tripList.DisplayTrip();
     }
 } //----- Fin de Display
 
@@ -128,28 +128,43 @@ void Catalogue::Add ( )
 // Algorithme :
 //
 {
-    tripList.Add();
+    char *start = (char*)malloc(sizeof(char)*64);
+    char* end = (char*)malloc(sizeof(char)*64);;
+    char* transport = (char*)malloc(sizeof(char)*64);;
+    cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
+    cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip";
+    cout << "\n\tinsert the city of departure: ";
+    cin >> start;
+    int going = 1;
+    while (going) {
+        cout << "\n\tinsert the kind of transport used: ";
+        cin >> transport;
+        cout << "\n\tinsert the city of arrival: ";
+        cin >> end;
+        Trip newTrip = Trip(start, end, transport);
+        tripList.AddTrip(newTrip);
+        cout << "\ndo you wish to add another trip from the city of arrival? (composed Trip)" << endl;
+        cout << "enter 1 for YES or 0 for NO" << endl;
+        cin >> going;
+        start = end;
+    }
+
 } //----- Fin de Add
 
 void Catalogue::Fetch ( ) const
 // Algorithme :
 //
 {
-    tripList.Fetch();
+    if (tripList.GetSize() == 0) {
+        cout << "Unfortunately, there are no trips yet..." << endl;
+    } else {
+        cout << "let's find you the best way to get to your destination!" << endl;
+        char *start;
+        char *end;
+        cout << "where do you wanna go to?" << endl;
+        cin >> end;
+        cout << "and where do you wanna leave from?" << endl;
+        cin >> start;
+        tripList.FetchTrip(start, end);
+    }
 } //----- Fin de Fetch
-
-
-
-
-////////////////////
-/*
- * pour ADD
- * bien faire gaffe à preciser qu'il ne faut pas mettre despaces
- * cout << "Departure city : ";
- * cin >> start;
- * cout << "Transportation mode : ";
- * cin >> transport;
- * cout << "Arrival city : ";
- * cin >> end;
- * puis créer un nouveau trip avec tous ces param et l'ajouter à la liste
- */

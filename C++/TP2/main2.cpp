@@ -2,7 +2,7 @@
 #include "List.h"
 
 
-int main(){
+/*int main(){
     Trip trip = Trip("Lyon" , "Paris");
     Trip trip2 = Trip("Lyon" , "Rabat");
     Trip trip3 = Trip("Paris", "Loire");
@@ -17,4 +17,4 @@ int main(){
 
     list.Fetch("Lyon" , "Paris");
 
-}
+}*/

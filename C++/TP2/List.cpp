@@ -1,5 +1,5 @@
 #include "List.h"
-
+using namespace std;
 
 
 List::List(){
@@ -12,7 +12,7 @@ List::List(Trip & aTrip) {
     size = 1;
 }
 
-void List::Add(const Trip &aTrip)
+void List::AddTrip(const Trip &aTrip)
 // Adds a new Node(Trip) to the end of the list and increments size
 {
     // If the list is empty , set the first element to the node created
@@ -35,12 +35,7 @@ void List::Add(const Trip &aTrip)
     size++;
 }
 
-void List::Display() {
-    if(first == nullptr){
-        cout << "Empty list" << endl;
-        return;
-    }
-
+void List::DisplayTrip() const {
     if(size == 1){
         first->Display();
         return;
@@ -77,7 +72,7 @@ int List::Fetch(const Trip &aTrip)
     return -1;
 }
 
-void List::Fetch(char *start, char *end) const
+void List::FetchTrip(char *start, char *end) const
 // Searches a trip by start and end
 // Returns the trip if found, else returns a default null trip
 {
@@ -102,4 +97,9 @@ void List::Fetch(char *start, char *end) const
     }
 
     cout << "Trip from " << start << " to " << end << " does not exist" << endl;
+}
+
+int List::GetSize() const
+{
+    return size;
 }

@@ -14,7 +14,7 @@
 #define NODE_H
 
 //--------------------------------------------------- Interfaces utilisées
-using namespace std;
+
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -47,7 +47,7 @@ public:
 
     void setNext(Node * aNode);
 
-    virtual void Display();
+    virtual void Display() const;
 
     bool operator== (const Node & aNode) const;
 };

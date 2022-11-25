@@ -3,11 +3,11 @@
 Node::Node()
 // Default constructor
 {
-    trip = Trip2();
+    trip = Trip();
     next = nullptr;
 }
 
-Node::Node(const Trip2 & atrip)
+Node::Node(const Trip & atrip)
 // Constructor
 {
     trip = atrip;
@@ -35,7 +35,7 @@ void Node::Display()
 Node::~Node()
 // Destructor
 {
-    trip.~Trip2();
+    trip.~Trip();
 }
 
 bool Node::operator==(const Node &aNode)const
@@ -45,6 +45,6 @@ bool Node::operator==(const Node &aNode)const
     return this->trip == aNode.trip;
 }
 
-Trip2 Node::getTrip() {
+Trip Node::getTrip() {
     return trip;
 }

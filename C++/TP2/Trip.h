@@ -14,16 +14,16 @@ protected:
 public:
 
     Trip();
-    explicit Trip(const char* start, const char*  end, const char* transport);
+    explicit Trip(const char* start, const char*  end, const char* transport = nullptr);
 
-    char* GetStart();
-    char* GetEnd();
+    char* GetStart ( ) const;
+    char* GetEnd ( ) const;
 
-    bool operator == (const Trip & aTrip) const;
+    bool operator == ( const Trip & aTrip ) const;
 
-    virtual void Display() const;
+    virtual void Display ( ) const;
 
-    virtual ~Trip();
+    virtual ~Trip ( );
 };
 
 

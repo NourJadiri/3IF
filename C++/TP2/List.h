@@ -16,7 +16,7 @@ public:
     explicit List(Trip & aTrip);
 
     int Fetch(const Trip & aTrip);
-    void FetchTrip(char* start ,char* end) const;
+    void FetchTrip(const char* start, const char* end) const;
     void AddTrip(const Trip & aTrip);
     void DisplayTrip() const;
     int GetSize() const;

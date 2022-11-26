@@ -39,7 +39,7 @@ Node::~Node()
     trip.~Trip();
 }
 
-bool Node::operator==(const Node &aNode)const
+bool Node::operator== ( const Node &aNode )const
 // Overwrites the == operator
 // Nodes are equal if the trips they contain are equal
 {

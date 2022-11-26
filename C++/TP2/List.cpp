@@ -75,26 +75,24 @@ int List::Fetch(const Trip &aTrip)
     return -1;
 }
 
-void List::FetchTrip(char *start, char *end) const
+void List::FetchTrip(const char *start, const char *end) const
 // Searches a trip by start and end
 // Returns the trip if found, else returns a default null trip
 {
     if (first == nullptr) {
-        cerr << "error : Fetching in empty list" << endl;
+        cerr << "error: Fetching in empty list" << endl;
         return;
     }
 
-    Trip trip = Trip(start, end, nullptr);
+    Trip aTrip = Trip(start, end);
+
     Node *current = first;
-
-    // If list is empty, throws error
-
     int found = 0;
     while(current != nullptr){
-        if(current->getTrip() == trip){
+        if(current->getTrip() == aTrip){
             if (!found)
             { // if this is the first trip found, print a txt
-                cout << "Trip found !"<<endl;
+                cout << "Trip found!" << endl;
             }
             found = 1;
             cout << "\t-> ";
@@ -105,7 +103,7 @@ void List::FetchTrip(char *start, char *end) const
 
     if (!found)
     {
-        cout << "Trip from " << start << " to " << end << " does not exist" << endl;
+        cout << "Trip from " << start << " to " << end << " does not exist..." << endl;
     }
 }
 

@@ -14,19 +14,19 @@ Trip::Trip(const char* startCity, const char* endCity, const char* trspt)
 {
     start = (char*)malloc(strlen(startCity)+1);
     end = (char*)malloc(strlen(endCity)+1);
-    transport = (char*)malloc(strlen(trspt)+1);
+    transport = (char*)malloc(sizeof(char)*64);
     strcpy(start, startCity);
     strcpy(end, endCity);
-    strcpy(transport, trspt);
+    if(trspt != nullptr) strcpy(transport, trspt);
 }
 
-char *Trip::GetStart()
+char *Trip::GetStart ( ) const
 // returns attribute char* start
 {
     return start;
 }
 
-char *Trip::GetEnd()
+char *Trip::GetEnd ( ) const
 // returns attribute char* end
 {
     return end;
@@ -35,7 +35,7 @@ char *Trip::GetEnd()
 bool Trip::operator== ( const Trip &aTrip ) const
 // Two trips are equal if their start and their ends are the same
 {
-    return (!strcmp(start,aTrip.start) && !strcmp(end,aTrip.end));
+    return (!strcmp(start, aTrip.GetStart()) && !strcmp(end, aTrip.GetEnd()));
 }
 
 void Trip::Display ( ) const

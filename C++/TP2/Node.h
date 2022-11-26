@@ -34,11 +34,11 @@ protected:
 
 public:
 //-------------------------------------------- Constructeurs - destructeur
-    Node();
+    //Node();
 
     ~Node ( );
 
-    explicit Node (const Trip & aTrip);
+    explicit Node (const Trip & aTrip = Trip());
 
 //-------------------------------------------- Member methods
     Node* getNext();

@@ -1,17 +1,17 @@
 #include "Node.h"
 #include "Trip.h"
 
-Node::Node()
+/*Node::Node()
 // Default constructor
 {
     trip = Trip();
     next = nullptr;
-}
+}*/
 
-Node::Node(const Trip & atrip)
+Node::Node(const Trip & aTrip)
 // Constructor
 {
-    trip = atrip;
+    trip = aTrip;
     next = nullptr;
 }
 

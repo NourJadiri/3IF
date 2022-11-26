@@ -128,13 +128,18 @@ void Catalogue::Add ( )
 // Algorithme :
 //
 {
-    char *start = (char*)malloc(sizeof(char)*64);
-    char* end = (char*)malloc(sizeof(char)*64);;
-    char* transport = (char*)malloc(sizeof(char)*64);;
+    //char *start = (char*)malloc(sizeof(char)*64);
+    //char* end = (char*)malloc(sizeof(char)*64);
+    //char* transport = (char*)malloc(sizeof(char)*64);
+    //ComposedTrip newCTrip;
+    char start[64] = {};
+    char end[64] = {};
+    char transport[64] = {};
     cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip";
     cout << "\n\tinsert the city of departure: ";
     cin >> start;
+
     int going = 1;
     while (going) {
         cout << "\n\tinsert the kind of transport used: ";
@@ -143,6 +148,7 @@ void Catalogue::Add ( )
         cin >> end;
         Trip newTrip = Trip(start, end, transport);
         tripList.AddTrip(newTrip);
+        //newCTrip.AddTrip(newTrip);
         cout << "\ndo you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
         cin >> going;
@@ -150,6 +156,7 @@ void Catalogue::Add ( )
             strcpy(start, end);
         }
     }
+    //tripList.AddTrip(newCTrip);
 
 } //----- Fin de Add
 

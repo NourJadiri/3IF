@@ -1,7 +1,6 @@
 #ifndef LIST_H
 #define LIST_H
 #define DEFAULT_LIST_SIZE 0
-
 #include "Node.h"
 
 class List : public Node

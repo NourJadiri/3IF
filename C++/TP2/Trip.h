@@ -7,14 +7,14 @@
 
 class Trip {
 protected:
-    char* start{} ;
-    char* end{};
-    char* transport{};
+    char* start;
+    char* end;
+    char* transport;
 
 public:
 
-    //Trip();
-    Trip(char* start = nullptr, char*  end = nullptr, char* transport = nullptr);
+    Trip();
+    explicit Trip(const char* start, const char*  end, const char* transport);
 
     char* GetStart();
     char* GetEnd();

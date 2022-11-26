@@ -1,19 +1,23 @@
 #include "Trip.h"
 using namespace std;
 
-/*Trip::Trip()
+Trip::Trip()
 // Default constructor
 {
-    start = "Null";
-    end = "Null";
-}*/ ///////////// je crois yen a pas besoin mais a verifier
+    start = nullptr;
+    end = nullptr;
+    transport = nullptr;
+}
 
-Trip::Trip(char* start, char* end, char* transport)
-// Constructor that takes start and end as a parameter
+Trip::Trip(const char* startCity, const char* endCity, const char* trspt)
+// Constructor that takes start, end and transport as a parameter
 {
-    this->start = start;
-    this->end = end;
-    this->transport = transport;
+    start = (char*)malloc(strlen(startCity)+1);
+    end = (char*)malloc(strlen(endCity)+1);
+    transport = (char*)malloc(strlen(trspt)+1);
+    strcpy(start, startCity);
+    strcpy(end, endCity);
+    strcpy(transport, trspt);
 }
 
 char *Trip::GetStart()
@@ -28,18 +32,19 @@ char *Trip::GetEnd()
     return end;
 }
 
-bool Trip::operator==(const Trip &aTrip) const
+bool Trip::operator== ( const Trip &aTrip ) const
 // Two trips are equal if their start and their ends are the same
 {
     return (!strcmp(start,aTrip.start) && !strcmp(end,aTrip.end));
 }
 
-void Trip::Display() const
+void Trip::Display ( ) const
 // Displays the trip
 {
     cout << "from: " << start << " to: " << end << ", by " << transport << endl;
 }
 
-Trip::~Trip()= default;
+Trip::~Trip ( )
+= default;
 
 

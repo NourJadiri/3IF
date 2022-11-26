@@ -79,12 +79,12 @@ void List::FetchTrip(char *start, char *end) const
 // Searches a trip by start and end
 // Returns the trip if found, else returns a default null trip
 {
-    if(first == nullptr) {
+    if (first == nullptr) {
         cerr << "error : Fetching in empty list" << endl;
         return;
     }
 
-    Trip trip = Trip(start, end);
+    Trip trip = Trip(start, end, nullptr);
     Node *current = first;
 
     // If list is empty, throws error

@@ -17,9 +17,11 @@
 #include <iostream>
 #include <limits>
 //------------------------------------------------------ Include personnel
-
+#include "ComposedTrip.h"
 #include "Catalogue.h"
 #include "List.h"
+#include "SimpleTrip.h"
+
 using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
@@ -133,30 +135,37 @@ void Catalogue::Add ( )
     char* start = new char[64];
     char* end = new char[64];
     char* transport = new char[64];
-    //ComposedTrip newCTrip;
     cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip"<< endl;
     cout << "\tinsert the city of departure:" << endl;
     cin >> start ;
     cout << endl;
-    int going = 1;
+    int going = true;
 
     while (going) {
         cout <<"\tinsert the kind of transport used:" << endl;
         cin >> transport;
         cout << "\tinsert the city of arrival:" << endl;
         cin >> end;
-        Trip newTrip = Trip(start, end);
-        tripList.AddTrip(newTrip);
-        //newCTrip.AddTrip(newTrip);
         cout << endl << "Do you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
+        SimpleTrip newSTrip = SimpleTrip(start, end); // SIMPLE TRIP
+
         cin >> going;
-        if (going){
+        // FAIRE EXCEPTIONS POUR LE GOING QU'IL SOIT BIEN ENTRE 1 OU 0
+        if (going)
+        {
+            ComposedTrip newCTrip = ComposedTrip(?????);// ON CREE UN COMPOSED TRIP
+            nCTrip.AddSimpleTrip(newTrip); // ON ADD LE PREMIER SIMPLE TRIP A CE NV COMPOSED TRIP
             strcpy(start, end);
         }
+        else
+        {
+            AddSimpleTrip(newTrip); // ON ADD LE SIMPLE TRIP
+        }
     }
-    //tripList.AddTrip(newCTrip);
+    tripList.AddTrip(newCTrip); // ON ADD LE COMPOSED TRIP
+
     delete[] start;
     delete[] end;
     delete[] transport;
@@ -170,12 +179,12 @@ void Catalogue::Fetch ( ) const
         cout << "Unfortunately, there are no trips yet..." << endl;
     } else {
         cout << "let's find you the best way to get to your destination!" << endl;
-        char* start = (char*)malloc(sizeof(char)*64);
-        char* end = (char*)malloc(sizeof(char)*64);
+        char* start = new char[64];
+        char* end = new char[64];
         cout << "where do you wanna go to?" << endl;
-        cin >> *end;
+        cin >> end;
         cout << "and where do you wanna leave from?" << endl;
-        cin >> *start;
+        cin >> start;
         tripList.FetchTrip(start, end);
     }
 } //----- Fin de Fetch

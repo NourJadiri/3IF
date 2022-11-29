@@ -127,7 +127,7 @@ void Catalogue::Display ( ) const
     }
 } //----- Fin de Display
 
-void Catalogue::Add ( )
+/*void Catalogue::Add ( )
 // Algorithme :
 //
 {
@@ -220,7 +220,29 @@ void Catalogue::Add ( )
     delete[] end;
     delete[] transport;
     delete newSTrip;
-} //----- Fin de Add
+} //----- Fin de Add*/
+
+void Catalogue::Add(){
+
+    char* start = new char[64];
+    char* end = new char[64];
+    char* transport = new char[64];
+
+    cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
+    cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip"<< endl;
+    cout << "-----insert the city of departure :";
+    cin >> start ;
+    cout << "-----insert the city of arrival :";
+    cin >> end;
+    cout << "-----insert the kind of transport used :";
+    cin >> transport;
+    Trip* newSTrip = new SimpleTrip(start , end , transport); // on aura au moins un simple trip.
+    tripList.AddTrip(newSTrip);
+
+    delete [] start;
+    delete [] end ;
+    delete [] transport;
+}
 
 void Catalogue::Fetch ( ) const
 // Algorithme :

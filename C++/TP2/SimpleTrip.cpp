@@ -54,9 +54,7 @@ void SimpleTrip::Display ( ) const
 // Algorithme :
 //
 {
-
-    Trip::Display();
-    cout << " by " << transportation << endl;
+    cout << "from " << start << " to " << end << " by " << transportation;
 }
 
 char* SimpleTrip::GetTransport() const {

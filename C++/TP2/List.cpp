@@ -36,7 +36,7 @@ void List::AddTrip(Trip *aTrip)
     size++;
 }
 
-void List::Display () const
+void List::Display (bool isComposedTrip) const
 // Diplays the trips of the list
 {
     // If the first element is null (list still empty)
@@ -46,15 +46,15 @@ void List::Display () const
     }
 
     Node *current = first;
-    int i = 1;
-
     while (current != nullptr) {
-        cout << "trip " << i << " -> ";
         current->Display();
+        if (isComposedTrip)
+            cout << " - " ;
+        else
+            cout << endl;
         current = current->getNext();
-        i++;
     }
-
+    cout << endl;
 }
 
 List::~List(){

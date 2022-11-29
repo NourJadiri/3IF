@@ -149,8 +149,8 @@ void Catalogue::Add ( )
         cin >> end;
         cout << endl << "Do you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
-        SimpleTrip newSTrip = SimpleTrip(start, end, transport); // on aura au moins un simple trip
-        ComposedTrip newCTrip = ComposedTrip(); // au cas ou on ait un composed trip
+        SimpleTrip* newSTrip = new SimpleTrip(start, end, transport); // on aura au moins un simple trip
+        ComposedTrip* newCTrip = new ComposedTrip(); // au cas ou on ait un composed trip
 
         // to deal with exceptions to 'going'
         for( ; ; )
@@ -172,7 +172,7 @@ void Catalogue::Add ( )
         {
             // alors on aura affaire a un composed trip
             composed = true;
-            newCTrip.AddSimpleTrip(newSTrip); // on add le premier simple trip au composed trip
+            newCTrip->AddSimpleTrip(newSTrip); // on add le premier simple trip au composed trip
             strcpy(start, end); // la ville d'arrivee du 1er trajet sera la ville de depart du suivant
         }
         else if (!composed) // on doit ajouter un simpleTrip

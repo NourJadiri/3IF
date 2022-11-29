@@ -31,6 +31,13 @@ void ComposedTrip::Display ( ostream& os ) const
     os << "not yet implemented!"; 
 } //----- Fin de Display
 
+void AddSimpleTrip (SimpleTrip* newSTrip)
+// Algorithme :
+//
+{
+    ; // not implemented 
+} //----- Fin de AddSimpleTrip
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 ostream& operator<< ( ostream & os, const ComposedTrip & aComposedTrip )

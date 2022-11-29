@@ -1,8 +1,8 @@
-trajet: Main.o Catalogue.o ComposedTrip.o List.o Node.o SimpleTrip.o Trip.o
-	g++ -ansi -pedantic -Wall -std=c++11 -o trajet Main.o Catalogue.o ComposedTrip.o List.o Node.o SimpleTrip.o Trip.o
+trajet: main.o Catalogue.o ComposedTrip.o List.o Node.o SimpleTrip.o Trip.o
+	g++ -ansi -pedantic -Wall -std=c++11 -o trajet main.o Catalogue.o ComposedTrip.o List.o Node.o SimpleTrip.o Trip.o
 
-Main.o: Main.cpp
-	g++ -ansi -pedantic -Wall -std=c++11 -o Main.o -c Main.cpp
+main.o: main.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o Main.o -c main.cpp
 
 Catalogue.o: Catalogue.cpp
 	g++ -ansi -pedantic -Wall -std=c++11 -o Catalogue.o -c Catalogue.cpp

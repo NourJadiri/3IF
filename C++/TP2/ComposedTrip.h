@@ -39,6 +39,12 @@ public:
     // Contrat :
     //
 
+    void AddSimpleTrip (SimpleTrip newSTrip);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
 
 //------------------------------------------------- Surcharge d'opérateurs
     friend std::ostream& operator<< ( std::ostream & os, const ComposedTrip & aComposedTrip );

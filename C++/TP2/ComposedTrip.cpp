@@ -42,11 +42,18 @@ void ComposedTrip::Display ( ostream& os ) const
     os << "not yet implemented!"; 
 } //----- Fin de Display
 
-void AddSimpleTrip (SimpleTrip* newSTrip)
+void ComposedTrip::Display ( ) const
 // Algorithme :
 //
 {
-    ; // not implemented 
+    trips.Display();
+} //----- Fin de Display
+
+void ComposedTrip::AddSimpleTrip (SimpleTrip* newSTrip)
+// Algorithme :
+//
+{
+    trips.AddTrip(newSTrip); // not implemented 
 } //----- Fin de AddSimpleTrip
 
 

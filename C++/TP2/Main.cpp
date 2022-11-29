@@ -16,7 +16,7 @@
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "SimpleTrip.h"
-
+using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
@@ -26,9 +26,12 @@ int main ( )
 // Creation d'un catalogue vide
 {
     Trip* st1 = new SimpleTrip("Paris","Lyon","Car");
-    st1->Display();
-    
+    Trip* st2 = new SimpleTrip("Lyon","Dresden","Foot");
+    cout << st1->GetTransport() << endl;
+    List list = List(st1);
+    list.AddTrip(st2);
 
+    list.Display();
 
     return 0;
 } //----- Fin de Main

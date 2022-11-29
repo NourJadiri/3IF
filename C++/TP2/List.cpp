@@ -8,12 +8,12 @@ List::List(){
     size = DEFAULT_LIST_SIZE;
 }
 
-List::List(Trip & aTrip) {
+List::List(Trip *aTrip){
     first = new Node(aTrip);
     size = 1;
 }
 
-void List::AddTrip(const Trip &aTrip)
+void List::AddTrip(Trip *aTrip)
 // Adds a new Node(Trip) to the end of the list and increments size
 {
     // If the list is empty , set the first element to the node created
@@ -62,15 +62,15 @@ List::~List(){
     size = DEFAULT_LIST_SIZE;
 }
 
-int List::Fetch(const Trip &aTrip)
+int List::Fetch(const Trip *aTrip)
 // returns the index of the trip (ranging from 0 to size of the List)
 // returns -1 if the trip is not found
 {
-    int i = 0;
+    unsigned int i = 0;
     Node* current = first;
 
     while(i <= size){
-        if(current->getTrip() == aTrip) return i;
+        if(*current->getTrip() == *aTrip) return i;
         current = current->getNext();
         i++;
     }
@@ -86,17 +86,15 @@ void List::FetchTrip(const char *start, const char *end) const
         return;
     }
 
-    Trip aTrip = Trip(start, end);
-
     Node *current = first;
-    int found = 0;
+    bool found = false;
     while(current != nullptr){
-        if(current->getTrip() == aTrip){
+        if(!strcmp(start,current->getTrip()->GetStart()) && !strcmp(end,current->getTrip()->GetEnd())){
             if (!found)
             { // if this is the first trip found, print a txt
                 cout << "Trip found!" << endl;
             }
-            found = 1;
+            found = true;
             cout << "\t-> ";
             current->Display();
         }

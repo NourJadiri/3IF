@@ -57,5 +57,10 @@ void SimpleTrip::Display ( ) const
 
     Trip::Display();
     cout << " by " << transportation << endl;
-} //----- Fin de Display
+}
+
+char *SimpleTrip::GetTransport() const {
+    return transportation;
+}
+//----- Fin de Display
 

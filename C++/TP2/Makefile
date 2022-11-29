@@ -1,42 +1,26 @@
-#Outils
-CXX=g++
-LD=g++
-RM=rm
-ECHO=echo
+trajet: Main.o Catalogue.o ComposedTrip.o List.o Node.o SimpleTrip.o Trip.o
+	g++ -ansi -pedantic -Wall -std=c++11 -o trajet Main.o Catalogue.o ComposedTrip.o List.o Node.o SimpleTrip.o Trip.o
 
-#Options
-CXXFLAGS=-ansi -pedantic -Wall -std=c++11
-LDFLAGS=
-RMFLAGS=-rf
+Main.o: Main.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o Main.o -c Main.cpp
 
-#Fichiers
-HEAD=$(wildcard *.h)
-SRC=$(wildcard *.cpp)
-OBJ=$(SRC:.cpp=.o)
-LIBS=
+Catalogue.o: Catalogue.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o Catalogue.o -c Catalogue.cpp
 
-#Cibles speciales
-EXE=out
-RUN=execute
-CLEAN=clean
-.PHONY: $(CLEAN) $(RUN)
+ComposedTrip.o: ComposedTrip.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o ComposedTrip.o -c ComposedTrip.cpp
 
-#Cibles
-$(EXE): $(OBJ)
-	@$(ECHO) Edition des liens
-	@$(LD) $(LDFLAGS) $^ -o $@ $(LIBS)
+List.o: List.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o List.o -c List.cpp
 
-$(RUN): $(EXE)
-	@$(ECHO) Execution de $^
-	@./$(EXE)
+Node.o: Node.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o Node.o -c Node.cpp
 
-$(CLEAN):
-	@$(RM) $(RMFLAGS) $(EXE) $(OBJ)
+SimpleTrip.o: SimpleTrip.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o SimpleTrip.o -c SimpleTrip.cpp
 
-#Dependances complementaires
+Trip.o: Trip.cpp
+	g++ -ansi -pedantic -Wall -std=c++11 -o Trip.o -c Trip.cpp
 
-#Regles d'inference
-%.o: %.cpp
-	@$(ECHO) Compilation de $<
-	@$(CXX) $(CXXFLAGS) -c $< -o $@
-
+clean:
+	rm -f prog *.o 

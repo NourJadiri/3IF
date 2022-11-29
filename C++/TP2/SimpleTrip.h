@@ -33,6 +33,9 @@ class SimpleTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
+
+    char* GetTransport() const;
+
     void Display ( ) const override;
     // Mode d'emploi :
     //
@@ -49,7 +52,6 @@ public:
     // Mode d'emploi :
     //
     // Contrat :
-    //
 
     ~SimpleTrip ( );
     // Mode d'emploi :

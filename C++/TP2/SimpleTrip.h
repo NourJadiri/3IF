@@ -51,7 +51,7 @@ public:
     // Contrat :
     //
 
-    virtual ~SimpleTrip ( ); ///////////// pourquoi un destructeur en virtual??
+    ~SimpleTrip ( );
     // Mode d'emploi :
     //
     // Contrat :

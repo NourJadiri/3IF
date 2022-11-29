@@ -122,7 +122,7 @@ void Catalogue::Display ( ) const
             cout << "There is only 1 trip ";
         }
         cout << "available at the moment:" << endl;
-        tripList.DisplayTrip();
+        tripList.Display();
     }
 } //----- Fin de Display
 
@@ -137,7 +137,7 @@ void Catalogue::Add ( )
     cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip"<< endl;
     cout << "\tinsert the city of departure:" << endl;
-    cin >> *start ;
+    cin >> start ;
     cout << endl;
     int going = 1;
 

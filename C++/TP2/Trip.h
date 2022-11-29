@@ -20,7 +20,7 @@ public:
 
     virtual bool operator == ( const Trip & aTrip ) const;
 
-    virtual void Display ( ) const = 0;
+    virtual void Display ( ) const;
 
     virtual ~Trip ( );
 };

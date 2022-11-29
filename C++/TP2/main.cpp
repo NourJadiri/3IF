@@ -9,21 +9,28 @@
                            vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
-//---------- Interface de la classe <Main> (fichier Main.h) ----------------
-#if ! defined ( MAIN_H )
-#define MAIN_H
+//---------- Réalisation de la classe <Main> (fichier Main.cpp) ------------
 
-//------------------------------------------------------------------------
-// Rôle de la classe <Main>
-// Déclare la fonction main() pour lancer et commencer le programme
-//------------------------------------------------------------------------
+//---------------------------------------------------------------- INCLUDE
 
+//------------------------------------------------------ Include personnel
+#include "Catalogue.h"
+#include "SimpleTrip.h"
+using namespace std;
 //----------------------------------------------------------------- PUBLIC
-//----------------------------------------------------- Méthodes publiques
-int main ( );
-// Mode d'emploi :
-// Point de depart du programme afin de creer un catalogue (vide)
-// Contrat :
-// Pas d'appel a cette fonction, se fait par le systeme lors de l'execution
 
-#endif // MAIN_H
+//----------------------------------------------------- Méthodes publiques
+int main ( )
+// Algorithme :
+// Lancement du programme par le système lors de l'execution
+// Creation d'un catalogue vide
+{
+    Trip* st1 = new SimpleTrip("Paris","Lyon","Car");
+    Trip* st2 = new SimpleTrip("Lyon","Dresden","Pied");
+    List list = List(st1);
+    list.AddTrip(st2);
+
+    list.Display();
+
+    return 0;
+} //----- Fin de Main

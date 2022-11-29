@@ -39,7 +39,13 @@ public:
     // Contrat :
     //
 
-    void AddSimpleTrip (SimpleTrip newSTrip);
+    void Display ( ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void AddSimpleTrip (SimpleTrip* newSTrip);
     // Mode d'emploi :
     //
     // Contrat :

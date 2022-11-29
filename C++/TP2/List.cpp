@@ -66,7 +66,7 @@ int List::Fetch(const Trip *aTrip)
 // returns the index of the trip (ranging from 0 to size of the List)
 // returns -1 if the trip is not found
 {
-    int i = 0;
+    unsigned int i = 0;
     Node* current = first;
 
     while(i <= size){

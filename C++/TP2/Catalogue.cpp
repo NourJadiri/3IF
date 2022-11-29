@@ -45,7 +45,7 @@ void Catalogue::Launch ( )
         cout << "\t4: close Gouggle Mapse" << endl;
 
         // pour bien avoir un CHIFFRE et pas une lettre par exemple
-        while (true)
+        for( ; ; )
         {
             cin >> choice;
             if (!cin)
@@ -57,7 +57,6 @@ void Catalogue::Launch ( )
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
             }
-
             else break;
         }
 
@@ -140,7 +139,8 @@ void Catalogue::Add ( )
     cout << "\tinsert the city of departure:" << endl;
     cin >> start ;
     cout << endl;
-    int going = true;
+    bool going = true;
+    bool composed = false;
 
     while (going) {
         cout <<"\tinsert the kind of transport used:" << endl;
@@ -149,23 +149,41 @@ void Catalogue::Add ( )
         cin >> end;
         cout << endl << "Do you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
-        SimpleTrip newSTrip = SimpleTrip(start, end); // SIMPLE TRIP
+        SimpleTrip newSTrip = SimpleTrip(start, end, transport); // on aura au moins un simple trip
+        ComposedTrip newCTrip = ComposedTrip(); // au cas ou on ait un composed trip
 
-        cin >> going;
-        // FAIRE EXCEPTIONS POUR LE GOING QU'IL SOIT BIEN ENTRE 1 OU 0
-        if (going)
+        // to deal with exceptions to 'going'
+        for( ; ; )
         {
-            ComposedTrip newCTrip = ComposedTrip(?????);// ON CREE UN COMPOSED TRIP
-            nCTrip.AddSimpleTrip(newTrip); // ON ADD LE PREMIER SIMPLE TRIP A CE NV COMPOSED TRIP
-            strcpy(start, end);
+            cin >> going;
+            if (!cin && (going != 0 || going != 1))
+            {
+                cout << "Wrong input, please enter a NUMBER, either 1 or 2" << endl;
+                // pour clear l'erreur
+                cin.clear();
+                // pour enlever ce qui reste dans le buffer
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else break;
         }
-        else
+
+        if (going && !composed)
         {
-            AddSimpleTrip(newTrip); // ON ADD LE SIMPLE TRIP
+            // alors on aura affaire a un composed trip
+            composed = true;
+            newCTrip.AddSimpleTrip(newSTrip); // on add le premier simple trip au composed trip
+            strcpy(start, end); // la ville d'arrivee du 1er trajet sera la ville de depart du suivant
+        }
+        else if (!composed) // on doit ajouter un simpleTrip
+        {
+            tripList.AddTrip(newSTrip); // on add le simple trip a notre catalogue
+        }
+        else // on doit ajouter un composedTrip
+        {
+            tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
         }
     }
-    tripList.AddTrip(newCTrip); // ON ADD LE COMPOSED TRIP
-
     delete[] start;
     delete[] end;
     delete[] transport;

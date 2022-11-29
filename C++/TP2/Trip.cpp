@@ -30,6 +30,12 @@ char *Trip::GetEnd ( ) const
     return end;
 }
 
+void Trip::Display() const
+// Displays the trip information
+{
+    cout << "Trip from " << start << " to " << end ;
+}
+
 bool Trip::operator== ( const Trip &aTrip ) const
 // Two trips are equal if their start and their ends are the same
 {

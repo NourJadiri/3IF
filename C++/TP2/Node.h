@@ -9,6 +9,7 @@
 //---------- Interface de la classe <Node> (fichier Node.h) ----------------
 #include <iostream>
 #include "Trip.h"
+#include "SimpleTrip.h"
 
 #ifndef NODE_H
 #define NODE_H

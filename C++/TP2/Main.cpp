@@ -25,12 +25,14 @@ int main ( )
 // Lancement du programme par le système lors de l'execution
 // Creation d'un catalogue vide
 {
-    SimpleTrip st1 = SimpleTrip("Paris","Lyon","Car");
+    SimpleTrip st1 =  SimpleTrip("Paris","Lyon","Car");
     st1.Display();
 
     List list = List();
     list.AddTrip(st1);
 
     list.Display();
+
+
     return 0;
 } //----- Fin de Main

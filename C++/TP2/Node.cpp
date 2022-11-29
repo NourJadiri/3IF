@@ -1,12 +1,7 @@
 #include "Node.h"
 #include "Trip.h"
+#include "SimpleTrip.h"
 
-/*Node::Node()
-// Default constructor
-{
-    trip = Trip();
-    next = nullptr;
-}*/
 
 Node::Node(const Trip & aTrip)
 // Constructor
@@ -36,7 +31,7 @@ void Node::Display() const
 Node::~Node()
 // Destructor
 {
-    /*trip.~Trip();*/
+
 }
 
 bool Node::operator== ( const Node &aNode )const

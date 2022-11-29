@@ -44,7 +44,7 @@ void Catalogue::Launch ( )
         cout << "\t3: look for a trip" << endl;
         cout << "\t4: close Gouggle Mapse" << endl;
 
-        // pour bien avoir un CHIFFRE et pas une lettre par exemple
+        // pour gerer les exceptions
         for( ; ; )
         {
             cin >> choice;
@@ -132,6 +132,7 @@ void Catalogue::Add ( )
 //
 {
     bool going = true;
+    bool composed = false;
 
     char* start = new char[64];
     char* end = new char[64];
@@ -170,6 +171,7 @@ void Catalogue::Add ( )
 
     while (going) {
         // on a alors un composed trip
+        composed = true;
         strcpy(start, end); // la ville d'arrivee du 1er trajet sera la ville de depart du suivant
         cout <<"\tinsert the kind of transport used:" << endl;
         cin >> transport;
@@ -201,17 +203,23 @@ void Catalogue::Add ( )
             }
             else break;
         }
-
     }
-    tripList.AddTrip(newSTrip); // on add le simple trip a notre catalogue
+
+    if (composed)
+    {
+        ComposedTrip* newCTrip = new ComposedTrip(listComposedTrip);
+        tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
+        // no need to delete newCTrip, it will be automatically done
+    }
+    else
+    {
+        tripList.AddTrip(newSTrip); // on add le simple trip a notre catalogue
+    }
+
     delete[] start;
     delete[] end;
     delete[] transport;
     delete newSTrip;
-
-    ComposedTrip* newCTrip = new ComposedTrip(listComposedTrip);
-    tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
-    // no need to delete newCTrip, it will be automatically done
 } //----- Fin de Add
 
 void Catalogue::Fetch ( ) const

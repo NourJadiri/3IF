@@ -25,15 +25,6 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------- Constructeurs - destructeur
-ComposedTrip::ComposedTrip ( )
-// Calls generic ComposedTrip constructor
-//
-{
-    #ifdef MAP
-        cout << "Appel au constructeur de <SimpleTrip>" << endl;
-    #endif
-    List simpleTripList;
-}
 
 ComposedTrip::ComposedTrip ( const char* aStart, const char* aEnd, const char* aTransportation ) : Trip(aStart, aEnd)
 
@@ -63,14 +54,16 @@ ostream& operator<< ( ostream & os, const ComposedTrip & aComposedTrip )
 
 
 //-------------------------------------------- Constructeurs - destructeur
+
 ComposedTrip::ComposedTrip ( )
 // Algorithme :
-//
+// Calls generic ComposedTrip constructor
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <ComposedTrip>" << endl;
+    cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
-} //----- Fin de ComposedTrip
+    List simpleTripList;
+} //---- Fin de ComposedTrip
 
 
 ComposedTrip::~ComposedTrip ( )

@@ -48,7 +48,7 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    SimpleTrip ( const char* aStart, const char* aEnd, const char* aTransportation );
+    SimpleTrip ( const char* aStart = nullptr, const char* aEnd = nullptr, const char* aTransportation = nullptr );
     // Mode d'emploi :
     //
     // Contrat :

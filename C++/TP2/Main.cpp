@@ -26,8 +26,7 @@ int main ( )
 // Creation d'un catalogue vide
 {
     Trip* st1 = new SimpleTrip("Paris","Lyon","Car");
-    Trip* st2 = new SimpleTrip("Lyon","Dresden","Foot");
-    cout << st1->GetTransport() << endl;
+    Trip* st2 = new SimpleTrip("Lyon","Dresden","Pied");
     List list = List(st1);
     list.AddTrip(st2);
 

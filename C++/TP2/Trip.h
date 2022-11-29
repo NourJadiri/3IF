@@ -22,6 +22,8 @@ public:
 
     virtual void Display ( ) const = 0;
 
+    virtual char* GetTransport() const = 0;
+
     virtual ~Trip ( );
 };
 

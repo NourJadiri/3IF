@@ -202,18 +202,16 @@ void Catalogue::Add ( )
             else break;
         }
 
-        else // on doit ajouter un composedTrip
-        {
-            ComposedTrip* newCTrip = new ComposedTrip(listComposedTrip);
-            tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
-            // no need to delete newCTrip, it will be automatically done
-        }
     }
     tripList.AddTrip(newSTrip); // on add le simple trip a notre catalogue
     delete[] start;
     delete[] end;
     delete[] transport;
     delete newSTrip;
+
+    ComposedTrip* newCTrip = new ComposedTrip(listComposedTrip);
+    tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
+    // no need to delete newCTrip, it will be automatically done
 } //----- Fin de Add
 
 void Catalogue::Fetch ( ) const

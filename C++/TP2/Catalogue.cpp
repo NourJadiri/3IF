@@ -15,11 +15,12 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-using namespace std;
-
+#include <limits>
 //------------------------------------------------------ Include personnel
+
 #include "Catalogue.h"
 #include "List.h"
+using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -32,7 +33,7 @@ void Catalogue::Launch ( )
     cout << "\nWelcome to the worst version of Gouggle Mapse :)" << endl;
 
     int choice;
-    while (1)
+    while (true)
     {
         cout << "\n-------------------- Menu. --------------------" << endl;
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
@@ -54,6 +55,7 @@ void Catalogue::Launch ( )
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
             }
+
             else break;
         }
 
@@ -128,25 +130,26 @@ void Catalogue::Add ( )
 // Algorithme :
 //
 {
-    char* start = (char*)malloc(sizeof(char)*64);
-    char* end = (char*)malloc(sizeof(char)*64);
-    char* transport = (char*)malloc(sizeof(char)*64);
+    char* start = new char[64];
+    char* end = new char[64];
+    char* transport = new char[64];
     //ComposedTrip newCTrip;
     cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
-    cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip";
-    cout << "\n\tinsert the city of departure: ";
-    cin >> start;
-
+    cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip"<< endl;
+    cout << "\tinsert the city of departure:" << endl;
+    cin >> *start ;
+    cout << endl;
     int going = 1;
+
     while (going) {
-        cout << "\n\tinsert the kind of transport used: ";
+        cout <<"\tinsert the kind of transport used:" << endl;
         cin >> transport;
-        cout << "\n\tinsert the city of arrival: ";
+        cout << "\tinsert the city of arrival:" << endl;
         cin >> end;
-        Trip newTrip = Trip(start, end, transport);
+        Trip newTrip = Trip(start, end);
         tripList.AddTrip(newTrip);
         //newCTrip.AddTrip(newTrip);
-        cout << "\ndo you wish to add another trip from the city of arrival? (composed trip)" << endl;
+        cout << endl << "Do you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
         cin >> going;
         if (going){
@@ -154,7 +157,9 @@ void Catalogue::Add ( )
         }
     }
     //tripList.AddTrip(newCTrip);
-
+    delete[] start;
+    delete[] end;
+    delete[] transport;
 } //----- Fin de Add
 
 void Catalogue::Fetch ( ) const
@@ -168,9 +173,9 @@ void Catalogue::Fetch ( ) const
         char* start = (char*)malloc(sizeof(char)*64);
         char* end = (char*)malloc(sizeof(char)*64);
         cout << "where do you wanna go to?" << endl;
-        cin >> end;
+        cin >> *end;
         cout << "and where do you wanna leave from?" << endl;
-        cin >> start;
+        cin >> *start;
         tripList.FetchTrip(start, end);
     }
 } //----- Fin de Fetch

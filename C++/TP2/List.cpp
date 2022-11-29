@@ -36,23 +36,25 @@ void List::AddTrip(const Trip &aTrip)
     size++;
 }
 
-void List::DisplayTrip() const {
-    if(size == 1){
-        cout << "\ttrip 1 -> ";
-        first->Display();
+void List::Display () const
+// Diplays the trips of the list
+{
+    // If the first element is null (list still empty)
+    if(first == nullptr){
+        cout << "Unfortunately, there are no trips in this list..." << endl;
         return;
-    } else {
-        Node *current = first;
-        int i = 1;
-        while (current->getNext() != nullptr) {
-            cout << "\ttrip " << i << " -> ";
-            current->Display();
-            current = current->getNext();
-            i++;
-        }
-        cout << "\ttrip " << i << " -> ";
-        current->Display();
     }
+
+    Node *current = first;
+    int i = 1;
+
+    while (current != nullptr) {
+        cout << "trip " << i << " -> ";
+        current->Display();
+        current = current->getNext();
+        i++;
+    }
+
 }
 
 List::~List(){

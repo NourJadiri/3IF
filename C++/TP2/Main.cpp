@@ -14,8 +14,8 @@
 //---------------------------------------------------------------- INCLUDE
 
 //------------------------------------------------------ Include personnel
-#include "Main.h"
 #include "Catalogue.h"
+#include "SimpleTrip.h"
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -25,8 +25,12 @@ int main ( )
 // Lancement du programme par le système lors de l'execution
 // Creation d'un catalogue vide
 {
-    Catalogue c;
-    c.Launch();
+    SimpleTrip st1 = SimpleTrip("Paris","Lyon","Car");
+    st1.Display();
 
+    List list = List();
+    list.AddTrip(st1);
+
+    list.Display();
     return 0;
 } //----- Fin de Main

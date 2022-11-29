@@ -6,18 +6,16 @@ Trip::Trip()
 {
     start = nullptr;
     end = nullptr;
-    transport = nullptr;
 }
 
-Trip::Trip(const char* startCity, const char* endCity, const char* trspt)
-// Constructor that takes start, end and transport as a parameter
+Trip::Trip(const char* startCity , const char* endCity)
+// generic Constructor that takes start, end as a parameter
 {
-    start = (char*)malloc(strlen(startCity)+1);
-    end = (char*)malloc(strlen(endCity)+1);
-    transport = (char*)malloc(sizeof(char)*64);
-    strcpy(start, startCity);
-    strcpy(end, endCity);
-    if(trspt != nullptr) strcpy(transport, trspt);
+    start = new char[64];
+    end = new char[64];
+    strcpy(this->start, startCity);
+    strcpy(this->end, endCity);
+
 }
 
 char *Trip::GetStart ( ) const
@@ -38,13 +36,11 @@ bool Trip::operator== ( const Trip &aTrip ) const
     return (!strcmp(start, aTrip.GetStart()) && !strcmp(end, aTrip.GetEnd()));
 }
 
-void Trip::Display ( ) const
-// Displays the trip
-{
-    cout << "from: " << start << " to: " << end << ", by " << transport << endl;
-}
 
-Trip::~Trip ( )
-= default;
+
+Trip::~Trip ( ){
+    delete [] start;
+    delete [] end;
+}
 
 

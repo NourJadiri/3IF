@@ -113,3 +113,8 @@ int List::GetSize() const
 {
     return size;
 }
+
+void List::Sort ( )
+{
+    if (true);
+}

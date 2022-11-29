@@ -33,7 +33,7 @@ class SimpleTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display ( std::ostream & os ) const;
+    void Display ( ) const override;
     // Mode d'emploi :
     //
     // Contrat :
@@ -41,11 +41,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend std::ostream& operator<< ( std::ostream& os, const SimpleTrip & aSimpleTrip );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -67,7 +63,7 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    char* transportation;
+    char* transportation{};
 };
 
 //-------------------------------- Autres définitions dépendantes de <SimpleTrip>

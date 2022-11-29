@@ -9,19 +9,18 @@ class Trip {
 protected:
     char* start;
     char* end;
-    char* transport;
 
 public:
 
     Trip();
-    explicit Trip(const char* start, const char*  end, const char* transport = nullptr);
+    explicit Trip(const char* start , const char* end);
 
-    char* GetStart ( ) const;
-    char* GetEnd ( ) const;
+    virtual char* GetStart ( ) const;
+    virtual char* GetEnd ( ) const;
 
-    bool operator == ( const Trip & aTrip ) const;
+    virtual bool operator == ( const Trip & aTrip ) const;
 
-    virtual void Display ( ) const;
+    virtual void Display ( ) const = 0;
 
     virtual ~Trip ( );
 };

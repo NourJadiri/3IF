@@ -36,7 +36,7 @@ public:
 //-------------------------------------------- Constructeurs - destructeur
     //Node();
 
-    ~Node ( );
+    virtual ~Node ( );
 
     explicit Node (const Trip & aTrip = Trip());
 

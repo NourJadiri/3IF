@@ -36,7 +36,7 @@ void Node::Display() const
 Node::~Node()
 // Destructor
 {
-    trip.~Trip();
+    /*trip.~Trip();*/
 }
 
 bool Node::operator== ( const Node &aNode )const

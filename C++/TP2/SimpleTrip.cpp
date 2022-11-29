@@ -14,8 +14,8 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
 #include <iostream>
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "SimpleTrip.h"
@@ -24,49 +24,38 @@ using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
-//----------------------------------------------------- Méthodes publiques
-void SimpleTrip::Display ( ostream& os ) const
-// Algorithme :
-//
-{
-    os << "de " << start << " a " << end << " en " << transportation; 
-} //----- Fin de Display
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-ostream& operator<< ( ostream& os, const SimpleTrip& aSimpleTrip )
-// Algorithme :
-//
-{
-    aSimpleTrip.Display(os);
-    return os;
-} //----- Fin de operator<<
-
-
 //-------------------------------------------- Constructeurs - destructeur
-SimpleTrip::SimpleTrip ( const char* aStart, const char* aEnd, const char* aTransportation )
-// Algorithme :
-//
+SimpleTrip::SimpleTrip ( const char* aStart, const char* aEnd, const char* aTransportation ) : Trip(aStart, aEnd)
+// Calls generic Trip constructor
+// Copies the transportation
 {
 #ifdef MAP
     cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
-    strcpy(start, aStart);
-    strcpy(end, aEnd);
-    strcpy(transportation, aTransportation);
+
+    transportation = new char[64];
+    strcpy(this->transportation , aTransportation);
 } //----- Fin de SimpleTrip
 
 
 SimpleTrip::~SimpleTrip ( )
-// Algorithme :
-//
+// Destructor
+// Frees the space allocated to transportation
 {
 #ifdef MAP
     cout << "Appel au destructeur de <SimpleTrip>" << endl;
 #endif
+
+    delete [] transportation;
 } //----- Fin de ~SimpleTrip
 
+//----------------------------------------------------- Méthodes publiques
+void SimpleTrip::Display ( ) const
+// Algorithme :
+//
+{
 
-//------------------------------------------------------------------ PRIVE
+    Trip::Display();
+    cout << " by " << transportation << endl;
+} //----- Fin de Display
 
-//----------------------------------------------------- Méthodes protégées

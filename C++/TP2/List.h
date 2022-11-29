@@ -18,7 +18,7 @@ public:
     int Fetch(const Trip & aTrip);
     void FetchTrip(const char* start, const char* end) const;
     void AddTrip(const Trip & aTrip);
-    void DisplayTrip() const;
+    void Display() const;
     int GetSize() const;
 
     ~List();

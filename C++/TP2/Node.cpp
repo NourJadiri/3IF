@@ -3,7 +3,14 @@
 #include "SimpleTrip.h"
 
 
-Node::Node(const Trip & aTrip)
+Node::Node()
+// Default constructor
+{
+    trip = nullptr;
+    next = nullptr;
+}
+
+Node::Node(Trip *aTrip)
 // Constructor
 {
     trip = aTrip;
@@ -25,14 +32,12 @@ void Node::setNext(Node * aNode)
 void Node::Display() const
 // Displays the content of the node
 {
-    trip.Display();
+    trip->Display();
 }
 
-Node::~Node()
+Node::~Node() = default;
 // Destructor
-{
 
-}
 
 bool Node::operator== ( const Node &aNode )const
 // Overwrites the == operator
@@ -41,6 +46,6 @@ bool Node::operator== ( const Node &aNode )const
     return this->trip == aNode.trip;
 }
 
-Trip Node::getTrip() {
+Trip* Node::getTrip() {
     return trip;
 }

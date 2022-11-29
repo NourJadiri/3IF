@@ -30,7 +30,7 @@ class Node {
 //----------------------------------------------------------------- PUBLIC
 
 protected:
-    Trip trip;
+    Trip *trip;
     Node *next;
 
 public:
@@ -39,12 +39,13 @@ public:
 
     virtual ~Node ( );
 
-    explicit Node (const Trip & aTrip = Trip());
+    explicit Node (Trip *aTrip);
 
+    Node();
 //-------------------------------------------- Member methods
     Node* getNext();
 
-    Trip getTrip();
+    Trip* getTrip();
 
     void setNext(Node * aNode);
 

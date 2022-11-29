@@ -13,11 +13,11 @@ public:
 
     List();
 
-    explicit List(Trip & aTrip);
+    explicit List(Trip *aTrip);
 
-    int Fetch(const Trip & aTrip);
+    int Fetch(const Trip *aTrip);
     void FetchTrip(const char* start, const char* end) const;
-    void AddTrip(const Trip & aTrip);
+    void AddTrip(Trip *aTrip);
     void Display() const;
     int GetSize() const;
 

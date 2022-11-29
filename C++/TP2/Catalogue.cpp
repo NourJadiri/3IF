@@ -44,7 +44,7 @@ void Catalogue::Launch ( )
         cout << "\t3: look for a trip" << endl;
         cout << "\t4: close Gouggle Mapse" << endl;
 
-        // pour bien avoir un CHIFFRE et pas une lettre par exemple
+        // pour gerer les exceptions
         for( ; ; )
         {
             cin >> choice;
@@ -131,26 +131,62 @@ void Catalogue::Add ( )
 // Algorithme :
 //
 {
+    bool going = true;
+    bool composed = false;
+
     char* start = new char[64];
     char* end = new char[64];
     char* transport = new char[64];
+
     cout << "let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "first things first, !!!DO NOT INSERT SPACES!!! when you write your trip"<< endl;
     cout << "\tinsert the city of departure:" << endl;
     cin >> start ;
-    cout << endl;
-    bool going = true;
-    bool composed = false;
+    cout <<"\tinsert the kind of transport used:" << endl;
+    cin >> transport;
+    cout << "\tinsert the city of arrival:" << endl;
+    cin >> end;
+
+    Trip* newSTrip = new SimpleTrip(start , end , transport); // on aura au moins un simple trip
+    List listComposedTrip = List(newSTrip);
+
+    cout << endl << "Do you wish to add another trip from the city of arrival? (composed trip)" << endl;
+    cout << "enter 1 for YES or 0 for NO" << endl;
+
+    // to deal with exceptions to 'going'
+    for( ; ; )
+    {
+        cin >> going;
+        if (!cin && (going != 0 || going != 1))
+        {
+            cout << "Wrong input, please enter a NUMBER, either 1 or 2" << endl;
+            // pour clear l'erreur
+            cin.clear();
+            // pour enlever ce qui reste dans le buffer
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        else break;
+    }
 
     while (going) {
+        // on a alors un composed trip
+        composed = true;
+        strcpy(start, end); // la ville d'arrivee du 1er trajet sera la ville de depart du suivant
         cout <<"\tinsert the kind of transport used:" << endl;
         cin >> transport;
         cout << "\tinsert the city of arrival:" << endl;
         cin >> end;
+
+        // update des attributs du simple trip
+        strcpy(newSTrip->GetStart(), start);
+        strcpy(newSTrip->GetEnd(), end);
+        strcpy(newSTrip->GetTransport(), transport);
+        // on ajoute ce simple trip a la liste qui est contenu dans le composed trip
+        listComposedTrip.AddTrip(newSTrip);
+
         cout << endl << "Do you wish to add another trip from the city of arrival? (composed trip)" << endl;
         cout << "enter 1 for YES or 0 for NO" << endl;
-        SimpleTrip* newSTrip = new SimpleTrip(start, end, transport); // on aura au moins un simple trip
-        ComposedTrip* newCTrip = new ComposedTrip(); // au cas ou on ait un composed trip
 
         // to deal with exceptions to 'going'
         for( ; ; )
@@ -167,26 +203,23 @@ void Catalogue::Add ( )
             }
             else break;
         }
-
-        if (going && !composed)
-        {
-            // alors on aura affaire a un composed trip
-            composed = true;
-            newCTrip->AddSimpleTrip(newSTrip); // on add le premier simple trip au composed trip
-            strcpy(start, end); // la ville d'arrivee du 1er trajet sera la ville de depart du suivant
-        }
-        else if (!composed) // on doit ajouter un simpleTrip
-        {
-            tripList.AddTrip(newSTrip); // on add le simple trip a notre catalogue
-        }
-        else // on doit ajouter un composedTrip
-        {
-            tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
-        }
     }
+
+    if (composed)
+    {
+        ComposedTrip* newCTrip = new ComposedTrip(listComposedTrip);
+        tripList.AddTrip(newCTrip); // on add le composedTrip a notre catalogue
+        // no need to delete newCTrip, it will be automatically done
+    }
+    else
+    {
+        tripList.AddTrip(newSTrip); // on add le simple trip a notre catalogue
+    }
+
     delete[] start;
     delete[] end;
     delete[] transport;
+    delete newSTrip;
 } //----- Fin de Add
 
 void Catalogue::Fetch ( ) const

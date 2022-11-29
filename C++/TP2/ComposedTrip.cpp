@@ -15,6 +15,7 @@
 
 //-------------------------------------------------------- Include système
 using namespace std;
+#include <iostream>
 
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
@@ -22,6 +23,16 @@ using namespace std;
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
+
+//-------------------------------------------- Constructeurs - destructeur
+
+ComposedTrip::ComposedTrip ( const char* aStart, const char* aEnd, const char* aTransportation ) : Trip(aStart, aEnd)
+
+{
+
+    transportation = new char[64];
+    strcpy(this->transportation , aTransportation);
+} //----- Fin de SimpleTrip
 
 //----------------------------------------------------- Méthodes publiques
 void ComposedTrip::Display ( ostream& os ) const
@@ -57,14 +68,16 @@ ostream& operator<< ( ostream & os, const ComposedTrip & aComposedTrip )
 
 
 //-------------------------------------------- Constructeurs - destructeur
+
 ComposedTrip::ComposedTrip ( )
 // Algorithme :
-//
+// Calls generic ComposedTrip constructor
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <ComposedTrip>" << endl;
+    cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
-} //----- Fin de ComposedTrip
+    List simpleTripList;
+} //---- Fin de ComposedTrip
 
 
 ComposedTrip::~ComposedTrip ( )

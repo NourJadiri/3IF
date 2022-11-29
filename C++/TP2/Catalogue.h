@@ -32,11 +32,6 @@ class Catalogue
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     void Launch ( );
     // Mode d'emploi :
@@ -63,20 +58,7 @@ public:
     // Contrat :
     //
 
-    //------------------------------------------------- Surcharge d'opérateurs
-    Catalogue & operator = (const Catalogue & aCatalogue );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
 //-------------------------------------------- Constructeurs - destructeur
-    Catalogue (const Catalogue & aCatalogue );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
 
     Catalogue ( );
     // Mode d'emploi :

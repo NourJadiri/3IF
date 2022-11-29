@@ -20,6 +20,7 @@ public:
     void AddTrip(Trip *aTrip);
     void Display() const;
     int GetSize() const;
+    void Sort ( );
 
     ~List();
 };

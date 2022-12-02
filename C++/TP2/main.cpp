@@ -16,6 +16,7 @@
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "SimpleTrip.h"
+#include "ComposedTrip.h"
 using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
@@ -25,8 +26,22 @@ int main ( )
 // Lancement du programme par le système lors de l'execution
 // Creation d'un catalogue vide
 {
+/*
     Catalogue c;
     c.Launch();
+*/
+    List list = List(new SimpleTrip("Paris","Lyon","Car"));
+    list.AddTrip(new SimpleTrip("Lyon","Metz","Car"));
+
+    Trip *ct = new ComposedTrip(list);
+    Trip *st = new SimpleTrip("Rabat","Casa","Car");
+    Trip *st2 = new SimpleTrip("Rabat","Marrakech","Car");
+
+    List tripList = List(ct);
+    tripList.AddTrip(st);
+    tripList.AddTrip(st2);
+
+    tripList.Display();
 
     return 0;
 } //----- Fin de Main

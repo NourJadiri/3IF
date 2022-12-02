@@ -6,6 +6,7 @@ Trip::Trip()
 {
     start = nullptr;
     end = nullptr;
+    type = VIRTUAL;
 }
 
 Trip::Trip(const char* startCity , const char* endCity)
@@ -15,6 +16,7 @@ Trip::Trip(const char* startCity , const char* endCity)
     end = new char[64];
     strcpy(this->start, startCity);
     strcpy(this->end, endCity);
+    type = VIRTUAL;
 
 }
 
@@ -41,6 +43,10 @@ bool Trip::operator== ( const Trip &aTrip ) const
 Trip::~Trip ( ){
     delete [] start;
     delete [] end;
+}
+
+int Trip::GetType() const {
+    return type;
 }
 
 

@@ -34,6 +34,7 @@ SimpleTrip::SimpleTrip ( const char* aStart, const char* aEnd, const char* aTran
 #endif
 
     transportation = new char[64];
+    type = SIMPLE_TRIP;
     strcpy(this->transportation , aTransportation);
 } //----- Fin de SimpleTrip
 
@@ -54,7 +55,7 @@ void SimpleTrip::Display ( ) const
 // Algorithme :
 //
 {
-    cout << "from " << start << " to " << end << " by " << transportation;
+    cout << "Trip from " << start << " to " << end << " by " << transportation;
 }
 
 char* SimpleTrip::GetTransport() const {

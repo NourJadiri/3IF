@@ -39,7 +39,7 @@ public:
     // Contrat :
     //
 
-    void Display ( ) const;
+    void Display ( ) const override;
     // Mode d'emploi :
     //
     // Contrat :
@@ -66,8 +66,9 @@ public:
     //
     // Contrat :
     //
+    explicit ComposedTrip(List & list);
 
-    virtual ~ComposedTrip ( );
+    ~ComposedTrip ( ) override;
     // Mode d'emploi :
     //
     // Contrat :

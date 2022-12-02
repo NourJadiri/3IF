@@ -16,6 +16,8 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <limits>
+#include <unistd.h>
+
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
 #include "Catalogue.h"
@@ -113,6 +115,7 @@ void Catalogue::Display ( ) const
     if (tripList.GetSize() == 0)
     {
         cout << "Unfortunately, there are no trips yet..." << endl;
+        sleep(1);
     } else {
         if (tripList.GetSize() > 1)
         {
@@ -250,6 +253,7 @@ void Catalogue::Fetch ( ) const
 {
     if (tripList.GetSize() == 0) {
         cout << "Unfortunately, there are no trips yet..." << endl;
+
     } else {
         cout << "let's find you the best way to get to your destination!" << endl;
         char* start = new char[64];

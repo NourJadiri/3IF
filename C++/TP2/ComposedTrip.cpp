@@ -14,8 +14,8 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
 #include <iostream>
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
@@ -26,13 +26,6 @@ using namespace std;
 
 //-------------------------------------------- Constructeurs - destructeur
 
-ComposedTrip::ComposedTrip ( const char* aStart, const char* aEnd, const char* aTransportation ) : Trip(aStart, aEnd)
-
-{
-
-    transportation = new char[64];
-    strcpy(this->transportation , aTransportation);
-} //----- Fin de SimpleTrip
 
 //----------------------------------------------------- Méthodes publiques
 void ComposedTrip::Display ( ostream& os ) const
@@ -46,14 +39,23 @@ void ComposedTrip::Display ( ) const
 // Algorithme :
 //
 {
-    trips.Display();
+    Node *iter = this->trips.GetFirst();
+
+    while(iter != nullptr){
+        iter->Display();
+        if(iter->getNext() != nullptr) cout<<" - ";
+        iter = iter->getNext();
+    }
+
+    cout<<endl;
+    delete iter;
 } //----- Fin de Display
 
 void ComposedTrip::AddSimpleTrip (SimpleTrip* newSTrip)
-// Algorithme :
+// Adds a new simple trip to the composedTrip
 //
 {
-    trips.AddTrip(newSTrip); // not implemented 
+    trips.AddTrip(newSTrip);
 } //----- Fin de AddSimpleTrip
 
 
@@ -69,15 +71,27 @@ ostream& operator<< ( ostream & os, const ComposedTrip & aComposedTrip )
 
 //-------------------------------------------- Constructeurs - destructeur
 
-ComposedTrip::ComposedTrip ( )
+ComposedTrip::ComposedTrip ( ) : Trip()
 // Algorithme :
 // Calls generic ComposedTrip constructor
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <SimpleTrip>" << endl;
+    cout << "Appel au constructeur de <ComposedTrip>" << endl;
 #endif
-    List simpleTripList;
+
+    type = COMPOSED_TRIP;
+    trips = List();
 } //---- Fin de ComposedTrip
+
+
+//----------------------------------------------------- Méthodes protégées
+ComposedTrip::ComposedTrip(List & list) : Trip()
+// Creates a composed trip object from a list
+{
+    trips = list;
+    type = COMPOSED_TRIP;
+
+}
 
 
 ComposedTrip::~ComposedTrip ( )
@@ -89,7 +103,4 @@ ComposedTrip::~ComposedTrip ( )
 #endif
 } //----- Fin de ~ComposedTrip
 
-
 //------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées

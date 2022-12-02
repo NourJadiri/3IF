@@ -4,11 +4,14 @@
 #include <iostream>
 #include <cstring>
 
+enum types { VIRTUAL , SIMPLE_TRIP , COMPOSED_TRIP };
 
 class Trip {
+
 protected:
     char* start;
     char* end;
+    int type;
 
 public:
 
@@ -17,6 +20,7 @@ public:
 
     virtual char* GetStart ( ) const;
     virtual char* GetEnd ( ) const;
+    virtual int GetType() const;
 
     virtual bool operator == ( const Trip & aTrip ) const;
 

@@ -1,83 +1,111 @@
--- La capitale d'un pays doit être connue
-alter table country
-  drop constraint fk_capitalCity;
+@"C:\Users\vvoigtland\Downloads\mondial-drop-tables.sql";
+@"C:\Users\vvoigtland\Downloads\mondial-schema.sql";
+@"C:\Users\vvoigtland\Downloads\mondial-inputs.sql";
+
+
+/* Question 1.1 */
+alter table Country 
+add constraint FK_country_capital_city 
+foreign key (Capital, Code , Province) references City(Name, Country, Province)
+deferrable initially immediate;
+
+
+/* Question 1.2 */
+/* alter table Country
+add constraint unique_name
+unique (Name); */
+-- constraint already exists: SYS_C00510174
+
+
+/* Question 1.3 */
+-- constraint already exists: SYS_C00510170
+
+
+/* Question 1.4 */
+alter table Province 
+add constraint FK_province_capital_city
+foreign key (Capital, Country , capprov) references City(Name, Country, Province)
+deferrable initially immediate;
+
+select *
+from province
+where (capital, country, capprov) not in (
+  select name, country, province
+  from city);
   
-ALTER TABLE country
-  ADD CONSTRAINT fk_capitalCity
-  FOREIGN KEY (capital,code,province) 
-  references City(Name,Country,Province)
-  deferrable initially immediate;
+select count(*)
+from city;
+
+
+/* Question 1.5 */
+alter table Province 
+add constraint FK_province_country
+foreign key (Country) references Country(Code)
+deferrable initially immediate;
+
+
+/* Question 1.6 */
+alter table City 
+add constraint FK_city_country
+foreign key (Country) references Country(Code)
+deferrable initially immediate;
+
+
+/* Question 1.7 */
+alter table City 
+add constraint FK_city_province
+foreign key (Province, Country) references Province(Name, Country)
+deferrable initially immediate;
+
+
+/* Question 1.8 */
+-- constraint already exists: SYS_C00510210
+
+
+/* Question 1.9 */
+/* alter table City
+add constraint unique_city_lat_lon
+unique (latitude, longitude); */
+
+-- not valid for the folling cities
+select name
+from city
+where (latitude, longitude) in (
+  select latitude, longitude
+  from city
+  GROUP BY (latitude, longitude)
+  HAVING COUNT(*) > 1);
+
   
--- Tous les pays doivent avoir des noms différents
--- No need to car la contrainte existe déjà
+/* Question 2.1 */
+set constraints FK_country_capital_city deferred;
 
--- Le nom d'un pays doit être connu
--- Aussi déjà fait CHECK(name is not null)
+insert into country(name, code, capital, province, area, population)
+values ('Bascrit', 'BC', 'Demoi', 'Bascrit', 1250, 1250000);
 
--- La capitale d'une province doit être une ville de CITY
-alter table province
-  drop constraint fk_capitalProvince;
-  
-alter table province
-  add constraint fk_capitalProvince
-  foreign key    (capital , country , capprov) 
-  references city(name , country , province)
-  deferrable initially immediate;
+set constraints FK_province_capital_city deferred;
 
--- Le pays d'une province doit être un pays de country
-alter table province
-  drop constraint fk_provinceCountry;
-  
-alter table province
-  add constraint fk_provinceCountry
-  foreign key (country) 
-  references country(code)
-  deferrable initially immediate;
-  
--- Le pays d'une ville doit etre dans country
-alter table city
-  drop constraint fk_cityCountry;
-  
-alter table city
-  add constraint fk_cityCountry
-  foreign key (country) 
-  references country(code)
-  deferrable initially immediate;
-  
--- La province d'une ville doit être dans province
-alter table city
-  drop constraint fk_cityProvince;
-  
-alter table city
-  add constraint fk_cityProvince
-  foreign key (province,country) 
-  references province(name,country)
-  deferrable initially immediate;
+insert into province(name, country, population, area, capital, capprov)
+values ('Bascrit', 'BC', 1250, 1250000, 'Demoi', 'Bascrit');
 
--- La longueur d’une frontière ne peut qu’être strictement positive (sinon, il n’y a pas de frontière)
-alter table borders
-  add constraint positiveBorder
-  check (length > 0);
+insert into city(name, country, province)
+values ('Demoi', 'BC', 'Bascrit');
 
--- Deux villes ne peuvent avoir les mêmes coordonnées (à la fois même longitude et même latitude)
-alter table city
-  add constraint pk_coord
-  unique(latitude, longitude);
-
--- au final on a des doublons 
+set constraints FK_country_capital_city immediate;
+set constraints FK_province_capital_city immediate;
 
 
+/* Question 2.2 */
+select name
+from country
+order by name;
 
--- Inserer nouveau pays
 
-set constraints fk_capitalCity,fk_capitalProvince,fk_provinceCountry,fk_cityCountry,fk_cityProvince deferred;
-
-insert into country (name , code , capital , province , area , population)
-  values('Bascrit', 'BC', 'Demoi', 'Bascrit', 1250, 1250000);
-  
-  insert into province(name, country, population, area, capital, capprov)
-  values ('Bascrit', 'BC', 1250000, 1250, 'Demoi', 'Bascrit');
-  
-  insert into city(name, country, province, population, latitude, longitude, elevation)
-  values('Demoi', 'BC', 'Bascrit', 1250000, null, null, null);
-commit;
+/* Question 2.3 */
+select organization, count(*)
+from ismember
+group by organization
+having count(*) = 
+  (select max(count(*))
+  from ismember
+  group by organization);

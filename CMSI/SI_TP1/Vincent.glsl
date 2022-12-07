@@ -1,12 +1,9 @@
 const int Steps = 1000;
 const float Epsilon = 0.01; // Marching epsilon
 const float T=0.5;
-const int noctaves = 5;
+const int noctaves = 6;
 
 const float rB=50.0; // Maximum
-
-const float startWaterLevel = -0.4;
-const float waterRisingSpeed = 0.02;
 
 // Transforms
 // p : point
@@ -98,17 +95,21 @@ float ridged(in vec2 p) {
 float Terrain(in vec3 p)
 {
     float altitude = ridged(p.xz);
-    float waterLevel = startWaterLevel + waterRisingSpeed*iTime;
-    if (altitude < waterLevel) altitude = waterLevel;
-    
-    return altitude - p.y; 
+    return altitude; 
+}
+
+float Water(in vec3 p)
+{
+    float waterLevel = -0.1 -0.1 * cos(0.5*iTime);
+    waterLevel += 0.002*noise(p.xz);
+    return waterLevel;
 }
 
 // Potential field of the object
 // p : point
 float object(vec3 p)
 {
-   return Terrain(p);
+   return max(Terrain(p), Water(p)) - p.y;
 }
 
 // Calculate object normal
@@ -241,7 +242,7 @@ vec3 ShadeWithWater(vec3 p, vec3 n, int s, vec3 u)
    vec3 c; // rgb color vector forward declaration 
     
    // calculate water level
-   float waterLevel = startWaterLevel + waterRisingSpeed*iTime;
+   float waterLevel = Water(p);
    
    // shade mountains
    if (p.y > waterLevel)
@@ -250,7 +251,7 @@ vec3 ShadeWithWater(vec3 p, vec3 n, int s, vec3 u)
    
    // shade water
    p.y = waterLevel; // avoid immidiate hit with water surface
-   n += 0.005*noise(p.xz);
+   // n += 0.005*noise(p.xz);
    vec3 r = getPixelColorAfterReflection(p, reflect(u, n)); // color of point that reflects in water
    vec3 w = vec3(195.0/256.0, 242.0/256.0, 255.0/256.0); // water color
    c = 0.7*r + 0.3*w;

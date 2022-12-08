@@ -17,10 +17,6 @@
 #include "Trip.h"
 #include "List.h"
 
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
-
 //------------------------------------------------------------------------
 // Rôle de la classe <ComposedTrip>
 //
@@ -33,7 +29,7 @@ class ComposedTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display ( std::ostream & os ) const;
+    //void Display ( std::ostream & os ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -53,7 +49,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend std::ostream& operator<< ( std::ostream & os, const ComposedTrip & aComposedTrip );
+    //friend std::ostream& operator<< ( std::ostream & os, const ComposedTrip & aComposedTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -77,13 +73,9 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
-
 //----------------------------------------------------- Attributs protégés
     List trips;
 
 };
-
-//-------------------------------- Autres définitions dépendantes de <ComposedTrip>
 
 #endif // COMPOSEDTRIP_H

@@ -20,8 +20,6 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "SimpleTrip.h"
 
-//------------------------------------------------------------- Constantes
-
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -56,7 +54,7 @@ void SimpleTrip::Display ( ) const
     cout << "Trip from " << start << " to " << end << " by " << transportation;
 }
 
-char* SimpleTrip::GetTransport() const {
+char* SimpleTrip::GetTransport ( ) const {
     return transportation;
 }
 //----- Fin de GetTransport

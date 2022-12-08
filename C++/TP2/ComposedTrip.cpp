@@ -22,9 +22,6 @@ using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
-//-------------------------------------------- Constructeurs - destructeur
-
-
 //----------------------------------------------------- Méthodes publiques
 
 void ComposedTrip::Display ( ) const
@@ -33,30 +30,30 @@ void ComposedTrip::Display ( ) const
 {
     Node *iter = this->trips.GetFirst();
 
-    while(iter != nullptr){
+    while (iter != nullptr)
+    {
         iter->Display();
-        if(iter->getNext() != nullptr) cout<<" - ";
+        if(iter->getNext() != nullptr)
+        {
+            cout << " - ";
+        }
         iter = iter->getNext();
     }
 
-    cout<<endl;
+    cout << endl;
     delete iter;
 } //----- Fin de Display
 
-void ComposedTrip::AddSimpleTrip (SimpleTrip* newSTrip)
+void ComposedTrip::AddSimpleTrip ( SimpleTrip* newSTrip )
+// Algorithme :
 // Adds a new simple trip to the composedTrip
-//
 {
     trips.AddTrip(newSTrip);
 
-    strcpy(start,trips.GetFirst()->getTrip()->GetStart());
+    strcpy(start, trips.GetFirst()->getTrip()->GetStart());
 
-    strcpy(end,newSTrip->GetEnd());
+    strcpy(end, newSTrip->GetEnd());
 } //----- Fin de AddSimpleTrip
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-
 
 //-------------------------------------------- Constructeurs - destructeur
 
@@ -73,28 +70,6 @@ ComposedTrip::ComposedTrip ( )
     trips = List();
 } //---- Fin de ComposedTrip
 
-
-//----------------------------------------------------- Méthodes protégées
-ComposedTrip::ComposedTrip(List & list) : Trip()
-// Creates a composed trip object from a list
-{
-    start = new char[64];
-    end = new char[64];
-    strcpy(start,list.GetFirst()->getTrip()->GetStart());
-    trips = list;
-    type = COMPOSED_TRIP;
-
-    Node *iter = list.GetFirst();
-
-    while(iter->getNext() != nullptr){
-        iter = iter->getNext();
-    }
-
-    strcpy(end,iter->getTrip()->GetEnd());
-
-}
-
-
 ComposedTrip::~ComposedTrip ( )
 // Algorithme :
 //
@@ -105,3 +80,24 @@ ComposedTrip::~ComposedTrip ( )
 } //----- Fin de ~ComposedTrip
 
 //------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+ComposedTrip::ComposedTrip ( List & list ) : Trip ( )
+// Algorithme :
+// Creates a composed trip object from a list
+{
+    start = new char[64];
+    end = new char[64];
+    strcpy(start, list.GetFirst()->getTrip()->GetStart());
+    trips = list;
+    type = COMPOSED_TRIP;
+
+    Node *iter = list.GetFirst();
+
+    while (iter->getNext() != nullptr)
+    {
+        iter = iter->getNext();
+    }
+
+    strcpy(end, iter->getTrip()->GetEnd());
+}

@@ -11,20 +11,20 @@ protected:
 
 public:
 
-    List();
+    List ( );
 
-    explicit List(Trip *aTrip);
+    explicit List ( Trip *aTrip );
 
-    int Fetch(const Trip *aTrip);
-    void FetchTrip(const char* start, const char* end) const;
-    void AddTrip(Trip *aTrip);
-    void Display() const;
+    int Fetch ( const Trip *aTrip );
+    void FetchTrip ( const char* start, const char* end ) const;
+    void AddTrip ( Trip *aTrip );
+    void Display ( ) const;
 
-    Node * GetFirst() const;
-    int GetSize() const;
+    Node * GetFirst ( ) const;
+    int GetSize ( ) const;
     void Sort ( );
 
-    ~List();
+    ~List ( );
 };
 
 

@@ -36,8 +36,8 @@ void Node::Display() const
 }
 
 Node::~Node() {
-/*    delete trip;
-    delete next;*/
+
+    delete next;
 }
 // Destructor
 

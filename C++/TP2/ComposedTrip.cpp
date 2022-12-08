@@ -28,12 +28,6 @@ using namespace std;
 
 
 //----------------------------------------------------- Méthodes publiques
-void ComposedTrip::Display ( ostream& os ) const
-// Algorithme :
-//
-{
-    os << "not yet implemented!"; 
-} //----- Fin de Display
 
 void ComposedTrip::Display ( ) const
 // Algorithme :
@@ -56,29 +50,27 @@ void ComposedTrip::AddSimpleTrip (SimpleTrip* newSTrip)
 //
 {
     trips.AddTrip(newSTrip);
+
+    strcpy(start,trips.GetFirst()->getTrip()->GetStart());
+
+    strcpy(end,newSTrip->GetEnd());
 } //----- Fin de AddSimpleTrip
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-ostream& operator<< ( ostream & os, const ComposedTrip & aComposedTrip )
-// Algorithme :
-//
-{
-    aComposedTrip.Display(os);
-    return os;
-} //----- Fin de operator<<
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-ComposedTrip::ComposedTrip ( ) : Trip()
+ComposedTrip::ComposedTrip ( )
 // Algorithme :
 // Calls generic ComposedTrip constructor
 {
 #ifdef MAP
     cout << "Appel au constructeur de <ComposedTrip>" << endl;
 #endif
-
+    start = new char[64];
+    end = new char[64];
     type = COMPOSED_TRIP;
     trips = List();
 } //---- Fin de ComposedTrip
@@ -88,8 +80,19 @@ ComposedTrip::ComposedTrip ( ) : Trip()
 ComposedTrip::ComposedTrip(List & list) : Trip()
 // Creates a composed trip object from a list
 {
+    start = new char[64];
+    end = new char[64];
+    strcpy(start,list.GetFirst()->getTrip()->GetStart());
     trips = list;
     type = COMPOSED_TRIP;
+
+    Node *iter = list.GetFirst();
+
+    while(iter->getNext() != nullptr){
+        iter = iter->getNext();
+    }
+
+    strcpy(end,iter->getTrip()->GetEnd());
 
 }
 

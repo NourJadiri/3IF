@@ -136,10 +136,41 @@ int List::GetSize() const
     return size;
 }
 
-void List::Sort ( )
+/*void List::Sort ( )
+/// TODO : A FINIR !!!
 {
-    if (true);
+    if(first == nullptr || size == 1){
+        cout << "Empty list or list with one node..."<<endl; /// TODO : Enlever cette ligne
+        return;
+    }
+
+    List *sortedList = new List();
+    List *temp = this;
+
+    Node *minTrip = first;
+    Node *iter = first;
+
+    while(iter->getNext() != nullptr){
+        if(strcmp(iter->getTrip()->GetStart(),minTrip->getTrip()->GetStart()) < 0)
+        // Si iter est inferieur au min
+        {
+            minTrip = iter;
+        }
+        else if(!strcmp(iter->getTrip()->GetStart(),minTrip->getTrip()->GetStart()))
+        // Si les deux trips ont la même start mais pas la même end
+        {
+            if(strcmp(iter->getTrip()->GetEnd(),minTrip->getTrip()->GetEnd()) < 0)
+            {
+                minTrip = iter;
+            }
+        }
+
+
+        iter = iter->getNext();
+    }
+
 }
+*/
 
 Node * List::GetFirst() const
 {

@@ -16,6 +16,7 @@ Trip::Trip(const char* startCity , const char* endCity)
     end = new char[64];
     strcpy(this->start, startCity);
     strcpy(this->end, endCity);
+
     type = VIRTUAL;
 
 }

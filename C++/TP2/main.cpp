@@ -16,6 +16,7 @@
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "SimpleTrip.h"
+#include "ComposedTrip.h"
 using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
@@ -28,5 +29,10 @@ int main ( )
     Catalogue c;
     c.Launch();
 
+/*    ComposedTrip *ct = new ComposedTrip();
+    ct->AddSimpleTrip(new SimpleTrip("aaa","bbb","ccc"));
+    ct->AddSimpleTrip(new SimpleTrip("ddd","eee","fff"));
+
+    cout << ct->GetEnd();*/
     return 0;
 } //----- Fin de Main

@@ -19,6 +19,8 @@ public:
     void FetchTrip(const char* start, const char* end) const;
     void AddTrip(Trip *aTrip);
     void Display() const;
+
+    Node * GetFirst() const;
     int GetSize() const;
     void Sort ( );
 

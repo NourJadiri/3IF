@@ -35,7 +35,10 @@ void Node::Display() const
     trip->Display();
 }
 
-Node::~Node() = default;
+Node::~Node() {
+/*    delete trip;
+    delete next;*/
+}
 // Destructor
 
 

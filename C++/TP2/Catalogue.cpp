@@ -38,7 +38,7 @@ void Catalogue::Launch ( )
     int choice;
     while (true)
     {
-        cout << "\n-------------------- Menu. --------------------" << endl;
+        cout << "\n---------------------------- Menu. ----------------------------" << endl;
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: display the catalogue of the available trips" << endl;
         cout << "\t2: add a trip" << endl;
@@ -52,6 +52,7 @@ void Catalogue::Launch ( )
             if (!cin)
             {
                 cout << "Wrong input, please enter a NUMBER" << endl;
+                sleep(1);
                 // pour clear l'erreur
                 cin.clear();
                 // pour enlever ce qui reste dans le buffer
@@ -75,7 +76,8 @@ void Catalogue::Launch ( )
             case 4:
                 goto end;
             default:
-                cout << "incorrect choice, please enter a number between 1 and 4" << endl;
+                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                sleep(1);
                 continue; // go back to menu
         }
     }
@@ -130,23 +132,24 @@ void Catalogue::Display ( ) const
 } //----- Fin de Display
 
 
-void Catalogue::Add()
+void Catalogue::Add ( )
+// Algorithme :
+//
 {
-
     char* start = new char[64];
     char* end = new char[64];
     char* transport = new char[64];
 
     cout << "Let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
-    cout << "Be a good samaritan and DO NOT INSERT SPACES!!! when you write your trip information (please...)"<< endl;
+    cout << "Be a good samaritan and DO NOT INSERT SPACES!!! when you write your trip information (please...)" << endl;
 
-    cout << "-----Enter the city of departure : ";
+    cout << "----- Enter the city of departure : ";
     cin >> start ;
 
-    cout << "-----Enter the city of arrival : ";
+    cout << "----- Enter the city of arrival : ";
     cin >> end;
 
-    cout << "-----Enter the kind of transport used : ";
+    cout << "----- Enter the kind of transport used : ";
     cin >> transport;
 
     // We consider the eventuality of having a composed trip
@@ -155,27 +158,26 @@ void Catalogue::Add()
     char* yesOrNo = new char[64];
     bool validInput;
 
-    auto* newSTrip = new SimpleTrip(start , end , transport);
-    auto *newCTrip = new ComposedTrip();
+    SimpleTrip* newSTrip = new SimpleTrip(start , end , transport);
+    ComposedTrip* newCTrip = new ComposedTrip ( );
     // Checks if the user input is valid (yes/no)
     // TODO : REFACTOR THE CODE AND MAKE THIS A METHOD
     do
     {
-        cout << "Do you wish to make this trip a composed trip ? [yes/no] :";
+        cout << "Do you wish to make this trip a composed trip ? [yes/no] : ";
         cin >> yesOrNo;
 
         validInput = !strcmp(yesOrNo, "yes") || !strcmp(yesOrNo, "no");
 
-        if(!validInput){
-            cout << "Please enter a valid input..."<<endl;
+        if(!validInput)
+        {
+            cout << "Please enter a valid input [yes/no]..." << endl;
             sleep(1);
         }
-
-    }while (!validInput);
-
+    }
+    while (!validInput);
 
     bool isComposed = !strcmp(yesOrNo, "yes");
-
 
     if(isComposed)
     {
@@ -186,35 +188,38 @@ void Catalogue::Add()
 
         validInput = false;
 
-        do{
+        do
+        {
             strcpy(start,end);
 
-            cout << "-----Enter the new city of arrival :";
+            cout << "----- Enter the next city of arrival : ";
             cin >> end;
 
-            cout << "-----Enter the kind of transport used :";
+            cout << "----- Enter the kind of transport used : ";
             cin >> transport;
 
-            newCTrip->AddSimpleTrip(new SimpleTrip(start , end , transport));
+            newCTrip->AddSimpleTrip(new SimpleTrip(start, end, transport));
 
             // Checks if the user input is valid [yes/no]
             // TODO : REFACTOR THE CODE AND MAKE THIS A METHOD
-            do{
-                cout << "Do you wish to add another step to this trip ? [yes/no] :";
+            do
+            {
+                cout << "Do you wish to add another step to this trip ? [yes/no] : ";
                 cin >> addNewStep;
 
                 validInput = !strcmp(addNewStep, "yes") || !strcmp(addNewStep, "no");
 
                 if(!validInput) {
-                    cout << "Please enter a valid input [yes/no]..."<< endl;
+                    cout << "Please enter a valid input [yes/no]..." << endl;
                     sleep(1);
                 }
 
-            }while(!validInput);
+            }
+            while(!validInput);
 
             keepAdding = !strcmp(addNewStep, "yes");
-
-        }while (keepAdding);
+        }
+        while (keepAdding);
 
         tripList.AddTrip(newCTrip);
         //cout << "The new composed trip from " << newCTrip->GetStart() << " to " << newCTrip->GetEnd() << " has been successfully added !" << endl;
@@ -223,18 +228,17 @@ void Catalogue::Add()
     }
     else
     {
-        delete newCTrip;
         tripList.AddTrip(newSTrip);
+        delete newSTrip;
+        delete newCTrip;
     }
 
-
+    // to free allocated memory in heap
     delete [] start;
     delete [] end ;
     delete [] transport;
     delete [] yesOrNo;
 }
-
-
 
 void Catalogue::Fetch ( ) const
 // Algorithme :
@@ -242,7 +246,6 @@ void Catalogue::Fetch ( ) const
 {
     if (tripList.GetSize() == 0) {
         cout << "Unfortunately, there are no trips yet..." << endl;
-
     }
     else
     {
@@ -252,11 +255,12 @@ void Catalogue::Fetch ( ) const
         char* end = new char[64];
         cout << "Choose your departure city : ";
         cin >> start;
-        cout << "Please your destination city : " ;
+        cout << "Choose your destination city : " ;
         cin >> end;
 
         tripList.FetchTrip(start, end);
 
+        // to free allocated memory in heap
         delete[] start;
         delete[] end;
     }

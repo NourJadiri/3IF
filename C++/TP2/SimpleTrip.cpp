@@ -32,10 +32,9 @@ SimpleTrip::SimpleTrip ( const char* aStart, const char* aEnd, const char* aTran
 #ifdef MAP
     cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
-
     transportation = new char[64];
     type = SIMPLE_TRIP;
-    strcpy(this->transportation , aTransportation);
+    strcpy(transportation , aTransportation);
 } //----- Fin de SimpleTrip
 
 
@@ -46,7 +45,6 @@ SimpleTrip::~SimpleTrip ( )
 #ifdef MAP
     cout << "Appel au destructeur de <SimpleTrip>" << endl;
 #endif
-
     delete [] transportation;
 } //----- Fin de ~SimpleTrip
 

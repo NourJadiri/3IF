@@ -229,7 +229,6 @@ void Catalogue::Add ( )
     else
     {
         tripList.AddTrip(newSTrip);
-        delete newSTrip;
         delete newCTrip;
     }
 

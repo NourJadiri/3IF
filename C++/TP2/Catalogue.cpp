@@ -222,7 +222,7 @@ void Catalogue::Add ( )
         while (keepAdding);
 
         tripList.AddTrip(newCTrip);
-        //cout << "The new composed trip from " << newCTrip->GetStart() << " to " << newCTrip->GetEnd() << " has been successfully added !" << endl;
+        // cout << "The new composed trip from " << newCTrip->GetStart() << " to " << newCTrip->GetEnd() << " has been successfully added !" << endl;
 
         delete[] addNewStep;
     }

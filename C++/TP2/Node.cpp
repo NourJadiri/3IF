@@ -77,6 +77,6 @@ Node::~Node ( )
 // Algorithme :
 //
 {
-
+    delete trip;
     delete next;
 } //----- Fin de ~Node

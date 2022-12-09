@@ -24,7 +24,7 @@ public:
     int GetSize ( ) const;
     void Sort ( );
 
-    ~List ( );
+    virtual ~List ( );
 };
 
 

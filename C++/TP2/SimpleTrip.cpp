@@ -43,6 +43,7 @@ SimpleTrip::~SimpleTrip ( )
 #ifdef MAP
     cout << "Appel au destructeur de <SimpleTrip>" << endl;
 #endif
+    cout << "Destructeur de simple trip appelé" << endl;
     delete [] transportation;
 } //----- Fin de ~SimpleTrip
 

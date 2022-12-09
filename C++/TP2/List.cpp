@@ -76,12 +76,6 @@ void List::Display ( ) const
     }
 }
 
-List::~List ( )
-{
-    delete first;
-    size = DEFAULT_LIST_SIZE;
-}
-
 int List::Fetch ( const Trip* aTrip )
 // returns the index of the trip (ranging from 0 to size of the List)
 // returns -1 if the trip is not found
@@ -178,4 +172,11 @@ int List::GetSize ( ) const
 Node * List::GetFirst ( ) const
 {
     return first;
+}
+
+List::~List ( )
+{
+    cout << "Destructeur de list appelé" << endl;
+    delete first;
+    size = DEFAULT_LIST_SIZE;
 }

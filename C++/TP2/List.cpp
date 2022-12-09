@@ -1,44 +1,31 @@
+/*************************************************************************
+                           List  -  SMTGXXXXXXXXXXXX
+                             -------------------
+    début                : 22/11/2022
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
+                                        Vincent VOIGTLÄNDER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+                           vincent.voigtlander@insa-lyon.fr
+*************************************************************************/
+
+//---------- Réalisation de la classe <List> (fichier List.cpp) ------------
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
+using namespace std;
+#include <iostream>
+
+//------------------------------------------------------ Include personnel
 #include "List.h"
 #include "Node.h"
-using namespace std;
 
+//----------------------------------------------------------------- PUBLIC
 
-List::List ( )
-{
-    first = nullptr;
-    size = DEFAULT_LIST_SIZE;
-}
-
-List::List ( Trip *aTrip )
-{
-    first = new Node(aTrip);
-    size = 1;
-}
-
-void List::AddTrip ( Trip *aTrip )
-// Adds a new Node(Trip) to the end of the list and increments size
-{
-    // If the list is empty , set the first element to the node created
-    if (size == 0)
-    {
-        first = new Node(aTrip);
-        size++;
-        return;
-    }
-
-    Node *current = first;
-
-    // Parsing through the list till the last element
-    while (current->GetNext() != nullptr)
-    {
-        current = current->GetNext();
-    }
-
-    current->SetNext(new Node(aTrip));
-    size++;
-}
-
+//----------------------------------------------------- Méthodes publiques
 void List::Display ( ) const
+// Algorithme :
 // Diplays the trips of the list
 {
     // If the first element is null (list still empty)
@@ -74,28 +61,34 @@ void List::Display ( ) const
         }
         current = current->GetNext();
     }
-}
+} //----- Fin de Display
 
-int List::Fetch ( const Trip* aTrip )
-// returns the index of the trip (ranging from 0 to size of the List)
-// returns -1 if the trip is not found
+void List::AddTrip ( Trip *aTrip )
+// Algorithme :
+// Adds a new Node(Trip) to the end of the list and increments size
 {
-    unsigned int i = 0;
-    Node* current = first;
-
-    while (i <= size)
+    // If the list is empty , set the first element to the node created
+    if (size == 0)
     {
-        if (*current->GetTrip() == *aTrip)
-        {
-            return i;
-        }
-        current = current->GetNext();
-        i++;
+        first = new Node(aTrip);
+        size++;
+        return;
     }
-    return -1;
-}
+
+    Node *current = first;
+
+    // Parsing through the list till the last element
+    while (current->GetNext() != nullptr)
+    {
+        current = current->GetNext();
+    }
+
+    current->SetNext(new Node(aTrip));
+    size++;
+} //----- Fin de AddTrip
 
 void List::FetchTrip ( const char *start, const char *end ) const
+// Algorithme :
 // Searches a trip by start and end
 // Returns the trip if found, else returns a default null trip
 {
@@ -126,15 +119,12 @@ void List::FetchTrip ( const char *start, const char *end ) const
     {
         cout << "Trip from " << start << " to " << end << " does not exist..." << endl;
     }
-}
-
-int List::GetSize ( ) const
-{
-    return size;
-}
+} //----- Fin de FetchTrip
 
 /*void List::Sort ( )
 /// TODO : A FINIR !!!
+ // Algorithme :
+ //
 {
     if(first == nullptr || size == 1){
         cout << "Empty list or list with one node..."<<endl; /// TODO : Enlever cette ligne
@@ -166,17 +156,54 @@ int List::GetSize ( ) const
         iter = iter->getNext();
     }
 
-}
+} //----- Fin de Sort
 */
 
 Node * List::GetFirst ( ) const
+// Algorithme :
+//
 {
     return first;
-}
+} //----- Fin de GetFirst
+
+int List::GetSize ( ) const
+// Algorithme :
+//
+{
+    return size;
+} //----- Fin de GetSize
+
+//-------------------------------------------- Constructeurs - destructeur
+List::List ( )
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur par défaut de <List>" << endl;
+#endif
+    first = nullptr;
+    size = DEFAULT_LIST_SIZE;
+} //----- Fin de List (constructeur par défaut)
+
+List::List ( Trip *aTrip )
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur paramétré de <List>" << endl;
+#endif
+    first = new Node(aTrip);
+    size = 1;
+} //----- Fin de List (constructeur paramétré)
 
 List::~List ( )
+// Algorithme :
+//
 {
+#ifdef MAP
+    cout << "Appel au destructeur de <List>" << endl;
+#endif
     cout << "Destructeur de list appelé" << endl;
     delete first;
     size = DEFAULT_LIST_SIZE;
-}
+} //----- Fin de ~List

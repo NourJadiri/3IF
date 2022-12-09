@@ -61,6 +61,9 @@ Node::Node ( )
 // Algorithme :
 // Default constructor
 {
+#ifdef MAP
+    cout << "Appel au constructeur par défaut de <Node>" << endl;
+#endif
     trip = nullptr;
     next = nullptr;
 } //----- Fin de Node (constructeur par défaut)
@@ -69,6 +72,9 @@ Node::Node ( Trip * aTrip )
 // Algorithme :
 // Constructor
 {
+#ifdef MAP
+    cout << "Appel au constructeur paramétré de <Node>" << endl;
+#endif
     trip = aTrip;
     next = nullptr;
 } //----- Fin de Node (constructeur paramétré)
@@ -77,6 +83,9 @@ Node::~Node ( )
 // Algorithme :
 //
 {
+#ifdef MAP
+    cout << "Appel au destructeur de <Node>" << endl;
+#endif
     delete trip;
     delete next;
 } //----- Fin de ~Node

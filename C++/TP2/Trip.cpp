@@ -57,6 +57,9 @@ bool Trip::operator == ( const Trip &aTrip ) const
 Trip::Trip ( )
 // Default constructor
 {
+#ifdef MAP
+    cout << "Appel au constructeur par défaut de <Trip>" << endl;
+#endif
     start = nullptr;
     end = nullptr;
     type = VIRTUAL;
@@ -66,6 +69,9 @@ Trip::Trip ( const char* startCity, const char* endCity )
 // Algorithme :
 // generic constructor that takes start, and end as a parameter
 {
+#ifdef MAP
+    cout << "Appel au constructeur paramétré de <Trip>" << endl;
+#endif
     start = new char[64];
     end = new char[64];
     strcpy(this->start, startCity);
@@ -78,6 +84,9 @@ Trip::~Trip ( )
 // Algorithme :
 //
 {
+#ifdef MAP
+    cout << "Appel au destructeur de <Trip>" << endl;
+#endif
     delete [] start;
     delete [] end;
 } //----- Fin de ~Trip

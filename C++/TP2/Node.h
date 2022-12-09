@@ -28,19 +28,19 @@ class Node
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    Node* getNext ( );
+    Node* GetNext ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    Trip* getTrip ( );
+    Trip* GetTrip ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    void setNext ( Node* aNode );
+    void SetNext ( Node* aNode );
     // Mode d'emploi :
     //
     // Contrat :

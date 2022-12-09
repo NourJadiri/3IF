@@ -1,54 +1,82 @@
+/*************************************************************************
+                           Trip  -  SOMETHINGXXXXXXXXXX
+                             -------------------
+    début                : 22/11/2022
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
+                                        Vincent VOIGTLÄNDER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+                           vincent.voigtlander@insa-lyon.fr
+*************************************************************************/
+
+//---------- Réalisation de la classe <Node> (fichier Node.cpp) ------------
+
+//---------------------------------------------------------------- INCLUDE
+
+//------------------------------------------------------ Include personnel
 #include "Node.h"
 #include "Trip.h"
-#include "SimpleTrip.h"
 
+//----------------------------------------------------------------- PUBLIC
 
-Node::Node()
-// Default constructor
-{
-    trip = nullptr;
-    next = nullptr;
-}
-
-Node::Node(Trip *aTrip)
-// Constructor
-{
-    trip = aTrip;
-    next = nullptr;
-}
-
-Node* Node::getNext()
-// Setter for the next node
-{
-    return next;
-}
-
-void Node::setNext(Node * aNode)
-// Sets the next node to *aNode
-{
-    this->next = aNode;
-}
-
-void Node::Display() const
+//----------------------------------------------------- Méthodes publiques
+void Node::Display ( ) const
+// Algorithme :
 // Displays the content of the node
 {
     trip->Display();
-}
+} //----- Fin de Display
 
-Node::~Node() {
+Node* Node::GetNext ( )
+// Algorithme :
+// Setter for the next node
+{
+    return next;
+} //----- Fin de GetNext
 
-    delete next;
-}
-// Destructor
+Trip* Node::GetTrip ( )
+// Algorithme :
+//
+{
+    return trip;
+} //----- Fin de GetTrip
 
+void Node::SetNext ( Node * aNode )
+// Algorithme :
+// Sets the next node to *aNode
+{
+    this->next = aNode;
+} //----- Fin de SetNext
 
-bool Node::operator== ( const Node &aNode )const
+//------------------------------------------------- Surcharge d'opérateurs
+bool Node::operator == ( const Node & aNode ) const
 // Overwrites the == operator
 // Nodes are equal if the trips they contain are equal
 {
     return this->trip == aNode.trip;
-}
+} //----- Fin de operator ==
 
-Trip* Node::getTrip() {
-    return trip;
-}
+//-------------------------------------------- Constructeurs - destructeur
+Node::Node ( )
+// Algorithme :
+// Default constructor
+{
+    trip = nullptr;
+    next = nullptr;
+} //----- Fin de Node (constructeur par défaut)
+
+Node::Node ( Trip * aTrip )
+// Algorithme :
+// Constructor
+{
+    trip = aTrip;
+    next = nullptr;
+} //----- Fin de Node (constructeur paramétré)
+
+Node::~Node ( )
+// Algorithme :
+//
+{
+
+    delete next;
+} //----- Fin de ~Node

@@ -33,11 +33,11 @@ void ComposedTrip::Display ( ) const
     while (iter != nullptr)
     {
         iter->Display();
-        if(iter->getNext() != nullptr)
+        if(iter->GetNext() != nullptr)
         {
             cout << " - ";
         }
-        iter = iter->getNext();
+        iter = iter->GetNext();
     }
 
     cout << endl;
@@ -50,7 +50,7 @@ void ComposedTrip::AddSimpleTrip ( SimpleTrip* newSTrip )
 {
     trips.AddTrip(newSTrip);
 
-    strcpy(start, trips.GetFirst()->getTrip()->GetStart());
+    strcpy(start, trips.GetFirst()->GetTrip()->GetStart());
 
     strcpy(end, newSTrip->GetEnd());
 } //----- Fin de AddSimpleTrip
@@ -88,16 +88,16 @@ ComposedTrip::ComposedTrip ( List & list ) : Trip ( )
 {
     start = new char[64];
     end = new char[64];
-    strcpy(start, list.GetFirst()->getTrip()->GetStart());
+    strcpy(start, list.GetFirst()->GetTrip()->GetStart());
     trips = list;
     type = COMPOSED_TRIP;
 
     Node *iter = list.GetFirst();
 
-    while (iter->getNext() != nullptr)
+    while (iter->GetNext() != nullptr)
     {
-        iter = iter->getNext();
+        iter = iter->GetNext();
     }
 
-    strcpy(end, iter->getTrip()->GetEnd());
+    strcpy(end, iter->GetTrip()->GetEnd());
 }

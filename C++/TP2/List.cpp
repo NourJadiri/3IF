@@ -29,12 +29,12 @@ void List::AddTrip ( Trip *aTrip )
     Node *current = first;
 
     // Parsing through the list till the last element
-    while (current->getNext() != nullptr)
+    while (current->GetNext() != nullptr)
     {
-        current = current->getNext();
+        current = current->GetNext();
     }
 
-    current->setNext(new Node(aTrip));
+    current->SetNext(new Node(aTrip));
     size++;
 }
 
@@ -53,7 +53,7 @@ void List::Display ( ) const
 
     while (current != nullptr)
     {
-        if(current->getTrip()->GetType() == SIMPLE_TRIP)
+        if(current->GetTrip()->GetType() == SIMPLE_TRIP)
         {
             cout << "Simple Trip " << simpleTrip_number << " : ";
             simpleTrip_number++;
@@ -68,11 +68,11 @@ void List::Display ( ) const
             cout << " - " ;
         else
             cout << endl;*/
-        if (current->getTrip()->GetType() == SIMPLE_TRIP)
+        if (current->GetTrip()->GetType() == SIMPLE_TRIP)
         {
             cout << endl;
         }
-        current = current->getNext();
+        current = current->GetNext();
     }
 }
 
@@ -91,11 +91,11 @@ int List::Fetch ( const Trip* aTrip )
 
     while (i <= size)
     {
-        if (*current->getTrip() == *aTrip)
+        if (*current->GetTrip() == *aTrip)
         {
             return i;
         }
-        current = current->getNext();
+        current = current->GetNext();
         i++;
     }
     return -1;
@@ -115,7 +115,7 @@ void List::FetchTrip ( const char *start, const char *end ) const
     bool found = false;
     while (current != nullptr)
     {
-        if (!strcmp(start,current->getTrip()->GetStart()) && !strcmp(end,current->getTrip()->GetEnd()))
+        if (!strcmp(start, current->GetTrip()->GetStart()) && !strcmp(end, current->GetTrip()->GetEnd()))
         {
             if (!found)
             { // if this is the first trip found, print a txt
@@ -125,7 +125,7 @@ void List::FetchTrip ( const char *start, const char *end ) const
             cout << "\t-> ";
             current->Display();
         }
-        current = current->getNext();
+        current = current->GetNext();
     }
 
     if (!found)

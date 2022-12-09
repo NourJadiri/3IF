@@ -37,13 +37,13 @@ public:
     // Contrat :
     //
 
-    void AddTrip ( Trip *aTrip );
+    void AddTrip ( Trip * aTrip );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    void FetchTrip ( const char* start, const char* end ) const;
+    void FetchTrip ( const char * start, const char * end ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -66,7 +66,7 @@ public:
     // Contrat :
     //
 
-    explicit List ( Trip *aTrip );
+    explicit List ( Trip * aTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -82,8 +82,9 @@ public:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    Node *first;
+    Node * first;
     unsigned int size;
+
 };
 
 #endif //LIST_H

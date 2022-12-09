@@ -29,18 +29,20 @@ class SimpleTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-
-    char* GetTransport() const;
-
     void Display ( ) const override;
     // Mode d'emploi :
     //
     // Contrat :
     //
 
+    char * GetTransport ( ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
 
 //-------------------------------------------- Constructeurs - destructeur
-    SimpleTrip ( const char* aStart = nullptr, const char* aEnd = nullptr, const char* aTransportation = nullptr );
+    SimpleTrip ( const char * aStart = nullptr, const char * aEnd = nullptr, const char * aTransportation = nullptr );
     // Mode d'emploi :
     //
     // Contrat :
@@ -55,7 +57,8 @@ public:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    char* transportation{};
+    char * transportation;
+
 };
 
 #endif // SIMPLETRIP_H

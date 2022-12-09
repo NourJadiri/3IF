@@ -23,14 +23,14 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-char *Trip::GetStart ( ) const
+char * Trip::GetStart ( ) const
 // Algorithme :
 // returns attribute char* start
 {
     return start;
 } //----- Fin de GetStart
 
-char *Trip::GetEnd ( ) const
+char * Trip::GetEnd ( ) const
 // Algorithme :
 // returns attribute char* end
 {
@@ -44,13 +44,12 @@ int Trip::GetType ( ) const
     return type;
 } //----- Fin de GetType
 
-
 //------------------------------------------------- Surcharge d'opérateurs
 bool Trip::operator == ( const Trip &aTrip ) const
 // Algorithme :
 // Two trips are equal if their start and their ends are the same
 {
-    return (!strcmp(start, aTrip.GetStart()) && !strcmp(end, aTrip.GetEnd()));
+    return ( !strcmp(start, aTrip.GetStart()) && !strcmp(end, aTrip.GetEnd()) );
 } //----- Fin de operator ==
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -65,20 +64,19 @@ Trip::Trip ( )
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur par défaut)
 
-Trip::Trip ( const char* startCity, const char* endCity )
+Trip::Trip ( const char * startCity, const char * endCity )
 // Algorithme :
 // generic constructor that takes start, and end as a parameter
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Trip>" << endl;
 #endif
-    start = new char[64];
-    end = new char[64];
+    start = new char [ 64 ];
+    end = new char [ 64 ];
     strcpy(this->start, startCity);
     strcpy(this->end, endCity);
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur paramétré)
-
 
 Trip::~Trip ( )
 // Algorithme :
@@ -87,8 +85,8 @@ Trip::~Trip ( )
 #ifdef MAP
     cout << "Appel au destructeur de <Trip>" << endl;
 #endif
-    delete [] start;
-    delete [] end;
+    delete [ ] start;
+    delete [ ] end;
 } //----- Fin de ~Trip
 
 

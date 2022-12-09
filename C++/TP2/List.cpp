@@ -29,18 +29,18 @@ void List::Display ( ) const
 // Diplays the trips of the list
 {
     // If the first element is null (list still empty)
-    if (first == nullptr)
+    if ( first == nullptr )
     {
         cout << "Unfortunately, there are no trips in this list..." << endl;
         return;
     }
 
     int simpleTrip_number = 1, composedTrip_number = 1;
-    Node* current = first;
+    Node * current = first;
 
-    while (current != nullptr)
+    while ( current != nullptr )
     {
-        if(current->GetTrip()->GetType() == SIMPLE_TRIP)
+        if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
         {
             cout << "Simple Trip " << simpleTrip_number << " : ";
             simpleTrip_number++;
@@ -51,11 +51,8 @@ void List::Display ( ) const
             composedTrip_number++;
         }
         current->Display();
-        /*if (current->getTrip()->GetType() == SIMPLE_TRIP && current->getNext() != nullptr)
-            cout << " - " ;
-        else
-            cout << endl;*/
-        if (current->GetTrip()->GetType() == SIMPLE_TRIP)
+
+        if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
         {
             cout << endl;
         }
@@ -70,41 +67,41 @@ void List::AddTrip ( Trip *aTrip )
     // If the list is empty , set the first element to the node created
     if (size == 0)
     {
-        first = new Node(aTrip);
+        first = new Node ( aTrip );
         size++;
         return;
     }
 
-    Node *current = first;
+    Node * current = first;
 
     // Parsing through the list till the last element
-    while (current->GetNext() != nullptr)
+    while ( current->GetNext() != nullptr )
     {
         current = current->GetNext();
     }
 
-    current->SetNext(new Node(aTrip));
+    current->SetNext( new Node( aTrip ) );
     size++;
 } //----- Fin de AddTrip
 
-void List::FetchTrip ( const char *start, const char *end ) const
+void List::FetchTrip ( const char * start, const char * end ) const
 // Algorithme :
 // Searches a trip by start and end
 // Returns the trip if found, else returns a default null trip
 {
-    if (first == nullptr)
+    if ( first == nullptr )
     {
         cerr << "error: fetching in empty list" << endl;
         return;
     }
 
-    Node* current = first;
+    Node * current = first;
     bool found = false;
-    while (current != nullptr)
+    while ( current != nullptr )
     {
-        if (!strcmp(start, current->GetTrip()->GetStart()) && !strcmp(end, current->GetTrip()->GetEnd()))
+        if ( !strcmp( start, current->GetTrip()->GetStart() ) && !strcmp( end, current->GetTrip()->GetEnd() ) )
         {
-            if (!found)
+            if ( !found )
             { // if this is the first trip found, print a txt
                 cout << "Trip found!" << endl;
             }
@@ -115,7 +112,7 @@ void List::FetchTrip ( const char *start, const char *end ) const
         current = current->GetNext();
     }
 
-    if (!found)
+    if ( !found )
     {
         cout << "Trip from " << start << " to " << end << " does not exist..." << endl;
     }
@@ -126,32 +123,32 @@ void List::FetchTrip ( const char *start, const char *end ) const
  // Algorithme :
  //
 {
-    if(first == nullptr || size == 1){
+    if ( first == nullptr || size == 1 ){
         cout << "Empty list or list with one node..."<<endl; /// TODO : Enlever cette ligne
         return;
     }
 
-    List *sortedList = new List();
-    List *temp = this;
+    List * sortedList = new List();
+    List * temp = this;
 
-    Node *minTrip = first;
-    Node *iter = first;
+    Node * minTrip = first;
+    Node * iter = first;
 
-    while(iter->getNext() != nullptr){
-        if(strcmp(iter->getTrip()->GetStart(),minTrip->getTrip()->GetStart()) < 0)
+    while ( iter->getNext() != nullptr )
+    {
+        if ( strcmp( iter->getTrip()->GetStart(), minTrip->getTrip()->GetStart() ) < 0 )
         // Si iter est inferieur au min
         {
             minTrip = iter;
         }
-        else if(!strcmp(iter->getTrip()->GetStart(),minTrip->getTrip()->GetStart()))
+        else if ( !strcmp( iter->getTrip()->GetStart(), minTrip->getTrip()->GetStart() ) )
         // Si les deux trips ont la même start mais pas la même end
         {
-            if(strcmp(iter->getTrip()->GetEnd(),minTrip->getTrip()->GetEnd()) < 0)
+            if ( strcmp( iter->getTrip()->GetEnd(), minTrip->getTrip()->GetEnd() ) < 0 )
             {
                 minTrip = iter;
             }
         }
-
 
         iter = iter->getNext();
     }
@@ -185,14 +182,14 @@ List::List ( )
     size = DEFAULT_LIST_SIZE;
 } //----- Fin de List (constructeur par défaut)
 
-List::List ( Trip *aTrip )
+List::List ( Trip * aTrip )
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <List>" << endl;
 #endif
-    first = new Node(aTrip);
+    first = new Node( aTrip );
     size = 1;
 } //----- Fin de List (constructeur paramétré)
 

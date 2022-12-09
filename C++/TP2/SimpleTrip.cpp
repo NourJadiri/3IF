@@ -22,17 +22,30 @@ using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
+//----------------------------------------------------- Méthodes publiques
+void SimpleTrip::Display ( ) const
+// Algorithme :
+//
+{
+    cout << "Trip from " << start << " to " << end << " by " << transportation;
+}
+
+char * SimpleTrip::GetTransport ( ) const {
+    return transportation;
+}
+//----- Fin de GetTransport
+
 //-------------------------------------------- Constructeurs - destructeur
-SimpleTrip::SimpleTrip ( const char* aStart, const char* aEnd, const char* aTransportation ) : Trip(aStart, aEnd)
+SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd, const char * aTransportation ) : Trip( aStart, aEnd )
 // Calls generic Trip constructor
 // Copies the transportation
 {
 #ifdef MAP
     cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
-    transportation = new char[64];
+    transportation = new char [ 64 ];
     type = SIMPLE_TRIP;
-    strcpy(transportation , aTransportation);
+    strcpy( transportation, aTransportation );
 } //----- Fin de SimpleTrip
 
 
@@ -44,19 +57,6 @@ SimpleTrip::~SimpleTrip ( )
     cout << "Appel au destructeur de <SimpleTrip>" << endl;
 #endif
     cout << "Destructeur de simple trip appelé" << endl;
-    delete [] transportation;
+    delete [ ] transportation;
 } //----- Fin de ~SimpleTrip
-
-//----------------------------------------------------- Méthodes publiques
-void SimpleTrip::Display ( ) const
-// Algorithme :
-//
-{
-    cout << "Trip from " << start << " to " << end << " by " << transportation;
-}
-
-char* SimpleTrip::GetTransport ( ) const {
-    return transportation;
-}
-//----- Fin de GetTransport
 

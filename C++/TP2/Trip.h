@@ -38,13 +38,13 @@ public:
     // Contrat :
     //
 
-    virtual char* GetStart ( ) const;
+    virtual char * GetStart ( ) const;
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual char* GetEnd ( ) const;
+    virtual char * GetEnd ( ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -70,7 +70,7 @@ public:
     // Contrat :
     //
 
-    explicit Trip ( const char* start, const char* end );
+    explicit Trip ( const char *  start, const char * end );
     // Mode d'emploi :
     //
     // Contrat :
@@ -86,8 +86,8 @@ public:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    char* start;
-    char* end;
+    char * start;
+    char * end;
     int type;
 
 };

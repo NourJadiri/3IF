@@ -29,32 +29,17 @@ class ComposedTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    //void Display ( std::ostream & os ) const;
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
     void Display ( ) const override;
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    void AddSimpleTrip (SimpleTrip* newSTrip);
+    void AddSimpleTrip (SimpleTrip * newSTrip);
     // Mode d'emploi :
     //
     // Contrat :
     //
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-    //friend std::ostream& operator<< ( std::ostream & os, const ComposedTrip & aComposedTrip );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
 
 //-------------------------------------------- Constructeurs - destructeur
     ComposedTrip ( );
@@ -62,7 +47,12 @@ public:
     //
     // Contrat :
     //
-    explicit ComposedTrip(List & list);
+
+    explicit ComposedTrip( List & list );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
 
     ~ComposedTrip ( ) override;
     // Mode d'emploi :

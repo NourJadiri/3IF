@@ -10,7 +10,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Node> (fichier Node.h) ----------------
-#ifndef NODE_H
+#if ! defined ( NODE_H )
 #define NODE_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -31,45 +31,45 @@ class Node
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    Node* GetNext ( );
+    virtual void Display ( ) const;
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    Trip* GetTrip ( );
+    Node * GetNext ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    void SetNext ( Node* aNode );
+    Trip * GetTrip ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual void Display() const;
+    void SetNext ( Node * aNode );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    bool operator== (const Node & aNode) const;
+//------------------------------------------------- Surcharge d'opérateurs
+    bool operator == ( const Node & aNode ) const;
     // Mode d'emploi :
     //
     // Contrat :
     //
-
 
 //-------------------------------------------- Constructeurs - destructeur
-    explicit Node ( Trip *aTrip );
+    Node ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    Node ( );
+   explicit Node ( Trip * aTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -81,13 +81,12 @@ public:
     // Contrat :
     //
 
-
 //------------------------------------------------------------------ PRIVE
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    Trip *trip;
-    Node *next;
+    Trip * trip;
+    Node * next;
 
 };
 

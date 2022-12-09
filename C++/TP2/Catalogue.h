@@ -28,7 +28,6 @@ class Catalogue
 
 public:
 //----------------------------------------------------- Méthodes publiques
-
     void Launch ( );
     // Mode d'emploi :
     // suivre les instructions qui apparaissent sur la sortie standard
@@ -36,6 +35,23 @@ public:
     // Contrat :
     // il faut entrer un CHIFFRE
 
+//-------------------------------------------- Constructeurs - destructeur
+    Catalogue ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    virtual ~Catalogue ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+//------------------------------------------------------------------ PRIVE
+
+protected:
+//----------------------------------------------------- Méthodes protégées
     virtual void Display ( ) const;
     // Mode d'emploi :
     //
@@ -54,27 +70,8 @@ public:
     // Contrat :
     //
 
-//-------------------------------------------- Constructeurs - destructeur
-
-    Catalogue ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Catalogue ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-//------------------------------------------------------------------ PRIVE
-
-protected:
-//----------------------------------------------------- Méthodes protégées
-
 //----------------------------------------------------- Attributs protégés
-List tripList;
+    List tripList;
 
 };
 

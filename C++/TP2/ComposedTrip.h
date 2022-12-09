@@ -1,5 +1,5 @@
 /*************************************************************************
-                           ComposedTrip  -  Objet d'un trajet compose
+                           ComposedTrip  -  description
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -31,34 +31,33 @@ public:
 //----------------------------------------------------- Méthodes publiques
     void Display ( ) const override;
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Parcours de la List des SimpleTrip composants un ComposedTrip
+    // pour les afficher un à un sur la sortie standard avec leurs
+    // caractéristiques (villes d'arrivée, de départ, et transport)
 
-    void AddSimpleTrip (SimpleTrip * newSTrip);
+    void AddSimpleTrip ( SimpleTrip const * newSTrip );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Ajout d'un SimpleTrip newSTrip à la List des trajets qui composent le
+    // ComposedTrip
+    // newSTrip est un pointeur sur le SimpleTrip à ajouter, et sera copié
+    // en profondeur
 
 //-------------------------------------------- Constructeurs - destructeur
     ComposedTrip ( );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Constructeur d'un ComposedTrip avec une List de SimpleTrips vide
+    // Allocation de mémoire pour les chaines de caractères
 
-    explicit ComposedTrip( List & list );
+    explicit ComposedTrip( List const & list );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Constructeur d'un ComposedTrip à partir d'une List de SimpleTrips
+    // list est une référence sur la List de SimpleTrips passée en paramètres
+    // Recopie en profondeur des SimpleTrips composant list
+    // Allocation de mémoire pour les chaines de caractères
 
     ~ComposedTrip ( ) override;
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Libération de la mémoire allouée dans le tas pour les chaines de caractères
 
 //------------------------------------------------------------------ PRIVE
 

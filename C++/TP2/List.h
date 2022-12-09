@@ -37,7 +37,7 @@ public:
     // Contrat :
     //
 
-    void AddTrip ( Trip * aTrip );
+    void AddTrip ( Trip const * aTrip );
     // Mode d'emploi :
     //
     // Contrat :

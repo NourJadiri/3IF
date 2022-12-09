@@ -28,7 +28,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void Catalogue::Launch ( )
+void Catalogue::Launch ( ) const
 // Algorithme :
 // Appel de la méthode adéquate en fonction du choix de l'utilisateur
 // tant qu'il ne quitte pas le programme

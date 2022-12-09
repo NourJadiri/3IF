@@ -36,7 +36,7 @@ class Catalogue
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Launch ( );
+    void Launch ( ) const;
     // Mode d'emploi :
     // Menu de l'interface utilisateur sur la sortie standard, qui lui
     // propose plusieurs options, tant qu'il ne choisit pas de quitter

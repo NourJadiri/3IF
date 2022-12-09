@@ -60,7 +60,7 @@ void List::Display ( ) const
     }
 } //----- Fin de Display
 
-void List::AddTrip ( Trip *aTrip )
+void List::AddTrip ( Trip const * aTrip )
 // Algorithme :
 // Adds a new Node(Trip) to the end of the list and increments size
 {

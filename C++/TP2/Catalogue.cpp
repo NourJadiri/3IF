@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Catalogue  -  repertoire de tous les trajets
+                           Catalogue  -  description
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -30,8 +30,8 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void Catalogue::Launch ( )
 // Algorithme :
-// Menu de l'interface utilisateur sur la sortie standard, qui lui
-// propose plusieurs options, tant qu'il ne choisit pas de quitter
+// Appel de la méthode adéquate en fonction du choix de l'utilisateur
+// tant qu'il ne quitte pas le programme
 {
     cout << "\nWelcome to the worst version of Gouggle Mapse :)" << endl;
 
@@ -65,13 +65,13 @@ void Catalogue::Launch ( )
         switch ( choice )
         {
             case 1:
-                Display();
+                display();
                 break;
             case 2:
-                Add();
+                add();
                 break;
             case 3:
-                Fetch();
+                fetch();
                 break;
             case 4:
                 goto end;
@@ -87,18 +87,13 @@ void Catalogue::Launch ( )
 
 //-------------------------------------------- Constructeurs - destructeur
 Catalogue::Catalogue ( )
-// Algorithme :
-// Constructeur
 {
 #ifdef MAP
     cout << "Appel au constructeur de <Catalogue>" << endl;
 #endif
 } //----- Fin de Catalogue
 
-
 Catalogue::~Catalogue ( )
-// Algorithme :
-// Destructeur
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Catalogue>" << endl;
@@ -109,9 +104,7 @@ Catalogue::~Catalogue ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-void Catalogue::Display ( ) const
-// Algorithme :
-// Affichage du catalogue en appelant la fonction de la classe List
+void Catalogue::display ( ) const
 {
     if ( tripList.GetSize() == 0 )
     {
@@ -131,9 +124,11 @@ void Catalogue::Display ( ) const
     }
 } //----- Fin de Display
 
-void Catalogue::Add ( )
+void Catalogue::add ( )
 // Algorithme :
-//
+// Création d'un SimpleTrip et d'un ComposedTrip dans tous les cas
+// Si jamais l'utilisateur veut insérer un ComposedTrip, alors une suite de SimpleTrips
+// sera ajoutée au ComposedTrip tant qu'il le décidera
 {
     char * start = new char [ 64 ];
     char * end = new char [ 64 ];
@@ -152,7 +147,6 @@ void Catalogue::Add ( )
     cin >> transport;
 
     // We consider the eventuality of having a composed trip
-
     // These things are useful trust me.
     char * yesOrNo = new char [ 64 ];
     bool validInput;
@@ -166,7 +160,7 @@ void Catalogue::Add ( )
         cout << "Do you wish to make this trip a composed trip ? [yes/no] : ";
         cin >> yesOrNo;
 
-        validInput = !strcmp(yesOrNo, "yes") || !strcmp(yesOrNo, "no");
+        validInput = !strcmp( yesOrNo, "yes" ) || !strcmp( yesOrNo, "no" );
 
         if ( !validInput )
         {
@@ -176,8 +170,7 @@ void Catalogue::Add ( )
     }
     while ( !validInput );
 
-    bool isComposed = !strcmp(yesOrNo, "yes");
-
+    bool isComposed = !strcmp( yesOrNo, "yes" );
     if ( isComposed )
     {
         bool keepAdding;
@@ -185,7 +178,6 @@ void Catalogue::Add ( )
         newCTrip->AddSimpleTrip( newSTrip );
 
         validInput = false;
-
         do
         {
             strcpy( start,end );
@@ -205,7 +197,7 @@ void Catalogue::Add ( )
                 cout << "Do you wish to add another step to this trip ? [yes/no] : ";
                 cin >> addNewStep;
 
-                validInput = !strcmp(addNewStep, "yes") || !strcmp(addNewStep, "no");
+                validInput = !strcmp( addNewStep, "yes" ) || !strcmp( addNewStep, "no" );
 
                 if ( !validInput ) {
                     cout << "Please enter a valid input [yes/no]..." << endl;
@@ -214,7 +206,7 @@ void Catalogue::Add ( )
             }
             while ( !validInput );
 
-            keepAdding = !strcmp(addNewStep, "yes");
+            keepAdding = !strcmp( addNewStep, "yes" );
         }
         while ( keepAdding );
 
@@ -236,9 +228,10 @@ void Catalogue::Add ( )
     delete [ ] yesOrNo;
 }
 
-void Catalogue::Fetch ( ) const
+void Catalogue::fetch ( ) const
 // Algorithme :
-//
+// Si la liste des Trips est non vide, appel de la méthode de la classe List
+// pour rechercher le trajet
 {
     if ( tripList.GetSize() == 0 ) {
         cout << "Unfortunately, there are no trips yet..." << endl;

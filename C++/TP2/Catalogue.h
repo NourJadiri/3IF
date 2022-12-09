@@ -18,17 +18,16 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Catalogue>
-// La classe Catalogue fait le lien entre l'utilisateur final et le modèle
-// de données. Elle contient une liste de Trajets (trajets)
-// Elle propose trois types de services à l'utilisateur :
-// - Affichage du catalogue : Affiche tous les trajets enregistrés dans le
-//   catalogue
-// - Ajout de trajets : Permet à l'utilisateur de saisir de nouveaux
-//   trajets avec ou sans escales (TrajetSimple ou TrajetCompose) à
-//   ajouter au catalogue
-// - Recherche de parcours : Permet à l'utilisateur de rechercher les
-//   parcours (séquences ordonnées de trajets) correspondant à un voyage
-//   d'une ville donnée à une autre ville donnée
+// La classe Catalogue permet de communiquer avec l'utilisateur à travers
+// la sortie / entrée standard. Il peut faire 4 choix parmi :
+// - afficher le catalogue -> affiche tous les trajets répertoriés
+// - ajouter un trajet -> l'utilisateur décide s'il veut ajouter un trajet
+// simple ou composé, et entre les villes de départ et d'arrivée ;
+// ce trajet sera ensuite ajouté à la liste des trajets
+// - recherche d'un trajet -> l'utilisateur décide d'une ville de départ
+// et d'arrivée, et le programme cherche si ce trajet est répertorié dans
+// la liste des trajets
+// La classe Catalogue contient la List des trajets (simples ou composés)
 //------------------------------------------------------------------------
 
 class Catalogue

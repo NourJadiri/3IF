@@ -57,7 +57,6 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
-
     Node * GetFirst ( ) const;
     // Mode d'emploi :
     // Renvoie le premier Trip de la List ou null si la List est vide

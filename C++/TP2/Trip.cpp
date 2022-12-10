@@ -14,8 +14,8 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
 #include <iostream>
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Trip.h"
@@ -95,7 +95,7 @@ Trip::Trip ( char const * startCity, char const * endCity )
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur paramétré)
 
-Trip::Trip ( Trip const & aTrip)
+Trip::Trip ( Trip const & aTrip )
 {
 #ifdef MAP
     cout << "Appel au constructeur par référence de <Trip>" << endl;

@@ -55,11 +55,6 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
-    void Sort ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     Node * GetFirst ( ) const;
     // Mode d'emploi :

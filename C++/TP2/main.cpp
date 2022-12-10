@@ -15,8 +15,7 @@
 
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
-#include "SimpleTrip.h"
-#include "ComposedTrip.h"
+
 using namespace std;
 //----------------------------------------------------------------- PUBLIC
 

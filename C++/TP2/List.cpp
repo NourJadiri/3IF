@@ -58,11 +58,9 @@ void List::Display ( ) const
 
 void List::AddTrip ( Trip const * aTrip )
 // Algorithme :
-// - Ajout d'un Node (donc d'un trajet) à la fin de la list
+// - Ajout d'un Node à la liste en conservant l'ordre de tri (alphabétique)
 // --> allocation mémoire d'un nouvel élément + copie en profondeur
 // - size incrémentée
-
-/// la faudrait faire l'insertion avec le tri alphabétique
 {
     Node * toAdd = new Node ( aTrip );
 
@@ -82,9 +80,6 @@ void List::AddTrip ( Trip const * aTrip )
     // parsing through the list until the last element
     while ( current->GetNext() != nullptr )
     {
-        //compareStart = strcmp( current->GetTrip()->GetStart(), aTrip->GetStart() );
-        //compareEnd = strcmp( current->GetTrip()->GetEnd(), aTrip->GetEnd() );
-
         if ( current->GetTrip() <= aTrip && aTrip <= current->GetNext()->GetTrip() )
         {
             toAdd->SetNext( current->GetNext() );
@@ -129,42 +124,6 @@ void List::FetchTrip ( char const * start, char const * end ) const
     }
 } //----- Fin de FetchTrip
 
-void List::Sort ( )
-/// TODO : A FINIR !!!
-// Algorithme :
-//
-{
-    // empty list or list with only one node
-    if ( first == nullptr || size == 1 ){
-        return;
-    }
-
-    List * sortedList = new List();
-    List * temp = this;
-
-    Node * minTrip = first;
-    Node * iter = first;
-
-    while ( iter->GetNext() != nullptr )
-    {
-        if ( strcmp( iter->GetTrip()->GetStart(), minTrip->GetTrip()->GetStart() ) < 0 )
-        // Si iter est inferieur au min
-        {
-            minTrip = iter;
-        }
-        else if ( !strcmp( iter->GetTrip()->GetStart(), minTrip->GetTrip()->GetStart() ) )
-        // Si les deux trips ont la même start mais pas la même end
-        {
-            if ( strcmp( iter->GetTrip()->GetEnd(), minTrip->GetTrip()->GetEnd() ) < 0 )
-            {
-                minTrip = iter;
-            }
-        }
-
-        iter = iter->GetNext();
-    }
-
-} //----- Fin de Sort
 
 Node * List::GetFirst ( ) const
 {

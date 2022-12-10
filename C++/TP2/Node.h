@@ -20,8 +20,8 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Node>
-// Node correspond aux éléments de la liste simplement chainee List
-/// Elle permet notamment de JSP
+// Node correspond aux éléments simples de la liste simplement chainee List
+// Un Node stock les informations relatives à chaque cellule de la liste chainée
 //------------------------------------------------------------------------
 
 class Node
@@ -69,7 +69,8 @@ public:
 //-------------------------------------------- Constructeurs - destructeur
     Node ( );
     // Mode d'emploi :
-    /// A COMPLETER
+    // Constructeur par défaut de Node
+    // Initialise les pointeurs trip et next à NULL pour qu'ils soient assignables plus tard
     // Contrat :
     //
 

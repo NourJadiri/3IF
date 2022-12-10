@@ -10,7 +10,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
-#if ! defined ( TRIP_H )
+#ifndef TRIP_H
 #define TRIP_H
 
 //--------------------------------------------------- Interfaces utilisées

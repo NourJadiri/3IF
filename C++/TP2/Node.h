@@ -58,7 +58,7 @@ public:
     // aNode est un Node valide (donc avec un Trip et un next valides)
 
 //------------------------------------------------- Surcharge d'opérateurs
-    bool operator == ( const Node & aNode ) const;
+    virtual bool operator == ( Node const & aNode ) const;
     // Mode d'emploi :
     // Surcharge de l'opérateur == afin de retourner un bool en fonction de
     // si les deux trip de deux Nodes sont égaux

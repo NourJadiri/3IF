@@ -58,7 +58,7 @@ void List::Display ( ) const
 
 void List::AddTrip ( Trip const * aTrip )
 // Algorithme :
-// - Ajout d'un Node à la liste en conservant l'ordre de tri (alphabétique)
+// - Ajout d'un Node (donc d'un trajet) à la fin de la list
 // --> allocation mémoire d'un nouvel élément + copie en profondeur
 // - size incrémentée
 {
@@ -67,14 +67,8 @@ void List::AddTrip ( Trip const * aTrip )
     // alphabetical sorting
     Node * current = first;
 
-    if(size == 0){
-        first = toAdd;
-        size++;
-        return;
-    }
-
     // empty list or new Node needs to be first
-    if ( *aTrip <= *(first->GetTrip()) )
+    if ( size == 0 || * aTrip <= * first->GetTrip() )
     {
         toAdd->SetNext( first );
         first = toAdd;
@@ -82,15 +76,21 @@ void List::AddTrip ( Trip const * aTrip )
         return;
     }
 
-    // We parse through the list until we find a trip that is lexicographically greater than the trip we want to insert
-    while ( current->GetNext() != nullptr && *(toAdd->GetTrip()) >= *(current->GetNext()->GetTrip()) )
+    // checking for order condition and
+    // parsing through the list until the last element
+    while ( current->GetNext() != nullptr )
     {
+        if ( * current->GetTrip() <= * aTrip && * aTrip <= * current->GetNext()->GetTrip() )
+        {
+            toAdd->SetNext( current->GetNext() );
+            current->SetNext( toAdd );
+            size++;
+            return;
+        }
         current = current->GetNext();
     }
-
-    toAdd->SetNext(current->GetNext());
-    current->SetNext(toAdd);
-
+    // insertion at end of List
+    current->SetNext( toAdd );
     size++;
 } //----- Fin de AddTrip
 
@@ -109,7 +109,7 @@ void List::FetchTrip ( char const * start, char const * end ) const
         {
             if ( !found )
             { // if this is the first trip found, print a txt
-                cout << "Trip found!" << endl;
+                cout << "\nTrip found!" << endl;
             }
             found = true;
             cout << "\t-> ";
@@ -120,10 +120,9 @@ void List::FetchTrip ( char const * start, char const * end ) const
 
     if ( !found )
     {
-        cout << "Trip from " << start << " to " << end << " does not exist..." << endl;
+        cout << "\nTrip from " << start << " to " << end << " does not exist..." << endl;
     }
 } //----- Fin de FetchTrip
-
 
 Node * List::GetFirst ( ) const
 {

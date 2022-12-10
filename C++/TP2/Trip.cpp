@@ -55,8 +55,8 @@ bool Trip::operator <= ( Trip const & aTrip ) const
 // - ou, s'ils sont égaux
 {
     return ( ( strcmp( start, aTrip.GetStart() ) < 0 )
-            || ( !strcmp( start, aTrip.GetStart() )  && strcmp( end, aTrip.GetEnd() ) < 0 )
-            || ( * this == aTrip ) );
+             || ( !strcmp( start, aTrip.GetStart() )  && strcmp( end, aTrip.GetEnd() ) < 0 )
+             || ( * this == aTrip ) );
 } //----- Fin de operator <=
 
 bool Trip::operator >= ( Trip const & aTrip ) const
@@ -95,7 +95,7 @@ Trip::Trip ( char const * startCity, char const * endCity )
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur paramétré)
 
-Trip::Trip ( Trip const & aTrip )
+Trip::Trip ( Trip const & aTrip)
 {
 #ifdef MAP
     cout << "Appel au constructeur par référence de <Trip>" << endl;
@@ -117,5 +117,3 @@ Trip::~Trip ( )
     delete [ ] start;
     delete [ ] end;
 } //----- Fin de ~Trip
-
-

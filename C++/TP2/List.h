@@ -21,10 +21,11 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <List>
-////////////// A COMPLETER
 // Structure de données qui permet de gérer les trajets Trips,
 // sans distinction de leur nature, donc qu'ils soient simple ou composés
 // Correspond à une liste simplement chaînée
+// List a pour attributs un pointeur sur le premier élément qui est un Node
+// et le nombre d'éléments qu'elle contient (donc sa taille size)
 //------------------------------------------------------------------------
 
 class List : public Node

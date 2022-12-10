@@ -21,7 +21,9 @@
 // Rôle de la classe <SimpleTrip>
 // La classe SimpleTrip hérite publiquement de Trip et un SimpleTrip, par
 // rapport à un Trip quelconque, contient un moyen de transport.
-// Il contient donc pas héritage une ville de départ start et d'arrivée end
+// Il contient donc par héritage une ville de départ start et d'arrivée end
+// Un trajet simple a pour attribut spécifique son moyen de transport
+// transportation, qui est donc une chaine de caractères
 //------------------------------------------------------------------------
 
 class SimpleTrip : public Trip

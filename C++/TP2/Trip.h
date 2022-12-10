@@ -10,7 +10,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Trip> (fichier Trip.h) ----------------
-#ifndef TRIP_H
+#if ! defined ( TRIP_H )
 #define TRIP_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -31,6 +31,8 @@ enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };
 // Virtual par défaut lors de la construction d'un Trip
 // Simple_Trip si le Trip ne comporte pas d'escale
 // Composed_Trip si le Trip comporte une ou plusieurs escales
+// un trajet, qu'il soit simple ou composé, a une ville de départ et
+// d'arrivée, donc deux chaines de caractères start et end respectivement
 //------------------------------------------------------------------------
 
 class Trip

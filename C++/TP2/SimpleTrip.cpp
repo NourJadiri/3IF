@@ -53,4 +53,3 @@ SimpleTrip::~SimpleTrip ( )
 #endif
     delete [ ] transportation;
 } //----- Fin de ~SimpleTrip
-

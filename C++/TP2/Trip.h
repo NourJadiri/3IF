@@ -74,6 +74,22 @@ public:
     // Contrat :
     // les deux trip comparés sont des Trip valides
 
+    virtual bool operator <= ( Trip const & aTrip ) const;
+    // Mode d'emploi :
+    // Surcharge de l'opérateur <= afin de retourner un bool en fonction de
+    // si Trip est inférieur ou égal à aTrip
+    // aTrip est une référence sur le Trip à comparer, pas de copie
+    // Contrat :
+    // les deux trip comparés sont des Trip valides
+
+    virtual bool operator >= ( Trip const & aTrip ) const;
+    // Mode d'emploi :
+    // Surcharge de l'opérateur >= afin de retourner un bool en fonction de
+    // si Trip est supérieur ou égal à aTrip
+    // aTrip est une référence sur le Trip à comparer, pas de copie
+    // Contrat :
+    // les deux trip comparés sont des Trip valides
+
 //-------------------------------------------- Constructeurs - destructeur
     Trip ( );
     // Mode d'emploi :

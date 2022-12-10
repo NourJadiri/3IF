@@ -46,6 +46,32 @@ bool Trip::operator == ( Trip const & aTrip ) const
     return ( !strcmp( start, aTrip.GetStart() ) && !strcmp( end, aTrip.GetEnd() ) );
 } //----- Fin de operator ==
 
+bool Trip::operator <= ( Trip const & aTrip ) const
+// Algorithme :
+// Trip inférieur ou égal à aTrip si :
+// - sa ville de départ est avant dans l'ordre alphabétique
+// - ou, s'ils ont les memes villes de départ, si sa ville d'arrivée est avant dans
+// l'ordre alphabétique
+// - ou, s'ils sont égaux
+{
+    return ( ( strcmp( start, aTrip.GetStart() ) < 0 )
+            || ( !strcmp( start, aTrip.GetStart() )  && strcmp( end, aTrip.GetEnd() ) < 0 )
+            || ( * this == aTrip ) );
+} //----- Fin de operator <=
+
+bool Trip::operator >= ( Trip const & aTrip ) const
+// Algorithme :
+// Trip supérieur ou égal à aTrip si :
+// - sa ville de départ est après dans l'ordre alphabétique
+// - ou, s'ils ont les memes villes de départ, si sa ville d'arrivée est après dans
+// l'ordre alphabétique
+// - ou, s'ils sont égaux
+{
+    return ( ( strcmp( start, aTrip.GetStart() ) > 0 )
+             || ( !strcmp( start, aTrip.GetStart() )  && strcmp( end, aTrip.GetEnd() ) > 0 )
+             || ( * this == aTrip ) );
+} //----- Fin de operator >=
+
 //-------------------------------------------- Constructeurs - destructeur
 Trip::Trip ( )
 {

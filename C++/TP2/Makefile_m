@@ -1,7 +1,7 @@
 #Makefile
 ECHO = @echo
 RM = @rm
-RMFLAGS = -f
+RMFLAGS = rm -f
 
 CXX = g++
 LD = g++
@@ -17,3 +17,6 @@ EFFACE = clean
 $(EXE) : $(OBJETS)
 	$(ECHO) ">>>Edition des liens de <$(EXE)>"
     $(LD) $(LDFLAGS) -o $(EXE) $(OBJETS)
+
+$(EFFACE) :
+    $(RM) $(RMFLAGS) $(EXE) $(OBJETS)

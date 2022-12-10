@@ -58,7 +58,7 @@ void List::Display ( ) const
 
 void List::AddTrip ( Trip const * aTrip )
 // Algorithme :
-// - Ajout d'un Node (donc d'un trajet) à la fin de la list
+// - Ajout d'un Node à la liste en conservant l'ordre de tri (alphabétique)
 // --> allocation mémoire d'un nouvel élément + copie en profondeur
 // - size incrémentée
 {
@@ -123,6 +123,7 @@ void List::FetchTrip ( char const * start, char const * end ) const
         cout << "Trip from " << start << " to " << end << " does not exist..." << endl;
     }
 } //----- Fin de FetchTrip
+
 
 Node * List::GetFirst ( ) const
 {

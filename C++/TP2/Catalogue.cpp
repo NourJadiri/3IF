@@ -32,12 +32,12 @@ void Catalogue::Launch ( )
 // Appel de la méthode adéquate en fonction du choix de l'utilisateur
 // tant qu'il ne quitte pas le programme
 {
-    cout << "\nWelcome to the worst version of Gouggle Mapse :)" << endl;
+    cout << endl << "Welcome to the worst version of Gouggle Mapse :)" << endl;
 
     int choice;
     for ( ; ; )
     {
-        cout << "\n---------------------------- Menu. ----------------------------" << endl;
+        cout << endl << "---------------------------- Menu. ----------------------------" << endl;
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: display the catalogue of the available trips" << endl;
         cout << "\t2: add a trip" << endl;
@@ -125,9 +125,12 @@ void Catalogue::display ( ) const
 
 void Catalogue::add ( )
 // Algorithme :
-// Création d'un SimpleTrip et d'un ComposedTrip dans tous les cas
-// Si jamais l'utilisateur veut insérer un ComposedTrip, alors une suite de SimpleTrips
-// sera ajoutée au ComposedTrip tant qu'il le décidera
+/*
+ * Un SimpleTrip et un ComposedTrip sont toujours créés par défaut.
+ * Si l'utilisateur n'ajoute qu'un SimpleTrip, le ComposedTrip est supprimé.
+ * Si jamais l'utilisateur veut insérer un ComposedTrip, alors une suite de SimpleTrips
+ * sera ajoutée au ComposedTrip tant qu'il le décidera.
+ */
 {
     char * start = new char [ 64 ];
     char * end = new char [ 64 ];
@@ -145,15 +148,15 @@ void Catalogue::add ( )
     cout << "----- Enter the kind of transport used : ";
     cin >> transport;
 
-    // We consider the eventuality of having a composed trip
-    // These things are useful trust me.
     char * yesOrNo = new char [ 64 ];
     bool validInput;
 
     SimpleTrip * newSTrip = new SimpleTrip( start, end, transport );
+
+    // We always consider the eventuality of having a composed trip
     ComposedTrip * newCTrip = new ComposedTrip();
+
     // Checks if the user input is valid (yes/no)
-    // TODO : REFACTOR THE CODE AND MAKE THIS A METHOD
     do
     {
         cout << "Do you wish to make this trip a composed trip ? [yes/no] : ";
@@ -170,6 +173,8 @@ void Catalogue::add ( )
     while ( !validInput );
 
     bool isComposed = !strcmp( yesOrNo, "yes" );
+
+    // If the user wants to make its trip a ComposedTrip
     if ( isComposed )
     {
         bool keepAdding;
@@ -177,8 +182,11 @@ void Catalogue::add ( )
         newCTrip->AddSimpleTrip( newSTrip );
 
         validInput = false;
+
+        // Adding new simple trips to the composed trip created
         do
         {
+            // Force the link between the end of the previous trip and the start of the new trip
             strcpy( start,end );
 
             cout << "----- Enter the next city of arrival : ";
@@ -190,7 +198,6 @@ void Catalogue::add ( )
             newCTrip->AddSimpleTrip ( new SimpleTrip( start, end, transport ) );
 
             // Checks if the user input is valid [yes/no]
-            // TODO : REFACTOR THE CODE AND MAKE THIS A METHOD
             do
             {
                 cout << "Do you wish to add another step to this trip ? [yes/no] : ";
@@ -210,17 +217,19 @@ void Catalogue::add ( )
         while ( keepAdding );
 
         tripList.AddTrip( newCTrip );
-        // cout << "The new composed trip from " << newCTrip->GetStart() << " to " << newCTrip->GetEnd() << " has been successfully added !" << endl;
 
         delete [ ] addNewStep;
     }
+    // Else, if they only want to add a simpleTrip
     else
     {
         tripList.AddTrip( newSTrip );
+
+        // Delete the temporary composedTrip created
         delete newCTrip;
     }
 
-    // to free allocated memory in heap
+    // to free allocated memory in heap (délicieuse mémoire libérée)
     delete [ ] start;
     delete [ ] end ;
     delete [ ] transport;

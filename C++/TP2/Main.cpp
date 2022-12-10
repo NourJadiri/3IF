@@ -9,6 +9,7 @@
                            vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
+
 //---------- Réalisation du module <Main> (fichier Main.cpp) ------------
 
 /////////////////////////////////////////////////////////////////  INCLUDE
@@ -38,3 +39,30 @@ int main ( )
     test ( );
     return 0;
 } //----- fin de main
+//---------- Réalisation de la classe <Main> (fichier Main.cpp) ------------
+
+//---------------------------------------------------------------- INCLUDE
+
+//------------------------------------------------------ Include personnel
+#include "Catalogue.h"
+
+using namespace std;
+
+//----------------------------------------------------------------- PUBLIC
+
+//----------------------------------------------------- Méthodes publiques
+int main ( )
+// Algorithme :
+// Lancement du programme par le système lors de l'execution
+// Creation d'un catalogue vide
+{
+    Catalogue c;
+    c.Launch();
+
+/*    ComposedTrip *ct = new ComposedTrip();
+    ct->AddSimpleTrip(new SimpleTrip("aaa","bbb","ccc"));
+    ct->AddSimpleTrip(new SimpleTrip("ddd","eee","fff"));
+
+    cout << ct->GetEnd();*/
+    return 0;
+} //----- Fin de Main

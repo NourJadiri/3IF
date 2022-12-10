@@ -17,13 +17,12 @@
 #include <iostream>
 #include <limits>
 #include <unistd.h>
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
 #include "Catalogue.h"
 #include "SimpleTrip.h"
-
-using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 

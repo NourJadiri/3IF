@@ -92,5 +92,4 @@ ComposedTrip::~ComposedTrip ( )
 #ifdef MAP
     cout << "Appel au destructeur de <ComposedTrip>" << endl;
 #endif
-    cout << "Destructeur de composedTrip" << endl;
 } //----- Fin de ~ComposedTrip

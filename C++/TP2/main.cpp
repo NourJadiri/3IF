@@ -18,6 +18,7 @@
 #include "SimpleTrip.h"
 #include "ComposedTrip.h"
 using namespace std;
+
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques

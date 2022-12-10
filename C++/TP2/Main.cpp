@@ -9,31 +9,32 @@
                            vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <Main> (fichier Main.cpp) ------------
+//---------- Réalisation du module <Main> (fichier Main.cpp) ------------
 
-//---------------------------------------------------------------- INCLUDE
-
-//------------------------------------------------------ Include personnel
-#include "Catalogue.h"
-#include "SimpleTrip.h"
-#include "ComposedTrip.h"
+/////////////////////////////////////////////////////////////////  INCLUDE
+//-------------------------------------------------------- Include système
 using namespace std;
 
-//----------------------------------------------------------------- PUBLIC
+//------------------------------------------------------ Include personnel
+#include "Main.h"
+#include "Catalogue.h"
 
-//----------------------------------------------------- Méthodes publiques
-int main ( )
+///////////////////////////////////////////////////////////////////  PRIVE
+//------------------------------------------------------ Fonctions privées
+static void test ( )
+// Mode d'emploi :
+// Procédure de test appelée par le main
 // Algorithme :
-// Lancement du programme par le système lors de l'execution
-// Creation d'un catalogue vide
+// Création d'un catalogue vide lors du lancement de l'application
 {
     Catalogue c;
     c.Launch();
+} //----- fin de test
 
-/*    ComposedTrip *ct = new ComposedTrip();
-    ct->AddSimpleTrip(new SimpleTrip("aaa","bbb","ccc"));
-    ct->AddSimpleTrip(new SimpleTrip("ddd","eee","fff"));
-
-    cout << ct->GetEnd();*/
+int main ( )
+// Algorithme :
+// Appel à la procédure de test
+{
+    test ( );
     return 0;
-} //----- Fin de Main
+} //----- fin de main

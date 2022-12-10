@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Trip  -  description
+                           Trip  -  Objet d'un trajet en général
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,

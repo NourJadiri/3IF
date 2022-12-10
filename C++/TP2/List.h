@@ -1,5 +1,5 @@
 /*************************************************************************
-                           List  -  description
+                           List - Structure de données qui gère les Trips
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -22,7 +22,9 @@
 //------------------------------------------------------------------------
 // Rôle de la classe <List>
 ////////////// A COMPLETER
-//
+// Structure de données qui permet de gérer les trajets Trips,
+// sans distinction de leur nature, donc qu'ils soient simple ou composés
+// Correspond à une liste simplement chaînée
 //------------------------------------------------------------------------
 
 class List : public Node
@@ -78,7 +80,7 @@ public:
 
     virtual ~List ( );
     // Mode d'emploi :
-    // Libération de l'espace mémoire alloué pour les éléments de List
+    // Libération un à un des espaces mémoire alloués pour les éléments de List
 
 //------------------------------------------------------------------ PRIVE
 

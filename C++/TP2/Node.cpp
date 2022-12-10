@@ -41,7 +41,7 @@ void Node::SetNext ( Node * aNode )
 } //----- Fin de SetNext
 
 //------------------------------------------------- Surcharge d'opérateurs
-bool Node::operator == ( const Node & aNode ) const
+bool Node::operator == ( Node const & aNode ) const
 // Algorithme :
 // 2 Nodes sont égaux si les 2 trips qu'ils contiennent sont égaux
 {

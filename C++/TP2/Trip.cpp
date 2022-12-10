@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Trip  -  SOMETHINGXXXXXXXXXX
+                           Trip  -  description
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -24,37 +24,30 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 char * Trip::GetStart ( ) const
-// Algorithme :
-// returns attribute char* start
 {
     return start;
 } //----- Fin de GetStart
 
 char * Trip::GetEnd ( ) const
-// Algorithme :
-// returns attribute char* end
 {
     return end;
 } //----- Fin de GetEnd
 
 int Trip::GetType ( ) const
-// Algorithme :
-//
 {
     return type;
 } //----- Fin de GetType
 
 //------------------------------------------------- Surcharge d'opérateurs
-bool Trip::operator == ( const Trip &aTrip ) const
+bool Trip::operator == ( Trip const & aTrip ) const
 // Algorithme :
-// Two trips are equal if their start and their ends are the same
+// 2 Trip sont égaux si leurs villes de départ et arrivée sont égales
 {
-    return ( !strcmp(start, aTrip.GetStart()) && !strcmp(end, aTrip.GetEnd()) );
+    return ( !strcmp( start, aTrip.GetStart() ) && !strcmp( end, aTrip.GetEnd() ) );
 } //----- Fin de operator ==
 
 //-------------------------------------------- Constructeurs - destructeur
 Trip::Trip ( )
-// Default constructor
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Trip>" << endl;
@@ -64,19 +57,29 @@ Trip::Trip ( )
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur par défaut)
 
-Trip::Trip ( const char * startCity, const char * endCity )
-// Algorithme :
-// generic constructor that takes start, and end as a parameter
+Trip::Trip ( char const * startCity, char const * endCity )
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Trip>" << endl;
 #endif
-    start = new char [ 64 ];
-    end = new char [ 64 ];
-    strcpy(this->start, startCity);
-    strcpy(this->end, endCity);
+    start = new char [ strlen( startCity ) + 1 ];
+    end = new char [ strlen( endCity ) + 1 ];
+    strcpy( start, startCity );
+    strcpy( end, endCity );
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur paramétré)
+
+Trip::Trip ( Trip const & aTrip)
+{
+#ifdef MAP
+    cout << "Appel au constructeur par référence de <Trip>" << endl;
+#endif
+    start = new char [ strlen( aTrip.start ) + 1 ];
+    end = new char [ strlen( aTrip.end ) + 1 ];
+    strcpy( start, aTrip.start );
+    strcpy( end, aTrip.end );
+    type = VIRTUAL;
+} //----- Fin de Trip (constructeur par référence)
 
 Trip::~Trip ( )
 // Algorithme :

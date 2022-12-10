@@ -74,7 +74,7 @@ public:
     // Mode d'emploi :
     // Création d'une List vide, avec un premier élément nul
 
-    explicit List ( Trip const * aTrip );
+    List ( Trip const * aTrip );
     // Mode d'emploi :
     // Initialisation du premier élément de la List
     // aTrip est un pointeur sur ce premier Trip à repertorier

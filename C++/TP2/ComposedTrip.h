@@ -54,12 +54,12 @@ public:
     // Mode d'emploi :
     // Constructeur d'un ComposedTrip à partir d'une List de SimpleTrips
     // list est une référence sur la List de SimpleTrips passée en paramètres
-    // Recopie en profondeur des SimpleTrips composant list
-    // Allocation de mémoire pour les chaines de caractères
+    // Recopie en profondeur les SimpleTrips composant list
+    // avec une allocation de mémoire pour les chaines de caractères
     // Contrat :
     // La List list est non vide
 
-    ~ComposedTrip ( ) override;
+    virtual ~ComposedTrip ( );
     // Mode d'emploi :
     // Libération de la mémoire allouée dans le tas pour les chaines de caractères
     // par héritage

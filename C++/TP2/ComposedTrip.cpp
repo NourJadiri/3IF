@@ -73,17 +73,17 @@ ComposedTrip::ComposedTrip ( List const & list ) : Trip ( )
 #ifdef MAP
     cout << "Appel au constructeur depuis une List de <ComposedTrip>" << endl;
 #endif
-    start = new char [ 64 ];
-    end = new char [ 64 ];
+    Node * iter = list.GetFirst();
+    start = new char [ strlen( iter->GetTrip()->GetStart() ) + 1 ];
+    strcpy( start, iter->GetTrip()->GetStart() );
+
     trips = list;
     type = COMPOSED_TRIP;
-
-    Node * iter = list.GetFirst();
-    strcpy( start, iter->GetTrip()->GetStart() );
     while ( iter->GetNext() != nullptr )
     {
         iter = iter->GetNext();
     }
+    end = new char [ strlen( iter->GetTrip()->GetEnd() ) + 1 ];
     strcpy( end, iter->GetTrip()->GetEnd() );
 } //----- Fin du constructeur de ComposedTrip depuis une List
 

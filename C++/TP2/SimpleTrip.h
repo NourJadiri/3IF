@@ -1,5 +1,5 @@
 /*************************************************************************
-                           SimpleTrip  -  Objet d'un trajet simple
+                           SimpleTrip  -  description
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -19,8 +19,9 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <SimpleTrip>
-//
-//
+// La classe SimpleTrip hérite publiquement de Trip et un SimpleTrip, par
+// rapport à un Trip quelconque, contient un moyen de transport.
+// Il contient donc pas héritage une ville de départ start et d'arrivée end
 //------------------------------------------------------------------------
 
 class SimpleTrip : public Trip
@@ -29,29 +30,37 @@ class SimpleTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display ( ) const override;
+    virtual void Display ( ) const;
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Affichage sur la sortie standard des attributs d'un SimpleTrip,
+    // c'est-à-dire de ses villes de départ et d'arrivée et de son moyen de
+    // transport
 
     char * GetTransport ( ) const;
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Renvoie un pointeur sur la chaine de caractères du moyen de transport
+    // du SimpleTrip
 
 //-------------------------------------------- Constructeurs - destructeur
     SimpleTrip ( const char * aStart = nullptr, const char * aEnd = nullptr, const char * aTransportation = nullptr );
     // Mode d'emploi :
-    //
+    // Constructeur d'un SimpleTrip à partir d'une copie en profondeur des
+    // trois caractéristiques d'un trajet simple
+    /// PAS SURE A VERIFIER
+    // le moyen de transport est copié en profondeur dans ce constructeur
+    // les villes de départ et arrivée sont copiées en profondeur dans le
+    // constructeur de Trip par héritage
     // Contrat :
+    // les chaines de caractères sont valides (pas d'espaces et pas plus de
+    // 64 caractères)
 
-    ~SimpleTrip ( );
+    virtual ~SimpleTrip ( );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Suppression de la zone mémoire allouée dynamiquement pour le moyen
+    // de transport
+    /// PAS SURE A VERIFIER
+    // Par héritage, les zones mémoire des villes de départ et arrivée sont
+    // supprimées lors de l'appel au destructeur de Trip
 
 //------------------------------------------------------------------ PRIVE
 

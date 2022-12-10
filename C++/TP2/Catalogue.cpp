@@ -15,7 +15,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-//#include <limits>
+#include <limits>
 //#include <unistd.h>
 using namespace std;
 

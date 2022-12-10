@@ -67,8 +67,14 @@ void List::AddTrip ( Trip const * aTrip )
     // alphabetical sorting
     Node * current = first;
 
+    if(size == 0){
+        first = toAdd;
+        size++;
+        return;
+    }
+
     // empty list or new Node needs to be first
-    if ( size == 0 || aTrip <= first->GetTrip() )
+    if ( *aTrip <= *(first->GetTrip()) )
     {
         toAdd->SetNext( first );
         first = toAdd;
@@ -76,21 +82,15 @@ void List::AddTrip ( Trip const * aTrip )
         return;
     }
 
-    // checking for order condition and
-    // parsing through the list until the last element
-    while ( current->GetNext() != nullptr )
+    // We parse through the list until we find a trip that is lexicographically greater than the trip we want to insert
+    while ( current->GetNext() != nullptr && *(toAdd->GetTrip()) >= *(current->GetNext()->GetTrip()) )
     {
-        if ( current->GetTrip() <= aTrip && aTrip <= current->GetNext()->GetTrip() )
-        {
-            toAdd->SetNext( current->GetNext() );
-            current->SetNext( toAdd );
-            size++;
-            return;
-        }
         current = current->GetNext();
     }
-    // insertion at end of List
-    current->SetNext( toAdd );
+
+    toAdd->SetNext(current->GetNext());
+    current->SetNext(toAdd);
+
     size++;
 } //----- Fin de AddTrip
 

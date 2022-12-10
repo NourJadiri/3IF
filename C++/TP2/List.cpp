@@ -61,8 +61,6 @@ void List::AddTrip ( Trip const * aTrip )
 // - Ajout d'un Node (donc d'un trajet) à la fin de la list
 // --> allocation mémoire d'un nouvel élément + copie en profondeur
 // - size incrémentée
-
-/// la faudrait faire l'insertion avec le tri alphabétique
 {
     Node * toAdd = new Node ( aTrip );
 
@@ -82,9 +80,6 @@ void List::AddTrip ( Trip const * aTrip )
     // parsing through the list until the last element
     while ( current->GetNext() != nullptr )
     {
-        //compareStart = strcmp( current->GetTrip()->GetStart(), aTrip->GetStart() );
-        //compareEnd = strcmp( current->GetTrip()->GetEnd(), aTrip->GetEnd() );
-
         if ( current->GetTrip() <= aTrip && aTrip <= current->GetNext()->GetTrip() )
         {
             toAdd->SetNext( current->GetNext() );

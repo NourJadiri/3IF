@@ -129,43 +129,6 @@ void List::FetchTrip ( char const * start, char const * end ) const
     }
 } //----- Fin de FetchTrip
 
-void List::Sort ( )
-/// TODO : A FINIR !!!
-// Algorithme :
-//
-{
-    // empty list or list with only one node
-    if ( first == nullptr || size == 1 ){
-        return;
-    }
-
-    List * sortedList = new List();
-    List * temp = this;
-
-    Node * minTrip = first;
-    Node * iter = first;
-
-    while ( iter->GetNext() != nullptr )
-    {
-        if ( strcmp( iter->GetTrip()->GetStart(), minTrip->GetTrip()->GetStart() ) < 0 )
-        // Si iter est inferieur au min
-        {
-            minTrip = iter;
-        }
-        else if ( !strcmp( iter->GetTrip()->GetStart(), minTrip->GetTrip()->GetStart() ) )
-        // Si les deux trips ont la même start mais pas la même end
-        {
-            if ( strcmp( iter->GetTrip()->GetEnd(), minTrip->GetTrip()->GetEnd() ) < 0 )
-            {
-                minTrip = iter;
-            }
-        }
-
-        iter = iter->GetNext();
-    }
-
-} //----- Fin de Sort
-
 Node * List::GetFirst ( ) const
 {
     return first;

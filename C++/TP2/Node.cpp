@@ -27,18 +27,18 @@ void Node::Display ( ) const
     trip->Display();
 } //----- Fin de Display
 
-Node* Node::GetNext ( )
+Node * Node::GetNext ( )
 // Algorithme :
 // Setter for the next node
 {
     return next;
 } //----- Fin de GetNext
 
-Trip* Node::GetTrip ( )
+Trip * Node::GetTrip ( )
 // Algorithme :
 //
 {
-    return trip;
+    return const_cast<Trip *>(trip);
 } //----- Fin de GetTrip
 
 void Node::SetNext ( Node * aNode )
@@ -68,7 +68,7 @@ Node::Node ( )
     next = nullptr;
 } //----- Fin de Node (constructeur par défaut)
 
-Node::Node ( Trip * aTrip )
+Node::Node ( Trip const * aTrip )
 // Algorithme :
 // Constructor
 {

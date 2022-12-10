@@ -1,5 +1,5 @@
 /*************************************************************************
-                           List  -  SMTGXXXXXXXXXXXX
+                           List  -  description
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -26,18 +26,12 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void List::Display ( ) const
 // Algorithme :
-// Diplays the trips of the list
+// Parcours de la List
 {
-    // If the first element is null (list still empty)
-    if ( first == nullptr )
-    {
-        cout << "Unfortunately, there are no trips in this list..." << endl;
-        return;
-    }
+    // case if list empty already dealt with in Catalogue
 
     int simpleTrip_number = 1, composedTrip_number = 1;
     Node * current = first;
-
     while ( current != nullptr )
     {
         if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
@@ -52,6 +46,8 @@ void List::Display ( ) const
         }
         current->Display();
 
+        // if the current Trip is a SimpleTrip, line break for next Trip
+        // else, no line break to display the next Trip in the ComposedTrip
         if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
         {
             cout << endl;
@@ -62,7 +58,11 @@ void List::Display ( ) const
 
 void List::AddTrip ( Trip const * aTrip )
 // Algorithme :
-// Adds a new Node(Trip) to the end of the list and increments size
+// - Ajout d'un Node (donc d'un trajet) à la fin de la list
+// --> allocation mémoire d'un nouvel élément + copie en profondeur
+// - size incrémentée
+
+/////// la faudrait faire l'insertion avec le tri alphabétique
 {
     // If the list is empty , set the first element to the node created
     if (size == 0)
@@ -73,7 +73,6 @@ void List::AddTrip ( Trip const * aTrip )
     }
 
     Node * current = first;
-
     // Parsing through the list till the last element
     while ( current->GetNext() != nullptr )
     {
@@ -86,14 +85,10 @@ void List::AddTrip ( Trip const * aTrip )
 
 void List::FetchTrip ( const char * start, const char * end ) const
 // Algorithme :
-// Searches a trip by start and end
-// Returns the trip if found, else returns a default null trip
+// Recherche d'un trajet par comparaison des chaines de caractères
+// des villes de départ et d'arrivée
 {
-    if ( first == nullptr )
-    {
-        cerr << "error: fetching in empty list" << endl;
-        return;
-    }
+    // cas de la List nulle vérifié dans le Catalogue
 
     Node * current = first;
     bool found = false;
@@ -157,15 +152,11 @@ void List::FetchTrip ( const char * start, const char * end ) const
 */
 
 Node * List::GetFirst ( ) const
-// Algorithme :
-//
 {
     return first;
 } //----- Fin de GetFirst
 
 int List::GetSize ( ) const
-// Algorithme :
-//
 {
     return size;
 } //----- Fin de GetSize
@@ -173,7 +164,7 @@ int List::GetSize ( ) const
 //-------------------------------------------- Constructeurs - destructeur
 List::List ( )
 // Algorithme :
-//
+// initialisation de la List, size null et premier element pointeur nul
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <List>" << endl;
@@ -182,9 +173,10 @@ List::List ( )
     size = DEFAULT_LIST_SIZE;
 } //----- Fin de List (constructeur par défaut)
 
-List::List ( Trip * aTrip )
+List::List ( Trip const * aTrip )
 // Algorithme :
-//
+// - initialisation de la List avec un premier élément
+// - incrémentation de la taille
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <List>" << endl;
@@ -195,12 +187,11 @@ List::List ( Trip * aTrip )
 
 List::~List ( )
 // Algorithme :
-//
+// suppresion du premier element, qui va lui meme supprimer le suivant
 {
 #ifdef MAP
     cout << "Appel au destructeur de <List>" << endl;
 #endif
-    cout << "Destructeur de list appelé" << endl;
     delete first;
     size = DEFAULT_LIST_SIZE;
 } //----- Fin de ~List

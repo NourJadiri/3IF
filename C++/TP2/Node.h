@@ -14,7 +14,6 @@
 #define NODE_H
 
 //--------------------------------------------------- Interfaces utilisées
-
 #include <iostream>
 #include "Trip.h"
 #include "SimpleTrip.h"
@@ -69,7 +68,7 @@ public:
     // Contrat :
     //
 
-   explicit Node ( Trip * aTrip );
+   explicit Node ( Trip const * aTrip );
     // Mode d'emploi :
     //
     // Contrat :
@@ -85,7 +84,7 @@ public:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    Trip * trip;
+    Trip const * trip;
     Node * next;
 
 };

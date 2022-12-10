@@ -19,8 +19,10 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <ComposedTrip>
-//
-//
+// La classe ComposedTrip hérite publiquement de Trip et contient une List
+// de SimpleTrips
+// Un trajet composé est un trajet dont la ville d'arrivée d'un trajet doit
+// correspondre à la ville de départ du trajet suivant
 //------------------------------------------------------------------------
 
 class ComposedTrip : public Trip
@@ -54,10 +56,13 @@ public:
     // list est une référence sur la List de SimpleTrips passée en paramètres
     // Recopie en profondeur des SimpleTrips composant list
     // Allocation de mémoire pour les chaines de caractères
+    // Contrat :
+    // La List list est non vide
 
     ~ComposedTrip ( ) override;
     // Mode d'emploi :
     // Libération de la mémoire allouée dans le tas pour les chaines de caractères
+    // par héritage
 
 //------------------------------------------------------------------ PRIVE
 

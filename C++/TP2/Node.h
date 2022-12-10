@@ -36,16 +36,16 @@ public:
     // Contrat :
     // Le Trip doit être non nul
 
-    Node * GetNext ( );
+    Trip * GetTrip ( ) const;
     // Mode d'emploi :
-    // Renvoie un pointeur sur le prochain Node,
-    // donc sur le prochain Trip de la List
+    // Renvoie un pointeur sur le Trip associé au Node
     // Contrat :
     //
 
-    Trip * GetTrip ( );
+    Node * GetNext ( ) const;
     // Mode d'emploi :
-    // Renvoie un pointeur sur le Trip associé au Node
+    // Renvoie un pointeur sur le prochain Node,
+    // donc sur le prochain Trip de la List
     // Contrat :
     //
 
@@ -73,7 +73,7 @@ public:
     // Contrat :
     //
 
-   explicit Node ( Trip const * aTrip );
+    Node ( Trip const * aTrip );
     // Mode d'emploi :
     /// A COMPLETER
     // Contrat :

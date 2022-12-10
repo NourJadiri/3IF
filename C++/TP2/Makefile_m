@@ -1,0 +1,19 @@
+#Makefile
+ECHO = @echo
+RM = @rm
+RMFLAGS = -f
+
+CXX = g++
+LD = g++
+CXXFLAGS = -g -Wall -ansi -pedantic -std=c++11
+LDFLAGS = -g -Wall -ansi -pedantic -std=c++11
+
+INTERFACE = main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h
+REALISATION = $(INTERFACE:.h=.cpp)
+OBJETS = $(INTERFACE:.h=.o)
+EXE = trajet
+EFFACE = clean
+
+$(EXE) : $(OBJETS)
+	$(ECHO) ">>>Edition des liens de <$(EXE)>"
+    $(LD) $(LDFLAGS) -o $(EXE) $(OBJETS)

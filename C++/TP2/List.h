@@ -46,7 +46,7 @@ public:
     // aTrip est un Trip qui remplit les conditions
     // (villes de départ, arrivée, transport...)
 
-    void FetchTrip ( const char * start, const char * end ) const;
+    void FetchTrip ( char const * start, char const * end ) const;
     // Mode d'emploi :
     // Comparaison des chaines de caractères en paramètres avec les
     // attributs des Trips pour déterminer si un Trip de start à end

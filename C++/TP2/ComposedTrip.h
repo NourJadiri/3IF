@@ -31,7 +31,7 @@ class ComposedTrip : public Trip
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display ( ) const override;
+    virtual void Display ( ) const;
     // Mode d'emploi :
     // Parcours de la List des SimpleTrip composants un ComposedTrip
     // pour les afficher un à un sur la sortie standard avec leurs
@@ -50,7 +50,7 @@ public:
     // Constructeur d'un ComposedTrip avec une List de SimpleTrips vide
     // Allocation de mémoire pour les chaines de caractères
 
-    explicit ComposedTrip( List const & list );
+    ComposedTrip( List const & list );
     // Mode d'emploi :
     // Constructeur d'un ComposedTrip à partir d'une List de SimpleTrips
     // list est une référence sur la List de SimpleTrips passée en paramètres

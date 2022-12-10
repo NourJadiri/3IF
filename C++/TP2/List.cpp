@@ -83,7 +83,7 @@ void List::AddTrip ( Trip const * aTrip )
     size++;
 } //----- Fin de AddTrip
 
-void List::FetchTrip ( const char * start, const char * end ) const
+void List::FetchTrip ( char const * start, char const * end ) const
 // Algorithme :
 // Recherche d'un trajet par comparaison des chaines de caractères
 // des villes de départ et d'arrivée

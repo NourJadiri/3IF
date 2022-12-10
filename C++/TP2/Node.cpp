@@ -25,15 +25,15 @@ void Node::Display ( ) const
     trip->Display();
 } //----- Fin de Display
 
-Node * Node::GetNext ( )
-{
-    return next;
-} //----- Fin de GetNext
-
-Trip * Node::GetTrip ( )
+Trip * Node::GetTrip ( ) const
 {
     return const_cast<Trip *>(trip);
 } //----- Fin de GetTrip
+
+Node * Node::GetNext ( ) const
+{
+    return next;
+} //----- Fin de GetNext
 
 void Node::SetNext ( Node * aNode )
 {

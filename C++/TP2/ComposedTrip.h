@@ -1,5 +1,5 @@
 /*************************************************************************
-                           ComposedTrip  -  description
+                           ComposedTrip  -  Objet d'un trajet composé
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,

@@ -5,7 +5,3 @@ ce que fait le constructeur, destructeur, description param si constructeur copi
 
 .cpp
 ALGORITHME : le comment si cest COMPLEXE
-
-
-ON add un SimpleTrip dans la classe ComposedTrip???
-void ComposedTrip::AddSimpleTrip ( SimpleTrip const * newSTrip )

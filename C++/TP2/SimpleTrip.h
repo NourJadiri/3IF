@@ -1,5 +1,5 @@
 /*************************************************************************
-                           SimpleTrip  -  description
+                           SimpleTrip  -  Objet d'un trajet simple
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,

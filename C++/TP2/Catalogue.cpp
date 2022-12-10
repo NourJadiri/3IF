@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Catalogue  -  description
+                           Catalogue  -  menu et interface utilisateur
                              -------------------
     début                : 22/11/2022
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
@@ -15,8 +15,8 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <limits>
-#include <unistd.h>
+//#include <limits>
+//#include <unistd.h>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -51,7 +51,7 @@ void Catalogue::Launch ( )
             if ( !cin )
             {
                 cout << "Wrong input, please enter a NUMBER" << endl;
-                sleep(1);
+                //sleep(1);
                 // pour clear l'erreur
                 cin.clear();
                 // pour enlever ce qui reste dans le buffer
@@ -76,7 +76,7 @@ void Catalogue::Launch ( )
                 goto end;
             default:
                 cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
-                sleep(1);
+                //sleep(1);
                 continue; // go back to menu
         }
     }
@@ -108,7 +108,7 @@ void Catalogue::display ( ) const
     if ( tripList.GetSize() == 0 )
     {
         cout << "Unfortunately, there are no trips yet..." << endl;
-        sleep(1);
+        //sleep(1);
     } else {
         if ( tripList.GetSize() > 1 )
         {
@@ -167,7 +167,7 @@ void Catalogue::add ( )
         if ( !validInput )
         {
             cout << "Please enter a valid input [yes/no]..." << endl;
-            sleep(1);
+            //sleep(1);
         }
     }
     while ( !validInput );

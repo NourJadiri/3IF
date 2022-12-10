@@ -32,53 +32,59 @@ class Node
 public:
 //----------------------------------------------------- Méthodes publiques
     virtual void Display ( ) const;
-    // Mode d'emploi :
-    // Appel de la méthode de la classe Trip pour afficher le Trip de Node
-    // Contrat :
-    // Le Trip doit être non nul
+    /* Mode d'emploi :
+     * Appel de Display de la classe Trip pour afficher le Trip de Node
+     * Contrat :
+     * Le Node doit bien contenir un trip
+     */
 
     Trip * GetTrip ( ) const;
-    // Mode d'emploi :
-    // Renvoie un pointeur sur le Trip associé au Node
-    // Contrat :
-    //
+    /* Mode d'emploi :
+     * Renvoie le pointeur sur le Trip associé au Node
+     * Contrat :
+     */
 
     Node * GetNext ( ) const;
-    // Mode d'emploi :
-    // Renvoie un pointeur sur le prochain Node,
-    // donc sur le prochain Trip de la List
-    // Contrat :
-    //
+    /* Mode d'emploi :
+     * Renvoie le pointeur next sur le prochain Node,
+     * donc sur le prochain Trip de la List
+     * Contrat :
+     */
 
     void SetNext ( Node * aNode );
-    // Mode d'emploi :
-    // Permet d'affecter le prochain Node au Node appelant
-    // aNode est un pointeur vers un Node
-    // copie en surface
-    // Contrat :
-    // aNode est un Node valide (donc avec un Trip et un next valides)
-
+    /* Mode d'emploi :
+     * Permet d'affecter le prochain Node au Node appelant
+     * aNode est un pointeur vers un Node
+     * copie en surface
+     * Contrat :
+     * aNode est un Node valide (donc avec un Trip et un next valides)
+     */
 //------------------------------------------------- Surcharge d'opérateurs
     virtual bool operator == ( Node const & aNode ) const;
-    // Mode d'emploi :
-    // Surcharge de l'opérateur == afin de retourner un bool en fonction de
-    // si les deux trip de deux Nodes sont égaux
-    // aNode est une référence sur le Node a comparer, pas de copie
-    // Contrat :
-    // les deux trip comparés sont des Trip valides
+    /* Mode d'emploi :
+     * Surcharge de l'opérateur == afin de retourner un bool en fonction de
+     * si les deux trip de deux Nodes sont égaux
+     * aNode est une référence sur le Node a comparer, pas de copie
+     * Contrat :
+     * les deux trip comparés sont des Trip valides
+     */
+
 
 //-------------------------------------------- Constructeurs - destructeur
     Node ( );
-    // Mode d'emploi :
-    /// A COMPLETER
-    // Contrat :
-    //
+    /* Mode d'emploi :
+     * Constructeur par défaut d'un Node
+     * Initialise Trip et next à nullptr
+     * Contrat :
+     */
 
     Node ( Trip const * aTrip );
-    // Mode d'emploi :
-    /// A COMPLETER
-    // Contrat :
-    //
+    /* Mode d'emploi :
+     * Constructeur à paramètre de Node
+     * Le pointeur this->trip pointe vers la même zone mémoire que aTrip
+     * Le pointeur this->next est toujours initialisé à nullptr
+     * Contrat :
+    */
 
     virtual ~Node ( );
     // Mode d'emploi :

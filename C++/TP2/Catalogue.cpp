@@ -15,7 +15,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-//#include <limits>
+#include <limits>
 //#include <unistd.h>
 using namespace std;
 
@@ -107,16 +107,16 @@ void Catalogue::display ( ) const
 {
     if ( tripList.GetSize() == 0 )
     {
-        cout << "\nUnfortunately, there are no trips yet..." << endl;
+        cout << endl << "Unfortunately, there are no trips yet..." << endl;
         //sleep(1);
     } else {
         if ( tripList.GetSize() > 1 )
         {
-            cout << "\nThere are " << tripList.GetSize() << " trips ";
+            cout << endl << "There are " << tripList.GetSize() << " trips " << endl;
         }
         else
         {
-            cout << "\nThere is only 1 trip ";
+            cout << endl << "There is only 1 trip ";
         }
         cout << "available at the moment:" << endl;
         tripList.Display();
@@ -133,7 +133,7 @@ void Catalogue::add ( )
     char * end = new char [ 64 ];
     char * transport = new char [ 64 ];
 
-    cout << "\nLet's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
+    cout << endl << "Let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "Be a good samaritan and DO NOT INSERT SPACES!!! when you write your trip information (please...)" << endl;
 
     cout << "----- Enter the city of departure : ";
@@ -153,10 +153,9 @@ void Catalogue::add ( )
     SimpleTrip * newSTrip = new SimpleTrip( start, end, transport );
     ComposedTrip * newCTrip = new ComposedTrip();
     // Checks if the user input is valid (yes/no)
-    // TODO : REFACTOR THE CODE AND MAKE THIS A METHOD
     do
     {
-        cout << "\nDo you wish to make this trip a composed trip ? [yes/no] : ";
+        cout << endl << "Do you wish to make this trip a composed trip ? [yes/no] : ";
         cin >> yesOrNo;
 
         validInput = !strcmp( yesOrNo, "yes" ) || !strcmp( yesOrNo, "no" );
@@ -176,7 +175,6 @@ void Catalogue::add ( )
         char * addNewStep = new char [ 64 ];
         newCTrip->AddSimpleTrip( newSTrip );
 
-        validInput = false;
         do
         {
             strcpy( start,end );
@@ -190,10 +188,9 @@ void Catalogue::add ( )
             newCTrip->AddSimpleTrip ( new SimpleTrip( start, end, transport ) );
 
             // Checks if the user input is valid [yes/no]
-            // TODO : REFACTOR THE CODE AND MAKE THIS A METHOD
             do
             {
-                cout << "\nDo you wish to add another step to this trip ? [yes/no] : ";
+                cout << endl << "Do you wish to add another step to this trip ? [yes/no] : ";
                 cin >> addNewStep;
 
                 validInput = !strcmp( addNewStep, "yes" ) || !strcmp( addNewStep, "no" );
@@ -209,14 +206,13 @@ void Catalogue::add ( )
         }
         while ( keepAdding );
 
-        tripList.AddTrip( newCTrip );
-        // cout << "The new composed trip from " << newCTrip->GetStart() << " to " << newCTrip->GetEnd() << " has been successfully added !" << endl;
+        tripList.AddTripSorted(newCTrip );
 
         delete [ ] addNewStep;
     }
     else
     {
-        tripList.AddTrip( newSTrip );
+        tripList.AddTripSorted(newSTrip );
         delete newCTrip;
     }
 
@@ -233,11 +229,11 @@ void Catalogue::fetch ( ) const
 // pour rechercher le trajet
 {
     if ( tripList.GetSize() == 0 ) {
-        cout << "\nUnfortunately, there are no trips yet..." << endl;
+        cout << endl << "Unfortunately, there are no trips yet..." << endl;
     }
     else
     {
-        cout << "\nLet's find you the best way to get to your destination!" << endl;
+        cout << endl << "Let's find you the best way to get to your destination!" << endl;
 
         char * start = new char [ 64 ];
         char * end = new char [ 64 ];

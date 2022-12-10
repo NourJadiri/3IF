@@ -26,7 +26,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void List::Display ( ) const
 // Algorithme :
-// Parcours de la List
+// Parcours la liste et appelle la méthode display de chaque trip qui la compose
 {
     // case if list empty already dealt with in Catalogue
 
@@ -56,11 +56,37 @@ void List::Display ( ) const
     }
 } //----- Fin de Display
 
-void List::AddTrip ( Trip const * aTrip )
+void List::AddTrip(const Trip *aTrip)
 // Algorithme :
-// - Ajout d'un Node (donc d'un trajet) à la fin de la list
-// --> allocation mémoire d'un nouvel élément + copie en profondeur
-// - size incrémentée
+// Parcours jusqu'à la fin de la liste
+// Ajout d'un Node qui stock <aTrip> à la fin de cette liste
+{
+    Node *toAdd = new Node(aTrip);
+
+    // Case of empty list
+    if(first == nullptr){
+        first = toAdd;
+        return;
+    }
+
+    Node *current = first;
+
+    // Parsing through the linked list
+    while(current->GetNext() != nullptr){
+        current = current->GetNext();
+    }
+
+    current->SetNext(toAdd);
+    size++;
+
+} //----- Fin de AddTrip
+
+void List::AddTripSorted (Trip const * aTrip )
+/* Algorithme :
+ * Ajout d'un Node (donc d'un trajet) en respectant l'ordre alphabetique
+ * allocation mémoire d'un nouvel élément + copie en profondeur
+ * size incrémentée
+ */
 {
     Node * toAdd = new Node ( aTrip );
 
@@ -80,7 +106,7 @@ void List::AddTrip ( Trip const * aTrip )
     // parsing through the list until the last element
     while ( current->GetNext() != nullptr )
     {
-        if ( * current->GetTrip() <= * aTrip && * aTrip <= * current->GetNext()->GetTrip() )
+        if ( * (current->GetTrip()) <= * (aTrip) && * (aTrip) <= * (current->GetNext()->GetTrip()) )
         {
             toAdd->SetNext( current->GetNext() );
             current->SetNext( toAdd );
@@ -92,12 +118,12 @@ void List::AddTrip ( Trip const * aTrip )
     // insertion at end of List
     current->SetNext( toAdd );
     size++;
-} //----- Fin de AddTrip
+} //----- Fin de AddTripSorted
 
 void List::FetchTrip ( char const * start, char const * end ) const
-// Algorithme :
-// Recherche d'un trajet par comparaison des chaines de caractères
-// des villes de départ et d'arrivée
+/* Algorithme :
+ * Recherche d'un trajet par comparaison des chaines de caractères des villes de départ et d'arrivée
+ */
 {
     // cas de la List nulle vérifié dans le Catalogue
 
@@ -108,8 +134,9 @@ void List::FetchTrip ( char const * start, char const * end ) const
         if ( !strcmp( start, current->GetTrip()->GetStart() ) && !strcmp( end, current->GetTrip()->GetEnd() ) )
         {
             if ( !found )
-            { // if this is the first trip found, print a txt
-                cout << "\nTrip found!" << endl;
+            // We print this line once whatever the number of matching trips found
+            {
+                cout << endl << "Trip found!" << endl;
             }
             found = true;
             cout << "\t-> ";
@@ -120,7 +147,7 @@ void List::FetchTrip ( char const * start, char const * end ) const
 
     if ( !found )
     {
-        cout << "\nTrip from " << start << " to " << end << " does not exist..." << endl;
+        cout << endl << "Trip from " << start << " to " << end << " does not exist..." << endl;
     }
 } //----- Fin de FetchTrip
 
@@ -160,11 +187,15 @@ List::List ( Trip const * aTrip )
 
 List::~List ( )
 // Algorithme :
-// suppresion du premier element, qui va lui meme supprimer le suivant
+// Appel du destructeur de Node sur List.first
+// Chaque Node supprime son prochain
 {
 #ifdef MAP
     cout << "Appel au destructeur de <List>" << endl;
 #endif
     delete first;
     size = DEFAULT_LIST_SIZE;
-} //----- Fin de ~List
+}
+
+
+//----- Fin de ~List

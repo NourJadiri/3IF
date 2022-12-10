@@ -50,6 +50,7 @@ bool Node::operator == ( Node const & aNode ) const
 
 //-------------------------------------------- Constructeurs - destructeur
 Node::Node ( )
+// Constructeur par défaut de Node, initialisera tous les pointeurs à NULL
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Node>" << endl;
@@ -63,6 +64,9 @@ Node::Node ( )
 /// la méthode pure virtuelle de Trip
 
 Node::Node ( Trip const * aTrip )
+// Algorithme :
+// Simple copie en surface de l'attribut trip
+// next est forcément initialisé à NULL
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Node>" << endl;
@@ -72,6 +76,8 @@ Node::Node ( Trip const * aTrip )
 } //----- Fin de Node (constructeur paramétré)
 
 Node::~Node ( )
+// Algorithme :
+// La destruction d'un node impliquera la destruction de tous les Nodes suivants
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Node>" << endl;

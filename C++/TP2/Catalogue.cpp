@@ -266,12 +266,18 @@ void Catalogue::fetch ( ) const
         // if user wants a simple search only
         if ( !strcmp( advanced, "yes" ) )
         {
+            // allocated memory for an array of Trips to store the potential trips to fulfill request
+            Trip * * tab = new Trip *;
             cout << endl << "Here's what we can get you (or not): " << endl;
-            bool found = tripList.FetchTripAdvanced( start, end );
+            bool found = tripList.FetchTripAdvanced( start, end, tab );
             if ( !found )
             {
                 cout << "Nothing, sorry..." << endl
                 << "The trip from " << start << " to " << end << " does not exist..." << endl;
+            }
+            for ( int temp = 0; temp < tripList.GetSize(); temp++ )
+            {
+                delete tab [temp];
             }
             cout << endl;
         }

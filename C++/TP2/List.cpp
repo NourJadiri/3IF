@@ -195,7 +195,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
 
 
                     cout << "\t-> ";
-                    int k;
+                    unsigned int k;
                     for (k = 0; k <= i; k++) {
                         if (k > 0) {
                             cout << " THEN ";

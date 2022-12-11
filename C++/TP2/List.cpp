@@ -145,8 +145,8 @@ void List::FetchTrip ( char const * start, char const * end ) const
     cout << endl;
 } //----- Fin de FetchTrip
 
-bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * storedTrips, bool found,
-                              int i, bool suite ) const
+bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * storedTrips,
+                              bool found, unsigned int i, bool suite ) const
 // Algorithme :
 // Recherche d'un trajet par appel récursif et comparaison des chaines de caractères
 // Parcours de la liste jusqu'à trouver la ville de départ initiale, puis si nécessaire

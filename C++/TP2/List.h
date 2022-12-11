@@ -67,7 +67,7 @@ public:
     // (pas d'espace et moins de 64 caractères)
 
     bool FetchTripAdvanced (char const * start, char const * end, Trip * * storedTrips, bool found = false,
-                            int i = 0, bool suite = false ) const;
+                            unsigned int i = 0, bool suite = false ) const;
     // Mode d'emploi :
     // Recherche avancée donc appel récursif afin de trouver une composition de trajets, simple ou composés
     // pour pouvoir répondre à la requete de l'utilisateur

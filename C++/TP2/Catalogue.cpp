@@ -123,6 +123,7 @@ void Catalogue::display ( ) const
         }
         cout << "available at the moment:" << endl;
         tripList.Display();
+        cout << "there are " << nbUniqueCities() << " unique cities";
     }
 } //----- Fin de Display
 
@@ -226,6 +227,47 @@ void Catalogue::add ( )
     delete [ ] yesOrNo;
 }
 
+int Catalogue :: nbUniqueCities() const{
+    if(tripList.GetFirst() == nullptr) return 0;
+    if(tripList.GetSize() == 1) return 2;
+
+    int unique = 2;
+
+    Node *current = tripList.GetFirst();
+
+    while(current != nullptr){
+
+        Node *iter = current->GetNext();
+
+        while(iter != nullptr){
+            unique += 2;
+            if(!strcmp(iter->GetTrip()->GetStart(),current->GetTrip()->GetStart()) && !strcmp(iter->GetTrip()->GetEnd(),current->GetTrip()->GetEnd())){
+                unique -= 2;
+                iter = iter->GetNext();
+                continue;
+            }
+            if(!strcmp(iter->GetTrip()->GetStart(),current->GetTrip()->GetStart())){
+                unique--;
+            }
+            if(!strcmp(iter->GetTrip()->GetStart(),current->GetTrip()->GetEnd())){
+                unique--;
+            }
+            if(!strcmp(iter->GetTrip()->GetEnd(),current->GetTrip()->GetStart())){
+                unique--;
+            }
+            if(!strcmp(iter->GetTrip()->GetEnd(),current->GetTrip()->GetEnd())){
+                unique--;
+            }
+            iter = iter->GetNext();
+        }
+        current = current->GetNext();
+    }
+
+    return unique;
+}
+
+
+
 void Catalogue::fetch ( ) const
 // Algorithme :
 // Si la liste des Trips est non vide, appel de la méthode de la classe List
@@ -247,6 +289,7 @@ void Catalogue::fetch ( ) const
 
         char * advanced = new char [ 64 ];
         bool validInput = false;
+
         do
         {
             cout << endl << "Do you wish to do an advanced search for this trip? [yes/no]: ";
@@ -269,16 +312,15 @@ void Catalogue::fetch ( ) const
             // allocated memory for an array of Trips to store the potential trips to fulfill request
             Trip * * tab = new Trip *;
             cout << endl << "Here's what we can get you (or not): " << endl;
+
             bool found = tripList.FetchTripAdvanced( start, end, tab );
+            cout << found << endl;
             if ( !found )
             {
                 cout << "Nothing, sorry..." << endl
                 << "The trip from " << start << " to " << end << " does not exist..." << endl;
             }
-            for ( int temp = 0; temp < tripList.GetSize(); temp++ )
-            {
-                delete tab [temp];
-            }
+            delete tab;
             cout << endl;
         }
         else

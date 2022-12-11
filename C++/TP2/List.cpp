@@ -145,8 +145,8 @@ void List::FetchTrip ( char const * start, char const * end ) const
     cout << endl;
 } //----- Fin de FetchTrip
 
-bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * tab, bool found,
-                          int i, bool suite ) const
+bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * storedTrips, bool found,
+                              int i, bool suite ) const
 // Algorithme :
 // Recherche d'un trajet par appel récursif et comparaison des chaines de caractères
 // Parcours de la liste jusqu'à trouver la ville de départ initiale, puis si nécessaire
@@ -155,6 +155,7 @@ bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * ta
 {
     // cas de la List nulle vérifié dans le Catalogue
 
+    cout << "Checking si " << start << " to " << end << " existe " << endl;
     // if we reached the end of our catalogue
     if ( i >= size && !found )
     {
@@ -178,15 +179,15 @@ bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * ta
             // check if already stored
             int j;
             for (j = 0; j < i; j++) {
-                if (current->GetTrip() == tab[j]) {
+                if (current->GetTrip() == storedTrips[j]) {
                     stored = true;
                     break;
                 }
             }
 
-            // check if already stored
+            // if the trip is not stored in our temporary array
             if (!stored) {
-                tab[i] = current->GetTrip();
+                storedTrips[i] = current->GetTrip();
 
                 // if the fetching is done (end found)
                 if (!strcmp(end, current->GetTrip()->GetEnd())) {
@@ -198,13 +199,13 @@ bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * ta
                         if (k > 0) {
                             cout << " THEN ";
                         }
-                        tab[k]->Display();
+                        storedTrips[k]->Display();
                     }
                     cout << endl;
                 }
                 else
                 {
-                    FetchTripAdvanced(current->GetTrip()->GetEnd(), end, tab, found, ++i, true);
+                    FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
                 }
             }
         }

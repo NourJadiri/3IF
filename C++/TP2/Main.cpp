@@ -16,8 +16,10 @@
 #include "Main.h"
 #include "Catalogue.h"
 
+using namespace std;
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------ Fonctions privées
+
 static void test ( )
 // Mode d'emploi :
 // Procédure de test appelée par le main
@@ -35,3 +37,4 @@ int main ( )
     test ( );
     return 0;
 } //----- fin de main
+

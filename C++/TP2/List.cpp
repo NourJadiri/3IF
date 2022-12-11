@@ -187,7 +187,7 @@ void List::FetchTripAdvanced ( char const * start, char const * end, bool found,
                     }
                     if ( !stored )
                     {
-                        tab[i] = fetching;
+                        tab[j] = fetching;
                     }
 
                     // let's go for another round (new list)
@@ -208,19 +208,22 @@ void List::FetchTripAdvanced ( char const * start, char const * end, bool found,
         else
         {
             cout << endl << "Trip found!" << endl;
-            int indexTab;
-            for ( indexTab = 0; indexTab < i; indexTab++ )
+            int indexTab = 0;
+            while ( indexTab < i && tab[indexTab] != nullptr )
             {
-                cout << "\t-> ";
                 Node * currentList = tab[indexTab]->first;
+                cout << "\t-> ";
+                currentList->Display();
+                currentList = currentList->GetNext();
+
                 while ( currentList != nullptr )
                 {
                     cout << " then ";
                     currentList->Display();
                     currentList = currentList->GetNext();
                 }
+                indexTab++;
             }
-
         }
         cout << endl;
 

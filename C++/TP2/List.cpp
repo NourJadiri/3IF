@@ -177,7 +177,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
         if (!strcmp(start, current->GetTrip()->GetStart()))
         {
             // check if already stored
-            int j;
+            unsigned int j;
             for (j = 0; j < i; j++) {
                 if (current->GetTrip() == storedTrips[j]) {
                     stored = true;

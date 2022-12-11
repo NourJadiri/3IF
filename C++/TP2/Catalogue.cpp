@@ -292,7 +292,3 @@ void Catalogue::fetch ( ) const
         delete [ ] end;
     }
 } //----- Fin de Fetch
-
-
-
-// TODO : les composed trips se mettent au début de la liste alors qu'il faudrait les alphabétiser aussi

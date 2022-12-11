@@ -193,6 +193,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 if (!strcmp(end, current->GetTrip()->GetEnd())) {
                     found = true;
 
+
                     cout << "\t-> ";
                     int k;
                     for (k = 0; k <= i; k++) {
@@ -205,12 +206,13 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 }
                 else
                 {
-                    FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
+                    found = FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
                 }
             }
         }
         current = current->GetNext();
     }
+
     return found;
 } //----- Fin de FetchTripAdvanced
 

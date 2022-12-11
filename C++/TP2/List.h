@@ -66,12 +66,21 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
-    void FetchTripAdvanced ( char const * start, char const * const startIni, char const * end, bool found = false,
-                             int i = 0, List * * tab = new List *, List * fetching = new List ) const;
+    bool FetchTripAdvanced ( char const * start, char const * end, bool found = false,
+                              int i = 0, Trip * * tab = new Trip *, bool suite = false ) const;
     // Mode d'emploi :
-    // TODO
+    // Recherche avancée donc appel récursif afin de trouver une composition de trajets, simple ou composés
+    // pour pouvoir répondre à la requete de l'utilisateur
+    // start et end représentent respectivement les chaines de caractères des villes de départ et d'arrivée
+    // les booléens found et suite déterminent resp. si la requete a été complétée ou si
+    // cette requete peut potentiellement être complétée avec une suite de trajets
+    // i représente le nombre d'itérations réalisées pour parcourir la liste
+    // tab est un pointeur vers des pointeurs de Trip, il repertorie tous les composants
+    // d'un trajet qui pourrait potentiellement répondre à la requete de l'utilisateur
     // Contrat :
-    // TODO
+    // les chaines de caractères des villes de départ et d'arrivée doivent être valides
+    // (pas d'espaces et moins de 64 caractères)
+    // i doit etre inférieur à la taille de la liste pour poursuivre la recherche
 
     Node * GetFirst ( ) const;
     // Mode d'emploi :
@@ -80,13 +89,6 @@ public:
     int GetSize ( ) const;
     // Mode d'emploi :
     // Renvoie la taille de la List donc le nombre de Trips repertories
-
-//------------------------------------------------- Surcharge d'opérateurs
-    bool operator == ( List const & aList ) const;
-    // Mode d'emploi :
-    // TODO
-    // Contrat :
-    // TODO
 
 //-------------------------------------------- Constructeurs - destructeur
     List ( );

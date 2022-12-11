@@ -31,11 +31,10 @@ void ComposedTrip::Display ( ) const
         iter->Display();
         if ( iter->GetNext() != nullptr )
         {
-            cout << " - ";
+            cout << " + ";
         }
         iter = iter->GetNext();
     }
-    cout << endl;
     delete iter;
 } //----- Fin de Display
 

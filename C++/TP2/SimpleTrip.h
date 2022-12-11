@@ -48,7 +48,7 @@ public:
     // Mode d'emploi :
     // Constructeur d'un SimpleTrip à partir d'une copie en profondeur des
     // trois caractéristiques d'un trajet simple
-    /// PAS SURE A VERIFIER
+    // TODO PAS SURE A VERIFIER
     // le moyen de transport est copié en profondeur dans ce constructeur
     // les villes de départ et arrivée sont copiées en profondeur dans le
     // constructeur de Trip par héritage
@@ -60,7 +60,7 @@ public:
     // Mode d'emploi :
     // Suppression de la zone mémoire allouée dynamiquement pour le moyen
     // de transport
-    /// PAS SURE A VERIFIER
+    // TODO PAS SURE A VERIFIER
     // Par héritage, les zones mémoire des villes de départ et arrivée sont
     // supprimées lors de l'appel au destructeur de Trip
 

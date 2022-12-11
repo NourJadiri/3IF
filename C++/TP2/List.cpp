@@ -45,13 +45,7 @@ void List::Display ( ) const
             composedTrip_number++;
         }
         current->Display();
-
-        // if the current Trip is a SimpleTrip, line break for next Trip
-        // else, no line break to display the next Trip in the ComposedTrip
-        if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
-        {
-            cout << endl;
-        }
+        cout << endl;
         current = current->GetNext();
     }
 } //----- Fin de Display
@@ -151,89 +145,66 @@ void List::FetchTrip ( char const * start, char const * end ) const
     cout << endl;
 } //----- Fin de FetchTrip
 
-void List::FetchTripAdvanced ( char const * start, char const * const startIni, char const * end, bool found,
-                               int i, List * * tab, List * fetching ) const
+bool List::FetchTripAdvanced ( char const * start, char const * end, bool found,
+                          int i, Trip * * tab, bool suite ) const
 // Algorithme :
-// TODO
+// Recherche d'un trajet par appel récursif et comparaison des chaines de caractères
+// Parcours de la liste jusqu'à trouver la ville de départ initiale, puis si nécessaire
+// Parcours à nouveau de la liste pour trouver un trajet qui commence depuis la ville d'arrivee
+// de ce dernier Trip, et ainsi de suite jusqu'à trouver ou non la ville d'arrivée finale
 {
     // cas de la List nulle vérifié dans le Catalogue
 
-    bool done = ( i == size );
-    Node * current = first;
+    // if we reached the end of our catalogue
+    if ( i >= size && !found ) return false;
+    if ( i >= size && found ) return true;
 
-    if ( !done ) {
-        while ( current != nullptr )
+    bool stored = false;
+
+    Node * current = first;
+    while (current != nullptr) {
+        // si on recommence pour chercher une possible nouvelle solution
+        if (!suite) i = 0;
+
+        // comparaison des villes de départ
+        if (!strcmp(start, current->GetTrip()->GetStart()))
         {
-            if ( !strcmp( start, current->GetTrip()->GetStart() ) )
-            {
-                // add this part of the fetching to the list
-                fetching->AddTrip( current->GetTrip() );
+            // check if already stored
+            int j;
+            for (j = 0; j < i; j++) {
+                if (current->GetTrip() == tab[j]) {
+                    stored = true;
+                    break;
+                }
+            }
+
+            // check if already stored
+            if (!stored) {
+                tab[i] = current->GetTrip();
 
                 // if the fetching is done (end found)
-                if ( !strcmp( end, current->GetTrip()->GetEnd() ) )
-                {
+                if (!strcmp(end, current->GetTrip()->GetEnd())) {
                     found = true;
 
-                    // check if this fetch hasn't already been stored
-                    int j = 0;
-                    bool stored = false;
-                    while ( tab [j] != nullptr )
-                    {
-                        if ( * tab[j] == * fetching )
-                        {
-                            stored = true;
-                            break;
+                    cout << "\t-> ";
+                    int k;
+                    for (k = 0; k <= i; k++) {
+                        if (k > 0) {
+                            cout << " THEN ";
                         }
-                        j++;
+                        tab[k]->Display();
                     }
-                    if ( !stored )
-                    {
-                        tab[j] = fetching;
-                    }
+                    cout << endl;
                 }
-                // if not found, continue looking for the fetch with the same list
-                FetchTripAdvanced( current->GetTrip()->GetEnd(), startIni, end, found, ++i, tab, fetching );
-            }
-            current = current->GetNext();
-        }
-        // let's go for another round (new list)
-        FetchTripAdvanced( startIni, startIni, end, found, ++i, tab );
-    }
-    else
-    {
-        if ( !found )
-        {
-            cout << endl << "Trip from " << start << " to " << end << " does not exist..." << endl;
-        }
-        else
-        {
-            cout << endl << "Trip found!" << endl;
-            int indexTab = 0;
-            while ( indexTab < i && tab[indexTab] != nullptr )
-            {
-                Node * currentList = tab[indexTab]->first;
-                cout << "\t-> ";
-                currentList->Display();
-                currentList = currentList->GetNext();
-
-                while ( currentList != nullptr )
+                else
                 {
-                    cout << " then ";
-                    currentList->Display();
-                    currentList = currentList->GetNext();
+                    FetchTripAdvanced(current->GetTrip()->GetEnd(), end, found, ++i, tab, true);
                 }
-                indexTab++;
             }
         }
-        cout << endl;
-
-        // free the 2D array tab of List
-        int k;
-        for ( k = 0; k < i; k++ )
-        {
-            delete tab [i];
-        }
+        current = current->GetNext();
     }
+    return found;
 } //----- Fin de FetchTripAdvanced
 
 Node * List::GetFirst ( ) const
@@ -245,25 +216,6 @@ int List::GetSize ( ) const
 {
     return size;
 } //----- Fin de GetSize
-
-//------------------------------------------------- Surcharge d'opérateurs
-bool List::operator == ( List const & aList ) const
-// Algorithme :
-// 2 Trip sont égaux si leurs villes de départ et arrivée sont égales
-{
-    Node * currThis = first;
-    Node * currOther = aList.first;
-    while ( currOther != nullptr && currThis != nullptr )
-    {
-        if ( !( * currThis->GetTrip() == * currOther->GetTrip() ) )
-        {
-            return false;
-        }
-        currThis = currThis->GetNext();
-        currOther = currOther->GetNext();
-    }
-    return true;
-} //----- Fin de operator ==
 
 //-------------------------------------------- Constructeurs - destructeur
 List::List ( )

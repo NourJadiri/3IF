@@ -266,7 +266,14 @@ void Catalogue::fetch ( ) const
         // if user wants a simple search only
         if ( !strcmp( advanced, "yes" ) )
         {
-            tripList.FetchTripAdvanced( start, start, end );
+            cout << endl << "Here's what we can get you (or not): " << endl;
+            bool found = tripList.FetchTripAdvanced( start, end );
+            if ( !found )
+            {
+                cout << "Nothing, sorry..." << endl
+                << "The trip from " << start << " to " << end << " does not exist..." << endl;
+            }
+            cout << endl;
         }
         else
         {

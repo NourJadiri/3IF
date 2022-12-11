@@ -1,7 +1,0 @@
-.h
-CONTRAT : contrat de cohérence (nb elem tableau) contrat de performance (pile non vide)....
-METHODES : description paramètres, ce que fait la méthode (jamais comment)
-ce que fait le constructeur, destructeur, description param si constructeur copie
-
-.cpp
-ALGORITHME : le comment si cest COMPLEXE

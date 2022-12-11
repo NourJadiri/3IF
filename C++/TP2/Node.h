@@ -37,7 +37,7 @@ public:
     // Mode d'emploi :
     // Appel de Display de la classe Trip pour afficher le Trip de Node
     // Contrat :
-    // Node doit bien contenir un trip
+    // Node doit bien contenir un Trip valide (et donc etre non null)
 
     Trip * GetTrip ( ) const;
     // Mode d'emploi :
@@ -81,14 +81,14 @@ public:
 
     virtual ~Node ( );
     // Mode d'emploi :
-    // Chaque Node delete son Trip et son suivant
+    // Chaque Node supprime son Trip et appelle le destructeur du suivant
 
 //------------------------------------------------------------------ PRIVE
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    Trip const * trip; // Pointeur sur le Trip du Node
-    Node * next; // Chainage simple sur le prochain Node, donc sur le prochain Trip
+    Trip const * trip; // pointeur sur le Trip du Node
+    Node * next; // chainage simple sur le prochain Node, donc sur le prochain Trip
 
 };
 

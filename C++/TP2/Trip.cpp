@@ -42,8 +42,9 @@ int Trip::GetType ( ) const
 bool Trip::operator == ( Trip const & aTrip ) const
 // Algorithme :
 // 2 Trip sont égaux si leurs villes de départ et arrivée sont égales
+// sans distinction de leur type
+// on ne compare donc que l'arrivée finale du ComposedTrip si nécessaire
 {
-    //if ( this->type != aTrip.GetType() ) return false;
     return ( !strcmp( start, aTrip.GetStart() ) && !strcmp( end, aTrip.GetEnd() ) );
 } //----- Fin de operator ==
 

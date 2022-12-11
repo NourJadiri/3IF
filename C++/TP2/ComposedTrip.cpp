@@ -84,7 +84,7 @@ ComposedTrip::ComposedTrip ( List const & list ) : Trip ( )
     }
     end = new char [ strlen( iter->GetTrip()->GetEnd() ) + 1 ];
     strcpy( end, iter->GetTrip()->GetEnd() );
-} //----- Fin du constructeur de ComposedTrip depuis une List
+} //----- Fin de ComposedTrip (à partir d'une List)
 
 ComposedTrip::~ComposedTrip ( )
 {

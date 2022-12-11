@@ -71,10 +71,10 @@ public:
     virtual bool operator == ( Trip const & aTrip ) const;
     // Mode d'emploi :
     // Surcharge de l'opérateur == afin de retourner un bool en fonction de
-    // si les deux Trip sont égaux
+    // si les deux Trip sont égaux sans distinction de leur type
     // aTrip est une référence sur le Trip à comparer, pas de copie
     // Contrat :
-    // les deux trip comparés sont des Trip valides
+    // les deux Trips comparés sont des Trips valides
 
     virtual bool operator <= ( Trip const & aTrip ) const;
     // Mode d'emploi :
@@ -82,7 +82,7 @@ public:
     // si Trip est inférieur ou égal à aTrip
     // aTrip est une référence sur le Trip à comparer, pas de copie
     // Contrat :
-    // les deux trip comparés sont des Trip valides
+    // les deux Trips comparés sont des Trips valides
 
     virtual bool operator >= ( Trip const & aTrip ) const;
     // Mode d'emploi :
@@ -90,7 +90,7 @@ public:
     // si Trip est supérieur ou égal à aTrip
     // aTrip est une référence sur le Trip à comparer, pas de copie
     // Contrat :
-    // les deux trip comparés sont des Trip valides
+    // les deux Trips comparés sont des Trips valides
 
 //-------------------------------------------- Constructeurs - destructeur
     Trip ( );

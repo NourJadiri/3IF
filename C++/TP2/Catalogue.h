@@ -30,11 +30,6 @@
 // La classe Catalogue contient la List des trajets (simples ou composés)
 //------------------------------------------------------------------------
 
-typedef struct vertex{
-    char* city;
-    vertex* next;
-}vertex;
-
 class Catalogue
 {
 //----------------------------------------------------------------- PUBLIC
@@ -88,6 +83,5 @@ protected:
     List tripList;
 
 };
-
 
 #endif // CATALOGUE_H

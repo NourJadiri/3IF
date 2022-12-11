@@ -26,16 +26,17 @@ using namespace std;
 void SimpleTrip::Display ( ) const
 {
     cout << "Trip from " << start << " to " << end << " by " << transportation;
-}
+} //----- Fin de Display
 
 char * SimpleTrip::GetTransport ( ) const
 {
     return transportation;
-}
-//----- Fin de GetTransport
+} //----- Fin de GetTransport
 
 //-------------------------------------------- Constructeurs - destructeur
-SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd, const char * aTransportation ) : Trip( aStart, aEnd )
+SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd,
+                         const char * aTransportation )
+                         : Trip( aStart, aEnd )
 {
 #ifdef MAP
     cout << "Appel au constructeur de <SimpleTrip>" << endl;
@@ -50,7 +51,6 @@ SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd, const char * aT
     transportation = new char [ strlen( aTransportation ) + 1 ];
     strcpy( transportation, aTransportation );
 } //----- Fin de SimpleTrip
-
 
 SimpleTrip::~SimpleTrip ( )
 {

@@ -27,7 +27,7 @@ static void test ( )
 // Création d'un catalogue vide lors du lancement de l'application
 {
     Catalogue c;
-    c.Launch();
+    c.Launch ( );
 } //----- fin de test
 
 int main ( )
@@ -37,4 +37,3 @@ int main ( )
     test ( );
     return 0;
 } //----- fin de main
-

@@ -28,7 +28,7 @@ void List::Display ( ) const
 // Algorithme :
 // Parcourt la liste et appelle la méthode display de chaque trip qui la compose
 {
-    // case if list empty already dealt with in Catalogue
+    // cas de la List nulle vérifié dans le Catalogue
 
     int simpleTrip_number = 1, composedTrip_number = 1;
     Node * current = first;
@@ -87,7 +87,7 @@ void List::AddTripSorted ( Trip const * aTrip )
     // alphabetical sorting
     Node * current = first;
 
-    // empty list or new Node needs to be first
+    // empty list or new Node has to be first
     if ( size == 0 || * aTrip <= * first->GetTrip() )
     {
         toAdd->SetNext( first );
@@ -127,7 +127,7 @@ void List::FetchTrip ( char const * start, char const * end ) const
         if ( !strcmp( start, current->GetTrip()->GetStart() ) && !strcmp( end, current->GetTrip()->GetEnd() ) )
         {
             if ( !found )
-            // We print this line once whatever the number of matching trips found
+            // print this line once whatever the number of matching trips found
             {
                 cout << endl << "Trip found!" << endl;
             }
@@ -155,8 +155,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
 {
     // cas de la List nulle vérifié dans le Catalogue
 
-    cout << "Checking si " << start << " to " << end << " existe " << endl;
-    // if we reached the end of our catalogue
+    // if end of catalogue is reached
     if ( i >= size && !found )
     {
         return false;
@@ -166,14 +165,16 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
         return true;
     }
 
-    bool stored = false;
+    // else
+
+    bool stored = false; // to check later on if the current trip has already been checked
 
     Node * current = first;
     while (current != nullptr) {
-        // si on recommence pour chercher une possible nouvelle solution
+        // if starting again for another solution
         if (!suite) i = 0;
 
-        // comparaison des villes de départ
+        // starting cities comparison
         if (!strcmp(start, current->GetTrip()->GetStart()))
         {
             // check if already stored
@@ -185,7 +186,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 }
             }
 
-            // if the trip is not stored in our temporary array
+            // if the trip is not stored in our temporary array, store it
             if (!stored) {
                 storedTrips[i] = current->GetTrip();
 
@@ -193,6 +194,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 if (!strcmp(end, current->GetTrip()->GetEnd())) {
                     found = true;
 
+                    // display the solution
                     cout << "\t-> ";
                     int k;
                     for (k = 0; k <= i; k++) {
@@ -205,6 +207,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 }
                 else
                 {
+                    // if new step can possibly lead to the solution, try recursively with trips in the catalogue
                     FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
                 }
             }

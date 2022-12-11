@@ -266,7 +266,7 @@ void Catalogue::fetch ( ) const
         // if user wants a simple search only
         if ( !strcmp( advanced, "yes" ) )
         {
-            tripList.FetchTripAdvanced( start, end );
+            tripList.FetchTripAdvanced( start, start, end );
         }
         else
         {

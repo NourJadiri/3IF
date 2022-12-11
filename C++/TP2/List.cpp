@@ -151,7 +151,8 @@ void List::FetchTrip ( char const * start, char const * end ) const
     cout << endl;
 } //----- Fin de FetchTrip
 
-void List::FetchTripAdvanced ( char const * start, char const * end, bool found, int i, List * * tab, List * fetching ) const
+void List::FetchTripAdvanced ( char const * start, char const * const startIni, char const * end, bool found,
+                               int i, List * * tab, List * fetching ) const
 // Algorithme :
 // TODO
 {
@@ -189,15 +190,14 @@ void List::FetchTripAdvanced ( char const * start, char const * end, bool found,
                     {
                         tab[j] = fetching;
                     }
-
-                    // let's go for another round (new list)
-                    FetchTripAdvanced( start, end, found, ++i, tab );
                 }
                 // if not found, continue looking for the fetch with the same list
-                FetchTripAdvanced( current->GetTrip()->GetEnd(), end, found, ++i, tab, fetching );
+                FetchTripAdvanced( current->GetTrip()->GetEnd(), startIni, end, found, ++i, tab, fetching );
             }
             current = current->GetNext();
         }
+        // let's go for another round (new list)
+        FetchTripAdvanced( startIni, startIni, end, found, ++i, tab );
     }
     else
     {

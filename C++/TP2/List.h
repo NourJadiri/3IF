@@ -66,8 +66,8 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
-    void FetchTripAdvanced ( char const * start, char const * end, bool found = false, int i = 0,
-                             List * * tab = new List *, List * fetching = new List ) const;
+    void FetchTripAdvanced ( char const * start, char const * const startIni, char const * end, bool found = false,
+                             int i = 0, List * * tab = new List *, List * fetching = new List ) const;
     // Mode d'emploi :
     // TODO
     // Contrat :

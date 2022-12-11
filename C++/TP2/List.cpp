@@ -156,8 +156,14 @@ bool List::FetchTripAdvanced ( char const * start, char const * end, bool found,
     // cas de la List nulle vérifié dans le Catalogue
 
     // if we reached the end of our catalogue
-    if ( i >= size && !found ) return false;
-    if ( i >= size && found ) return true;
+    if ( i >= size && !found )
+    {
+        return false;
+    }
+    if ( i >= size && found )
+    {
+        return true;
+    }
 
     bool stored = false;
 

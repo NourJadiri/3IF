@@ -75,8 +75,6 @@ protected:
     // c'est-à-dire ne pas mettre d'espaces. On suppose également
     // que les chaines de caractères entrées font moins de 64 caractères
 
-    int nbUniqueCities() const;
-
     void fetch ( ) const;
     // Mode d'emploi :
     // Recherche du trajet demandé par l'utilisateur entre deux villes

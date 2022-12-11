@@ -125,7 +125,7 @@ void Catalogue::display ( ) const
         tripList.Display();
         cout << "there are " << nbUniqueCities() << " unique cities";
     }
-} //----- Fin de Display
+} //----- Fin de display
 
 void Catalogue::add ( )
 // Algorithme :
@@ -225,48 +225,7 @@ void Catalogue::add ( )
     delete [ ] end ;
     delete [ ] transport;
     delete [ ] yesOrNo;
-}
-
-int Catalogue :: nbUniqueCities() const{
-    if(tripList.GetFirst() == nullptr) return 0;
-    if(tripList.GetSize() == 1) return 2;
-
-    int unique = 2;
-
-    Node *current = tripList.GetFirst();
-
-    while(current != nullptr){
-
-        Node *iter = current->GetNext();
-
-        while(iter != nullptr){
-            unique += 2;
-            if(!strcmp(iter->GetTrip()->GetStart(),current->GetTrip()->GetStart()) && !strcmp(iter->GetTrip()->GetEnd(),current->GetTrip()->GetEnd())){
-                unique -= 2;
-                iter = iter->GetNext();
-                continue;
-            }
-            if(!strcmp(iter->GetTrip()->GetStart(),current->GetTrip()->GetStart())){
-                unique--;
-            }
-            if(!strcmp(iter->GetTrip()->GetStart(),current->GetTrip()->GetEnd())){
-                unique--;
-            }
-            if(!strcmp(iter->GetTrip()->GetEnd(),current->GetTrip()->GetStart())){
-                unique--;
-            }
-            if(!strcmp(iter->GetTrip()->GetEnd(),current->GetTrip()->GetEnd())){
-                unique--;
-            }
-            iter = iter->GetNext();
-        }
-        current = current->GetNext();
-    }
-
-    return unique;
-}
-
-
+} //----- Fin de add
 
 void Catalogue::fetch ( ) const
 // Algorithme :
@@ -333,4 +292,4 @@ void Catalogue::fetch ( ) const
         delete [ ] start;
         delete [ ] end;
     }
-} //----- Fin de Fetch
+} //----- Fin de fetch

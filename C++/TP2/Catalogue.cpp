@@ -272,7 +272,7 @@ void Catalogue::fetch ( ) const
             cout << endl << "Here's what we can get you (or not): " << endl;
 
             bool found = tripList.FetchTripAdvanced( start, end, tab );
-            cout << found << endl;
+
             if ( !found )
             {
                 cout << "Nothing, sorry..." << endl

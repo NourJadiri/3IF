@@ -123,7 +123,6 @@ void List::AddTripSorted ( Trip const * aTrip )
 void List::FetchTrip ( char const * start, char const * end ) const
 // Algorithme :
 // Recherche d'un trajet par comparaison des chaines de caractères des villes de départ et d'arrivée
-//
 {
     // cas de la List nulle vérifié dans le Catalogue
 
@@ -149,7 +148,90 @@ void List::FetchTrip ( char const * start, char const * end ) const
     {
         cout << endl << "Trip from " << start << " to " << end << " does not exist..." << endl;
     }
+    cout << endl;
 } //----- Fin de FetchTrip
+
+void List::FetchTripAdvanced ( char const * start, char const * end, bool found, int i, List * * tab, List * fetching ) const
+// Algorithme :
+// TODO
+{
+    // cas de la List nulle vérifié dans le Catalogue
+
+    bool done = ( i == size );
+    Node * current = first;
+
+    if ( !done ) {
+        while ( current != nullptr )
+        {
+            if ( !strcmp( start, current->GetTrip()->GetStart() ) )
+            {
+                // add this part of the fetching to the list
+                fetching->AddTrip( current->GetTrip() );
+
+                // if the fetching is done (end found)
+                if ( !strcmp( end, current->GetTrip()->GetEnd() ) )
+                {
+                    found = true;
+
+                    // check if this fetch hasn't already been stored
+                    int j = 0;
+                    bool stored = false;
+                    while ( tab [j] != nullptr )
+                    {
+                        if ( * tab[j] == * fetching )
+                        {
+                            stored = true;
+                            break;
+                        }
+                        j++;
+                    }
+                    if ( !stored )
+                    {
+                        tab[i] = fetching;
+                    }
+
+                    // let's go for another round (new list)
+                    FetchTripAdvanced( start, end, found, ++i, tab );
+                }
+                // if not found, continue looking for the fetch with the same list
+                FetchTripAdvanced( current->GetTrip()->GetEnd(), end, found, ++i, tab, fetching );
+            }
+            current = current->GetNext();
+        }
+    }
+    else
+    {
+        if ( !found )
+        {
+            cout << endl << "Trip from " << start << " to " << end << " does not exist..." << endl;
+        }
+        else
+        {
+            cout << endl << "Trip found!" << endl;
+            int indexTab;
+            for ( indexTab = 0; indexTab < i; indexTab++ )
+            {
+                cout << "\t-> ";
+                Node * currentList = tab[indexTab]->first;
+                while ( currentList != nullptr )
+                {
+                    cout << " then ";
+                    currentList->Display();
+                    currentList = currentList->GetNext();
+                }
+            }
+
+        }
+        cout << endl;
+
+        // free the 2D array tab of List
+        int k;
+        for ( k = 0; k < i; k++ )
+        {
+            delete tab [i];
+        }
+    }
+} //----- Fin de FetchTripAdvanced
 
 Node * List::GetFirst ( ) const
 {
@@ -160,6 +242,25 @@ int List::GetSize ( ) const
 {
     return size;
 } //----- Fin de GetSize
+
+//------------------------------------------------- Surcharge d'opérateurs
+bool List::operator == ( List const & aList ) const
+// Algorithme :
+// 2 Trip sont égaux si leurs villes de départ et arrivée sont égales
+{
+    Node * currThis = first;
+    Node * currOther = aList.first;
+    while ( currOther != nullptr && currThis != nullptr )
+    {
+        if ( !( * currThis->GetTrip() == * currOther->GetTrip() ) )
+        {
+            return false;
+        }
+        currThis = currThis->GetNext();
+        currOther = currOther->GetNext();
+    }
+    return true;
+} //----- Fin de operator ==
 
 //-------------------------------------------- Constructeurs - destructeur
 List::List ( )
@@ -195,7 +296,4 @@ List::~List ( )
 #endif
     delete first;
     size = DEFAULT_LIST_SIZE;
-}
-
-
-//----- Fin de ~List
+} //----- Fin de ~List

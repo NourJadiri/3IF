@@ -41,6 +41,12 @@ SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd, const char * aT
     cout << "Appel au constructeur de <SimpleTrip>" << endl;
 #endif
     type = SIMPLE_TRIP;
+    if ( aTransportation == nullptr )
+    // otherwise seg fault
+    {
+        transportation = new char [ 64 ];
+        return;
+    }
     transportation = new char [ strlen( aTransportation ) + 1 ];
     strcpy( transportation, aTransportation );
 } //----- Fin de SimpleTrip

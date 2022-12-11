@@ -115,7 +115,7 @@ void Catalogue::display ( ) const
     } else {
         if ( tripList.GetSize() > 1 )
         {
-            cout << endl << "There are " << tripList.GetSize() << " trips " << endl;
+            cout << endl << "There are " << tripList.GetSize() << " trips ";
         }
         else
         {
@@ -139,13 +139,13 @@ void Catalogue::add ( )
     cout << endl << "Let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "Be a good samaritan and DO NOT INSERT SPACES!!! when you write your trip information (please...)" << endl;
 
-    cout << "----- Enter the city of departure : ";
+    cout << "----- Enter the city of departure: ";
     cin >> start ;
 
-    cout << "----- Enter the city of arrival : ";
+    cout << "----- Enter the city of arrival: ";
     cin >> end;
 
-    cout << "----- Enter the kind of transport used : ";
+    cout << "----- Enter the kind of transport used: ";
     cin >> transport;
 
     // We consider the eventuality of having a composed trip
@@ -158,7 +158,7 @@ void Catalogue::add ( )
     // Checks if the user input is valid (yes/no)
     do
     {
-        cout << endl << "Do you wish to make this trip a composed trip ? [yes/no] : ";
+        cout << endl << "Do you wish to make this trip a composed trip? [yes/no]: ";
         cin >> yesOrNo;
 
         validInput = !strcmp( yesOrNo, "yes" ) || !strcmp( yesOrNo, "no" );
@@ -182,10 +182,10 @@ void Catalogue::add ( )
         {
             strcpy( start,end );
 
-            cout << "----- Enter the next city of arrival : ";
+            cout << "----- Enter the next city of arrival: ";
             cin >> end;
 
-            cout << "----- Enter the kind of transport used : ";
+            cout << "----- Enter the kind of transport used: ";
             cin >> transport;
 
             newCTrip->AddSimpleTrip ( new SimpleTrip( start, end, transport ) );
@@ -193,7 +193,7 @@ void Catalogue::add ( )
             // Checks if the user input is valid [yes/no]
             do
             {
-                cout << endl << "Do you wish to add another step to this trip ? [yes/no] : ";
+                cout << endl << "Do you wish to add another step to this trip? [yes/no]: ";
                 cin >> addNewStep;
 
                 validInput = !strcmp( addNewStep, "yes" ) || !strcmp( addNewStep, "no" );
@@ -240,15 +240,46 @@ void Catalogue::fetch ( ) const
 
         char * start = new char [ 64 ];
         char * end = new char [ 64 ];
-        cout << "Choose your departure city : ";
+        cout << "----- Choose your departure city: ";
         cin >> start;
-        cout << "Choose your destination city : " ;
+        cout << "----- Choose your destination city: " ;
         cin >> end;
 
-        tripList.FetchTrip( start, end );
+        char * advanced = new char [ 64 ];
+        bool validInput = false;
+        do
+        {
+            cout << endl << "Do you wish to do an advanced search for this trip? [yes/no]: ";
+            cin >> advanced;
+
+            validInput = !strcmp( advanced, "yes" ) || !strcmp( advanced, "no" );
+
+            if ( !validInput ) {
+                cout << "Please enter a valid input [yes/no]..." << endl;
+                //sleep(1);
+            }
+        }
+        while ( !validInput );
+
+        //tripList.FetchTrip( start, end );
+
+        // if user wants a simple search only
+        if ( !strcmp( advanced, "yes" ) )
+        {
+            tripList.FetchTripAdvanced( start, end );
+        }
+        else
+        {
+            tripList.FetchTrip( start, end );
+        }
 
         // to free allocated memory in heap
+        delete [ ] advanced;
         delete [ ] start;
         delete [ ] end;
     }
 } //----- Fin de Fetch
+
+
+
+// TODO : les composed trips se mettent au début de la liste alors qu'il faudrait les alphabétiser aussi

@@ -66,6 +66,13 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
+    void FetchTripAdvanced ( char const * start, char const * end, bool found = false, int i = 0,
+                             List * * tab = new List *, List * fetching = new List ) const;
+    // Mode d'emploi :
+    // TODO
+    // Contrat :
+    // TODO
+
     Node * GetFirst ( ) const;
     // Mode d'emploi :
     // Renvoie le premier Trip de la List ou null si la List est vide
@@ -73,6 +80,13 @@ public:
     int GetSize ( ) const;
     // Mode d'emploi :
     // Renvoie la taille de la List donc le nombre de Trips repertories
+
+//------------------------------------------------- Surcharge d'opérateurs
+    bool operator == ( List const & aList ) const;
+    // Mode d'emploi :
+    // TODO
+    // Contrat :
+    // TODO
 
 //-------------------------------------------- Constructeurs - destructeur
     List ( );

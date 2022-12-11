@@ -15,7 +15,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <limits>
+//#include <limits>
 //#include <unistd.h>
 using namespace std;
 
@@ -44,10 +44,14 @@ void Catalogue::Launch ( )
         cout << "\t3: look for a trip" << endl;
         cout << "\t4: close Gouggle Mapse" << endl;
 
+        cin >> choice;
+
+        // si on pouvait importer la librairie <limits>
         // pour gerer les exceptions
-        for( ; ; )
+        /*for( ; ; )
         {
             cin >> choice;
+            // si on pouvait importer la librairie <limits>
             if ( !cin )
             {
                 cout << "Wrong input, please enter a NUMBER" << endl;
@@ -59,7 +63,7 @@ void Catalogue::Launch ( )
                 continue;
             }
             else break;
-        }
+        }*/
 
         switch ( choice )
         {
@@ -98,7 +102,6 @@ Catalogue::~Catalogue ( )
     cout << "Appel au destructeur de <Catalogue>" << endl;
 #endif
 } //----- Fin de ~Catalogue
-
 
 //------------------------------------------------------------------ PRIVE
 

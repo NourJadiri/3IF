@@ -59,10 +59,6 @@ Node::Node ( )
     next = nullptr;
 } //----- Fin de Node (constructeur par défaut)
 
-
-/// la il faudrait faire passer en ref pour avoir copie en profondeur mais pb avec
-/// la méthode pure virtuelle de Trip
-
 Node::Node ( Trip const * aTrip )
 // Algorithme :
 // Simple copie en surface de l'attribut trip

@@ -108,8 +108,6 @@ Trip::Trip ( Trip const & aTrip)
 } //----- Fin de Trip (constructeur par référence)
 
 Trip::~Trip ( )
-// Algorithme :
-//
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Trip>" << endl;

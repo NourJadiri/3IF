@@ -26,7 +26,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void List::Display ( ) const
 // Algorithme :
-// Parcours la liste et appelle la méthode display de chaque trip qui la compose
+// Parcourt la liste et appelle la méthode display de chaque trip qui la compose
 {
     // case if list empty already dealt with in Catalogue
 
@@ -56,37 +56,37 @@ void List::Display ( ) const
     }
 } //----- Fin de Display
 
-void List::AddTrip(const Trip *aTrip)
+void List::AddTrip ( Trip const * aTrip )
 // Algorithme :
-// Parcours jusqu'à la fin de la liste
-// Ajout d'un Node qui stock <aTrip> à la fin de cette liste
+// Parcours jusqu'à la fin de la liste pour une liste attribuée
+// à un ComposedTrip
+// Ajout d'un Node qui stock aTrip à la fin de cette liste
 {
-    Node *toAdd = new Node(aTrip);
+    Node * toAdd = new Node( aTrip );
 
-    // Case of empty list
-    if(first == nullptr){
+    // empty list
+    if ( first == nullptr ){
         first = toAdd;
+        size++;
         return;
     }
 
-    Node *current = first;
+    Node * current = first;
 
     // Parsing through the linked list
-    while(current->GetNext() != nullptr){
+    while ( current->GetNext() != nullptr ){
         current = current->GetNext();
     }
-
+    // end of list insertion
     current->SetNext(toAdd);
     size++;
-
 } //----- Fin de AddTrip
 
-void List::AddTripSorted (Trip const * aTrip )
-/* Algorithme :
- * Ajout d'un Node (donc d'un trajet) en respectant l'ordre alphabetique
- * allocation mémoire d'un nouvel élément + copie en profondeur
- * size incrémentée
- */
+void List::AddTripSorted ( Trip const * aTrip )
+// Algorithme :
+// Ajout d'un Node (donc d'un trajet) en respectant l'ordre alphabetique
+// allocation mémoire d'un nouvel élément + copie en profondeur
+// size incrémentée
 {
     Node * toAdd = new Node ( aTrip );
 
@@ -121,9 +121,9 @@ void List::AddTripSorted (Trip const * aTrip )
 } //----- Fin de AddTripSorted
 
 void List::FetchTrip ( char const * start, char const * end ) const
-/* Algorithme :
- * Recherche d'un trajet par comparaison des chaines de caractères des villes de départ et d'arrivée
- */
+// Algorithme :
+// Recherche d'un trajet par comparaison des chaines de caractères des villes de départ et d'arrivée
+//
 {
     // cas de la List nulle vérifié dans le Catalogue
 

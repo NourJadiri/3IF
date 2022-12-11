@@ -123,7 +123,6 @@ void Catalogue::display ( ) const
         }
         cout << "available at the moment:" << endl;
         tripList.Display();
-        cout << "there are " << nbUniqueCities() << " unique cities";
     }
 } //----- Fin de display
 

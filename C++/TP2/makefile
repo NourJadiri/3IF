@@ -5,7 +5,7 @@ RMFLAGS = rm -f
 
 CXX = g++
 LD = g++
-CXXFLAGS = -g -Wall -ansi -pedantic -std=c++11
+CXXFLAGS = -g -DMAP -Wall -ansi -pedantic -std=c++11
 LDFLAGS = -g -Wall -pedantic -std=c++11
 
 INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h

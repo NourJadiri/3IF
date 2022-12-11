@@ -86,7 +86,6 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
     List tripList;
-    char vertices[][64];
 
 };
 

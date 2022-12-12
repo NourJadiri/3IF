@@ -110,6 +110,7 @@ void List::AddTripSorted ( Trip const * aTrip )
         }
         current = current->GetNext();
     }
+
     // insertion at end of List
     current->SetNext( toAdd );
     size++;
@@ -179,7 +180,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
         if (!strcmp(start, current->GetTrip()->GetStart()))
         {
             // check if already stored
-            int j;
+            unsigned int j; // pour parcourir le tableau
             for (j = 0; j < i; j++) {
                 if (current->GetTrip() == storedTrips[j]) {
                     stored = true;
@@ -197,7 +198,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
 
                     // display the solution
                     cout << "\t-> ";
-                    int k;
+                    unsigned int k; // pour parcourir le tableau
                     for (k = 0; k <= i; k++) {
                         if (k > 0) {
                             cout << " THEN ";

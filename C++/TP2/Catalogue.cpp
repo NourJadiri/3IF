@@ -289,4 +289,5 @@ void Catalogue::fetch ( ) const
         delete [ ] start;
         delete [ ] end;
     }
-} //----- Fin de fetch
+} //----- Fin de fetch*
+

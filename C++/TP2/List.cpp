@@ -100,6 +100,7 @@ void List::AddTripSorted ( Trip const * aTrip )
     // parsing through the list until the last element
     while ( current->GetNext() != nullptr )
     {
+
         if ( * (current->GetTrip()) <= * (aTrip) && * (aTrip) <= * (current->GetNext()->GetTrip()) )
         {
             toAdd->SetNext( current->GetNext() );
@@ -208,7 +209,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 else
                 {
                     // if new step can possibly lead to the solution, try recursively with trips in the catalogue
-                    FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
+                    found = FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
                 }
             }
         }
@@ -216,6 +217,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
     }
     return found;
 } //----- Fin de FetchTripAdvanced
+
 
 Node * List::GetFirst ( ) const
 {

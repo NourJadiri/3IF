@@ -16,6 +16,8 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <iostream>
 #include <cstring>
+//#include "SimpleTrip.h"
+//#include "ComposedTrip.h"
 
 //------------------------------------------------------------------ Types
 enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };
@@ -62,10 +64,17 @@ public:
     // La chaine de caractères doit être valide (pas d'espaces et moins de
     // 64 caractères)
 
+
     virtual int GetType ( ) const;
     // Mode d'emploi :
     // Renvoie l'entier correspondant au type du Trip (Virtual, Simple ou
     // Composed)
+
+
+    //virtual bool strictlyEquals (SimpleTrip * aTrip) const = 0;
+
+    //virtual bool strictlyEquals (ComposedTrip * aTrip) const = 0;
+
 
 //------------------------------------------------- Surcharge d'opérateurs
     virtual bool operator == ( Trip const & aTrip ) const;

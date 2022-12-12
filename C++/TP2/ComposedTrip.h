@@ -59,6 +59,7 @@ public:
     // Contrat :
     // La List list est non vide
 
+
     virtual ~ComposedTrip ( );
     // Mode d'emploi :
     // Libération de la mémoire allouée dans le tas pour les chaines de caractères

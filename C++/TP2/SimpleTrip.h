@@ -15,6 +15,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trip.h"
+//#include "ComposedTrip.h"
 #include <cstring>
 
 //------------------------------------------------------------------------
@@ -37,6 +38,7 @@ public:
     // Affichage sur la sortie standard des attributs d'un SimpleTrip,
     // c'est-à-dire de ses villes de départ et d'arrivée et de son moyen de
     // transport
+
 
     char * GetTransport ( ) const;
     // Mode d'emploi :

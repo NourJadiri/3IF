@@ -14,14 +14,15 @@ OBJETS = $(INTERFACE:.h=.o)
 EXE = trajets
 EFFACE = clean
 
+# edition des liens
 $(EXE) : $(OBJETS)
 	$(ECHO) ">>>Edition des liens de <$(EXE)>"
 	$(LD) $(LDFLAGS) -o $(EXE) $(OBJETS)
 
-$(EFFACE) :
-	$(RM) $(RMFLAGS) $(EXE) $(OBJETS)
-
-# inférences
+# compilation des fichiers
 %.o: %.cpp
 	@$(ECHO) ">>>Compilation de" $<
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(EFFACE) :
+	$(RM) $(RMFLAGS) $(EXE) $(OBJETS)

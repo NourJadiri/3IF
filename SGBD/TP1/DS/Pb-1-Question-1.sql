@@ -28,6 +28,7 @@ create table image(
 );
 
 create table commente(
+  commenteId integer,
   utilisateurId integer,
   postId integer,
   adate date,
@@ -53,7 +54,7 @@ insert into image values (1,
   'https://sayingimages.com/wp-content/uploads/thats-funny-don-t-care-meme.jpg',
   'spongesbob', 2);
   
-insert into commente values (1, 2, TO_DATE('2000/01/03', 'yyyy/mm/dd'), ':/');
+insert into commente values (1, 1, 2, TO_DATE('2000/01/03', 'yyyy/mm/dd'), ':/');
 
 insert into note values (3, 2, 5, TO_DATE('2000/01/03', 'yyyy/mm/dd'));
 
@@ -72,7 +73,7 @@ primary key(imageId);
 
 alter table commente
 add constraint PK_commente
-primary key(utilisateurId, postId);
+primary key(commenteId);
 
 alter table note
 add constraint PK_note

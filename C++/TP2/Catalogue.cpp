@@ -32,12 +32,12 @@ void Catalogue::Launch ( )
 // Appel de la méthode adéquate en fonction du choix de l'utilisateur
 // tant qu'il ne quitte pas le programme
 {
-    cout << "\nWelcome to the worst version of Gouggle Mapse :)" << endl;
+    cout << endl << "Welcome to the worst version of Gouggle Mapse :)" << endl;
 
     int choice;
     for ( ; ; )
     {
-        cout << "\n---------------------------- Menu. ----------------------------" << endl;
+        cout << endl << "---------------------------- Menu. ----------------------------" << endl;
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: display the catalogue of the available trips" << endl;
         cout << "\t2: add a trip" << endl;
@@ -85,7 +85,7 @@ void Catalogue::Launch ( )
         }
     }
     end:
-    cout << "\nSee you soon on Gouggle Mapse :)" << endl;
+    cout << endl << "See you soon on Gouggle Mapse :)" << endl;
 } //----- Fin de Launch
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -266,7 +266,8 @@ void Catalogue::fetch ( ) const
         if ( !strcmp( advanced, "yes" ) )
         {
             // allocated memory for an array of Trips to store the potential trips to fulfill request
-            Trip * * tab = new Trip*[this->tripList.GetSize() + 1];
+            // The maximum size of this array will be the size of the trip List
+            Trip * * tab = new Trip*[this->tripList.GetSize()];
 
             cout << endl << "Here's what we can get you (or not): " << endl;
             bool found = tripList.FetchTripAdvanced( start, end, tab );

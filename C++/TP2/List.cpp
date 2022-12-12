@@ -153,7 +153,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
 // Recherche d'un trajet par appel récursif et comparaison des chaines de caractères
 // Parcours de la liste jusqu'à trouver la ville de départ initiale, puis si nécessaire
 // Parcours à nouveau de la liste pour trouver un trajet qui commence depuis la ville d'arrivee
-// de ce dernier Trip, et ainsi de suite jusqu'à trouver ou non la ville d'arrivée finale
+// de ce dernier Trip, et ainsi de suite jusqu'à trouver ou non la ville d'arrivée finale.
 {
     // cas de la List nulle vérifié dans le Catalogue
 

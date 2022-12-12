@@ -1,4 +1,4 @@
-#makefile
+# makefile plus ou moins générique
 ECHO = @echo
 RM = @rm
 RMFLAGS = rm -f
@@ -11,7 +11,7 @@ LDFLAGS = -g -Wall -pedantic -std=c++11
 INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h
 REALISATION = $(INTERFACE:.h=.cpp)
 OBJETS = $(INTERFACE:.h=.o)
-EXE = trajet
+EXE = trajets
 EFFACE = clean
 
 $(EXE) : $(OBJETS)

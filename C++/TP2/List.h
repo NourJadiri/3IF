@@ -47,7 +47,9 @@ public:
     // ComposedTrip, puisqu'on ne veut pas ordonner les SimpleTrip qui
     // composent ce ComposedTrip
     // Contrat :
-    // aTrip est un Trip valide
+    // aTrip est un Trip qui remplit les conditions
+    // (villes de départ, arrivée, transport : chaines de caractères
+    // sans espaces et de moins de 64 caractères de long)
 
     void AddTripSorted ( Trip const * aTrip );
     // Mode d'emploi :
@@ -55,7 +57,8 @@ public:
     // Ajout au bon endroit par rapport au tri alphabétique
     // Contrat :
     // aTrip est un Trip qui remplit les conditions
-    // (villes de départ, arrivée, transport...)
+    // (villes de départ, arrivée, transport : chaines de caractères
+    // sans espaces et de moins de 64 caractères de long)
 
     void FetchTrip ( char const * start, char const * end ) const;
     // Mode d'emploi :
@@ -66,7 +69,7 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
-    bool FetchTripAdvanced (char const * start, char const * end, Trip * * storedTrips,
+    bool FetchTripAdvanced ( char const * start, char const * end, Trip * * storedTrips,
                             bool found = false, unsigned int i = 0, bool suite = false ) const;
     // Mode d'emploi :
     // Recherche avancée donc appel récursif afin de trouver une composition de trajets, simple ou composés

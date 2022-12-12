@@ -33,8 +33,6 @@ char * SimpleTrip::GetTransport ( ) const
     return transportation;
 } //----- Fin de GetTransport
 
-
-
 //-------------------------------------------- Constructeurs - destructeur
 SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd,
                          const char * aTransportation )
@@ -60,4 +58,4 @@ SimpleTrip::~SimpleTrip ( )
     cout << "Appel au destructeur de <SimpleTrip>" << endl;
 #endif
     delete [ ] transportation;
-}//----- Fin de ~SimpleTrip
+} //----- Fin de ~SimpleTrip

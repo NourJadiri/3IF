@@ -71,6 +71,7 @@ void List::AddTrip ( Trip const * aTrip )
     while ( current->GetNext() != nullptr ){
         current = current->GetNext();
     }
+
     // end of list insertion
     current->SetNext(toAdd);
     size++;
@@ -147,7 +148,7 @@ void List::FetchTrip ( char const * start, char const * end ) const
     cout << endl;
 } //----- Fin de FetchTrip
 
-bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * storedTrips,
+bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * storedTrips,
                               bool found, unsigned int i, bool suite ) const
 // Algorithme :
 // Recherche d'un trajet par appel récursif et comparaison des chaines de caractères
@@ -172,35 +173,35 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
     bool stored = false; // to check later on if the current trip has already been checked
 
     Node * current = first;
-    while (current != nullptr) {
+    while ( current != nullptr ) {
         // if starting again for another solution
-        if (!suite) i = 0;
+        if ( !suite ) i = 0;
 
         // starting cities comparison
-        if (!strcmp(start, current->GetTrip()->GetStart()))
+        if ( !strcmp( start, current->GetTrip()->GetStart() ) )
         {
             // check if already stored
             unsigned int j; // pour parcourir le tableau
-            for (j = 0; j < i; j++) {
-                if (current->GetTrip() == storedTrips[j]) {
+            for ( j = 0; j < i; j++ ) {
+                if ( current->GetTrip() == storedTrips[j] ) {
                     stored = true;
                     break;
                 }
             }
 
             // if the trip is not stored in our temporary array, store it
-            if (!stored) {
+            if ( !stored ) {
                 storedTrips[i] = current->GetTrip();
 
                 // if the fetching is done (end found)
-                if (!strcmp(end, current->GetTrip()->GetEnd())) {
+                if ( !strcmp( end, current->GetTrip()->GetEnd() ) ) {
                     found = true;
 
                     // display the solution
                     cout << "\t-> ";
                     unsigned int k; // pour parcourir le tableau
-                    for (k = 0; k <= i; k++) {
-                        if (k > 0) {
+                    for ( k = 0; k <= i; k++ ) {
+                        if ( k > 0 ) {
                             cout << " THEN ";
                         }
                         storedTrips[k]->Display();
@@ -210,7 +211,7 @@ bool List::FetchTripAdvanced (char const * start, char const * end, Trip * * sto
                 else
                 {
                     // if new step can possibly lead to the solution, try recursively with trips in the catalogue
-                    found = FetchTripAdvanced(current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true);
+                    found = FetchTripAdvanced( current->GetTrip()->GetEnd(), end, storedTrips, found, ++i, true );
                 }
             }
         }

@@ -28,7 +28,7 @@ void Node::Display ( ) const
 
 Trip * Node::GetTrip ( ) const
 {
-    return const_cast<Trip *>(trip);
+    return const_cast< Trip * > ( trip );
 } //----- Fin de GetTrip
 
 Node * Node::GetNext ( ) const

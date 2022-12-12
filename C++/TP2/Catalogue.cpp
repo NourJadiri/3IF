@@ -155,6 +155,7 @@ void Catalogue::add ( )
 
     SimpleTrip * newSTrip = new SimpleTrip( start, end, transport );
     ComposedTrip * newCTrip = new ComposedTrip();
+
     // Checks if the user input is valid (yes/no)
     do
     {
@@ -267,7 +268,7 @@ void Catalogue::fetch ( ) const
         {
             // allocated memory for an array of Trips to store the potential trips to fulfill request
             // The maximum size of this array will be the size of the trip List
-            Trip * * tab = new Trip*[this->tripList.GetSize()];
+            Trip * * tab = new Trip * [ this->tripList.GetSize() ];
 
             cout << endl << "Here's what we can get you (or not): " << endl;
             bool found = tripList.FetchTripAdvanced( start, end, tab );
@@ -278,7 +279,7 @@ void Catalogue::fetch ( ) const
                 << "The trip from " << start << " to " << end << " does not exist..." << endl;
             }
 
-            delete [] tab;
+            delete [ ] tab;
             cout << endl;
         }
         else
@@ -291,5 +292,5 @@ void Catalogue::fetch ( ) const
         delete [ ] start;
         delete [ ] end;
     }
-} //----- Fin de fetch*
+} //----- Fin de fetch
 

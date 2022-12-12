@@ -109,7 +109,6 @@ Trip::Trip ( Trip const & aTrip)
     type = VIRTUAL;
 } //----- Fin de Trip (constructeur par référence)
 
-
 Trip::~Trip ( )
 {
 #ifdef MAP

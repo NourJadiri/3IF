@@ -16,8 +16,6 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <iostream>
 #include <cstring>
-//#include "SimpleTrip.h"
-//#include "ComposedTrip.h"
 
 //------------------------------------------------------------------ Types
 enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };
@@ -64,17 +62,10 @@ public:
     // La chaine de caractères doit être valide (pas d'espaces et moins de
     // 64 caractères)
 
-
     virtual int GetType ( ) const;
     // Mode d'emploi :
     // Renvoie l'entier correspondant au type du Trip (Virtual, Simple ou
     // Composed)
-
-
-    //virtual bool strictlyEquals (SimpleTrip * aTrip) const = 0;
-
-    //virtual bool strictlyEquals (ComposedTrip * aTrip) const = 0;
-
 
 //------------------------------------------------- Surcharge d'opérateurs
     virtual bool operator == ( Trip const & aTrip ) const;
@@ -83,7 +74,9 @@ public:
     // si les deux Trip sont égaux sans distinction de leur type
     // aTrip est une référence sur le Trip à comparer, pas de copie
     // Contrat :
-    // les deux Trips comparés sont des Trips valides
+    // les deux Trips comparés sont des Trips qui remplissent les conditions
+    // (villes de départ, arrivée, transport : chaines de caractères
+    // sans espaces et de moins de 64 caractères de long)
 
     virtual bool operator <= ( Trip const & aTrip ) const;
     // Mode d'emploi :
@@ -91,7 +84,9 @@ public:
     // si Trip est inférieur ou égal à aTrip
     // aTrip est une référence sur le Trip à comparer, pas de copie
     // Contrat :
-    // les deux Trips comparés sont des Trips valides
+    // les deux Trips comparés sont des Trips qui remplissent les conditions
+    // (villes de départ, arrivée, transport : chaines de caractères
+    // sans espaces et de moins de 64 caractères de long)
 
     virtual bool operator >= ( Trip const & aTrip ) const;
     // Mode d'emploi :
@@ -99,7 +94,9 @@ public:
     // si Trip est supérieur ou égal à aTrip
     // aTrip est une référence sur le Trip à comparer, pas de copie
     // Contrat :
-    // les deux Trips comparés sont des Trips valides
+    // les deux Trips comparés sont des Trips qui remplissent les conditions
+    // (villes de départ, arrivée, transport : chaines de caractères
+    // sans espaces et de moins de 64 caractères de long)
 
 //-------------------------------------------- Constructeurs - destructeur
     Trip ( );
@@ -115,10 +112,10 @@ public:
     // départ et arrivée d'un Trip
     // Par défaut, le type du Trip construit est Virtual
     // Contrat :
-    // La chaine de caractères doivent être valides (pas d'espaces et moins
+    // Les chaines de caractères doivent être valides (pas d'espaces et moins
     // de 64 caractères)
 
-    Trip ( Trip const & aTrip);
+    Trip ( Trip const & aTrip );
     // Mode d'emploi :
     // Allocations dynamiques pour les chaines de caractères communes aux
     // différents types de Trips
@@ -127,7 +124,9 @@ public:
     // un Trip
     // Par défaut, le type du Trip construit est Virtual
     // Contrat :
-    // Le Trip en paramètre doit être un Trip valide
+    // aTrip est un Trip qui remplit les conditions
+    // (villes de départ, arrivée, transport : chaines de caractères
+    // sans espaces et de moins de 64 caractères de long)
 
     virtual ~Trip ( );
     // Mode d'emploi :

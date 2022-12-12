@@ -1,8 +1,8 @@
 -- ContrÃ´le de TP
---            NumEtudiant      Nom      PrÃ©nom 
--- Membre 1 : 
--- Membre 2 : 
--- Membre 3 : 
+--            NumEtudiant      Nom         PrÃ©nom 
+-- Membre 1 : 4023359          ROULIER     Marie
+-- Membre 2 : 4023929          ELJADIRI    Nour
+-- Membre 3 : 4027126          VOIGTLANDER Vincent
 
 -- Probleme 1 - Question 1 : Donnez le code permettant de crÃ©er les tables correspondantes sous Oracle.
 

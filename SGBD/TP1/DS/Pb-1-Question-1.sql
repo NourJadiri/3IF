@@ -6,6 +6,7 @@
 
 -- Probleme 1 - Question 1 : Donnez le code permettant de crÃ©er les tables correspondantes sous Oracle.
 
+-- create tables
 create table utilisateur(
   utilisateurId integer, 
   email varchar2(50), 
@@ -39,6 +40,23 @@ create table note(
   note integer,
   adate date
 );
+
+-- add data
+insert into utilisateur values (1, 'tom@mail.com', 'Tom');
+insert into utilisateur values (2, 'emma@mail.com', 'Emma');
+insert into utilisateur values (3, 'sophie@mail.com', 'Sophie');
+
+insert into post values (1, 'Je mapelle Tom.', TO_DATE('2000/01/01', 'yyyy/mm/dd'), 1);
+insert into post values (2, 'Ca ninteresse personne ici!', TO_DATE('2000/01/02', 'yyyy/mm/dd'), 2);
+
+insert into image values (1, 
+  'https://sayingimages.com/wp-content/uploads/thats-funny-don-t-care-meme.jpg',
+  'spongesbob', 2);
+  
+insert into commente values (1, 2, TO_DATE('2000/01/03', 'yyyy/mm/dd'), ':/');
+
+insert into note values (3, 2, 5, TO_DATE('2000/01/03', 'yyyy/mm/dd'));
+
 -- contraintes: primary keys
 alter table utilisateur
 add constraint PK_utilisateur

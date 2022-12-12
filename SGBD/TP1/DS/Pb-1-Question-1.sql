@@ -7,7 +7,7 @@
 -- Probleme 1 - Question 1 : Donnez le code permettant de crÃ©er les tables correspondantes sous Oracle.
 
 create table utilisateur(
-  UtilisatuerId integer, 
+  utilisateurId integer, 
   email varchar2(50), 
   nom varchar2(50)
 );
@@ -16,7 +16,7 @@ create table post(
   postId integer, 
   texte varchar2(200), 
   adate date,
-  UtilisatuerId integer
+  utilisateurId integer
 );
 
 create table image(
@@ -27,16 +27,68 @@ create table image(
 );
 
 create table commente(
-  utilisatuerId integer,
+  utilisateurId integer,
   postId integer,
   adate date,
   text varchar2(200)
 );
 
 create table note(
-    utilisatuerId integer,
+  utilisateurId integer,
   postId integer,
   note integer,
   adate date
 );
+-- contraintes: primary keys
+alter table utilisateur
+add constraint PK_utilisateur
+primary key(utilisateurId);
+
+alter table post
+add constraint PK_post
+primary key(postId);
+
+alter table image
+add constraint PK_image
+primary key(imageId);
+
+alter table commente
+add constraint PK_commente
+primary key(utilisateurId, postId);
+
+alter table note
+add constraint PK_note
+primary key(utilisateurId, postId);
+
+-- contraintes: foreign keys
+alter table post 
+add constraint FK_post_utilisateur
+foreign key (utilisateurId) references utilisateur(utilisateurId)
+deferrable initially immediate;
+
+alter table image 
+add constraint FK_image_post
+foreign key (postId) references post(postId)
+deferrable initially immediate;
+
+alter table commente 
+add constraint FK_commente_utilisateur
+foreign key (utilisateurId) references utilisateur(utilisateurId)
+deferrable initially immediate;
+
+alter table commente 
+add constraint FK_commente_post
+foreign key (postId) references post(postId)
+deferrable initially immediate;
+
+alter table note 
+add constraint FK_note_utilisateur
+foreign key (utilisateurId) references utilisateur(utilisateurId)
+deferrable initially immediate;
+
+alter table note 
+add constraint FK_note_post
+foreign key (postId) references post(postId)
+deferrable initially immediate;
+
 commit;

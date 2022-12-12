@@ -91,4 +91,9 @@ add constraint FK_note_post
 foreign key (postId) references post(postId)
 deferrable initially immediate;
 
+-- contraintes: checks
+alter table note
+add constraint note_domain
+check (0 < note and note < 6);
+
 commit;

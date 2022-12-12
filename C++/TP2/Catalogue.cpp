@@ -246,7 +246,7 @@ void Catalogue::fetch ( ) const
         cin >> end;
 
         char * advanced = new char [ 64 ];
-        bool validInput = false;
+        bool validInput;
 
         do
         {
@@ -266,7 +266,8 @@ void Catalogue::fetch ( ) const
         if ( !strcmp( advanced, "yes" ) )
         {
             // allocated memory for an array of Trips to store the potential trips to fulfill request
-            Trip * * tab = new Trip *;
+            Trip * * tab = new Trip*[this->tripList.GetSize() + 1];
+
             cout << endl << "Here's what we can get you (or not): " << endl;
             bool found = tripList.FetchTripAdvanced( start, end, tab );
 
@@ -276,7 +277,7 @@ void Catalogue::fetch ( ) const
                 << "The trip from " << start << " to " << end << " does not exist..." << endl;
             }
 
-            delete tab;
+            delete [] tab;
             cout << endl;
         }
         else

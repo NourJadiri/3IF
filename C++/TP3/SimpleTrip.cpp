@@ -31,6 +31,12 @@ char * SimpleTrip::GetTransport ( ) const
     return transportation;
 } //----- Fin de GetTransport
 
+void SimpleTrip::SaveTripToFile ( ofstream & tripStream )
+{
+    Trip::SaveTripToFile(tripStream);
+    tripStream << "," << transportation << endl;
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd,
                          const char * aTransportation )

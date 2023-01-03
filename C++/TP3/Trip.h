@@ -14,9 +14,12 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <iostream>
 #include <cstring>
+#include <fstream>
+#include <string>
 
 //------------------------------------------------------------------ Types
 enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };
+const std::string tripTypes [ 3 ] = { "Virtual" , "Simple" , "Composed" };
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Trip>
@@ -64,6 +67,8 @@ public:
     // Mode d'emploi :
     // Renvoie l'entier correspondant au type du Trip (Virtual, Simple ou
     // Composed)
+
+    virtual void SaveTripToFile ( std::ofstream & tripStream );
 
 //------------------------------------------------- Surcharge d'opérateurs
     virtual bool operator == ( Trip const & aTrip ) const;

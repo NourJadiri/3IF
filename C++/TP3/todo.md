@@ -1,4 +1,6 @@
-# Ecrire un simple trip dans un fichier
+# Ecrire un simple trip dans un fichier (COMPLETE)
+## Rajouter index et subIndex dans le fichier pour caracteriser les trips
+## Ne pas oublier le nom des colonnes sur le CSV
 
 # Lire un simple trip a partir d'un fichier
 - simple cout dans le stdout

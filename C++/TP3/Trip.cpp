@@ -36,6 +36,13 @@ int Trip::GetType ( ) const
     return type;
 } //----- Fin de GetType
 
+void Trip::SaveTripToFile ( ofstream & tripStream )
+// Algorithme :
+//
+{
+    tripStream << tripTypes[type] << "," << start << "," << end;
+} //----- Fin de saveTripToFile
+
 //------------------------------------------------- Surcharge d'opérateurs
 bool Trip::operator == ( Trip const & aTrip ) const
 // Algorithme :

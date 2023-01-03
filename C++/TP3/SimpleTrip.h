@@ -42,6 +42,8 @@ public:
     // Renvoie un pointeur sur la chaine de caractères du moyen de transport
     // du SimpleTrip
 
+    virtual void SaveTripToFile ( std::ofstream & tripStream );
+
 //-------------------------------------------- Constructeurs - destructeur
     SimpleTrip ( const char * aStart = nullptr, const char * aEnd = nullptr, const char * aTransportation = nullptr );
     // Mode d'emploi :

@@ -104,6 +104,7 @@ protected:
     // Contrat :
     // Le nom du fichier doit etre correct (sans espace)
 
+
     void importCities ( );
     // Mode d'emploi :
     // Sert à sauvegarder des trips depuis un fichier une ville d'arrivee et/ou de depart
@@ -113,7 +114,9 @@ protected:
     // 3. depuis les deux
     /// PAS DE CONTRAT?
 
-    void saveCities ( ) const;
+    void saveAll ( std::ofstream & tripStream ) const;
+
+    void saveFromCities ( ) const;
     // Mode d'emploi :
     // Sert à restituer des trips dans un fichier selon une ville d'arrivee et/ou de depart
     // Demande a l'utilisateur de choisir entre trois options :

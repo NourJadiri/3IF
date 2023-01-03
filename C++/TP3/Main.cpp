@@ -24,8 +24,13 @@ static void test ( )
 // Algorithme :
 // Création d'un catalogue vide lors du lancement de l'application
 {
-    Catalogue c;
-    c.Launch ( );
+    //Catalogue c;
+    //c.Launch ( );
+    ofstream tripStream("myTrips.txt");
+    SimpleTrip *st1 = new SimpleTrip("Rabat" , "Lyon" , "Plane");
+    st1->SaveTripToFile(tripStream);
+    st1->Display();
+    cout << endl;
 } //----- fin de test
 
 int main ( )

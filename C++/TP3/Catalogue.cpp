@@ -338,7 +338,7 @@ void Catalogue::import ( )
             else break;
         }*/
 
-        switch (choice) {
+        switch ( choice ) {
             case 1:
                 //TODO : import all
                 break;
@@ -399,7 +399,7 @@ void Catalogue::save ( ) const
             else break;
         }*/
 
-        switch (choice) {
+        switch ( choice ) {
             case 1:
                 //TODO : save all
                 break;
@@ -408,7 +408,7 @@ void Catalogue::save ( ) const
                 break;
             case 3:
                 //TODO : save cities
-                saveCities();
+                saveFromCities();
                 break;
             case 4:
                 //TODO : save interval
@@ -454,7 +454,7 @@ void Catalogue::importCities ( )
             else break;
         }*/
 
-        switch (choice) {
+        switch ( choice ) {
             case 1:
                 //TODO : import trips a partir d'une ville de depart
                 break;
@@ -473,7 +473,39 @@ void Catalogue::importCities ( )
     }
 } //----- Fin de importCities
 
-void Catalogue::saveCities ( ) const
+void Catalogue::saveAll ( ofstream & tripStream ) const 
+
+{   
+    if( tripList.GetFirst() == nullptr )
+    {
+        cout << "Catalogue is empty... Nothing to add to the file :(";
+        return;
+    }
+    int index = 1;
+    int subindex = 0;
+
+    Node * iter = tripList.GetFirst();
+
+    while( iter != nullptr )
+    // Parses through tripList
+    {   
+        // Saves all the simple trips to file
+        if(iter->GetTrip()->GetType() == SIMPLE_TRIP)
+        {   
+            tripStream << index << "," << subindex << ",";
+            iter->GetTrip()->SaveTripToFile(tripStream);
+            index++;
+        }
+        ///TODO : Rajouter les conditions sur ComposedTrip
+        // incrémenter sub index, forcer index à 0
+
+        iter = iter->GetNext();
+    }
+
+    
+}
+
+void Catalogue::saveFromCities ( ) const
 // Algorithme :
 // XXXX
 {
@@ -505,7 +537,7 @@ void Catalogue::saveCities ( ) const
             else break;
         }*/
 
-        switch (choice) {
+        switch ( choice ) {
             case 1:
                 //TODO : save trips a partir d'une ville de depart
                 break;
@@ -522,5 +554,4 @@ void Catalogue::saveCities ( ) const
         }
         break;
     }
-} //----- Fin de saveCities
-
+} //----- Fin de saveFromCities

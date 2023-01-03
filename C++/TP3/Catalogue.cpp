@@ -40,7 +40,9 @@ void Catalogue::Launch ( )
         cout << "\t1: display the catalogue of the available trips" << endl;
         cout << "\t2: add a trip" << endl;
         cout << "\t3: look for a trip" << endl;
-        cout << "\t4: close Gouggle Mapse" << endl;
+        cout << "\t4: import trips from a file" << endl;
+        cout << "\t5: save trips to a file" << endl;
+        cout << "\t6: close Gouggle Mapse" << endl;
 
         cin >> choice;
 
@@ -75,6 +77,12 @@ void Catalogue::Launch ( )
                 fetch();
                 break;
             case 4:
+                import();
+                break;
+            case 5:
+                save();
+                break;
+            case 6:
                 goto end;
             default:
                 cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
@@ -291,4 +299,14 @@ void Catalogue::fetch ( ) const
         delete [ ] end;
     }
 } //----- Fin de fetch
+
+void Catalogue::import ( )
+// Algorithme :
+// Appending
+{
+    string nameFile;
+    cout << "Enter the name of the file containing the trips to import: ";
+    cin >> nameFile;
+    /////TODO : complete
+} //----- Fin de import
 

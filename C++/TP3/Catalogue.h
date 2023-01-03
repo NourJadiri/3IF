@@ -77,6 +77,15 @@ protected:
     // L'utilisateur ne doit pas rentrer d'espaces, et les chaines de caractères
     // entrées font moins de 64 caractères
 
+    void import ( );
+    // Mode d'emploi :
+    // Demande a l'utilisateur d'entrer le nom du fichier qui contient les
+    // trips a importer dans le catalogue
+    // Lecture de ce fichier et verification que le fichier existe
+    // Contrat :
+    // Le nom du fichier doit etre correct, et le fichier doit exister et
+    // respecter le schema que l'on souhaite
+
 //----------------------------------------------------- Attributs protégés
     List tripList;
 

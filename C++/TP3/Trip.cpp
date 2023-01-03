@@ -40,7 +40,7 @@ void Trip::SaveTripToFile ( ofstream & tripStream )
 // Algorithme :
 //
 {
-    tripStream << tripTypes[type] << "," << start << "," << end;
+    tripStream << tripTypes[type] << "," << this->start << "," << this->end;
 } //----- Fin de saveTripToFile
 
 //------------------------------------------------- Surcharge d'opérateurs

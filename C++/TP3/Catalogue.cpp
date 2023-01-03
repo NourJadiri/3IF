@@ -488,22 +488,19 @@ void Catalogue::saveAll ( ofstream & tripStream ) const
         return;
     }
     int index = 1;
-    int subindex = 0;
 
     Node * iter = tripList.GetFirst();
 
     while( iter != nullptr )
     // Parses through tripList
     {   
-        // Saves all the simple trips to file
-        if(iter->GetTrip()->GetType() == SIMPLE_TRIP)
-        {   
-            tripStream << index << "," << subindex << ",";
-            iter->GetTrip()->SaveTripToFile(tripStream);
-            index++;
-        }
-        ///TODO : Rajouter les conditions sur ComposedTrip
-        // incrémenter sub index, forcer index à 0
+        // Saves all the trips to file
+
+        tripStream << index << ",";
+
+        iter->GetTrip()->SaveTripToFile(tripStream);
+
+        index++;
 
         iter = iter->GetNext();
     }

@@ -1,2 +1,4 @@
-1,0,Simple,aaa,bbb,ccc
-2,0,Simple,aaa,rrr,yyy
+1,Simple,aaa,bbb,ccc
+2,Composed,aaa,ooo,-
+0,Simple,aaa,ggg,ddd
+0,Simple,ggg,ooo,ttt

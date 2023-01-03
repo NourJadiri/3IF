@@ -13,6 +13,7 @@
 //------------------------------------------------------ Include personnel
 #include "Main.h"
 #include "Catalogue.h"
+#include "ComposedTrip.h"
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////  PRIVE
@@ -26,15 +27,19 @@ static void test ( )
 {
     Catalogue c;
     c.Launch ( );
-   /*  ofstream tripStream("myTrips.txt");
+/*     ofstream tripStream("myTrips.txt");
     SimpleTrip *st1 = new SimpleTrip("Rabat" , "Lyon" , "Plane");
-    SimpleTrip *st2 = new SimpleTrip("Rabat" , "Paris" , "Plane");
-    st1->SaveTripToFile(tripStream);
-    st2->SaveTripToFile(tripStream);   
-    st1->Display();
-    cout << endl;
-    st2->Display();
+    SimpleTrip *st2 = new SimpleTrip("Lyon" , "Paris" , "Plane");
+
+    ComposedTrip *ct1 = new ComposedTrip();
+    ct1->AddSimpleTrip(st1);
+    ct1->AddSimpleTrip(st2);
+
+    ct1->SaveTripToFile(tripStream);
+
+    ct1->Display();
     cout << endl; */
+     
 } //----- fin de test
 
 int main ( )

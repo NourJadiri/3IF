@@ -42,6 +42,8 @@ public:
     // newSTrip est un pointeur sur le SimpleTrip à ajouter, et sera copié
     // en profondeur
 
+    void SaveTripToFile ( std::ofstream & tripStream );
+
 //-------------------------------------------- Constructeurs - destructeur
     ComposedTrip ( );
     // Mode d'emploi :

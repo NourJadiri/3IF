@@ -47,6 +47,21 @@ void ComposedTrip::AddSimpleTrip ( SimpleTrip const * newSTrip )
     strcpy( end, newSTrip->GetEnd() );
 } //----- Fin de AddSimpleTrip
 
+void ComposedTrip::SaveTripToFile ( ofstream & tripStream )
+{
+    Trip::SaveTripToFile(tripStream);
+    tripStream << ",-" << endl;
+
+    Node * iter = trips.GetFirst();
+
+    while( iter != nullptr )
+    {   
+        tripStream << 0 << ",";
+        iter->GetTrip()->SaveTripToFile(tripStream);
+        iter = iter->GetNext();
+    } 
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 ComposedTrip::ComposedTrip ( )
 // Algorithme :

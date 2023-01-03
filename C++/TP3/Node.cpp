@@ -2,11 +2,9 @@
                            Node  -  Element de la liste chainee List
                              -------------------
     début                : 22/11/2022
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
-                                        Vincent VOIGTLÄNDER
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
-                           vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <Node> (fichier Node.cpp) ------------

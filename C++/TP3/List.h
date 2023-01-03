@@ -2,11 +2,9 @@
                            List - Structure de données qui gère les Trips
                              -------------------
     début                : 22/11/2022
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER,
-                                        Vincent VOIGTLÄNDER
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
-                           vincent.voigtlander@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <List> (fichier List.h) ----------------

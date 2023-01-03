@@ -373,10 +373,10 @@ void Catalogue::save ( ) const
     int choice;
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: save all the trips from the file into the Catalogue" << endl;
-        cout << "\t2: save only the trips of a certain type from the file into the Catalogue" << endl;
+        cout << "\t1: save all the trips from the Catalogue into a file" << endl;
+        cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
         cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
-        cout << "\t4: save only an interval of trips from the file into the Catalogue" << endl;
+        cout << "\t4: save only an interval of trips from the Catalogue into a file" << endl;
 
         cin >> choice;
 

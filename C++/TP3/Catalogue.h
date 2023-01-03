@@ -104,6 +104,27 @@ protected:
     // Contrat :
     // Le nom du fichier doit etre correct (sans espace)
 
+    void importCities ( );
+    // Mode d'emploi :
+    // Sert à sauvegarder des trips depuis un fichier une ville d'arrivee et/ou de depart
+    // Demande a l'utilisateur de choisir entre trois options :
+    // 1. depuis ville de depart
+    // 2. depuis ville d'arrivee
+    // 3. depuis les deux
+    /// PAS DE CONTRAT?
+
+    void saveCities ( ) const;
+    // Mode d'emploi :
+    // Sert à restituer des trips dans un fichier selon une ville d'arrivee et/ou de depart
+    // Demande a l'utilisateur de choisir entre trois options :
+    // 1. depuis ville de depart
+    // 2. depuis ville d'arrivee
+    // 3. depuis les deux
+    // Contrat :
+    // L'utilisateur doit respecter les consignes qui s'affichent
+    // c'est-à-dire ne pas mettre d'espaces. On suppose également
+    // que les chaines de caractères entrées font moins de 64 caractères
+
 //----------------------------------------------------- Attributs protégés
     List tripList;
 

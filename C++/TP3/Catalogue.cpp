@@ -85,7 +85,7 @@ void Catalogue::Launch ( )
             case 6:
                 goto end;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                cout << "Incorrect choice, please enter a number between 1 and 6!" << endl;
                 //sleep(1);
                 continue; // go back to menu
         }
@@ -309,6 +309,57 @@ void Catalogue::import ( )
     cin >> nameFile;
     /////TODO : complete
     //TODO : while pour checker que le nom du fichier est ok et que ce fichier existe
+
+    int choice;
+    for ( ; ; ) {
+        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: save all the trips from the file into the Catalogue" << endl;
+        cout << "\t2: save only the trips of a certain type from the file into the Catalogue" << endl;
+        cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
+        cout << "\t4: save only an interval of trips from the file into the Catalogue" << endl;
+
+        cin >> choice;
+
+        // si on pouvait importer la librairie <limits>
+        // pour gerer les exceptions
+        /*for( ; ; )
+        {
+            cin >> choice;
+            // si on pouvait importer la librairie <limits>
+            if ( !cin )
+            {
+                cout << "Wrong input, please enter a NUMBER" << endl;
+                //sleep(1);
+                // pour clear l'erreur
+                cin.clear();
+                // pour enlever ce qui reste dans le buffer
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else break;
+        }*/
+
+        switch (choice) {
+            case 1:
+                //TODO : save all
+                break;
+            case 2:
+                //TODO : save type
+                break;
+            case 3:
+                //TODO : save cities
+                saveCities();
+                break;
+            case 4:
+                //TODO : save interval
+                break;
+            default:
+                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
 } //----- Fin de import
 
 void Catalogue::save ( ) const
@@ -321,4 +372,106 @@ void Catalogue::save ( ) const
     /////TODO : complete
     //TODO : while pour checker que le nom du fichier est ok
 } //----- Fin de import
+
+void Catalogue::importCities ( )
+// Algorithme :
+// XXXX
+{
+    int choice;
+    for ( ; ; ) {
+        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: import trips leaving from a certain city" << endl;
+        cout << "\t2: import trips arriving at a certain city" << endl;
+        cout << "\t3: import trips both leaving and arriving to the cities you want" << endl;
+
+        cin >> choice;
+
+        // si on pouvait importer la librairie <limits>
+        // pour gerer les exceptions
+        /*for( ; ; )
+        {
+            cin >> choice;
+            // si on pouvait importer la librairie <limits>
+            if ( !cin )
+            {
+                cout << "Wrong input, please enter a NUMBER" << endl;
+                //sleep(1);
+                // pour clear l'erreur
+                cin.clear();
+                // pour enlever ce qui reste dans le buffer
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else break;
+        }*/
+
+        switch (choice) {
+            case 1:
+                //TODO : import trips a partir d'une ville de depart
+                break;
+            case 2:
+                //TODO : import trips a partir d'une ville d'arrivee
+                break;
+            case 3:
+                //TODO : import trips a partir des deux villes de depart & arrivee
+                break;
+            default:
+                cout << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
+} //----- Fin de importCities
+
+void Catalogue::saveCities ( ) const
+// Algorithme :
+// XXXX
+{
+    int choice;
+    for ( ; ; ) {
+        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: save trips leaving from a certain city" << endl;
+        cout << "\t2: save trips arriving at a certain city" << endl;
+        cout << "\t3: save trips both leaving and arriving to the cities you want" << endl;
+
+        cin >> choice;
+
+        // si on pouvait importer la librairie <limits>
+        // pour gerer les exceptions
+        /*for( ; ; )
+        {
+            cin >> choice;
+            // si on pouvait importer la librairie <limits>
+            if ( !cin )
+            {
+                cout << "Wrong input, please enter a NUMBER" << endl;
+                //sleep(1);
+                // pour clear l'erreur
+                cin.clear();
+                // pour enlever ce qui reste dans le buffer
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else break;
+        }*/
+
+        switch (choice) {
+            case 1:
+                //TODO : save trips a partir d'une ville de depart
+                break;
+            case 2:
+                //TODO : save trips a partir d'une ville d'arrivee
+                break;
+            case 3:
+                //TODO : save trips a partir des deux villes de depart & arrivee
+                break;
+            default:
+                cout << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
+} //----- Fin de saveCities
 

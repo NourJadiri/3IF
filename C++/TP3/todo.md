@@ -12,3 +12,5 @@
 # Lire un composed Trip à partir d'un fichier (cout)
 
 # Save cette merde dans le catalogue 
+
+### est ce qu'on ferait pas une classe ImportAndSave pour pas trop surcharger Catalogue? idk

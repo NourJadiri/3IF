@@ -115,8 +115,16 @@ protected:
     /// PAS DE CONTRAT?
 
     void saveAll ( std::ofstream & tripStream ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
 
-    void saveFromCities ( ) const;
+    void saveType ( std::ofstream & tripStream ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+
+    void saveFromCities ( std::ofstream & tripStream ) const;
     // Mode d'emploi :
     // Sert à restituer des trips dans un fichier selon une ville d'arrivee et/ou de depart
     // Demande a l'utilisateur de choisir entre trois options :
@@ -127,6 +135,11 @@ protected:
     // L'utilisateur doit respecter les consignes qui s'affichent
     // c'est-à-dire ne pas mettre d'espaces. On suppose également
     // que les chaines de caractères entrées font moins de 64 caractères
+
+    void saveInterval ( std::ofstream & tripStream ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
 
 //----------------------------------------------------- Attributs protégés
     List tripList;

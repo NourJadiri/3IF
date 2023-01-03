@@ -28,19 +28,21 @@ void List::Display ( ) const
 {
     // cas de la List nulle vérifié dans le Catalogue
 
-    int simpleTrip_number = 1, composedTrip_number = 1;
+    int simpleTrip_number = 1, composedTrip_number = 1, totalTrip = 1;
     Node * current = first;
     while ( current != nullptr )
     {
         if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
         {
-            cout << "\tSimple Trip " << simpleTrip_number << " : ";
+            cout << "\t" << totalTrip << ".   Simple Trip " << simpleTrip_number << " : ";
             simpleTrip_number++;
+            totalTrip++;
         }
         else
         {
-            cout << "\tComposed Trip " << composedTrip_number << " : ";
+            cout << "\t" << totalTrip << ".   Composed Trip " << composedTrip_number << " : ";
             composedTrip_number++;
+            totalTrip++;
         }
         current->Display();
         cout << endl;

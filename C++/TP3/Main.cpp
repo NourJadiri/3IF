@@ -40,7 +40,7 @@ static void test ( )
     ct1->Display();
     cout << endl; */
      
-} //----- fin de test
+} //----- Fin de test
 
 int main ( )
 // Algorithme :
@@ -48,4 +48,4 @@ int main ( )
 {
     test ( );
     return 0;
-} //----- fin de main
+} //----- Fin de main

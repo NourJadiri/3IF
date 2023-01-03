@@ -26,3 +26,4 @@ $(EXE) : $(OBJETS)
 
 $(EFFACE) :
 	$(RM) $(RMFLAGS) $(EXE) $(OBJETS)
+	$(RM) myTrips.txt

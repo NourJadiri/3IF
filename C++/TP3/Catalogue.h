@@ -84,7 +84,7 @@ protected:
     // Verification que le fichier existe et lecture de ce fichier
     // L'utilisateur peut alors choisir entre quatre options de lecture :
     // 1. lire l'ensemble du fichier pour l'ajouter au catalogue
-    // 2. lire un seul type de trajets pour l'ajouter au catalogue
+    // 2. lire un seul type de trajets pour l'ajouter au newSTripcatalogue
     // 3. lire les trajets correspondant a une recherche
     // 4. lire une selection de trajets compris dans un intervalle
     // Contrat :

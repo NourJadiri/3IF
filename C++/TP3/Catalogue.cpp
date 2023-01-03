@@ -312,6 +312,67 @@ void Catalogue::import ( )
     int choice;
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: import all the trips from the file into the Catalogue" << endl;
+        cout << "\t2: import only the trips of a certain type from the file into the Catalogue" << endl;
+        cout << "\t3: import only the trips corresponding to specific city(ies) conditions" << endl;
+        cout << "\t4: import only an interval of trips from the file into the Catalogue" << endl;
+
+        cin >> choice;
+
+        // si on pouvait importer la librairie <limits>
+        // pour gerer les exceptions
+        /*for( ; ; )
+        {
+            cin >> choice;
+            // si on pouvait importer la librairie <limits>
+            if ( !cin )
+            {
+                cout << "Wrong input, please enter a NUMBER" << endl;
+                //sleep(1);
+                // pour clear l'erreur
+                cin.clear();
+                // pour enlever ce qui reste dans le buffer
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else break;
+        }*/
+
+        switch (choice) {
+            case 1:
+                //TODO : import all
+                break;
+            case 2:
+                //TODO : import type
+                break;
+            case 3:
+                //TODO : import cities
+                importCities();
+                break;
+            case 4:
+                //TODO : import interval
+                break;
+            default:
+                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
+} //----- Fin de import
+
+void Catalogue::save ( ) const
+// Algorithme :
+// Appending XXXXXX
+{
+    string nameFile;
+    cout << "Enter the name of the file in which you want to save the trips: ";
+    cin >> nameFile;
+    //TODO : while pour checker que le nom du fichier est ok
+
+    int choice;
+    for ( ; ; ) {
+        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: save all the trips from the file into the Catalogue" << endl;
         cout << "\t2: save only the trips of a certain type from the file into the Catalogue" << endl;
         cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
@@ -347,7 +408,7 @@ void Catalogue::import ( )
                 break;
             case 3:
                 //TODO : save cities
-                importCities();
+                saveCities();
                 break;
             case 4:
                 //TODO : save interval
@@ -359,16 +420,6 @@ void Catalogue::import ( )
         }
         break;
     }
-} //----- Fin de import
-
-void Catalogue::save ( ) const
-// Algorithme :
-// Appending XXXXXX
-{
-    string nameFile;
-    cout << "Enter the name of the file in which you want to save the trips: ";
-    cin >> nameFile;
-    //TODO : while pour checker que le nom du fichier est ok
 } //----- Fin de save
 
 void Catalogue::importCities ( )

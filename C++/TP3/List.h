@@ -67,14 +67,14 @@ public:
     // Les chaînes de caractères respectent les conditions nécessaires
     // (pas d'espace et moins de 64 caractères)
 
-    bool FetchTripAdvanced ( char const * start, char const * end, Trip * * storedTrips,
-                            bool found = false, unsigned int i = 0, bool suite = false ) const;
+    bool FetchTripAdvanced ( char const * start, char const * end, Trip * * storedTrips, bool found = false,
+                             unsigned int i = 0, bool suite = false ) const;
     // Mode d'emploi :
     // Recherche avancée donc appel récursif afin de trouver une composition de trajets, simple ou composés
     // pour pouvoir répondre à la requete de l'utilisateur
     // start et end représentent respectivement les chaines de caractères des villes de départ et d'arrivée
-    // les booléens found et suite déterminent resp. si la requete a été complétée ou si
-    // cette requete peut potentiellement être complétée avec une suite de trajets
+    // les booléens found et suite déterminent resp. si la requete a été complétée ou si cette requete peut
+    // potentiellement être complétée avec une suite de trajets
     // i représente le nombre d'itérations réalisées pour parcourir la liste
     // tab est un pointeur vers des pointeurs de Trip, il repertorie tous les composants
     // d'un trajet qui pourrait potentiellement répondre à la requete de l'utilisateur

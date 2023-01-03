@@ -379,7 +379,7 @@ void Catalogue::save ( ) const
                 saveType( tripStream );
                 break;
             case 3:
-                //TODO : save cities
+                //TODO : save cities advanced
                 saveFromCities ( tripStream );
                 break;
             case 4:
@@ -507,6 +507,10 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
     Node * iter = tripList.GetFirst();
 
     int choice;
+    char * start = new char [ 64 ];
+    char * end = new char [ 64 ];
+    Trip * * stored = new Trip * [ this->tripList.GetSize() ];
+
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: save trips leaving from a certain city" << endl;
@@ -514,8 +518,6 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
         cout << "\t3: save trips both leaving and arriving to the cities you want" << endl;
 
         cin >> choice;
-
-        string start, end;
 
         switch ( choice ) {
             case 1:
@@ -551,6 +553,7 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                 cin >> start;
                 cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
                 cin >> end;
+                /// SI ONLY RECHERCHE SIMPLE
                 while ( iter != nullptr ) // Parses through tripList
                 {
                     if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
@@ -561,7 +564,10 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                     }
                     iter = iter->GetNext();
                 }
-                break;
+
+                /// SI RECHERCHE AVANCEE
+                //TODO : overload fetchTripAdvanced comme par exemple :
+                //tripList.SaveTripAdvanced(start, end, stored, tripStream);
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
@@ -570,6 +576,7 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
         }
         break;
     }
+    delete [ ] stored;
 } //----- Fin de saveFromCities
 
 void Catalogue::saveInterval ( ofstream & tripStream ) const

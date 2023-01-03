@@ -1,1 +1,2 @@
-Simple,Rabat,Lyon,Plane
+1,0,Simple,aaa,bbb,ccc
+2,0,Simple,aaa,rrr,yyy

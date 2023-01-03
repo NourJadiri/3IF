@@ -366,13 +366,18 @@ void Catalogue::save ( ) const
 // Appending XXXXXX
 {
     string nameFile;
-    cout << "Enter the name of the file in which you want to save the trips: ";
+    cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
+    cout << "Know that the previous content of the file will be overwritten." << endl;
+    cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
+    
     cin >> nameFile;
     //TODO : while pour checker que le nom du fichier est ok
+    nameFile += ".txt";
+    ofstream tripStream( nameFile.c_str() );
 
     int choice;
     for ( ; ; ) {
-        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: save all the trips from the Catalogue into a file" << endl;
         cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
         cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
@@ -402,6 +407,7 @@ void Catalogue::save ( ) const
         switch ( choice ) {
             case 1:
                 //TODO : save all
+                saveAll( tripStream );
                 break;
             case 2:
                 //TODO : save type
@@ -428,7 +434,7 @@ void Catalogue::importCities ( )
 {
     int choice;
     for ( ; ; ) {
-        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: import trips leaving from a certain city" << endl;
         cout << "\t2: import trips arriving at a certain city" << endl;
         cout << "\t3: import trips both leaving and arriving to the cities you want" << endl;

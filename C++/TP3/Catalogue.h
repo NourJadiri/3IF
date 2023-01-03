@@ -81,10 +81,28 @@ protected:
     // Mode d'emploi :
     // Demande a l'utilisateur d'entrer le nom du fichier qui contient les
     // trips a importer dans le catalogue
-    // Lecture de ce fichier et verification que le fichier existe
+    // Verification que le fichier existe et lecture de ce fichier
+    // L'utilisateur peut alors choisir entre quatre options de lecture :
+    // 1. lire l'ensemble du fichier pour l'ajouter au catalogue
+    // 2. lire un seul type de trajets pour l'ajouter au catalogue
+    // 3. lire les trajets correspondant a une recherche
+    // 4. lire une selection de trajets compris dans un intervalle
     // Contrat :
-    // Le nom du fichier doit etre correct, et le fichier doit exister et
-    // respecter le schema que l'on souhaite
+    // Le nom du fichier doit etre correct (sans espace), et le fichier
+    // doit exister et respecter le schema que l'on souhaite
+
+    void save ( ) const;
+    // Mode d'emploi :
+    // Demande a l'utilisateur d'entrer le nom du fichier dans lequel il
+    // souhaite enregistrer les fichiers
+    // Verification que le fichier existe et ecriture dans ce fichier
+    // L'utilisateur peut alors choisir entre quatre options d'ecriture :
+    // 1. ecrire l'ensemble du catalogue sur le fichier
+    // 2. ecrire un seul type de trajets sur le fichier
+    // 3. ecrire les trajets correspondant a une recherche
+    // 4. ecrire une selection de trajets compris dans un intervalle
+    // Contrat :
+    // Le nom du fichier doit etre correct (sans espace)
 
 //----------------------------------------------------- Attributs protégés
     List tripList;

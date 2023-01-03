@@ -302,11 +302,23 @@ void Catalogue::fetch ( ) const
 
 void Catalogue::import ( )
 // Algorithme :
-// Appending
+// Appending XXXXXX
 {
     string nameFile;
     cout << "Enter the name of the file containing the trips to import: ";
     cin >> nameFile;
     /////TODO : complete
+    //TODO : while pour checker que le nom du fichier est ok et que ce fichier existe
+} //----- Fin de import
+
+void Catalogue::save ( ) const
+// Algorithme :
+// Appending XXXXXX
+{
+    string nameFile;
+    cout << "Enter the name of the file in which you want to save the trips: ";
+    cin >> nameFile;
+    /////TODO : complete
+    //TODO : while pour checker que le nom du fichier est ok
 } //----- Fin de import
 

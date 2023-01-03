@@ -307,7 +307,6 @@ void Catalogue::import ( )
     string nameFile;
     cout << "Enter the name of the file containing the trips to import: ";
     cin >> nameFile;
-    /////TODO : complete
     //TODO : while pour checker que le nom du fichier est ok et que ce fichier existe
 
     int choice;
@@ -348,7 +347,7 @@ void Catalogue::import ( )
                 break;
             case 3:
                 //TODO : save cities
-                saveCities();
+                importCities();
                 break;
             case 4:
                 //TODO : save interval
@@ -369,9 +368,8 @@ void Catalogue::save ( ) const
     string nameFile;
     cout << "Enter the name of the file in which you want to save the trips: ";
     cin >> nameFile;
-    /////TODO : complete
     //TODO : while pour checker que le nom du fichier est ok
-} //----- Fin de import
+} //----- Fin de save
 
 void Catalogue::importCities ( )
 // Algorithme :

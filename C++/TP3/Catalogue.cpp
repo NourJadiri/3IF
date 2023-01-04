@@ -20,6 +20,7 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
 #include "Catalogue.h"
+#include "CatalogueFileManager.h"
 #include "SimpleTrip.h"
 
 //----------------------------------------------------------------- PUBLIC
@@ -372,7 +373,7 @@ void Catalogue::save ( ) const
     
     cin >> nameFile;
     //TODO : while pour checker que le nom du fichier est ok
-    nameFile += ".txt";
+    nameFile = "../C++/TP3/" + nameFile + ".txt";
     ofstream tripStream( nameFile.c_str() );
 
     int choice;
@@ -479,34 +480,7 @@ void Catalogue::importCities ( )
     }
 } //----- Fin de importCities
 
-void Catalogue::saveAll ( ofstream & tripStream ) const 
 
-{   
-    if( tripList.GetFirst() == nullptr )
-    {
-        cout << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
-    int index = 1;
-
-    Node * iter = tripList.GetFirst();
-
-    while( iter != nullptr )
-    // Parses through tripList
-    {   
-        // Saves all the trips to file
-
-        tripStream << index << ",";
-
-        iter->GetTrip()->SaveTripToFile(tripStream);
-
-        index++;
-
-        iter = iter->GetNext();
-    }
-
-    
-}
 
 void Catalogue::saveFromCities ( ) const
 // Algorithme :

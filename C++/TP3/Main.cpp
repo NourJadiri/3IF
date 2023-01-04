@@ -26,10 +26,10 @@ static void test ( )
 // Algorithme :
 // Création d'un catalogue vide lors du lancement de l'application
 {
-    /*Catalogue c;
-    c.Launch ( );*/
+    Catalogue c;
+    c.Launch ( );
 
-    ComposedTrip * ct = new ComposedTrip();
+/*    ComposedTrip * ct = new ComposedTrip();
 
     SimpleTrip *st1 = new SimpleTrip("aaa","bbb","ccc");
     SimpleTrip *st2 = new SimpleTrip("eee","ccc","ccc");
@@ -38,7 +38,7 @@ static void test ( )
 
     ct->Display();
     cout << endl;
-    cout << ct->IsValid() << endl;
+    cout << ct->IsValid() << endl;*/
 } //----- Fin de test
 
 int main ( )

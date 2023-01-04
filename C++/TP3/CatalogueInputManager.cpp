@@ -29,6 +29,8 @@ void Catalogue::importAll ( ifstream & tripStream )
 
         string * data = split(trip, ',');
 
+        int tripIndex = stoi(data[0]);
+
         if(data[1] == "Simple" && data[0] != "0")
         {
             this->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
@@ -52,17 +54,16 @@ void Catalogue::importAll ( ifstream & tripStream )
             }
 
             if(composedTrip->IsValid()) {
-                cout << composedTrip->IsValid() << endl;
                 this->tripList.AddTripSorted(composedTrip);
             }
             else
             {
-                cout << "Composed trip number " << data[0] << " is not valid..." << endl << "Not saving it..." << endl;
+                cout << "Composed trip number " << tripIndex << " is not valid..." << " " << "Not saving it..." << endl;
                 delete composedTrip;
             }
         }
 
-        cout << "Current pointed trip : " << trip << endl;
+        //cout << "Current pointed trip : " << trip << endl;
 
         delete[ ] data;
     }

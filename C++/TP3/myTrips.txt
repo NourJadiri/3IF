@@ -1,1 +1,10 @@
-1,Simple,A,B,DE
+1,Simple,aaa,bbb,ccc
+
+2,Simple,rabat,sale,car
+
+3,Composed,paris,marseille,-
+0,Simple,paris,rabat,car
+0,Simple,rabat,lille,car
+0,Simple,lyon,marseille,car
+
+5,Simple,ddd,eee,fff

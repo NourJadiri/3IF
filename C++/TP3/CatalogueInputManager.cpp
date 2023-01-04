@@ -1,22 +1,13 @@
-/*************************************************************************
-                           CatalogueInputManager  -  gestion des imports
-                             -------------------
-    début                : 04/01/2023
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
-    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
-                           marie.roulier@insa-lyon.fr
-*************************************************************************/
 
-//---------- Réalisation de la classe <CatalogueInputManager> (fichier CatalogueInputManager.cpp) ------------
+#include "CatalogueInputManager.h"
+#include "Catalogue.h"
+#include "ComposedTrip.h"
 
-//---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
-using namespace std;
 #include <fstream>
 
-//------------------------------------------------------ Include personnel
-#include "Catalogue.h";
+using namespace std;
+
 
 //------------------------------------------------------------------ PRIVE
 
@@ -25,15 +16,58 @@ void Catalogue::importAll ( ifstream & tripStream )
 // Algorithme :
 //
 {
+
     string trip;
-    getline( tripStream, trip );
 
-    string * data = split( trip, ',' );
 
-    this->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(), data[3].c_str(), data[4].c_str() ) );
+    while(tripStream.good())
+    {
 
-    delete [ ] data;
-} //----- Fin de importAll
+        getline(tripStream , trip);
+
+        if(trip.empty()) continue;
+
+        string * data = split(trip, ',');
+
+        if(data[1] == "Simple" && data[0] != "0")
+        {
+            this->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
+        }
+        else if(data[1] == "Composed")
+        {
+            ComposedTrip *composedTrip = new ComposedTrip();
+
+            // This SimpleTrip will be useful to check if our composed trip is valid
+
+            SimpleTrip *temp = new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str());
+
+            while(getline(tripStream , trip) && !trip.empty())
+            {
+                data = split(trip , ',');
+
+                if(data[0] != "0") break;
+
+                composedTrip->AddSimpleTrip(new SimpleTrip(data[2].c_str(),data[3].c_str(),data[4].c_str()));
+
+            }
+
+            if(composedTrip->IsValid()) {
+                cout << composedTrip->IsValid() << endl;
+                this->tripList.AddTripSorted(composedTrip);
+            }
+            else
+            {
+                cout << "Composed trip number " << data[0] << " is not valid..." << endl << "Not saving it..." << endl;
+                delete composedTrip;
+            }
+        }
+
+        cout << "Current pointed trip : " << trip << endl;
+
+        delete[ ] data;
+    }
+}
+
 
 void Catalogue::importCities ( )
 // Algorithme :

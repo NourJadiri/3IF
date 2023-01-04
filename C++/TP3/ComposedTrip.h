@@ -44,6 +44,8 @@ public:
 
     void SaveTripToFile ( std::ofstream & tripStream );
 
+    bool IsValid ( );
+
 //-------------------------------------------- Constructeurs - destructeur
     ComposedTrip ( );
     // Mode d'emploi :

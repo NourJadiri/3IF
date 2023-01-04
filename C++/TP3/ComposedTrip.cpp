@@ -62,6 +62,24 @@ void ComposedTrip::SaveTripToFile ( ofstream & tripStream )
     } 
 }
 
+bool ComposedTrip::IsValid ( )
+{
+
+    Node * current = trips.GetFirst();
+    Node * next = current->GetNext();
+
+    while(next->GetNext() != nullptr)
+    {
+        if(strcmp(current->GetTrip()->GetEnd(),next->GetTrip()->GetStart()) != 0 ) return false;
+
+        current = next;
+        next = next->GetNext();
+    }
+
+    return !strcmp(trips.GetFirst()->GetTrip()->GetStart(),this->GetStart()) && !strcmp(next->GetTrip()->GetEnd(),this->GetEnd());
+
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 ComposedTrip::ComposedTrip ( )
 // Algorithme :

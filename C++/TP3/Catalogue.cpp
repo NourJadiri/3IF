@@ -19,8 +19,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
-#include "CatalogueOutputManager.h"
-#include "CatalogueInputManager.h"
 #include "Catalogue.h"
 #include "SimpleTrip.h"
 
@@ -313,6 +311,13 @@ void Catalogue::import ( )
     //TODO : while pour checker que le nom du fichier est ok et que ce fichier existe
 
     nameFile = "../C++/TP3/" + nameFile + ".txt";
+    ifstream tripStream(nameFile.c_str());
+
+    if(!tripStream)
+    {
+        cout << "Error opening " << nameFile << "..." << endl;
+        return;
+    }
 
     int choice;
     for ( ; ; ) {
@@ -327,6 +332,7 @@ void Catalogue::import ( )
         switch ( choice ) {
             case 1:
                 cout << "Importing trips from " << nameFile << "..." << endl;
+                importAll(tripStream);
                 break;
             case 2:
                 //TODO : import type

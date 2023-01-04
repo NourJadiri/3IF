@@ -2,12 +2,22 @@
 #include "CatalogueInputManager.h"
 #include "Catalogue.h"
 
+
+#include <fstream>
+
 using namespace std;
 
 
-void Catalogue::importAll()
+void Catalogue::importAll( ifstream & tripStream )
 {
+    string trip;
+    getline(tripStream , trip);
 
+    string * data = split(trip,',');
+
+    this->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(),data[3].c_str(),data[4].c_str()));
+
+    delete [ ] data;
 }
 
 void Catalogue::importCities ( )

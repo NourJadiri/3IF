@@ -4,6 +4,9 @@
 
 #include "CatalogueUtils.h"
 
+using namespace std;
+
+
 int countSeparators(string & s , char separator)
 {
 

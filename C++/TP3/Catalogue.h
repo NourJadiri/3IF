@@ -13,6 +13,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "List.h"
+#include "CatalogueUtils.h"
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Catalogue>
@@ -91,7 +92,7 @@ protected:
     // Le nom du fichier doit etre correct (sans espace), et le fichier
     // doit exister et respecter le schema que l'on souhaite
 
-    void importAll ( );
+    void importAll ( std::ifstream & );
 
     void importCities ( );
     // Mode d'emploi :

@@ -7,10 +7,9 @@
 
 #include <iostream>
 
-using namespace std;
 
-int countSeparators ( string & , char );
+int countSeparators ( std::string & , char );
 
-string* split ( string & , char );
+std::string* split ( std::string & , char );
 
 #endif //INC_3IF_CATALOGUEUTILS_H

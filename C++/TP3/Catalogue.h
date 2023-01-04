@@ -91,6 +91,17 @@ protected:
     // Le nom du fichier doit etre correct (sans espace), et le fichier
     // doit exister et respecter le schema que l'on souhaite
 
+    void importAll ( );
+
+    void importCities ( );
+    // Mode d'emploi :
+    // Sert à sauvegarder des trips depuis un fichier une ville d'arrivee et/ou de depart
+    // Demande a l'utilisateur de choisir entre trois options :
+    // 1. depuis ville de depart
+    // 2. depuis ville d'arrivee
+    // 3. depuis les deux
+    /// PAS DE CONTRAT?
+
     void save ( ) const;
     // Mode d'emploi :
     // Demande a l'utilisateur d'entrer le nom du fichier dans lequel il
@@ -104,15 +115,6 @@ protected:
     // Contrat :
     // Le nom du fichier doit etre correct (sans espace)
 
-
-    void importCities ( );
-    // Mode d'emploi :
-    // Sert à sauvegarder des trips depuis un fichier une ville d'arrivee et/ou de depart
-    // Demande a l'utilisateur de choisir entre trois options :
-    // 1. depuis ville de depart
-    // 2. depuis ville d'arrivee
-    // 3. depuis les deux
-    /// PAS DE CONTRAT?
 
     void saveAll ( std::ofstream & tripStream ) const;
     // Mode d'emploi :

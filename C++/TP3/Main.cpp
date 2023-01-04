@@ -14,6 +14,7 @@
 #include "Main.h"
 #include "Catalogue.h"
 #include "ComposedTrip.h"
+#include "CatalogueUtils.h"
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////  PRIVE
@@ -27,19 +28,6 @@ static void test ( )
 {
     Catalogue c;
     c.Launch ( );
-/*     ofstream tripStream("myTrips.txt");
-    SimpleTrip *st1 = new SimpleTrip("Rabat" , "Lyon" , "Plane");
-    SimpleTrip *st2 = new SimpleTrip("Lyon" , "Paris" , "Plane");
-
-    ComposedTrip *ct1 = new ComposedTrip();
-    ct1->AddSimpleTrip(st1);
-    ct1->AddSimpleTrip(st2);
-
-    ct1->SaveTripToFile(tripStream);
-
-    ct1->Display();
-    cout << endl; */
-     
 } //----- Fin de test
 
 int main ( )

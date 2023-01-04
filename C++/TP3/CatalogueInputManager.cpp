@@ -70,6 +70,9 @@ void Catalogue::importAll ( ifstream & tripStream )
 
         delete[ ] data;
     }
+
+    tripStream.clear();
+    tripStream.seekg(0);
 }
 
 void Catalogue::importAllSimpleTrips (ifstream & tripStream )
@@ -90,6 +93,9 @@ void Catalogue::importAllSimpleTrips (ifstream & tripStream )
 
         delete[ ] data;
     }
+
+    tripStream.clear();
+    tripStream.seekg(0);
 }
 
 void Catalogue::importAllComposedTrips (ifstream & tripStream )
@@ -112,6 +118,9 @@ void Catalogue::importAllComposedTrips (ifstream & tripStream )
 
         delete [ ] data;
     }
+
+    tripStream.clear();
+    tripStream.seekg(0);
 }
 
 

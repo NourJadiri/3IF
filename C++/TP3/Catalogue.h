@@ -149,6 +149,8 @@ protected:
     // Contrat :
 
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream , std::string * data , std::string & trip , int tripIndex );
+
+    friend void importSimpleTrip ( Catalogue * c, std::ifstream & tripStream , std::string * data , std::string & trip );
 //----------------------------------------------------- Attributs protégés
     List tripList;
 

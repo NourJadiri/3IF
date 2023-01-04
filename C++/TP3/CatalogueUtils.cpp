@@ -1,13 +1,28 @@
-//
-// Created by Nour on 04/01/2023.
-//
+/*************************************************************************
+                           CatalogueUtils  -  gestion des separateurs
+                             -------------------
+    début                : 04/01/2023
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+*************************************************************************/
 
-#include "CatalogueUtils.h"
+//---------- Réalisation de la classe <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
 
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
 using namespace std;
 
+//------------------------------------------------------ Include personnel
+#include "CatalogueUtils.h";
 
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
 int countSeparators(string & s , char separator)
+// Algorithme :
+//
 {
 
     int count = 0;
@@ -16,9 +31,11 @@ int countSeparators(string & s , char separator)
         if (i == separator) count++;
 
     return count;
-}
+} //----- Fin de countSeparators
 
 string * split (string & str, char seperator)
+// Algorithme :
+//
 {
     // Creating the string array that will hold our strings after splitting
     // hard coded 5 as a value because our format gives exactly 5 splitted strings (optimization)
@@ -50,4 +67,4 @@ string * split (string & str, char seperator)
     }
 
     return strings;
-}
+} //----- Fin de split

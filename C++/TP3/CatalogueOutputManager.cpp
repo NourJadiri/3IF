@@ -1,9 +1,25 @@
+/*************************************************************************
+                           CatalogueOutputManager  -  gestion des exports
+                             -------------------
+    début                : 04/01/2023
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+*************************************************************************/
 
-#include "CatalogueOutputManager.h"
-#include "Catalogue.h"
+//---------- Réalisation de la classe <CatalogueOutputManager> (fichier CatalogueOutputManager.cpp) ------------
 
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
 using namespace std;
 
+//------------------------------------------------------ Include personnel
+#include "Catalogue.h";
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
 void Catalogue::saveAll ( ofstream & tripStream ) const
 // Algorithme :
 // XXX
@@ -130,7 +146,7 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                 cin >> start;
                 cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
                 cin >> end;
-                /// SI ONLY RECHERCHE SIMPLE
+
                 while ( iter != nullptr ) // Parses through tripList
                 {
                     if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
@@ -141,10 +157,6 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                     }
                     iter = iter->GetNext();
                 }
-
-                /// SI RECHERCHE AVANCEE
-                //TODO : overload fetchTripAdvanced comme par exemple :
-                //tripList.SaveTripAdvanced(start, end, stored, tripStream);
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;

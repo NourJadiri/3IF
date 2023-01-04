@@ -1,7 +1,7 @@
 /*************************************************************************
                            ComposedTrip  -  Objet d'un trajet composé
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr

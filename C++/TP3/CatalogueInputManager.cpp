@@ -1,24 +1,39 @@
+/*************************************************************************
+                           CatalogueInputManager  -  gestion des imports
+                             -------------------
+    début                : 04/01/2023
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+*************************************************************************/
 
-#include "CatalogueInputManager.h"
-#include "Catalogue.h"
+//---------- Réalisation de la classe <CatalogueInputManager> (fichier CatalogueInputManager.cpp) ------------
 
+//---------------------------------------------------------------- INCLUDE
 
+//-------------------------------------------------------- Include système
+using namespace std;
 #include <fstream>
 
-using namespace std;
+//------------------------------------------------------ Include personnel
+#include "Catalogue.h";
 
+//------------------------------------------------------------------ PRIVE
 
-void Catalogue::importAll( ifstream & tripStream )
+//----------------------------------------------------- Méthodes protégées
+void Catalogue::importAll ( ifstream & tripStream )
+// Algorithme :
+//
 {
     string trip;
-    getline(tripStream , trip);
+    getline( tripStream, trip );
 
-    string * data = split(trip,',');
+    string * data = split( trip, ',' );
 
-    this->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(),data[3].c_str(),data[4].c_str()));
+    this->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(), data[3].c_str(), data[4].c_str() ) );
 
     delete [ ] data;
-}
+} //----- Fin de importAll
 
 void Catalogue::importCities ( )
 // Algorithme :

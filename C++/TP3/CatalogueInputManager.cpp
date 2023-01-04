@@ -39,10 +39,6 @@ void Catalogue::importAll ( ifstream & tripStream )
         {
             ComposedTrip *composedTrip = new ComposedTrip();
 
-            // This SimpleTrip will be useful to check if our composed trip is valid
-
-            SimpleTrip *temp = new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str());
-
             while(getline(tripStream , trip) && !trip.empty())
             {
                 data = split(trip , ',');

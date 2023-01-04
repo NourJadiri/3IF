@@ -94,6 +94,10 @@ protected:
 
     void importAll ( std::ifstream & );
 
+    void importAllSimpleTrips (std::ifstream &tripStream);
+
+    void importAllComposedTrips (std::ifstream &tripStream);
+
     void importCities ( );
     // Mode d'emploi :
     // Sert à sauvegarder des trips depuis un fichier une ville d'arrivee et/ou de depart
@@ -144,6 +148,7 @@ protected:
     //
     // Contrat :
 
+    friend void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , string & trip , int tripIndex );
 //----------------------------------------------------- Attributs protégés
     List tripList;
 

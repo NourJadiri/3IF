@@ -16,9 +16,7 @@ void Catalogue::importAll ( ifstream & tripStream )
 // Algorithme :
 //
 {
-
     string trip;
-
 
     while(tripStream.good())
     {
@@ -36,28 +34,7 @@ void Catalogue::importAll ( ifstream & tripStream )
             this->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
         }
         else if(data[1] == "Composed")
-        {
-            ComposedTrip *composedTrip = new ComposedTrip();
-
-            while(getline(tripStream , trip) && !trip.empty())
-            {
-                data = split(trip , ',');
-
-                if(data[0] != "0") break;
-
-                composedTrip->AddSimpleTrip(new SimpleTrip(data[2].c_str(),data[3].c_str(),data[4].c_str()));
-
-            }
-
-            if(composedTrip->IsValid()) {
-                this->tripList.AddTripSorted(composedTrip);
-            }
-            else
-            {
-                cout << "Composed trip number " << tripIndex << " is not valid..." << " " << "Not saving it..." << endl;
-                delete composedTrip;
-            }
-        }
+            importComposedTrip( this , tripStream , data , trip , tripIndex);
 
         //cout << "Current pointed trip : " << trip << endl;
 
@@ -65,6 +42,74 @@ void Catalogue::importAll ( ifstream & tripStream )
     }
 }
 
+void Catalogue::importAllSimpleTrips (ifstream & tripStream )
+
+{
+    string trip;
+
+    while (tripStream.good())
+    {
+        getline(tripStream,trip);
+
+        if(trip.empty()) continue;
+
+        string * data = split(trip,',');
+
+        if(data[1] == "Simple" && data[0] != "0")
+        {
+            this->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
+        }
+
+        delete[ ] data;
+    }
+}
+
+void Catalogue::importAllComposedTrips (ifstream & tripStream )
+
+{
+    string trip;
+
+    while(tripStream.good())
+    {
+        getline(tripStream,trip);
+
+        if(trip.empty()) continue;
+
+        string * data = split(trip,',');
+
+        int tripIndex = stoi(data[0]);
+
+        if(data[1] == "Composed")
+            importComposedTrip(this , tripStream , data , trip , tripIndex);
+
+        delete [ ] data;
+    }
+}
+
+void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , string & trip ,int tripIndex )
+{
+    ComposedTrip *composedTrip = new ComposedTrip();
+
+    while(getline(tripStream , trip) && !trip.empty())
+    {
+        data = split(trip , ',');
+
+        if(data[0] != "0") break;
+
+        composedTrip->AddSimpleTrip(new SimpleTrip(data[2].c_str(),data[3].c_str(),data[4].c_str()));
+
+    }
+
+    if(composedTrip->IsValid()) {
+        c->tripList.AddTripSorted(composedTrip);
+    }
+    else
+    {
+        cout << "Composed trip number " << tripIndex << " is not valid..." << " " << "Not saving it..." << endl;
+        delete composedTrip;
+    }
+
+}
 
 void Catalogue::importCities ( )
 // Algorithme :

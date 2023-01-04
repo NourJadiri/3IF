@@ -23,7 +23,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void SimpleTrip::Display ( ) const
 {
-    cout << "Trip from " << start << " to " << end << " by " << transportation;
+    cout << "trip from " << start << " to " << end << " by " << transportation;
 } //----- Fin de Display
 
 char * SimpleTrip::GetTransport ( ) const

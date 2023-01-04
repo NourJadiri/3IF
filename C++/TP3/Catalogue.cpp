@@ -20,7 +20,6 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
 #include "Catalogue.h"
-#include "CatalogueFileManager.h"
 #include "SimpleTrip.h"
 
 //----------------------------------------------------------------- PUBLIC
@@ -86,7 +85,7 @@ void Catalogue::Launch ( )
             case 6:
                 goto end;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 6!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 6!" << endl;
                 //sleep(1);
                 continue; // go back to menu
         }
@@ -320,25 +319,6 @@ void Catalogue::import ( )
 
         cin >> choice;
 
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
         switch ( choice ) {
             case 1:
                 //TODO : import all
@@ -354,7 +334,7 @@ void Catalogue::import ( )
                 //TODO : import interval
                 break;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
@@ -366,6 +346,7 @@ void Catalogue::save ( ) const
 // Algorithme :
 // Appending XXXXXX
 {
+    string namePath = "/Users/marie/CLionProjects/3IF/C++/TP3/";
     string nameFile;
     cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
     cout << "Know that the previous content of the file will be overwritten." << endl;
@@ -373,8 +354,12 @@ void Catalogue::save ( ) const
     
     cin >> nameFile;
     //TODO : while pour checker que le nom du fichier est ok
-    nameFile = "../C++/TP3/" + nameFile + ".txt";
-    ofstream tripStream( nameFile.c_str() );
+    namePath += nameFile;
+    namePath += ".txt";
+    ofstream tripStream( namePath.c_str() ); // without append
+
+    //tripStream.open(namePath); // without append
+    //tripStream.open(namePath, ios::app); // with append si on en a besoin un jour
 
     int choice;
     for ( ; ; ) {
@@ -386,47 +371,28 @@ void Catalogue::save ( ) const
 
         cin >> choice;
 
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
         switch ( choice ) {
             case 1:
-                //TODO : save all
                 saveAll( tripStream );
                 break;
             case 2:
-                //TODO : save type
+                saveType( tripStream );
                 break;
             case 3:
-                //TODO : save cities
-                saveFromCities();
+                //TODO : save cities advanced
+                saveFromCities ( tripStream );
                 break;
             case 4:
-                //TODO : save interval
+                saveInterval( tripStream );
                 break;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
         break;
     }
+    //tripStream.close();
 } //----- Fin de save
 
 void Catalogue::importCities ( )
@@ -442,25 +408,6 @@ void Catalogue::importCities ( )
 
         cin >> choice;
 
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
         switch ( choice ) {
             case 1:
                 //TODO : import trips a partir d'une ville de depart
@@ -472,7 +419,7 @@ void Catalogue::importCities ( )
                 //TODO : import trips a partir des deux villes de depart & arrivee
                 break;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
@@ -480,13 +427,90 @@ void Catalogue::importCities ( )
     }
 } //----- Fin de importCities
 
+void Catalogue::saveAll ( ofstream & tripStream ) const 
+// Algorithme :
+// XXX
+{   
+    if ( tripList.GetFirst() == nullptr )
+    {
+        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
+        return;
+    }
 
+    int index = 1;
+    Node * iter = tripList.GetFirst();
 
-void Catalogue::saveFromCities ( ) const
+    while ( iter != nullptr ) // Parses through tripList
+    {   
+        // Saves all the trips to file
+        tripStream << index << ",";
+
+        iter->GetTrip()->SaveTripToFile(tripStream);
+        iter = iter->GetNext();
+
+        index++;
+    }
+} //----- Fin de saveAll
+
+void Catalogue::saveType ( ofstream & tripStream ) const
+// Algorithme :
+// XXX
+{
+    if ( tripList.GetFirst() == nullptr )
+    {
+        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
+        return;
+    }
+
+    int index = 1;
+    Node * iter = tripList.GetFirst();
+
+    int choice;
+    for ( ; ; ) {
+        cout << endl << "Enter the NUMBER corresponding to the desired type of trip" << endl;
+        cout << "\t1: save SIMPLE trips only" << endl;
+        cout << "\t2: save COMPOSED trips only" << endl;
+
+        cin >> choice;
+
+        if ( choice != 1 && choice != 2 )
+        {
+            cout << endl << "Incorrect choice, please enter a number between 1 and 2!" << endl;
+        }
+        else break;
+    }
+
+    while ( iter != nullptr ) // Parses through tripList
+    {
+        // Saves all the trips of the chosen type to file
+        if ( iter->GetTrip()->GetType() == choice )
+        {
+            tripStream << index << ",";
+            iter->GetTrip()->SaveTripToFile(tripStream);
+            index++;
+        }
+        iter = iter->GetNext();
+    }
+} //----- Fin de saveType
+
+void Catalogue::saveFromCities ( ofstream & tripStream ) const
 // Algorithme :
 // XXXX
 {
+    if ( tripList.GetFirst() == nullptr )
+    {
+        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
+        return;
+    }
+
+    int index = 1;
+    Node * iter = tripList.GetFirst();
+
     int choice;
+    char * start = new char [ 64 ];
+    char * end = new char [ 64 ];
+    Trip * * stored = new Trip * [ this->tripList.GetSize() ];
+
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: save trips leaving from a certain city" << endl;
@@ -495,40 +519,115 @@ void Catalogue::saveFromCities ( ) const
 
         cin >> choice;
 
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
         switch ( choice ) {
             case 1:
-                //TODO : save trips a partir d'une ville de depart
+                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
+                cin >> start;
+                while ( iter != nullptr ) // Parses through tripList
+                {
+                    if ( iter->GetTrip()->GetStart() == start )
+                    {
+                        tripStream << index << ",";
+                        iter->GetTrip()->SaveTripToFile(tripStream);
+                        index++;
+                    }
+                    iter = iter->GetNext();
+                }
                 break;
             case 2:
-                //TODO : save trips a partir d'une ville d'arrivee
+                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
+                cin >> end;
+                while ( iter != nullptr ) // Parses through tripList
+                {
+                    if ( iter->GetTrip()->GetEnd() == end )
+                    {
+                        tripStream << index << ",";
+                        iter->GetTrip()->SaveTripToFile(tripStream);
+                        index++;
+                    }
+                    iter = iter->GetNext();
+                }
                 break;
             case 3:
-                //TODO : save trips a partir des deux villes de depart & arrivee
+                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
+                cin >> start;
+                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
+                cin >> end;
+                /// SI ONLY RECHERCHE SIMPLE
+                while ( iter != nullptr ) // Parses through tripList
+                {
+                    if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
+                    {
+                        tripStream << index << ",";
+                        iter->GetTrip()->SaveTripToFile(tripStream);
+                        index++;
+                    }
+                    iter = iter->GetNext();
+                }
+
+                /// SI RECHERCHE AVANCEE
+                //TODO : overload fetchTripAdvanced comme par exemple :
+                //tripList.SaveTripAdvanced(start, end, stored, tripStream);
                 break;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
         break;
     }
+    delete [ ] stored;
 } //----- Fin de saveFromCities
+
+void Catalogue::saveInterval ( ofstream & tripStream ) const
+// Algorithme :
+// XXX
+{
+    if ( tripList.GetFirst() == nullptr )
+    {
+        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
+        return;
+    }
+
+    int start, end;
+
+    for ( ; ; )
+    {
+        cout << endl << "From which trip NUMBER do you wish to save into the file?" << endl;
+        cin >> start;
+
+        if ( start > tripList.GetSize() )
+        {
+            cout << endl << "Please enter a number inferior or equal to " << tripList.GetSize() << endl;
+        }
+        else break;
+    }
+
+    for ( ; ; )
+    {
+        cout << "Until which trip NUMBER?" << endl;
+        cin >> end;
+
+        if ( end > tripList.GetSize() )
+        {
+            cout << endl << "Please enter a number inferior or equal to " << tripList.GetSize() << endl;
+        }
+        else break;
+    }
+
+    int index = 1, currPos = 1;
+    Node * iter = tripList.GetFirst();
+
+    while ( iter != nullptr ) // Parses through tripList
+    {
+        // Saves all the trips in the desired interval
+        if ( currPos >= start && currPos <= end )
+        {
+            tripStream << index << ",";
+            iter->GetTrip()->SaveTripToFile(tripStream);
+            index++;
+        }
+        iter = iter->GetNext();
+        currPos++;
+    }
+} //----- Fin de saveInterval

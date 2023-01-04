@@ -28,19 +28,21 @@ void List::Display ( ) const
 {
     // cas de la List nulle vérifié dans le Catalogue
 
-    int simpleTrip_number = 1, composedTrip_number = 1;
+    int simpleTrip_number = 1, composedTrip_number = 1, totalTrip = 1;
     Node * current = first;
     while ( current != nullptr )
     {
         if ( current->GetTrip()->GetType() == SIMPLE_TRIP )
         {
-            cout << "\tSimple Trip " << simpleTrip_number << " : ";
+            cout << "\t" << totalTrip << ".   Simple Trip " << simpleTrip_number << " : ";
             simpleTrip_number++;
+            totalTrip++;
         }
         else
         {
-            cout << "\tComposed Trip " << composedTrip_number << " : ";
+            cout << "\t" << totalTrip << ".   Composed Trip " << composedTrip_number << " : ";
             composedTrip_number++;
+            totalTrip++;
         }
         current->Display();
         cout << endl;
@@ -146,8 +148,8 @@ void List::FetchTrip ( char const * start, char const * end ) const
     cout << endl;
 } //----- Fin de FetchTrip
 
-bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * storedTrips,
-                              bool found, unsigned int i, bool suite ) const
+bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * storedTrips, bool found,
+                               unsigned int i, bool suite ) const
 // Algorithme :
 // Recherche d'un trajet par appel récursif et comparaison des chaines de caractères
 // Parcours de la liste jusqu'à trouver la ville de départ initiale, puis si nécessaire
@@ -171,6 +173,7 @@ bool List::FetchTripAdvanced ( char const * start, char const * end, Trip * * st
     bool stored = false; // to check later on if the current trip has already been checked
 
     Node * current = first;
+
     while ( current != nullptr ) {
         // if starting again for another solution
         if ( !suite ) i = 0;

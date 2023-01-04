@@ -8,30 +8,26 @@
 using namespace std;
 
 void Catalogue::saveAll ( ofstream & tripStream ) const
-
+// Algorithme :
+// XXX
 {
-    if( tripList.GetFirst() == nullptr )
+    if ( tripList.GetFirst() == nullptr )
     {
-        cout << "Catalogue is empty... Nothing to add to the file :(";
+        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
         return;
     }
-    int index = 1;
 
+    int index = 1;
     Node * iter = tripList.GetFirst();
 
-    while( iter != nullptr )
-        // Parses through tripList
+    while ( iter != nullptr ) // Parses through tripList
     {
         // Saves all the trips to file
-
         tripStream << index << ",";
 
         iter->GetTrip()->SaveTripToFile(tripStream);
+        iter = iter->GetNext();
 
         index++;
-
-        iter = iter->GetNext();
     }
-
-
-}
+} //----- Fin de saveAll

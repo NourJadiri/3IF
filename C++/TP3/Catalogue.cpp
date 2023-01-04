@@ -19,6 +19,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "ComposedTrip.h"
+#include "CatalogueFileManager.h"
 #include "Catalogue.h"
 #include "SimpleTrip.h"
 
@@ -427,30 +428,7 @@ void Catalogue::importCities ( )
     }
 } //----- Fin de importCities
 
-void Catalogue::saveAll ( ofstream & tripStream ) const 
-// Algorithme :
-// XXX
-{   
-    if ( tripList.GetFirst() == nullptr )
-    {
-        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
 
-    int index = 1;
-    Node * iter = tripList.GetFirst();
-
-    while ( iter != nullptr ) // Parses through tripList
-    {   
-        // Saves all the trips to file
-        tripStream << index << ",";
-
-        iter->GetTrip()->SaveTripToFile(tripStream);
-        iter = iter->GetNext();
-
-        index++;
-    }
-} //----- Fin de saveAll
 
 void Catalogue::saveType ( ofstream & tripStream ) const
 // Algorithme :

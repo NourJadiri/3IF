@@ -10,8 +10,6 @@
 
 ### Ajouter un simple trip au catalogue à partir d'un fichier
 
-### Ecrire un composed Trip dans le fichier
-
 ### Lire un composed Trip à partir d'un fichier (cout)
 
 ### Save cette merde dans le catalogue 
@@ -20,3 +18,8 @@
 
 ### Rajouter une option "Cancel choice" dans le menu
 Pour que l'utilisateur n'ait pas à fermer le programme s'il change d'avis
+
+### Pour importInterval, vérifier avant toute chose que l'intervalle est valide
+Genre vérifier que si l'utilisateur rentre [5,7], il y a bien au moins 7 trips available
+(check ce que j'ai fait pour saveInterval, ptet meme redemander le premier indice s'il
+dépasse déjà le nombre de trips available)

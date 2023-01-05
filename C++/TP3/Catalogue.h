@@ -92,13 +92,28 @@ protected:
     // Le nom du fichier doit etre correct (sans espace), et le fichier
     // doit exister et respecter le schema que l'on souhaite
 
-    void importAll ( );
+    void importAll ( std::ifstream & );
+    // Mode d'emploi :
+    // La méthode sert à importer tous les trajets présents dans un fichier dans le catalogue courant
+    // Elle effectue un parcours du fichier ligne par ligne, et en fonction du type de trajet
+    // rencontré à chaque ligne, elle appelle une des méthodes importSimpleTrip ou importComposedTrip
+    // Contrat :
+    //
 
-    void importType ( );
+    void importAllSimpleTrips (std::ifstream & );
+    // Mode d'emploi :
+    // Cette méthode est utile pour importer tous les trajets simples présents dans le Catalogue
+    // Elle sera notemment utilisée dans les méthodes importAll et importTripsFromType
+    //
 
-    void importAllSimpleTrips ( std::ifstream & );
+    void importAllComposedTrips (std::ifstream & );
+    // Mode d'emploi :
+    // Cette méthode est utile pour importer tous les trajets composés dans le Catalogue
+    // Elle sera notemment utilisée dans les méthodes importAll et importTripsFromType
 
-    void importAllComposedTrips ( std::ifstream & );
+    void importTripsFromType ( std::ifstream & );
+    // Mode d'emploi :
+    // Permet d'importer à partir d'un fichier tous les trajets qui répondent à un certain type
 
     void importCities ( );
     // Mode d'emploi :
@@ -161,13 +176,13 @@ protected:
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );
     // Mode d'emploi :
-    //
+    // Méthode amie à Catalogue qui sert à importer à partir d'un ficher un seul trajet simple
     // Contrat :
 
     friend void importSimpleTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                    std::string & trip );
     // Mode d'emploi :
-    //
+    // Méthode amie à Catalogue qui sert à importer à partir d'un fichier un seul trajet composé
     // Contrat :
 
 //----------------------------------------------------- Attributs protégés

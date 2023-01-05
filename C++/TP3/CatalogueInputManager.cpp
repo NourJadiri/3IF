@@ -23,11 +23,12 @@ using namespace std;
 //------------------------------------------------------------------ PRIVE
 
 //--------------------------------------------------------- Méthodes amies
-void importComposedTrip (Catalogue * c, ifstream & tripStream, string * data, string & trip, int tripIndex )
+void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip, int tripIndex )
+// Generic method that allows to import a single composedTrip into a catalogue C
 {
     ComposedTrip * composedTrip = new ComposedTrip();
 
-    while( getline( tripStream, trip ) && !trip.empty() )
+    while ( getline( tripStream, trip ) && !trip.empty() )
     {
         data = split( trip , ',' );
 
@@ -49,6 +50,7 @@ void importComposedTrip (Catalogue * c, ifstream & tripStream, string * data, st
 } //----- Fin de importComposedTrip
 
 void importSimpleTrip( Catalogue * c, ifstream & tripStream, std::string * data, string & trip )
+// Generic method that allows to import a single simpleTrip into a catalogue C
 {
     c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
                                                data[3].c_str(), data[4].c_str() ) );
@@ -59,6 +61,9 @@ void Catalogue::import ( )
 // Algorithme :
 // Appending XXXXXX
 {
+    ifstream tripStream = askNameFile();
+    if ( !tripStream ) return; // going back to menu
+
     int choice;
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
@@ -72,10 +77,10 @@ void Catalogue::import ( )
 
         switch ( choice ) {
             case 1:
-                importAll( );
+                importAll( tripStream );
                 break;
             case 2:
-                importType( );
+                importType( tripStream );
                 break;
             case 3:
                 //TODO : finish import cities
@@ -96,26 +101,33 @@ void Catalogue::import ( )
     }
 } //----- Fin de import
 
-void Catalogue::importAll ( )
+void Catalogue::importAll ( ifstream & tripStream )
 // Algorithme :
 //
 {
     string trip;
-    ifstream tripStream = askNameFile();
-    if ( !tripStream ) return; // going back to the menu
 
+    // While the stream does not return an error
     while ( tripStream.good() )
     {
+        // Read a line from the stream
         getline( tripStream, trip );
+
+        // If the line is empty, continue
         if ( trip.empty() ) continue;
 
+        // Else we get the line, and split it with the ',' delimiter and store it in a string array
         string * data = split( trip, ',' );
+
+        // Store the index of the trip (useful)
         int tripIndex = stoi( data[0] );
 
+        // If the trip is a simple trip (data[1] corresponds to the type of the trip), we import it as a simple trip
         if ( data[1] == "Simple" && data[0] != "0" )
         {
             importSimpleTrip( this, tripStream, data, trip );
         }
+        // Else if the trip is a composed trip, we import it as such
         else if ( data[1] == "Composed")
         {
             importComposedTrip( this, tripStream, data, trip, tripIndex );
@@ -127,11 +139,8 @@ void Catalogue::importAll ( )
     tripStream.seekg(0);
 } //----- Fin de importAll
 
-void Catalogue::importType ( )
+void Catalogue::importType ( ifstream & tripStream )
 {
-    ifstream tripStream = askNameFile();
-    if ( !tripStream ) return; // going back to the menu
-
     int type;
     for ( ; ; ) {
         cout << endl << "Enter the NUMBER corresponding to the type of trip you want to import from the file:" << endl;
@@ -139,6 +148,15 @@ void Catalogue::importType ( )
         cout << "\t2: import COMPOSED trips only" << endl;
 
         cin >> type;
+
+        /// Commented code checks if the input is numeric (not asked in the specifications)
+/*      if(!cin)
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Input must be purely numeric, please try again..."<<endl;
+            continue;
+        }*/
 
         if ( type != 1 && type != 2 )
         {
@@ -204,13 +222,10 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
 } //----- Fin de importAllComposedTrips
 
 
-void Catalogue::importCities ( ) ///A FINIR
+void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
 // XXXX
 {
-    ifstream tripStream = askNameFile();
-    if ( !tripStream ) return; // going back to the menu
-
     int choice;
     char * start = new char [ 64 ];
     char * end = new char [ 64 ];

@@ -1,4 +1,5 @@
 #include "Catalogue.h"
+#include "CatalogueInputManager.h"
 #include "ComposedTrip.h"
 
 
@@ -10,8 +11,8 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes ordinaires
 
-void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , string & trip ,int tripIndex )
-// Generic method that allows to import a single composedTrip into the catalogue
+void importComposedTrip ( Catalogue * c, ifstream & tripStream , string * data , string & trip ,int tripIndex )
+// Generic method that allows to import a single composedTrip into a catalogue C
 {
     ComposedTrip *composedTrip = new ComposedTrip();
 
@@ -37,7 +38,7 @@ void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , 
 }
 
 void importSimpleTrip( Catalogue * c, ifstream &tripStream, std::string *data, string & trip )
-// Generic method that allows to import a single simpleTrip into the catalogue
+// Generic method that allows to import a single simpleTrip into a catalogue C
 {
     c->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
 }
@@ -50,20 +51,26 @@ void Catalogue::importAll ( ifstream & tripStream )
 {
     string trip;
 
+    // While the stream does not return an error
     while(tripStream.good())
     {
-
+        // Read a line from the stream
         getline(tripStream , trip);
 
+        // If the line is empty, continue
         if(trip.empty()) continue;
 
+        // Else we get the line, and split it with the ',' delimiter and store it in a string array
         string * data = split(trip, ',');
 
+        // We store the index of the trip (useful)
         int tripIndex = stoi(data[0]);
 
+        // If the trip is a simple trip (data[1] corresponds to the type of the trip), we import it as a simple trip
         if(data[1] == "Simple" && data[0] != "0")
             importSimpleTrip(this,tripStream,data,trip);
 
+        // Else if the trip is a composed trip, we import it as such
         else if(data[1] == "Composed")
             importComposedTrip( this , tripStream , data , trip , tripIndex);
 

@@ -11,6 +11,8 @@
 #if ! defined ( CATALOGUEINPUTMANAGER_H )
 #define CATALOGUEINPUTMANAGER_H
 
+#include "Catalogue.h"
+
 //------------------------------------------------------------------------
 // Rôle de la classe <CatalogueInputManager>
 // La classe permet de

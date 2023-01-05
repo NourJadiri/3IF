@@ -12,6 +12,7 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
+#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -20,6 +21,52 @@ using namespace std;
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+void Catalogue::save ( ) const
+// Algorithme :
+// Appending XXXXXX
+{
+    ofstream tripStream = askNameFileSave();
+    if ( !tripStream.good() )
+    {
+        cerr << "Error opening the file, going back to the menu..." << endl;
+        return; // going back to menu
+    }
+
+    int choice;
+    for ( ; ; )
+    {
+        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: save all the trips from the Catalogue into a file" << endl;
+        cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
+        cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
+        cout << "\t4: save only an interval of trips from the Catalogue into a file" << endl;
+
+        cin >> choice;
+
+        switch ( choice )
+        {
+            case 1:
+                saveAll( tripStream );
+                break;
+            case 2:
+                saveType( tripStream );
+                break;
+            case 3:
+                saveCities ( tripStream );
+                break;
+            case 4:
+                saveInterval( tripStream );
+                break;
+            default:
+                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
+    tripStream.close();
+} //----- Fin de save
+
 void Catalogue::saveAll ( ofstream & tripStream ) const
 // Algorithme :
 // XXX
@@ -221,54 +268,83 @@ void Catalogue::saveInterval ( ofstream & tripStream ) const
     }
 } //----- Fin de saveInterval
 
-
-void Catalogue::save ( ) const
-// Algorithme :
-// Appending XXXXXX
+ofstream Catalogue::askNameFileSave ( ) const
 {
     string nameFile;
-    cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
-    cout << "Know that the previous content of the file will be overwritten." << endl;
-    cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
+    ofstream tripStream;
 
-    cin >> nameFile;
-    //TODO : while pour checker que le nom du fichier est ok
+    bool fileOk = false; // to check if name of file respects the conditions and already exists
 
-    nameFile = "../C++/TP3/" + nameFile + ".txt";
-    ofstream tripStream( nameFile.c_str() ); // without append
+    while ( !fileOk )
+    {
+        cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
+        cout << "Names such as '.' or '..' are NOT valid!" << endl;
+        cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
 
-    //tripStream.open(namePath); // without append
-    //tripStream.open(namePath, ios::app); // with append si on en a besoin un jour
+        cin >> nameFile;
 
-    int choice;
-    for ( ; ; ) {
-        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: save all the trips from the Catalogue into a file" << endl;
-        cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
-        cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
-        cout << "\t4: save only an interval of trips from the Catalogue into a file" << endl;
-
-        cin >> choice;
-
-        switch ( choice ) {
-            case 1:
-                saveAll( tripStream );
-                break;
-            case 2:
-                saveType( tripStream );
-                break;
-            case 3:
-                saveCities ( tripStream );
-                break;
-            case 4:
-                saveInterval( tripStream );
-                break;
-            default:
-                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
-                //sleep(1);
-                continue; // go back to options
+        if ( nameFile.empty() )
+        {
+            cerr << "No input, going back to the menu..." << endl;
+            return tripStream;
         }
-        break;
+        if ( nameFile == "." || nameFile == ".." )
+        {
+            cout << "This name of file is NOT valid..." << endl;
+            continue;
+        }
+
+        nameFile = "../C++/TP3/" + nameFile + ".txt";
+        tripStream.open( nameFile.c_str() );
+
+        bool appendOk = false;
+        while ( !appendOk )
+        {
+            // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
+            if ( tripStream.good() )
+            {
+                int mode;
+                for ( ; ; )
+                {
+                    cout << endl << "File " << nameFile << " already exists." << endl;
+                    cout << "Enter the number corresponding to the option about the management of the file:" << endl;
+                    cout << "\t1. Append to it" << endl;
+                    cout << "\t2. Overwrite it" << endl;
+                    cout << "\t3. Cancel the operation and choose another file (it can be non-existent)" << endl;
+
+                    cin >> mode;
+
+                    switch ( mode )
+                    {
+                        case 1:
+                            tripStream.open( nameFile, ios_base::app ); // appending
+                            appendOk = true;
+                            fileOk = true; // the file is now okay
+                            break;
+                        case 2:
+                            tripStream.open( nameFile ); // default mode, overwriting
+                            appendOk = true;
+                            fileOk = true; // the file is now okay
+                            break;
+                        case 3:
+                            cout << "Operation cancelled, choose another file..." << endl;
+                            // the file is still not okay so goes through the first while loop once again
+                            break;
+                        default:
+                            cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                            //sleep(1);
+                            continue; // go back to options
+                    }
+                    break; // getting out of the for loop if went through case 1 2 or 3
+                }
+            }
+            else // else the file does not exist, hence the mode is the default one
+            {
+                fileOk = true;
+            }
+        }
     }
-    //tripStream.close();
-} //----- Fin de save
+
+    cout << endl << "Saving trips into " << nameFile << endl;
+    return tripStream;
+} //----- Fin de askNameFileSave

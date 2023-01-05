@@ -61,12 +61,13 @@ void Catalogue::import ( )
 // Algorithme :
 // Appending XXXXXX
 {
-    ifstream tripStream = askNameFile();
+    ifstream tripStream = askNameFileImport();
     if ( !tripStream ) return; // going back to menu
 
     int choice;
-    for ( ; ; ) {
-        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+    for ( ; ; )
+    {
+        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: import all the trips from the file into the Catalogue" << endl;
         cout << "\t2: import only the trips of a certain type from the file into the Catalogue" << endl;
         cout << "\t3: import only the trips corresponding to specific city(ies) conditions" << endl;
@@ -75,7 +76,8 @@ void Catalogue::import ( )
 
         cin >> choice;
 
-        switch ( choice ) {
+        switch ( choice )
+        {
             case 1:
                 importAll( tripStream );
                 break;
@@ -229,7 +231,8 @@ void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
     int choice;
     char * start = new char [ 64 ];
     char * end = new char [ 64 ];
-    for ( ; ; ) {
+    for ( ; ; )
+    {
         cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: import trips leaving from a certain city" << endl;
         cout << "\t2: import trips arriving at a certain city" << endl;
@@ -237,7 +240,8 @@ void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
 
         cin >> choice;
 
-        switch ( choice ) {
+        switch ( choice )
+        {
             case 1:
                 //TODO : import trips a partir d'une ville de depart
                 cout << endl << "Please enter the city of departure (no spaces!): " << endl;
@@ -299,7 +303,7 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
 } //----- Fin de importInterval
 
-ifstream Catalogue::askNameFile ( )
+ifstream Catalogue::askNameFileImport ( ) const
 {
     string nameFile;
     ifstream tripStream;
@@ -340,6 +344,6 @@ ifstream Catalogue::askNameFile ( )
         }
         fileOk = true;
     }
-    cout << "Importing trips from " << nameFile << "..." << endl;
+    cout << endl << "Importing trips from " << nameFile << endl;
     return tripStream;
-} //----- Fin de askNameFile
+} //----- Fin de askNameFileImport

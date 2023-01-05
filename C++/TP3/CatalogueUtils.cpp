@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation du fichier source <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
+//---------- Fichier source <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -20,20 +20,23 @@ using namespace std;
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-int countSeparators(string & s , char separator)
+int countSeparators ( string & s, char separator )
 // Algorithme :
 //
 {
-
     int count = 0;
 
-    for (char i : s)
-        if (i == separator) count++;
+    for (char i: s)
+    {
+        if (i == separator) {
+            count++;
+        }
+    }
 
     return count;
 } //----- Fin de countSeparators
 
-string * split (string & str, char seperator)
+string * split ( string & str, char seperator )
 // Algorithme :
 //
 {
@@ -41,30 +44,29 @@ string * split (string & str, char seperator)
     // hard coded 5 as a value because our format gives exactly 5 splitted strings (optimization)
     // the possibility to use a more generic separation can be considered by using :
     // string * strings = new string[countSparators(str,',') + 1]
-    string * strings = new string[5];
+    string * strings = new string [ 5 ];
 
     int currIndex = 0, i = 0;
     int startIndex = 0, endIndex;
 
-    while (i <= str.size())
+    while ( i <= str.size() )
     {
-        // if we reach the separator or the end of the string to split
-        if (str[i] == seperator || i == str.size())
+        // if reaches the separator or the end of the string to split
+        if ( str[i] == seperator || i == str.size() )
         {
-            // our new string ends at the separator
+            // New string ends at the separator
             endIndex = i;
             string subStr;
 
-            subStr.append(str, startIndex, endIndex - startIndex);
+            subStr.append( str, startIndex, endIndex - startIndex );
 
-            strings[currIndex] = subStr;
+            strings[ currIndex ] = subStr;
             currIndex += 1;
 
-            // We update the starting index
+            // Update the starting index
             startIndex = endIndex + 1;
         }
         i++;
     }
-
     return strings;
 } //----- Fin de split

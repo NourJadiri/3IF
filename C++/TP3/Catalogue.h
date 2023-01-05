@@ -127,6 +127,11 @@ protected:
     void importInterval ( std::ifstream & tripStream );
     // Mode d'emploi :
 
+    ifstream askNameFileImport ( ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+
     void save ( ) const;
     // Mode d'emploi :
     // Demande a l'utilisateur d'entrer le nom du fichier dans lequel il
@@ -139,7 +144,6 @@ protected:
     // 4. ecrire une selection de trajets compris dans un intervalle
     // Contrat :
     // Le nom du fichier doit etre correct (sans espace)
-
 
     void saveAll ( std::ofstream & tripStream ) const;
     // Mode d'emploi :
@@ -168,7 +172,7 @@ protected:
     //
     // Contrat :
 
-    ifstream askNameFile ( );
+    ofstream askNameFileSave ( ) const;
     // Mode d'emploi :
     //
     // Contrat :

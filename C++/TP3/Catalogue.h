@@ -94,9 +94,11 @@ protected:
 
     void importAll ( std::ifstream & );
 
-    void importAllSimpleTrips (std::ifstream &tripStream);
+    void importAllSimpleTrips (std::ifstream & );
 
-    void importAllComposedTrips (std::ifstream &tripStream);
+    void importAllComposedTrips (std::ifstream & );
+
+    void importTripsFromType ( std::ifstream &);
 
     void importCities ( );
     // Mode d'emploi :

@@ -335,7 +335,7 @@ void Catalogue::import ( )
                 importAll(tripStream);
                 break;
             case 2:
-                //TODO : import type
+                importTripsFromType( tripStream );
                 break;
             case 3:
                 //TODO : import cities

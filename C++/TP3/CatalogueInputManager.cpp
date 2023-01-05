@@ -1,10 +1,9 @@
-
-#include "CatalogueInputManager.h"
 #include "Catalogue.h"
 #include "ComposedTrip.h"
 
 
 #include <fstream>
+//#include <limits>
 
 using namespace std;
 
@@ -73,6 +72,47 @@ void Catalogue::importAll ( ifstream & tripStream )
 
     tripStream.clear();
     tripStream.seekg(0);
+}
+
+void Catalogue::importTripsFromType( ifstream & tripStream )
+{
+    cout << "Please enter the type of trips you want to import from the file : " << endl << "\t(1) Simple Trip" << endl << "\t(2) Composed Trip" << endl << "\t(3) Cancel" << endl;
+
+    int type;
+
+    do {
+        cin >> type;
+
+        /// Commented code checks if the input is numeric (not asked in the specifications)
+/*      if(!cin)
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Input must be purely numeric, please try again..."<<endl;
+            continue;
+        }*/
+
+        if((type != 3 && type != SIMPLE_TRIP && type != COMPOSED_TRIP))
+        {
+            cout << "Invalid input, please use 1 for Simple Trips, 2 for Composed Trips or 3 to Cancel your import..." << endl;
+        }
+
+    } while(!cin || (type != 3 && type != SIMPLE_TRIP && type != COMPOSED_TRIP));
+
+    if( type == SIMPLE_TRIP )
+    {
+        this->importAllSimpleTrips( tripStream );
+    }
+
+    else if( type == COMPOSED_TRIP )
+    {
+        this->importAllComposedTrips( tripStream );
+    }
+    else
+    {
+        cout << "Cancelling..." << endl;
+        return;
+    }
 }
 
 void Catalogue::importAllSimpleTrips (ifstream & tripStream )

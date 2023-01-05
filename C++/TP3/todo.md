@@ -5,8 +5,8 @@
 - Ne pas oublier le nom des colonnes sur le CSV
   </s>
 
-### Lire un simple trip a partir d'un fichier
-- simple cout dans le stdout
+### <s>Lire un simple trip a partir d'un fichier (COMPLETE)
+- simple cout dans le stdout</s>
 
 ### Ajouter un simple trip au catalogue à partir d'un fichier
 

@@ -11,6 +11,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes ordinaires
 
 void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , string & trip ,int tripIndex )
+// Generic method that allows to import a single composedTrip into the catalogue
 {
     ComposedTrip *composedTrip = new ComposedTrip();
 
@@ -36,6 +37,7 @@ void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , 
 }
 
 void importSimpleTrip( Catalogue * c, ifstream &tripStream, std::string *data, string & trip )
+// Generic method that allows to import a single simpleTrip into the catalogue
 {
     c->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
 }

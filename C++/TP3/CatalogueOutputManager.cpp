@@ -21,7 +21,7 @@ using namespace std;
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-void Catalogue::save ( ) const
+void Catalogue::save ( )
 // Algorithme :
 // Appending XXXXXX
 {
@@ -31,21 +31,12 @@ void Catalogue::save ( ) const
         return;
     }
 
-    ofstream tripStream = askNameFileSave();
+    ofstream tripStream( askNameFileSave() );
 
     if ( !tripStream.good() )
     {
         return; // going back to menu
     }
-
-    int index = 1; // by default, the index of the first trip to be saved is 1
-    // if user decided to append to a file, need to get the index of the last trip in file
-    ios_base::openmode mode = tripStream.rdstate();
-    streampos pos = tripStream.tellp(); // gets current position
-    while ( pos > 0 )
-    {
-    }
-
 
     int choice;
     for ( ; ; )
@@ -262,7 +253,7 @@ void Catalogue::saveInterval ( ofstream & tripStream, int index ) const
     }
 } //----- Fin de saveInterval
 
-ofstream Catalogue::askNameFileSave ( ) const
+ofstream Catalogue::askNameFileSave ( )
 {
     string nameFile;
     ofstream tripStream;
@@ -303,7 +294,7 @@ ofstream Catalogue::askNameFileSave ( ) const
                 for ( ; ; )
                 {
                     cout << endl << "File " << nameFile << " already exists." << endl;
-                    cout << "Enter the number corresponding to the option about the management of the file:" << endl;
+                    cout << endl << "Enter the number corresponding to the option about the management of the file:" << endl;
                     cout << "\t1. Append to it" << endl;
                     cout << "\t2. Overwrite it" << endl;
                     cout << "\t3. Cancel the operation and choose another file (it can be non-existent)" << endl;
@@ -323,11 +314,15 @@ ofstream Catalogue::askNameFileSave ( ) const
                                 tripStream << endl;
                             }
 
+                            findLastIndex( nameFile );
+
                             appendOk = true;
                             fileOk = true; // the file is now okay
                             break;
                         case 2:
                             tripStream.open( nameFile ); // default mode, overwriting
+                            index = 1;
+
                             appendOk = true;
                             fileOk = true; // the file is now okay
                             break;
@@ -365,3 +360,28 @@ ofstream Catalogue::askNameFileSave ( ) const
         return tripStream;
     }
 } //----- Fin de askNameFileSave
+
+void Catalogue::findLastIndex ( string const & nameFile )
+{
+    ifstream stream( nameFile );
+    index = 1; // by default, the index of the first trip to be saved is 1
+    // if user decided to append to a file, need to get the index of the last trip in file
+    //ios_base::openmode mode = tripStream.rdstate();
+    stream.seekg( 0, ios::end ); // move to end of file
+
+    while ( stream.tellg() > 0 ) // while beginning of file isn't reached
+    {
+        stream.seekg( -1, ios_base::cur ); // move back one char from beginning of file
+        char c = stream.peek(); // gets char at current position
+
+        if ( isdigit(c) && c != '0')
+        {
+            index = c - '0' + 1;
+            return;
+        }
+    }
+    if ( stream.tellg() == 0 ) // no digits found and beginning of file reached
+    {
+        return; // index will stay 1
+    }
+}

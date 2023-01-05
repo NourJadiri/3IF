@@ -61,7 +61,7 @@ void Catalogue::import ( )
 // Algorithme :
 // Appending XXXXXX
 {
-    ifstream tripStream = askNameFileImport();
+    ifstream tripStream( askNameFileImport() );
     if ( !tripStream )
     {
         return; // going back to menu

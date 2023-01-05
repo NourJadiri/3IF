@@ -31,6 +31,7 @@
 
 class Catalogue
 {
+    int index = 1;
 //----------------------------------------------------------------- PUBLIC
 
 public:
@@ -132,7 +133,7 @@ protected:
     //
     // Contrat :
 
-    void save ( ) const;
+    void save ( );
     // Mode d'emploi :
     // Demande a l'utilisateur d'entrer le nom du fichier dans lequel il
     // souhaite enregistrer les fichiers
@@ -172,10 +173,12 @@ protected:
     //
     // Contrat :
 
-    ofstream askNameFileSave ( ) const;
+    ofstream askNameFileSave ( );
     // Mode d'emploi :
     //
     // Contrat :
+
+    void findLastIndex ( string const & nameFile );
 
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );

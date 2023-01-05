@@ -84,11 +84,11 @@ void Catalogue::import ( )
                 break;
             case 3:
                 //TODO : finish import cities
-                importCities ( );
+                importCities ( tripStream );
                 break;
             case 4:
                 //TODO : import interval
-                importInterval ( );
+                importInterval ( tripStream );
                 break;
             case 5:
                 break;
@@ -266,7 +266,7 @@ void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
     delete [ ] end;
 } //----- Fin de importCities
 
-void Catalogue::importInterval ( ) ///A FINIR
+void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
 // XXXX
 {

@@ -100,22 +100,22 @@ protected:
     // Contrat :
     //
 
-    void importAllSimpleTrips (std::ifstream & );
+    void importAllSimpleTrips ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Cette méthode est utile pour importer tous les trajets simples présents dans le Catalogue
     // Elle sera notemment utilisée dans les méthodes importAll et importTripsFromType
     //
 
-    void importAllComposedTrips (std::ifstream & );
+    void importAllComposedTrips ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Cette méthode est utile pour importer tous les trajets composés dans le Catalogue
     // Elle sera notemment utilisée dans les méthodes importAll et importTripsFromType
 
-    void importTripsFromType ( std::ifstream & );
+    void importType ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Permet d'importer à partir d'un fichier tous les trajets qui répondent à un certain type
 
-    void importCities ( );
+    void importCities ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Sert à sauvegarder des trips depuis un fichier selon une ville d'arrivee et/ou de depart
     // Demande a l'utilisateur de choisir entre trois options :
@@ -124,7 +124,7 @@ protected:
     // 3. depuis les deux
     /// PAS DE CONTRAT?
 
-    void importInterval ( );
+    void importInterval ( std::ifstream & tripStream );
     // Mode d'emploi :
 
     void save ( ) const;

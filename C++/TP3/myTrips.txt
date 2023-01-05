@@ -4,7 +4,7 @@
 
 3,Composed,paris,marseille,-
 0,Simple,paris,rabat,car
-0,Simple,rabat,lille,car
+0,Simple,rabat,paris,car
 0,Simple,lyon,marseille,car
 
 5,Simple,ddd,eee,fff

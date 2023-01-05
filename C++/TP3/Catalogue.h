@@ -146,17 +146,17 @@ protected:
     // Contrat :
     // Le nom du fichier doit etre correct (sans espace)
 
-    void saveAll ( std::ofstream & tripStream, int index ) const;
+    void saveAll ( std::ofstream & tripStream );
     // Mode d'emploi :
     //
     // Contrat :
 
-    void saveType ( std::ofstream & tripStream, int index ) const;
+    void saveType ( std::ofstream & tripStream );
     // Mode d'emploi :
     //
     // Contrat :
 
-    void saveCities ( std::ofstream & tripStream, int index ) const;
+    void saveCities ( std::ofstream & tripStream );
     // Mode d'emploi :
     // Sert à restituer des trips dans un fichier selon une ville d'arrivee et/ou de depart
     // Demande a l'utilisateur de choisir entre trois options :
@@ -168,7 +168,7 @@ protected:
     // c'est-à-dire ne pas mettre d'espaces. On suppose également
     // que les chaines de caractères entrées font moins de 64 caractères
 
-    void saveInterval ( std::ofstream & tripStream, int index ) const;
+    void saveInterval ( std::ofstream & tripStream );
     // Mode d'emploi :
     //
     // Contrat :

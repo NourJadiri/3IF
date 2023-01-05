@@ -52,16 +52,16 @@ void Catalogue::save ( )
         switch ( choice )
         {
             case 1:
-                saveAll( tripStream, index );
+                saveAll( tripStream );
                 break;
             case 2:
-                saveType( tripStream, index );
+                saveType( tripStream );
                 break;
             case 3:
-                saveCities ( tripStream, index );
+                saveCities ( tripStream );
                 break;
             case 4:
-                saveInterval( tripStream, index );
+                saveInterval( tripStream );
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
@@ -73,7 +73,7 @@ void Catalogue::save ( )
     tripStream.close();
 } //----- Fin de save
 
-void Catalogue::saveAll ( ofstream & tripStream, int index ) const
+void Catalogue::saveAll ( ofstream & tripStream )
 // Algorithme :
 // XXX
 {
@@ -85,14 +85,17 @@ void Catalogue::saveAll ( ofstream & tripStream, int index ) const
         tripStream << index << ",";
 
         iter->GetTrip()->SaveTripToFile(tripStream);
-        tripStream << endl;
+        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+        {
+            tripStream << endl;
+        }
         iter = iter->GetNext();
 
         index++;
     }
 } //----- Fin de saveAll
 
-void Catalogue::saveType ( ofstream & tripStream, int index ) const
+void Catalogue::saveType ( ofstream & tripStream )
 // Algorithme :
 // XXX
 {
@@ -120,14 +123,17 @@ void Catalogue::saveType ( ofstream & tripStream, int index ) const
         {
             tripStream << index << ",";
             iter->GetTrip()->SaveTripToFile(tripStream);
-            tripStream << endl;
+            if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+            {
+                tripStream << endl;
+            }
             index++;
         }
         iter = iter->GetNext();
     }
 } //----- Fin de saveType
 
-void Catalogue::saveCities ( ofstream & tripStream, int index ) const
+void Catalogue::saveCities ( ofstream & tripStream )
 // Algorithme :
 // XXXX
 {
@@ -155,7 +161,10 @@ void Catalogue::saveCities ( ofstream & tripStream, int index ) const
                     {
                         tripStream << index << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
-                        tripStream << endl;
+                        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+                        {
+                            tripStream << endl;
+                        }
                         index++;
                     }
                     iter = iter->GetNext();
@@ -170,7 +179,10 @@ void Catalogue::saveCities ( ofstream & tripStream, int index ) const
                     {
                         tripStream << index << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
-                        tripStream << endl;
+                        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+                        {
+                            tripStream << endl;
+                        }
                         index++;
                     }
                     iter = iter->GetNext();
@@ -188,7 +200,10 @@ void Catalogue::saveCities ( ofstream & tripStream, int index ) const
                     {
                         tripStream << index << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
-                        tripStream << endl;
+                        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+                        {
+                            tripStream << endl;
+                        }
                         index++;
                     }
                     iter = iter->GetNext();
@@ -205,7 +220,7 @@ void Catalogue::saveCities ( ofstream & tripStream, int index ) const
     delete [ ] end;
 } //----- Fin de saveFromCities
 
-void Catalogue::saveInterval ( ofstream & tripStream, int index ) const
+void Catalogue::saveInterval ( ofstream & tripStream )
 // Algorithme :
 // XXX
 {
@@ -245,7 +260,10 @@ void Catalogue::saveInterval ( ofstream & tripStream, int index ) const
         {
             tripStream << index << ",";
             iter->GetTrip()->SaveTripToFile(tripStream);
-            tripStream << endl;
+            if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+            {
+                tripStream << endl;
+            }
             index++;
         }
         iter = iter->GetNext();
@@ -384,4 +402,4 @@ void Catalogue::findLastIndex ( string const & nameFile )
     {
         return; // index will stay 1
     }
-}
+} //----- Fin de findLastIndex

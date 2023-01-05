@@ -46,6 +46,7 @@ void Catalogue::save ( )
         cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
         cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
         cout << "\t4: save only an interval of trips from the Catalogue into a file" << endl;
+        cout << "\t5: go back to the main menu" << endl;
 
         cin >> choice;
 
@@ -63,8 +64,10 @@ void Catalogue::save ( )
             case 4:
                 saveInterval( tripStream );
                 break;
+            case 5:
+                break;
             default:
-                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 5!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
@@ -303,10 +306,11 @@ ofstream Catalogue::askNameFileSave ( )
 
         bool appendOk = false;
         streampos size; // useful if appending
+        ifstream tempStream( nameFile ); // to check if file already exists
         while ( !appendOk )
         {
             // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
-            if ( tripStream.good() )
+            if ( tempStream.good() )
             {
                 int mode;
                 for ( ; ; )
@@ -351,7 +355,7 @@ ofstream Catalogue::askNameFileSave ( )
                             // the file is still not okay so goes through the first while loop once again
                             break;
                         default:
-                            cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                            cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
                             //sleep(1);
                             continue; // go back to options
                     }
@@ -365,6 +369,7 @@ ofstream Catalogue::askNameFileSave ( )
                 fileOk = true;
             }
         }
+        tempStream.close();
     }
 
     if ( !tripStream.good() )
@@ -384,7 +389,6 @@ void Catalogue::findLastIndex ( string const & nameFile )
     ifstream stream( nameFile );
     index = 1; // by default, the index of the first trip to be saved is 1
     // if user decided to append to a file, need to get the index of the last trip in file
-    //ios_base::openmode mode = tripStream.rdstate();
     stream.seekg( 0, ios::end ); // move to end of file
 
     while ( stream.tellg() > 0 ) // while beginning of file isn't reached
@@ -395,11 +399,13 @@ void Catalogue::findLastIndex ( string const & nameFile )
         if ( isdigit(c) && c != '0')
         {
             index = c - '0' + 1;
+            stream.close();
             return;
         }
     }
     if ( stream.tellg() == 0 ) // no digits found and beginning of file reached
     {
+        stream.close();
         return; // index will stay 1
     }
 } //----- Fin de findLastIndex

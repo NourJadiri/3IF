@@ -1,174 +1,219 @@
+/*************************************************************************
+                           CatalogueInputManager  -  gestion des imports
+                             -------------------
+    début                : 04/01/2023
+    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+*************************************************************************/
+
+//---------- Fichier source <CatalogueInputManager> (fichier CatalogueInputManager.cpp) ------------
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
+#include <fstream>
+//#include <limits>
+using namespace std;
+
+//------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "ComposedTrip.h"
 
+//------------------------------------------------------------------ PRIVE
 
-#include <fstream>
-//#include <limits>
-
-using namespace std;
-
-
-//----------------------------------------------------- Méthodes ordinaires
-
-void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , string & trip ,int tripIndex )
+//--------------------------------------------------------- Méthodes amies
+void importComposedTrip (Catalogue * c, ifstream & tripStream, string * data, string & trip, int tripIndex )
 {
-    ComposedTrip *composedTrip = new ComposedTrip();
+    ComposedTrip * composedTrip = new ComposedTrip();
 
-    while(getline(tripStream , trip) && !trip.empty())
+    while( getline( tripStream, trip ) && !trip.empty() )
     {
-        data = split(trip , ',');
+        data = split( trip , ',' );
 
-        if(data[0] != "0") break;
+        if ( data[0] != "0" ) break;
 
-        composedTrip->AddSimpleTrip(new SimpleTrip(data[2].c_str(),data[3].c_str(),data[4].c_str()));
-
+        composedTrip->AddSimpleTrip( new SimpleTrip( data[2].c_str(),
+                                                     data[3].c_str(), data[4].c_str() ) );
     }
 
-    if(composedTrip->IsValid()) {
-        c->tripList.AddTripSorted(composedTrip);
+    if ( composedTrip->IsValid() )
+    {
+        c->tripList.AddTripSorted( composedTrip );
     }
     else
     {
-        cout << "Composed trip number " << tripIndex << " is not valid..." << " " << "Not saving it..." << endl;
+        cout << "Composed trip number " << tripIndex << " is not valid... Not saving it..." << endl;
         delete composedTrip;
     }
+} //----- Fin de importComposedTrip
 
-}
-
-void importSimpleTrip( Catalogue * c, ifstream &tripStream, std::string *data, string & trip )
+void importSimpleTrip( Catalogue * c, ifstream & tripStream, std::string * data, string & trip )
 {
-    c->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
-}
+    c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
+                                               data[3].c_str(), data[4].c_str() ) );
+} //----- Fin de importSimpleTrip
 
-//------------------------------------------------------------------ Méthodes protégées
+//----------------------------------------------------- Méthodes protégées
+void Catalogue::import ( )
+// Algorithme :
+// Appending XXXXXX
+{
+    int choice;
+    for ( ; ; ) {
+        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: import all the trips from the file into the Catalogue" << endl;
+        cout << "\t2: import only the trips of a certain type from the file into the Catalogue" << endl;
+        cout << "\t3: import only the trips corresponding to specific city(ies) conditions" << endl;
+        cout << "\t4: import only an interval of trips from the file into the Catalogue" << endl;
+        cout << "\t5: go back to the main menu" << endl;
 
-void Catalogue::importAll ( ifstream & tripStream )
+        cin >> choice;
+
+        switch ( choice ) {
+            case 1:
+                importAll( );
+                break;
+            case 2:
+                importType( );
+                break;
+            case 3:
+                //TODO : finish import cities
+                importCities ( );
+                break;
+            case 4:
+                //TODO : import interval
+                importInterval ( );
+                break;
+            case 5:
+                break;
+            default:
+                cout << endl << "Incorrect choice, please enter a number between 1 and 5!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
+} //----- Fin de import
+
+void Catalogue::importAll ( )
 // Algorithme :
 //
 {
     string trip;
+    ifstream tripStream = askNameFile();
+    if ( !tripStream ) return; // going back to the menu
 
-    while(tripStream.good())
+    while ( tripStream.good() )
     {
+        getline( tripStream, trip );
+        if ( trip.empty() ) continue;
 
-        getline(tripStream , trip);
+        string * data = split( trip, ',' );
+        int tripIndex = stoi( data[0] );
 
-        if(trip.empty()) continue;
-
-        string * data = split(trip, ',');
-
-        int tripIndex = stoi(data[0]);
-
-        if(data[1] == "Simple" && data[0] != "0")
-            importSimpleTrip(this,tripStream,data,trip);
-
-        else if(data[1] == "Composed")
-            importComposedTrip( this , tripStream , data , trip , tripIndex);
-
-        //cout << "Current pointed trip : " << trip << endl;
-
-        delete[ ] data;
-    }
-
-    tripStream.clear();
-    tripStream.seekg(0);
-}
-
-void Catalogue::importTripsFromType( ifstream & tripStream )
-{
-    cout << "Please enter the type of trips you want to import from the file : " << endl << "\t(1) Simple Trip" << endl << "\t(2) Composed Trip" << endl << "\t(3) Cancel" << endl;
-
-    int type;
-
-    do {
-        cin >> type;
-
-        /// Commented code checks if the input is numeric (not asked in the specifications)
-/*      if(!cin)
+        if ( data[1] == "Simple" && data[0] != "0" )
         {
-            cin.clear();
-            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-            cout << "Input must be purely numeric, please try again..."<<endl;
-            continue;
-        }*/
-
-        if((type != 3 && type != SIMPLE_TRIP && type != COMPOSED_TRIP))
-        {
-            cout << "Invalid input, please use 1 for Simple Trips, 2 for Composed Trips or 3 to Cancel your import..." << endl;
+            importSimpleTrip( this, tripStream, data, trip );
         }
-
-    } while(!cin || (type != 3 && type != SIMPLE_TRIP && type != COMPOSED_TRIP));
-
-    if( type == SIMPLE_TRIP )
-    {
-        this->importAllSimpleTrips( tripStream );
-    }
-
-    else if( type == COMPOSED_TRIP )
-    {
-        this->importAllComposedTrips( tripStream );
-    }
-    else
-    {
-        cout << "Cancelling..." << endl;
-        return;
-    }
-}
-
-void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
-
-{
-    string trip;
-
-    while (tripStream.good())
-    {
-        getline(tripStream,trip);
-
-        if(trip.empty()) continue;
-
-        string * data = split(trip,',');
-
-        if(data[1] == "Simple" && data[0] != "0")
-            importSimpleTrip(this,tripStream,data,trip);
-
-        delete[ ] data;
-    }
-
-    tripStream.clear();
-    tripStream.seekg(0);
-}
-
-void Catalogue::importAllComposedTrips (ifstream & tripStream )
-
-{
-    string trip;
-
-    while(tripStream.good())
-    {
-        getline(tripStream,trip);
-
-        if(trip.empty()) continue;
-
-        string * data = split(trip,',');
-
-        int tripIndex = stoi(data[0]);
-
-        if(data[1] == "Composed")
-            importComposedTrip(this , tripStream , data , trip , tripIndex);
+        else if ( data[1] == "Composed")
+        {
+            importComposedTrip( this, tripStream, data, trip, tripIndex );
+        }
 
         delete [ ] data;
     }
-
     tripStream.clear();
     tripStream.seekg(0);
-}
+} //----- Fin de importAll
+
+void Catalogue::importType ( )
+{
+    ifstream tripStream = askNameFile();
+    if ( !tripStream ) return; // going back to the menu
+
+    int type;
+    for ( ; ; ) {
+        cout << endl << "Enter the NUMBER corresponding to the type of trip you want to import from the file:" << endl;
+        cout << "\t1: import SIMPLE trips only" << endl;
+        cout << "\t2: import COMPOSED trips only" << endl;
+
+        cin >> type;
+
+        if ( type != 1 && type != 2 )
+        {
+            cout << endl << "Incorrect choice, please enter a number between 1 and 2!" << endl;
+        }
+        else break;
+    }
+
+    if ( type == SIMPLE_TRIP )
+    {
+        importAllSimpleTrips( tripStream );
+    }
+    else if ( type == COMPOSED_TRIP )
+    {
+        importAllComposedTrips( tripStream );
+    }
+} //----- Fin de importType
+
+void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
+{
+    string trip;
+
+    while ( tripStream.good() )
+    {
+        getline( tripStream, trip) ;
+
+        if ( trip.empty() ) continue;
+
+        string * data = split( trip, ',' );
+
+        if ( data[1] == "Simple" && data[0] != "0" )
+        {
+            importSimpleTrip( this, tripStream, data, trip );
+        }
+        delete [ ] data;
+    }
+    tripStream.clear();
+    tripStream.seekg(0);
+} //----- Fin de importAllSimpleTrips
+
+void Catalogue::importAllComposedTrips ( ifstream & tripStream )
+{
+    string trip;
+
+    while ( tripStream.good() )
+    {
+        getline( tripStream, trip );
+
+        if ( trip.empty() ) continue;
+
+        string * data = split( trip, ',' );
+
+        int tripIndex = stoi( data[0] );
+
+        if ( data[1] == "Composed" )
+        {
+            importComposedTrip( this, tripStream, data, trip, tripIndex );
+        }
+        delete [ ] data;
+    }
+    tripStream.clear();
+    tripStream.seekg(0);
+} //----- Fin de importAllComposedTrips
 
 
-void Catalogue::importCities ( )
+void Catalogue::importCities ( ) ///A FINIR
 // Algorithme :
 // XXXX
 {
+    ifstream tripStream = askNameFile();
+    if ( !tripStream ) return; // going back to the menu
+
     int choice;
+    char * start = new char [ 64 ];
+    char * end = new char [ 64 ];
     for ( ; ; ) {
         cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: import trips leaving from a certain city" << endl;
@@ -180,12 +225,20 @@ void Catalogue::importCities ( )
         switch ( choice ) {
             case 1:
                 //TODO : import trips a partir d'une ville de depart
+                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
+                cin >> start;
                 break;
             case 2:
                 //TODO : import trips a partir d'une ville d'arrivee
+                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
+                cin >> end;
                 break;
             case 3:
                 //TODO : import trips a partir des deux villes de depart & arrivee
+                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
+                cin >> start;
+                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
+                cin >> end;
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
@@ -194,6 +247,87 @@ void Catalogue::importCities ( )
         }
         break;
     }
-}
+    delete [ ] start;
+    delete [ ] end;
+} //----- Fin de importCities
 
-//----- Fin de importCities
+void Catalogue::importInterval ( ) ///A FINIR
+// Algorithme :
+// XXXX
+{
+    ifstream tripStream = askNameFile();
+    if ( !tripStream ) return; // going back to the menu
+
+    int start, end;
+    for ( ; ; )
+    {
+        cout << endl << "From which trip NUMBER do you wish to save into the file?" << endl;
+        cin >> start;
+
+        /*if ( start > //NB OF TRIPS IN FILE )
+        {
+            cout << endl << "Please enter a number inferior or equal to " << //NB OF TRIPS IN FILE << endl;
+        }
+        else break;*/
+        break; /// a virer
+    }
+
+    for ( ; ; )
+    {
+        cout << "Until which trip NUMBER?" << endl;
+        cin >> end;
+
+        /*if ( end > //NB OF TRIPS IN FILE )
+        {
+            cout << endl << "Please enter a number inferior or equal to " << //NB OF TRIPS IN FILE << endl;
+        }
+        else break;*/
+        break; /// a virer
+    }
+
+} //----- Fin de importInterval
+
+ifstream Catalogue::askNameFile ( )
+{
+    string nameFile;
+    ifstream tripStream;
+
+    bool fileOk = false; // to check if name of file respects the conditions and exists
+
+    while ( !fileOk )
+    {
+        cout << endl << "Enter the name of the file containing the trips to import." << endl;
+        cout << "Names such as '.' or '..' are NOT valid!" << endl;
+        cout << "Please, do NOT add the extension of the file, nor add spaces or any special character!!" << endl;
+
+        cin >> nameFile;
+
+        if ( nameFile.empty() )
+        {
+            cerr << "No input, going back to the menu..." << endl;
+            return tripStream;
+        }
+        if ( nameFile == "." || nameFile == ".." )
+        {
+            cout << "This name of file is NOT valid..." << endl;
+            continue;
+        }
+
+        nameFile = "../C++/TP3/" + nameFile + ".txt";
+        tripStream.open( nameFile.c_str() );
+
+        if ( !tripStream )
+        {
+            cerr << "Error opening file " << nameFile << "... Going back to the menu..." << endl;
+            return tripStream;
+        }
+        if ( !tripStream.good() )
+        {
+            cerr << "File " << nameFile << " does not exist... Try another file." << endl;
+            continue;
+        }
+        fileOk = true;
+    }
+    cout << "Importing trips from " << nameFile << "..." << endl;
+    return tripStream;
+} //----- Fin de askNameFile

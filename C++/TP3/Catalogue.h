@@ -92,22 +92,25 @@ protected:
     // Le nom du fichier doit etre correct (sans espace), et le fichier
     // doit exister et respecter le schema que l'on souhaite
 
-    void importAll ( std::ifstream & );
+    void importAll ( );
 
-    void importAllSimpleTrips (std::ifstream & );
+    void importType ( );
 
-    void importAllComposedTrips (std::ifstream & );
+    void importAllSimpleTrips ( std::ifstream & );
 
-    void importTripsFromType ( std::ifstream &);
+    void importAllComposedTrips ( std::ifstream & );
 
     void importCities ( );
     // Mode d'emploi :
-    // Sert à sauvegarder des trips depuis un fichier une ville d'arrivee et/ou de depart
+    // Sert à sauvegarder des trips depuis un fichier selon une ville d'arrivee et/ou de depart
     // Demande a l'utilisateur de choisir entre trois options :
     // 1. depuis ville de depart
     // 2. depuis ville d'arrivee
     // 3. depuis les deux
     /// PAS DE CONTRAT?
+
+    void importInterval ( );
+    // Mode d'emploi :
 
     void save ( ) const;
     // Mode d'emploi :
@@ -133,7 +136,7 @@ protected:
     //
     // Contrat :
 
-    void saveFromCities ( std::ofstream & tripStream ) const;
+    void saveCities ( std::ofstream & tripStream ) const;
     // Mode d'emploi :
     // Sert à restituer des trips dans un fichier selon une ville d'arrivee et/ou de depart
     // Demande a l'utilisateur de choisir entre trois options :
@@ -150,9 +153,23 @@ protected:
     //
     // Contrat :
 
-    friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream , std::string * data , std::string & trip , int tripIndex );
+    ifstream askNameFile ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
 
-    friend void importSimpleTrip ( Catalogue * c, std::ifstream & tripStream , std::string * data , std::string & trip );
+    friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
+                                     std::string & trip, int tripIndex );
+    // Mode d'emploi :
+    //
+    // Contrat :
+
+    friend void importSimpleTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
+                                   std::string & trip );
+    // Mode d'emploi :
+    //
+    // Contrat :
+
 //----------------------------------------------------- Attributs protégés
     List tripList;
 

@@ -10,12 +10,14 @@
 //---------- Réalisation du module <Main> (fichier Main.cpp) ------------
 
 /////////////////////////////////////////////////////////////////  INCLUDE
+//-------------------------------------------------------- Include système
+using namespace std;
+
 //------------------------------------------------------ Include personnel
 #include "Main.h"
 #include "Catalogue.h"
 #include "ComposedTrip.h"
 #include "CatalogueUtils.h"
-using namespace std;
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------ Fonctions privées

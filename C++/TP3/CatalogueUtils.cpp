@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
+//---------- Réalisation du fichier source <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,7 +15,7 @@
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-#include "CatalogueUtils.h";
+#include "CatalogueUtils.h"
 
 //------------------------------------------------------------------ PRIVE
 

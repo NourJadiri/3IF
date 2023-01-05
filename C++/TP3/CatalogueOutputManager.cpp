@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <CatalogueOutputManager> (fichier CatalogueOutputManager.cpp) ------------
+//---------- Fichier source <CatalogueOutputManager> (fichier CatalogueOutputManager.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,7 +15,7 @@
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-#include "Catalogue.h";
+#include "Catalogue.h"
 
 //------------------------------------------------------------------ PRIVE
 
@@ -60,7 +60,7 @@ void Catalogue::saveType ( ofstream & tripStream ) const
 
     int choice;
     for ( ; ; ) {
-        cout << endl << "Enter the NUMBER corresponding to the desired type of trip" << endl;
+        cout << endl << "Enter the NUMBER corresponding to the desired type of trip:" << endl;
         cout << "\t1: save SIMPLE trips only" << endl;
         cout << "\t2: save COMPOSED trips only" << endl;
 
@@ -86,7 +86,7 @@ void Catalogue::saveType ( ofstream & tripStream ) const
     }
 } //----- Fin de saveType
 
-void Catalogue::saveFromCities ( ofstream & tripStream ) const
+void Catalogue::saveCities ( ofstream & tripStream ) const
 // Algorithme :
 // XXXX
 {
@@ -102,7 +102,6 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
     int choice;
     char * start = new char [ 64 ];
     char * end = new char [ 64 ];
-    Trip * * stored = new Trip * [ this->tripList.GetSize() ];
 
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
@@ -121,7 +120,7 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                     if ( iter->GetTrip()->GetStart() == start )
                     {
                         tripStream << index << ",";
-                        iter->GetTrip()->SaveTripToFile(tripStream);
+                        iter->GetTrip()->SaveTripToFile( tripStream );
                         index++;
                     }
                     iter = iter->GetNext();
@@ -135,7 +134,7 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                     if ( iter->GetTrip()->GetEnd() == end )
                     {
                         tripStream << index << ",";
-                        iter->GetTrip()->SaveTripToFile(tripStream);
+                        iter->GetTrip()->SaveTripToFile( tripStream );
                         index++;
                     }
                     iter = iter->GetNext();
@@ -152,7 +151,7 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
                     if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
                     {
                         tripStream << index << ",";
-                        iter->GetTrip()->SaveTripToFile(tripStream);
+                        iter->GetTrip()->SaveTripToFile( tripStream );
                         index++;
                     }
                     iter = iter->GetNext();
@@ -165,7 +164,8 @@ void Catalogue::saveFromCities ( ofstream & tripStream ) const
         }
         break;
     }
-    delete [ ] stored;
+    delete [ ] start;
+    delete [ ] end;
 } //----- Fin de saveFromCities
 
 void Catalogue::saveInterval ( ofstream & tripStream ) const
@@ -220,3 +220,55 @@ void Catalogue::saveInterval ( ofstream & tripStream ) const
         currPos++;
     }
 } //----- Fin de saveInterval
+
+
+void Catalogue::save ( ) const
+// Algorithme :
+// Appending XXXXXX
+{
+    string nameFile;
+    cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
+    cout << "Know that the previous content of the file will be overwritten." << endl;
+    cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
+
+    cin >> nameFile;
+    //TODO : while pour checker que le nom du fichier est ok
+
+    nameFile = "../C++/TP3/" + nameFile + ".txt";
+    ofstream tripStream( nameFile.c_str() ); // without append
+
+    //tripStream.open(namePath); // without append
+    //tripStream.open(namePath, ios::app); // with append si on en a besoin un jour
+
+    int choice;
+    for ( ; ; ) {
+        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << "\t1: save all the trips from the Catalogue into a file" << endl;
+        cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
+        cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
+        cout << "\t4: save only an interval of trips from the Catalogue into a file" << endl;
+
+        cin >> choice;
+
+        switch ( choice ) {
+            case 1:
+                saveAll( tripStream );
+                break;
+            case 2:
+                saveType( tripStream );
+                break;
+            case 3:
+                saveCities ( tripStream );
+                break;
+            case 4:
+                saveInterval( tripStream );
+                break;
+            default:
+                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
+                //sleep(1);
+                continue; // go back to options
+        }
+        break;
+    }
+    //tripStream.close();
+} //----- Fin de save

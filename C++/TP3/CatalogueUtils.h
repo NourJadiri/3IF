@@ -21,9 +21,9 @@
 //------------------------------------------------------------------------
 
 
-int countSeparators ( std::string & , char );
+int countSeparators ( std::string &, char );
 
-std::string* split ( std::string & , char );
+std::string * split ( std::string &, char );
 
 
 #endif // CATALOGUEUTILS_H

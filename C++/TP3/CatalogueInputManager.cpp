@@ -62,7 +62,16 @@ void Catalogue::import ( )
 // Appending XXXXXX
 {
     ifstream tripStream = askNameFileImport();
-    if ( !tripStream ) return; // going back to menu
+    if ( !tripStream )
+    {
+        return; // going back to menu
+    }
+
+    if ( tripStream.peek() == EOF )
+    {
+        cout << endl << "File is empty... Nothing to add to the Catalogue :(" << endl;
+        return; // going back to menu
+    }
 
     int choice;
     for ( ; ; )
@@ -101,6 +110,7 @@ void Catalogue::import ( )
         }
         break;
     }
+    tripStream.close();
 } //----- Fin de import
 
 void Catalogue::importAll ( ifstream & tripStream )
@@ -334,7 +344,7 @@ ifstream Catalogue::askNameFileImport ( ) const
 
         if ( !tripStream )
         {
-            cerr << "Error opening file " << nameFile << "... Going back to the menu..." << endl;
+            cerr << "Error opening the file, going back to the menu..." << endl;
             return tripStream;
         }
         if ( !tripStream.good() )

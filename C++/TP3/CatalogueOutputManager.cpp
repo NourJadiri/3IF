@@ -25,12 +25,27 @@ void Catalogue::save ( ) const
 // Algorithme :
 // Appending XXXXXX
 {
+    if ( tripList.GetFirst() == nullptr )
+    {
+        cout << endl << "Catalogue is empty... Nothing to add to the file :(" << endl;
+        return;
+    }
+
     ofstream tripStream = askNameFileSave();
+
     if ( !tripStream.good() )
     {
-        cerr << "Error opening the file, going back to the menu..." << endl;
         return; // going back to menu
     }
+
+    int index = 1; // by default, the index of the first trip to be saved is 1
+    // if user decided to append to a file, need to get the index of the last trip in file
+    ios_base::openmode mode = tripStream.rdstate();
+    streampos pos = tripStream.tellp(); // gets current position
+    while ( pos > 0 )
+    {
+    }
+
 
     int choice;
     for ( ; ; )
@@ -46,16 +61,16 @@ void Catalogue::save ( ) const
         switch ( choice )
         {
             case 1:
-                saveAll( tripStream );
+                saveAll( tripStream, index );
                 break;
             case 2:
-                saveType( tripStream );
+                saveType( tripStream, index );
                 break;
             case 3:
-                saveCities ( tripStream );
+                saveCities ( tripStream, index );
                 break;
             case 4:
-                saveInterval( tripStream );
+                saveInterval( tripStream, index );
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
@@ -67,17 +82,10 @@ void Catalogue::save ( ) const
     tripStream.close();
 } //----- Fin de save
 
-void Catalogue::saveAll ( ofstream & tripStream ) const
+void Catalogue::saveAll ( ofstream & tripStream, int index ) const
 // Algorithme :
 // XXX
 {
-    if ( tripList.GetFirst() == nullptr )
-    {
-        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
-
-    int index = 1;
     Node * iter = tripList.GetFirst();
 
     while ( iter != nullptr ) // Parses through tripList
@@ -86,23 +94,17 @@ void Catalogue::saveAll ( ofstream & tripStream ) const
         tripStream << index << ",";
 
         iter->GetTrip()->SaveTripToFile(tripStream);
+        tripStream << endl;
         iter = iter->GetNext();
 
         index++;
     }
 } //----- Fin de saveAll
 
-void Catalogue::saveType ( ofstream & tripStream ) const
+void Catalogue::saveType ( ofstream & tripStream, int index ) const
 // Algorithme :
 // XXX
 {
-    if ( tripList.GetFirst() == nullptr )
-    {
-        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
-
-    int index = 1;
     Node * iter = tripList.GetFirst();
 
     int choice;
@@ -127,23 +129,17 @@ void Catalogue::saveType ( ofstream & tripStream ) const
         {
             tripStream << index << ",";
             iter->GetTrip()->SaveTripToFile(tripStream);
+            tripStream << endl;
             index++;
         }
         iter = iter->GetNext();
     }
 } //----- Fin de saveType
 
-void Catalogue::saveCities ( ofstream & tripStream ) const
+void Catalogue::saveCities ( ofstream & tripStream, int index ) const
 // Algorithme :
 // XXXX
 {
-    if ( tripList.GetFirst() == nullptr )
-    {
-        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
-
-    int index = 1;
     Node * iter = tripList.GetFirst();
 
     int choice;
@@ -168,6 +164,7 @@ void Catalogue::saveCities ( ofstream & tripStream ) const
                     {
                         tripStream << index << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
+                        tripStream << endl;
                         index++;
                     }
                     iter = iter->GetNext();
@@ -182,6 +179,7 @@ void Catalogue::saveCities ( ofstream & tripStream ) const
                     {
                         tripStream << index << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
+                        tripStream << endl;
                         index++;
                     }
                     iter = iter->GetNext();
@@ -199,6 +197,7 @@ void Catalogue::saveCities ( ofstream & tripStream ) const
                     {
                         tripStream << index << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
+                        tripStream << endl;
                         index++;
                     }
                     iter = iter->GetNext();
@@ -215,16 +214,10 @@ void Catalogue::saveCities ( ofstream & tripStream ) const
     delete [ ] end;
 } //----- Fin de saveFromCities
 
-void Catalogue::saveInterval ( ofstream & tripStream ) const
+void Catalogue::saveInterval ( ofstream & tripStream, int index ) const
 // Algorithme :
 // XXX
 {
-    if ( tripList.GetFirst() == nullptr )
-    {
-        cout << endl << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
-
     int start, end;
 
     for ( ; ; )
@@ -251,7 +244,7 @@ void Catalogue::saveInterval ( ofstream & tripStream ) const
         else break;
     }
 
-    int index = 1, currPos = 1;
+    int currPos = 1;
     Node * iter = tripList.GetFirst();
 
     while ( iter != nullptr ) // Parses through tripList
@@ -261,6 +254,7 @@ void Catalogue::saveInterval ( ofstream & tripStream ) const
         {
             tripStream << index << ",";
             iter->GetTrip()->SaveTripToFile(tripStream);
+            tripStream << endl;
             index++;
         }
         iter = iter->GetNext();
@@ -281,6 +275,7 @@ ofstream Catalogue::askNameFileSave ( ) const
         cout << "Names such as '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
 
+        nameFile = ""; // reset the file name
         cin >> nameFile;
 
         if ( nameFile.empty() )
@@ -295,9 +290,10 @@ ofstream Catalogue::askNameFileSave ( ) const
         }
 
         nameFile = "../C++/TP3/" + nameFile + ".txt";
-        tripStream.open( nameFile.c_str() );
+        ifstream tripStreamTemp( nameFile.c_str() );
 
         bool appendOk = false;
+        streampos size; // useful if appending
         while ( !appendOk )
         {
             // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
@@ -318,6 +314,15 @@ ofstream Catalogue::askNameFileSave ( ) const
                     {
                         case 1:
                             tripStream.open( nameFile, ios_base::app ); // appending
+
+                            // a new line after the last trip must be added if the file is not empty
+                            tripStream.seekp( 0, ios::end ); // goes to end of file
+                            size = tripStream.tellp(); // get current position = size of file
+                            if ( size > 0 ) // file is not empty
+                            {
+                                tripStream << endl;
+                            }
+
                             appendOk = true;
                             fileOk = true; // the file is now okay
                             break;
@@ -328,6 +333,8 @@ ofstream Catalogue::askNameFileSave ( ) const
                             break;
                         case 3:
                             cout << "Operation cancelled, choose another file..." << endl;
+                            appendOk = true;
+                            tripStream.close();
                             // the file is still not okay so goes through the first while loop once again
                             break;
                         default:
@@ -340,11 +347,21 @@ ofstream Catalogue::askNameFileSave ( ) const
             }
             else // else the file does not exist, hence the mode is the default one
             {
+                tripStream.open( nameFile.c_str() );
+                appendOk = true;
                 fileOk = true;
             }
         }
     }
 
-    cout << endl << "Saving trips into " << nameFile << endl;
-    return tripStream;
+    if ( !tripStream.good() )
+    {
+        cerr << "Error opening the file, going back to the menu..." << endl;
+        return tripStream; // going back to menu
+    }
+    else
+    {
+        cout << endl << "Saving files into file " << nameFile << endl;
+        return tripStream;
+    }
 } //----- Fin de askNameFileSave

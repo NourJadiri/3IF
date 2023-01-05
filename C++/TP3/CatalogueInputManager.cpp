@@ -35,7 +35,7 @@ void importComposedTrip (Catalogue * c, ifstream & tripStream , string * data , 
 
 }
 
-void importSimpleTrip(Catalogue * c, ifstream &tripStream, std::string *data, string & trip)
+void importSimpleTrip( Catalogue * c, ifstream &tripStream, std::string *data, string & trip )
 {
     c->tripList.AddTripSorted(new SimpleTrip(data[2].c_str(), data[3].c_str(), data[4].c_str()));
 }
@@ -115,7 +115,7 @@ void Catalogue::importTripsFromType( ifstream & tripStream )
     }
 }
 
-void Catalogue::importAllSimpleTrips (ifstream & tripStream )
+void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 
 {
     string trip;

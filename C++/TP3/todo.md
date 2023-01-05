@@ -1,16 +1,22 @@
-# Ecrire un simple trip dans un fichier (COMPLETE)
-## Rajouter index et subIndex dans le fichier pour caracteriser les trips
-## Ne pas oublier le nom des colonnes sur le CSV
+# Trucs obligatoires
 
-# Lire un simple trip a partir d'un fichier
+### <s>Ecrire un simple trip dans un fichier (COMPLETE)
+- Rajouter index dans le fichier pour caracteriser les trips
+- Ne pas oublier le nom des colonnes sur le CSV
+  </s>
+
+### Lire un simple trip a partir d'un fichier
 - simple cout dans le stdout
 
-# Ajouter un simple trip au catalogue à partir d'un fichier
+### Ajouter un simple trip au catalogue à partir d'un fichier
 
-# Ecrire un composed Trip dans le fichier
+### Ecrire un composed Trip dans le fichier
 
-# Lire un composed Trip à partir d'un fichier (cout)
+### Lire un composed Trip à partir d'un fichier (cout)
 
-# Save cette merde dans le catalogue 
+### Save cette merde dans le catalogue 
 
-### est ce qu'on ferait pas une classe ImportAndSave pour pas trop surcharger Catalogue? idk
+# Trucs cools à avoir à coté
+
+### Rajouter une option "Cancel choice" dans le menu
+Pour que l'utilisateur n'ait pas à fermer le programme s'il change d'avis

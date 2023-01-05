@@ -270,9 +270,6 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
 // XXXX
 {
-    ifstream tripStream = askNameFile();
-    if ( !tripStream ) return; // going back to the menu
-
     int start, end;
     for ( ; ; )
     {

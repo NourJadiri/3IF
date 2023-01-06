@@ -105,18 +105,26 @@ void Catalogue::saveType ( ofstream & tripStream )
     Node * iter = tripList.GetFirst();
 
     int choice;
-    for ( ; ; ) {
+    for ( ; ; )
+    {
         cout << endl << "Enter the NUMBER corresponding to the desired type of trip:" << endl;
         cout << "\t1: save SIMPLE trips only" << endl;
         cout << "\t2: save COMPOSED trips only" << endl;
+        cout << "\t3: go back to save menu" << endl;
 
         cin >> choice;
 
-        if ( choice != 1 && choice != 2 )
+        if ( choice != 1 && choice != 2 && choice != 3 )
         {
-            cout << endl << "Incorrect choice, please enter a number between 1 and 2!" << endl;
+            cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
         }
         else break;
+    }
+
+    if ( choice == 3 )
+    {
+        cout << "Going back to save menu..." << endl;
+        return; // going back to save menu
     }
 
     while ( iter != nullptr ) // Parses through tripList
@@ -140,108 +148,33 @@ void Catalogue::saveCities ( ofstream & tripStream )
 // Algorithme :
 // XXXX
 {
-    Node * iter = tripList.GetFirst();
-
     int choice;
-    int count = 0;
-    string start, end;
 
-    for ( ; ; ) {
+    for ( ; ; )
+    {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: save trips leaving from a certain city" << endl;
         cout << "\t2: save trips arriving at a certain city" << endl;
         cout << "\t3: save trips both leaving and arriving to the cities you want" << endl;
+        cout << "\t4: go back to save menu" << endl;
 
         cin >> choice;
 
         switch ( choice ) {
             case 1:
-                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
-                cin >> start;
-                while ( iter != nullptr ) // Parses through tripList
-                {
-                    if ( iter->GetTrip()->GetStart() == start )
-                    {
-                        count++;
-                        tripStream << lastIndex << ",";
-                        iter->GetTrip()->SaveTripToFile( tripStream );
-                        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
-                        {
-                            tripStream << endl;
-                        }
-                        lastIndex++;
-                    }
-                    iter = iter->GetNext();
-                }
-                if ( count == 0 ){
-                    cout << "Sorry, no trips starting from " << start << " are available..." << endl;
-                }
-                else
-                {
-                    cout << count << " trips starting from " << start << " have been found!" << endl;
-                }
+                saveTripsFromDeparture( tripStream );
                 break;
             case 2:
-                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
-                cin >> end;
-                while ( iter != nullptr ) // Parses through tripList
-                {
-                    if ( iter->GetTrip()->GetEnd() == end )
-                    {
-                        count++;
-                        tripStream << lastIndex << ",";
-                        iter->GetTrip()->SaveTripToFile( tripStream );
-                        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
-                        {
-                            tripStream << endl;
-                        }
-                        lastIndex++;
-                    }
-                    iter = iter->GetNext();
-                }
-                if ( count == 0 )
-                {
-                    cout << "Sorry, no trips going to " << end << " are available..." << endl;
-                }
-                else
-                {
-                    cout << count << " trips going to " << end << " have been found !" << endl;
-                }
+                saveTripsToArrival( tripStream );
                 break;
             case 3:
-                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
-                cin >> start;
-                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
-                cin >> end;
-
-                while ( iter != nullptr ) // Parses through tripList
-                {
-                    if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
-                    {
-                        count++;
-                        tripStream << lastIndex << ",";
-                        iter->GetTrip()->SaveTripToFile( tripStream );
-                        if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
-                        {
-                            tripStream << endl;
-                        }
-                        lastIndex++;
-                    }
-                    iter = iter->GetNext();
-                }
-                if ( count == 0 )
-                {
-                    cout << "Sorry, no trips starting from " << start << " and going to " << end
-                         << " are available..." << endl;
-                }
-                else
-                {
-                    cout << count << " trips starting from " << start << " and going to " << end
-                         << " have been found !" << endl;
-                }
+                saveTripsFromTo( tripStream );
                 break;
+            case 4:
+                cout << "Going back to save menu..." << endl;
+                return;  // going back to save menu
             default:
-                cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
@@ -249,6 +182,114 @@ void Catalogue::saveCities ( ofstream & tripStream )
     }
 
 } //----- Fin de saveFromCities
+
+void Catalogue::saveTripsFromDeparture ( std::ofstream & tripStream )
+{
+    int count = 0;
+    string start;
+
+    cout << endl << "Please enter the city of departure (no spaces!): " << endl;
+    cin >> start;
+
+    Node * iter = tripList.GetFirst();
+
+    while ( iter != nullptr ) // Parses through tripList
+    {
+        if ( iter->GetTrip()->GetStart() == start )
+        {
+            count++;
+            tripStream << lastIndex << ",";
+            iter->GetTrip()->SaveTripToFile( tripStream );
+            if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+            {
+                tripStream << endl;
+            }
+            lastIndex++;
+        }
+        iter = iter->GetNext();
+    }
+    if ( count == 0 ){
+        cout << "Sorry, no trips starting from " << start << " are available..." << endl;
+    }
+    else
+    {
+        cout << count << " trips starting from " << start << " have been found!" << endl;
+    }
+} //----- Fin de saveTripsFromDeparture
+
+void Catalogue::saveTripsToArrival ( std::ofstream & tripStream )
+{
+    int count = 0;
+    string end;
+
+    cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
+    cin >> end;
+
+    Node * iter = tripList.GetFirst();
+
+    while ( iter != nullptr ) // Parses through tripList
+    {
+        if ( iter->GetTrip()->GetEnd() == end )
+        {
+            count++;
+            tripStream << lastIndex << ",";
+            iter->GetTrip()->SaveTripToFile( tripStream );
+            if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+            {
+                tripStream << endl;
+            }
+            lastIndex++;
+        }
+        iter = iter->GetNext();
+    }
+    if ( count == 0 )
+    {
+        cout << "Sorry, no trips going to " << end << " are available..." << endl;
+    }
+    else
+    {
+        cout << count << " trips going to " << end << " have been found !" << endl;
+    }
+} //----- Fin de saveTripsToArrival
+
+void Catalogue::saveTripsFromTo ( std::ofstream & tripStream )
+{
+    int count = 0;
+    string start, end;
+
+    cout << endl << "Please enter the city of departure (no spaces!): " << endl;
+    cin >> start;
+    cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
+    cin >> end;
+
+    Node * iter = tripList.GetFirst();
+
+    while ( iter != nullptr ) // Parses through tripList
+    {
+        if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
+        {
+            count++;
+            tripStream << lastIndex << ",";
+            iter->GetTrip()->SaveTripToFile( tripStream );
+            if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
+            {
+                tripStream << endl;
+            }
+            lastIndex++;
+        }
+        iter = iter->GetNext();
+    }
+    if ( count == 0 )
+    {
+        cout << "Sorry, no trips starting from " << start << " and going to " << end
+             << " are available..." << endl;
+    }
+    else
+    {
+        cout << count << " trips starting from " << start << " and going to " << end
+             << " have been found !" << endl;
+    }
+} //----- Fin de saveTripsFromTo
 
 void Catalogue::saveInterval ( ofstream & tripStream )
 // Algorithme :
@@ -259,7 +300,14 @@ void Catalogue::saveInterval ( ofstream & tripStream )
     for ( ; ; )
     {
         cout << endl << "From which trip NUMBER do you wish to save into the file ?" << endl;
+        cout << "Enter 0 to go back to save menu" << endl;
         cin >> start;
+
+        if ( start == 0 )
+        {
+            cout << "Going back to save menu..." << endl;
+            return;  // going back to save menu
+        }
 
         if ( start > tripList.GetSize() )
         {

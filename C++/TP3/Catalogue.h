@@ -117,13 +117,6 @@ protected:
     // Mode d'emploi :
     // Permet d'importer à partir d'un fichier tous les trajets qui répondent à un certain type
 
-    void importTripsFromDeparture ( std:: ifstream & );
-    // Mode D'emploi :
-
-    void importTripsToArrival ( std :: ifstream &);
-
-    void importTripsFromTo ( std :: ifstream & );
-
     void importCities ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Sert à sauvegarder des trips depuis un fichier selon une ville d'arrivee et/ou de depart
@@ -133,8 +126,29 @@ protected:
     // 3. depuis les deux
     /// PAS DE CONTRAT?
 
+    void importTripsFromDeparture ( std::ifstream & tripStream );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void importTripsToArrival ( std::ifstream & tripStream );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void importTripsFromTo ( std::ifstream & tripStream );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
     void importInterval ( std::ifstream & tripStream );
     // Mode d'emploi :
+    //
+    // Contrat :
+    //
 
     ifstream askNameFileImport ( ) const;
     // Mode d'emploi :
@@ -176,6 +190,24 @@ protected:
     // c'est-à-dire ne pas mettre d'espaces. On suppose également
     // que les chaines de caractères entrées font moins de 64 caractères
 
+    void saveTripsFromDeparture ( std::ofstream & tripStream );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void saveTripsToArrival ( std::ofstream & tripStream );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void saveTripsFromTo ( std::ofstream & tripStream );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
     void saveInterval ( std::ofstream & tripStream );
     // Mode d'emploi :
     //
@@ -185,10 +217,6 @@ protected:
     // Mode d'emploi :
     //
     // Contrat :
-
-    //void findLastIndex ( string & );
-
-    //int findLastIndex ( ifstream & );
 
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );

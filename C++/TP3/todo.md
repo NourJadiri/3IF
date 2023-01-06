@@ -23,3 +23,8 @@ Pour que l'utilisateur n'ait pas à fermer le programme s'il change d'avis
 Genre vérifier que si l'utilisateur rentre [5,7], il y a bien au moins 7 trips available
 (check ce que j'ai fait pour saveInterval, ptet meme redemander le premier indice s'il
 dépasse déjà le nombre de trips available)
+
+
+
+# marie
+### refactor asknamefilesave & redonner nom findlastindex + update avec chatGPT

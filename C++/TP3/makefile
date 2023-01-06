@@ -11,6 +11,7 @@ LDFLAGS = -g -Wall -pedantic -std=c++11
 INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h
 REALISATION = $(INTERFACE:.h=.cpp)
 OBJETS = $(INTERFACE:.h=.o)
+FICHIERSTXT = $(wildcard *.txt)
 EXE = trajets
 EFFACE = clean
 
@@ -25,5 +26,4 @@ $(EXE) : $(OBJETS)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(EFFACE) :
-	$(RM) $(RMFLAGS) $(EXE) $(OBJETS)
-	$(RM) myTrips.txt
+	$(RM) $(RMFLAGS) $(EXE) $(OBJETS) $(FICHIERSTXT)

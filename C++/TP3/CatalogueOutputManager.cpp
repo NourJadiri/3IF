@@ -143,7 +143,8 @@ void Catalogue::saveCities ( ofstream & tripStream )
     Node * iter = tripList.GetFirst();
 
     int choice;
-    string start , end;
+    int count = 0;
+    string start, end;
 
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
@@ -161,6 +162,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 {
                     if ( iter->GetTrip()->GetStart() == start )
                     {
+                        count++;
                         tripStream << lastIndex << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
                         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
@@ -171,6 +173,13 @@ void Catalogue::saveCities ( ofstream & tripStream )
                     }
                     iter = iter->GetNext();
                 }
+                if ( count == 0 ){
+                    cout << "Sorry, no trips starting from " << start << " are available..." << endl;
+                }
+                else
+                {
+                    cout << count << " trips starting from " << start << " have been found!" << endl;
+                }
                 break;
             case 2:
                 cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
@@ -179,6 +188,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 {
                     if ( iter->GetTrip()->GetEnd() == end )
                     {
+                        count++;
                         tripStream << lastIndex << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
                         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
@@ -188,6 +198,14 @@ void Catalogue::saveCities ( ofstream & tripStream )
                         lastIndex++;
                     }
                     iter = iter->GetNext();
+                }
+                if ( count == 0 )
+                {
+                    cout << "Sorry, no trips going to " << end << " are available..." << endl;
+                }
+                else
+                {
+                    cout << count << " trips going to " << end << " have been found !" << endl;
                 }
                 break;
             case 3:
@@ -200,6 +218,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 {
                     if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
                     {
+                        count++;
                         tripStream << lastIndex << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
                         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
@@ -209,6 +228,16 @@ void Catalogue::saveCities ( ofstream & tripStream )
                         lastIndex++;
                     }
                     iter = iter->GetNext();
+                }
+                if ( count == 0 )
+                {
+                    cout << "Sorry, no trips starting from " << start << " and going to " << end
+                         << " are available..." << endl;
+                }
+                else
+                {
+                    cout << count << " trips starting from " << start << " and going to " << end
+                         << " have been found !" << endl;
                 }
                 break;
             default:
@@ -300,7 +329,6 @@ ofstream Catalogue::askNameFileSave ( )
         nameFile.insert(0,"../C++/TP3/");
         nameFile.append(".txt");
 
-
         bool appendOk = false;
         streampos size; // useful if appending
 
@@ -387,4 +415,3 @@ ofstream Catalogue::askNameFileSave ( )
         return tripStream;
     }
 } //----- Fin de askNameFileSave
-

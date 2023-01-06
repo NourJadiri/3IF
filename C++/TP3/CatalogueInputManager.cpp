@@ -418,7 +418,7 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 {
     int start, end;
 
-    findLastIndex();
+    //findLastIndex( tripStream );
     for ( ; ; )
     {
         cout << endl << "From which trip NUMBER do you wish to save into the file?" << endl;
@@ -466,7 +466,7 @@ ifstream Catalogue::askNameFileImport ( ) const
             cerr << "File name is empty, please enter a valid name..." << endl;
             continue;
         }
-        if ( nameFile.find('.') != string::npos)
+        if ( nameFile.find('.') != string::npos )
         {
             cout << "This name of file is NOT valid..." << endl;
             continue;

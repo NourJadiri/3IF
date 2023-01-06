@@ -11,8 +11,8 @@
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
 using namespace std;
+//-------------------------------------------------------- Include système
 
 //------------------------------------------------------ Include personnel
 #include "CatalogueUtils.h"
@@ -70,3 +70,46 @@ string * split ( string & str, char seperator )
     }
     return strings;
 } //----- Fin de split
+
+int findLastIndex( ifstream & tripStream )
+{
+    int index;
+
+    tripStream.seekg(0,ios::end);
+
+    if(!tripStream)
+    {
+        //cout << "File does not exist..." << endl;
+        return -1;
+    }
+
+    if(tripStream.tellg() == 0)
+    {
+        return 1;
+    }
+
+    tripStream.seekg(0,ios::beg);
+
+    string trip;
+    string * data;
+
+    while(getline(tripStream,trip))
+    {
+        data = split(trip,',');
+
+        if(!trip.empty() && data[0] != "0") index = stoi(data[0]);
+
+    }
+
+    delete[] data;
+
+
+
+
+    return index + 1;
+}
+
+bool isEmpty ( ifstream & tripStream )
+{
+    return tripStream.peek() == std::ifstream::traits_type::eof();
+}

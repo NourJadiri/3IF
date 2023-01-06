@@ -13,7 +13,8 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <iostream>
-#include "Catalogue.h"
+#include <fstream>
+//#include "Catalogue.h"
 
 //------------------------------------------------------------------------
 // Rôle de la classe <CatalogueUtils>
@@ -25,6 +26,10 @@
 int countSeparators ( std::string & s, char separator );
 
 std::string * split ( std::string & s, char separator );
+
+int findLastIndex( std::ifstream & );
+
+bool isEmpty( std::ifstream & );
 
 
 #endif // CATALOGUEUTILS_H

@@ -34,7 +34,7 @@
 class Catalogue
 {
 //----------------------------------------------------------------- PUBLIC
-    int lastIndex = 1;
+    int lastIndex = 1; //TODO : squelette constantes
 public:
 //----------------------------------------------------- Méthodes publiques
     void Launch ( );
@@ -186,7 +186,9 @@ protected:
     //
     // Contrat :
 
-    void findLastIndex ( std::ifstream & );
+    //void findLastIndex ( string & );
+
+    //int findLastIndex ( ifstream & );
 
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );

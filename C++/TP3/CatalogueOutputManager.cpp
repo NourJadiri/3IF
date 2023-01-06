@@ -277,6 +277,7 @@ ofstream Catalogue::askNameFileSave ( )
 {
     string nameFile;
     ofstream tripStream;
+    ifstream tempStream;
 
     bool fileOk = false; // to check if name of file respects the conditions and already exists
 
@@ -286,34 +287,36 @@ ofstream Catalogue::askNameFileSave ( )
         cout << "Names such as '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
 
-        nameFile = ""; // reset the file name
+        //nameFile = ""; // reset the file name
         cin >> nameFile;
 
-        if ( nameFile.empty() )
-        {
-            cerr << "No input, going back to the menu..." << endl;
-            return tripStream;
-        }
         if ( nameFile == "." || nameFile == ".." )
         {
             cout << "This name of file is NOT valid..." << endl;
             continue;
+
         }
 
         nameFile.insert(0,"../C++/TP3/");
         nameFile.append(".txt");
 
-        ofstream tripStreamTemp( nameFile.c_str() );
 
         bool appendOk = false;
         streampos size; // useful if appending
 
-        ifstream tempStream( nameFile ); // to check if file already exists
+        tempStream.open( nameFile.c_str() ); // to check if file already exists
+
+        //cout << lastIndex << endl;
+        bool fileExists = tempStream.good();
+        if(fileExists) lastIndex = findLastIndex(tempStream);
+        //bool fileEmpty = isEmpty(tempStream );
+
+        tempStream.close();
 
         while ( !appendOk )
         {
             // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
-            if ( tempStream.good() )
+            if ( fileExists )
             {
                 int mode;
                 for ( ; ; )
@@ -329,23 +332,22 @@ ofstream Catalogue::askNameFileSave ( )
                     switch ( mode )
                     {
                         case 1:
-                            tripStream.open( nameFile, ios_base::app ); // appending
+                            tripStream.open( nameFile.c_str(), ios_base::app ); // appending
 
                             // a new line after the last trip must be added if the file is not empty
                             tripStream.seekp( 0, ios::end ); // goes to end of file
                             size = tripStream.tellp(); // get current position = size of file
+
                             if ( size > 0 ) // file is not empty
                             {
                                 tripStream << endl;
                             }
 
-                            findLastIndex( tempStream );
-
                             appendOk = true;
                             fileOk = true; // the file is now okay
                             break;
                         case 2:
-                            tripStream.open( nameFile ); // default mode, overwriting
+                            tripStream.open( nameFile.c_str() ); // default mode, overwriting
                             lastIndex = 1;
 
                             appendOk = true;
@@ -367,12 +369,12 @@ ofstream Catalogue::askNameFileSave ( )
             }
             else // else the file does not exist, hence the mode is the default one
             {
+                lastIndex = 1;
                 tripStream.open( nameFile.c_str() );
                 appendOk = true;
                 fileOk = true;
             }
         }
-        tempStream.close();
     }
 
     if ( !tripStream.good() )
@@ -387,9 +389,11 @@ ofstream Catalogue::askNameFileSave ( )
     }
 } //----- Fin de askNameFileSave
 
-void Catalogue::findLastIndex ( ifstream & stream )
+/*void Catalogue::findLastIndex ( string & nameFile )
 {
+    ifstream stream(nameFile);
     lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
+
     // if user decided to append to a file, need to get the lastIndex of the last trip in file
     stream.seekg( 0, ios::end ); // move to end of file
 
@@ -410,4 +414,5 @@ void Catalogue::findLastIndex ( ifstream & stream )
         stream.close();
         return; // lastIndex will stay 1
     }
-} //----- Fin de findLastIndex
+} //----- Fin de findLastIndex*/
+

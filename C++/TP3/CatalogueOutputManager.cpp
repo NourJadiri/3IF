@@ -307,6 +307,7 @@ ofstream Catalogue::askNameFileSave ( )
 
         bool appendOk = false;
         streampos size; // useful if appending
+
         ifstream tempStream( nameFile ); // to check if file already exists
 
         while ( !appendOk )
@@ -338,7 +339,7 @@ ofstream Catalogue::askNameFileSave ( )
                                 tripStream << endl;
                             }
 
-                            findLastIndex( nameFile );
+                            findLastIndex( tempStream );
 
                             appendOk = true;
                             fileOk = true; // the file is now okay
@@ -386,9 +387,8 @@ ofstream Catalogue::askNameFileSave ( )
     }
 } //----- Fin de askNameFileSave
 
-void Catalogue::findLastIndex ( string const & nameFile )
+void Catalogue::findLastIndex ( ifstream & stream )
 {
-    ifstream stream( nameFile );
     lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
     // if user decided to append to a file, need to get the lastIndex of the last trip in file
     stream.seekg( 0, ios::end ); // move to end of file

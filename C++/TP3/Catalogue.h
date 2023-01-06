@@ -186,7 +186,7 @@ protected:
     //
     // Contrat :
 
-    void findLastIndex ( string const & nameFile );
+    void findLastIndex ( std::ifstream & );
 
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );

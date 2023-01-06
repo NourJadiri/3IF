@@ -370,7 +370,8 @@ void Catalogue::importTripsFromTo( ifstream & tripStream )
         delete[ ] data;
     }
 }
-void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
+
+void Catalogue::importCities ( ifstream & tripStream )
 // Algorithme :
 // XXXX
 {
@@ -403,7 +404,7 @@ void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
                 cout <<endl << "Going back to import menu..." << endl << endl;
                 break;
             default:
-                cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
                 //sleep(1);
                 continue; // go back to options
         }
@@ -416,6 +417,8 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // XXXX
 {
     int start, end;
+
+    findLastIndex();
     for ( ; ; )
     {
         cout << endl << "From which trip NUMBER do you wish to save into the file?" << endl;

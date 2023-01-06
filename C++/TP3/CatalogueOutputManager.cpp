@@ -306,17 +306,10 @@ ofstream Catalogue::askNameFileSave ( )
 
         tempStream.open( nameFile.c_str() ); // to check if file already exists
 
-        //cout << lastIndex << endl;
-        bool fileExists = tempStream.good();
-        if(fileExists) lastIndex = findLastIndex(tempStream);
-        //bool fileEmpty = isEmpty(tempStream );
-
-        tempStream.close();
-
         while ( !appendOk )
         {
             // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
-            if ( fileExists )
+            if ( tempStream.good() )
             {
                 int mode;
                 for ( ; ; )
@@ -332,10 +325,14 @@ ofstream Catalogue::askNameFileSave ( )
                     switch ( mode )
                     {
                         case 1:
+                            lastIndex = findLastIndex( tempStream );
+                            tempStream.close();
+
                             tripStream.open( nameFile.c_str(), ios_base::app ); // appending
 
                             // a new line after the last trip must be added if the file is not empty
-                            tripStream.seekp( 0, ios::end ); // goes to end of file
+                            tripStream.seekp( 0, ios::end );
+                            // goes to end of file
                             size = tripStream.tellp(); // get current position = size of file
 
                             if ( size > 0 ) // file is not empty
@@ -347,6 +344,8 @@ ofstream Catalogue::askNameFileSave ( )
                             fileOk = true; // the file is now okay
                             break;
                         case 2:
+                            tempStream.close();
+
                             tripStream.open( nameFile.c_str() ); // default mode, overwriting
                             lastIndex = 1;
 
@@ -354,9 +353,9 @@ ofstream Catalogue::askNameFileSave ( )
                             fileOk = true; // the file is now okay
                             break;
                         case 3:
+                            tempStream.close();
                             cout << "Operation cancelled, choose another file..." << endl;
                             appendOk = true;
-                            tripStream.close();
                             // the file is still not okay so goes through the first while loop once again
                             break;
                         default:
@@ -369,7 +368,7 @@ ofstream Catalogue::askNameFileSave ( )
             }
             else // else the file does not exist, hence the mode is the default one
             {
-                lastIndex = 1;
+                tempStream.close();
                 tripStream.open( nameFile.c_str() );
                 appendOk = true;
                 fileOk = true;
@@ -388,31 +387,4 @@ ofstream Catalogue::askNameFileSave ( )
         return tripStream;
     }
 } //----- Fin de askNameFileSave
-
-/*void Catalogue::findLastIndex ( string & nameFile )
-{
-    ifstream stream(nameFile);
-    lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
-
-    // if user decided to append to a file, need to get the lastIndex of the last trip in file
-    stream.seekg( 0, ios::end ); // move to end of file
-
-    while ( stream.tellg() > 0 ) // while beginning of file isn't reached
-    {
-        stream.seekg( -1, ios_base::cur ); // move back one char from beginning of file
-        char c = stream.peek(); // gets char at current position
-
-        if ( isdigit(c) && c != '0')
-        {
-            lastIndex = c - '0' + 1;
-            stream.close();
-            return;
-        }
-    }
-    if ( stream.tellg() == 0 ) // no digits found and beginning of file reached
-    {
-        stream.close();
-        return; // lastIndex will stay 1
-    }
-} //----- Fin de findLastIndex*/
 

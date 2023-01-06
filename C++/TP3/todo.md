@@ -1,7 +1,7 @@
 # Trucs obligatoires
 
 ### <s>Ecrire un simple trip dans un fichier (COMPLETE)
-- Rajouter index dans le fichier pour caracteriser les trips
+- Rajouter lastIndex dans le fichier pour caracteriser les trips
 - Ne pas oublier le nom des colonnes sur le CSV
   </s>
 

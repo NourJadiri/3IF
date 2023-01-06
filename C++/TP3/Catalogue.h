@@ -14,6 +14,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "List.h"
 #include "CatalogueUtils.h"
+#include <string>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Catalogue>
@@ -29,11 +30,11 @@
 // La classe Catalogue contient la List des trajets (simples ou composés)
 //------------------------------------------------------------------------
 
+
 class Catalogue
 {
-    int index = 1;
 //----------------------------------------------------------------- PUBLIC
-
+    int lastIndex = 1;
 public:
 //----------------------------------------------------- Méthodes publiques
     void Launch ( );
@@ -115,6 +116,13 @@ protected:
     void importType ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Permet d'importer à partir d'un fichier tous les trajets qui répondent à un certain type
+
+    void importTripsFromDeparture ( std:: ifstream & );
+    // Mode D'emploi :
+
+    void importTripsToArrival ( std :: ifstream &);
+
+    void importTripsFromTo ( std :: ifstream & );
 
     void importCities ( std::ifstream & tripStream );
     // Mode d'emploi :

@@ -85,7 +85,7 @@ void Catalogue::saveAll ( ofstream & tripStream )
     while ( iter != nullptr ) // Parses through tripList
     {
         // Saves all the trips to file
-        tripStream << index << ",";
+        tripStream << lastIndex << ",";
 
         iter->GetTrip()->SaveTripToFile(tripStream);
         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
@@ -94,7 +94,7 @@ void Catalogue::saveAll ( ofstream & tripStream )
         }
         iter = iter->GetNext();
 
-        index++;
+        lastIndex++;
     }
 } //----- Fin de saveAll
 
@@ -124,13 +124,13 @@ void Catalogue::saveType ( ofstream & tripStream )
         // Saves all the trips of the chosen type to file
         if ( iter->GetTrip()->GetType() == choice )
         {
-            tripStream << index << ",";
+            tripStream << lastIndex << ",";
             iter->GetTrip()->SaveTripToFile(tripStream);
             if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
             {
                 tripStream << endl;
             }
-            index++;
+            lastIndex++;
         }
         iter = iter->GetNext();
     }
@@ -143,8 +143,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
     Node * iter = tripList.GetFirst();
 
     int choice;
-    char * start = new char [ 64 ];
-    char * end = new char [ 64 ];
+    string start , end;
 
     for ( ; ; ) {
         cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
@@ -162,13 +161,13 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 {
                     if ( iter->GetTrip()->GetStart() == start )
                     {
-                        tripStream << index << ",";
+                        tripStream << lastIndex << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
                         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
                         {
                             tripStream << endl;
                         }
-                        index++;
+                        lastIndex++;
                     }
                     iter = iter->GetNext();
                 }
@@ -180,13 +179,13 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 {
                     if ( iter->GetTrip()->GetEnd() == end )
                     {
-                        tripStream << index << ",";
+                        tripStream << lastIndex << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
                         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
                         {
                             tripStream << endl;
                         }
-                        index++;
+                        lastIndex++;
                     }
                     iter = iter->GetNext();
                 }
@@ -201,13 +200,13 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 {
                     if ( iter->GetTrip()->GetStart() == start && iter->GetTrip()->GetEnd() == end )
                     {
-                        tripStream << index << ",";
+                        tripStream << lastIndex << ",";
                         iter->GetTrip()->SaveTripToFile( tripStream );
                         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
                         {
                             tripStream << endl;
                         }
-                        index++;
+                        lastIndex++;
                     }
                     iter = iter->GetNext();
                 }
@@ -219,8 +218,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
         }
         break;
     }
-    delete [ ] start;
-    delete [ ] end;
+
 } //----- Fin de saveFromCities
 
 void Catalogue::saveInterval ( ofstream & tripStream )
@@ -231,12 +229,12 @@ void Catalogue::saveInterval ( ofstream & tripStream )
 
     for ( ; ; )
     {
-        cout << endl << "From which trip NUMBER do you wish to save into the file?" << endl;
+        cout << endl << "From which trip NUMBER do you wish to save into the file ?" << endl;
         cin >> start;
 
         if ( start > tripList.GetSize() )
         {
-            cout << endl << "Please enter a number inferior or equal to " << tripList.GetSize() << endl;
+            cout << endl << "Please enter a number less than or equal to " << tripList.GetSize() << endl;
         }
         else break;
     }
@@ -254,6 +252,7 @@ void Catalogue::saveInterval ( ofstream & tripStream )
     }
 
     int currPos = 1;
+
     Node * iter = tripList.GetFirst();
 
     while ( iter != nullptr ) // Parses through tripList
@@ -261,13 +260,13 @@ void Catalogue::saveInterval ( ofstream & tripStream )
         // Saves all the trips in the desired interval
         if ( currPos >= start && currPos <= end )
         {
-            tripStream << index << ",";
+            tripStream << lastIndex << ",";
             iter->GetTrip()->SaveTripToFile(tripStream);
             if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
             {
                 tripStream << endl;
             }
-            index++;
+            lastIndex++;
         }
         iter = iter->GetNext();
         currPos++;
@@ -301,12 +300,15 @@ ofstream Catalogue::askNameFileSave ( )
             continue;
         }
 
-        nameFile = "../C++/TP3/" + nameFile + ".txt";
-        ifstream tripStreamTemp( nameFile.c_str() );
+        nameFile.insert(0,"../C++/TP3/");
+        nameFile.append(".txt");
+
+        ofstream tripStreamTemp( nameFile.c_str() );
 
         bool appendOk = false;
         streampos size; // useful if appending
         ifstream tempStream( nameFile ); // to check if file already exists
+
         while ( !appendOk )
         {
             // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
@@ -343,7 +345,7 @@ ofstream Catalogue::askNameFileSave ( )
                             break;
                         case 2:
                             tripStream.open( nameFile ); // default mode, overwriting
-                            index = 1;
+                            lastIndex = 1;
 
                             appendOk = true;
                             fileOk = true; // the file is now okay
@@ -387,8 +389,8 @@ ofstream Catalogue::askNameFileSave ( )
 void Catalogue::findLastIndex ( string const & nameFile )
 {
     ifstream stream( nameFile );
-    index = 1; // by default, the index of the first trip to be saved is 1
-    // if user decided to append to a file, need to get the index of the last trip in file
+    lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
+    // if user decided to append to a file, need to get the lastIndex of the last trip in file
     stream.seekg( 0, ios::end ); // move to end of file
 
     while ( stream.tellg() > 0 ) // while beginning of file isn't reached
@@ -398,7 +400,7 @@ void Catalogue::findLastIndex ( string const & nameFile )
 
         if ( isdigit(c) && c != '0')
         {
-            index = c - '0' + 1;
+            lastIndex = c - '0' + 1;
             stream.close();
             return;
         }
@@ -406,6 +408,6 @@ void Catalogue::findLastIndex ( string const & nameFile )
     if ( stream.tellg() == 0 ) // no digits found and beginning of file reached
     {
         stream.close();
-        return; // index will stay 1
+        return; // lastIndex will stay 1
     }
 } //----- Fin de findLastIndex

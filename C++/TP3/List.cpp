@@ -137,6 +137,7 @@ void List::FetchTrip ( char const * start, char const * end ) const
             found = true;
             cout << "\t-> ";
             current->Display();
+            cout << endl;
         }
         current = current->GetNext();
     }

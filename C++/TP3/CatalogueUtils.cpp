@@ -63,7 +63,7 @@ string * split ( string & str, char seperator )
             strings[ currIndex ] = subStr;
             currIndex += 1;
 
-            // Update the starting index
+            // Update the starting lastIndex
             startIndex = endIndex + 1;
         }
         i++;

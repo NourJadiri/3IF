@@ -13,6 +13,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <iostream>
+#include "Catalogue.h"
 
 //------------------------------------------------------------------------
 // Rôle de la classe <CatalogueUtils>

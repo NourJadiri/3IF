@@ -131,7 +131,7 @@ void Catalogue::importAll ( ifstream & tripStream )
         // Else we get the line, and split it with the ',' delimiter and store it in a string array
         string * data = split( trip, ',' );
 
-        // Store the index of the trip (useful)
+        // Store the lastIndex of the trip (useful)
         int tripIndex = stoi( data[0] );
 
         // If the trip is a simple trip (data[1] corresponds to the type of the trip), we import it as a simple trip
@@ -153,12 +153,16 @@ void Catalogue::importAll ( ifstream & tripStream )
 
 void Catalogue::importType ( ifstream & tripStream )
 {
-    int type;
-    for ( ; ; ) {
-        cout << endl << "Enter the NUMBER corresponding to the type of trip you want to import from the file:" << endl;
-        cout << "\t1: import SIMPLE trips only" << endl;
-        cout << "\t2: import COMPOSED trips only" << endl;
+    const int CANCEL = 3;
 
+    cout << "Please enter the type of trips you want to import from the file : " << endl;
+    cout << "\t1: import all Simple trips" << endl;
+    cout << "\t2: import all Composed trips" << endl;
+    cout << "\t3: cancel" << endl;
+
+    int type;
+
+    do {
         cin >> type;
 
         /// Commented code checks if the input is numeric (not asked in the specifications)
@@ -170,12 +174,12 @@ void Catalogue::importType ( ifstream & tripStream )
             continue;
         }*/
 
-        if ( type != 1 && type != 2 )
+        if((type != CANCEL && type != SIMPLE_TRIP && type != COMPOSED_TRIP))
         {
-            cout << endl << "Incorrect choice, please enter a number between 1 and 2!" << endl;
+            cout << endl << "Incorrect choice, please enter a number between 1, 2 or 3..." << endl;
         }
-        else break;
-    }
+
+    } while(!cin || (type != CANCEL && type != SIMPLE_TRIP && type != COMPOSED_TRIP));
 
     if ( type == SIMPLE_TRIP )
     {
@@ -184,6 +188,11 @@ void Catalogue::importType ( ifstream & tripStream )
     else if ( type == COMPOSED_TRIP )
     {
         importAllComposedTrips( tripStream );
+    }
+    else if ( type == CANCEL )
+    {
+        cout << "Cancelling..." << endl;
+        return;
     }
 } //----- Fin de importType
 
@@ -210,8 +219,10 @@ void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 } //----- Fin de importAllSimpleTrips
 
 void Catalogue::importAllComposedTrips ( ifstream & tripStream )
+
 {
     string trip;
+    int tripIndex;
 
     while ( tripStream.good() )
     {
@@ -221,7 +232,7 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
 
         string * data = split( trip, ',' );
 
-        int tripIndex = stoi( data[0] );
+        tripIndex = stoi(data[0]);
 
         if ( data[1] == "Composed" )
         {
@@ -233,41 +244,163 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
     tripStream.seekg(0);
 } //----- Fin de importAllComposedTrips
 
+void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
+{
+    string trip;
 
+    string departureCity;
+    cout << "Enter the city of departure you are looking for : ";
+    cin >> departureCity;
+
+    int count = 0;
+    int tripIndex;
+
+    while(tripStream.good())
+    {
+        getline(tripStream,trip);
+
+        if(trip.empty()) continue;
+
+        string * data = split(trip,',');
+
+        if( data[2] == departureCity && data[0] != "0")
+        {
+            count++;
+
+            if(data[1] == "Simple")
+            {
+                importSimpleTrip(this, tripStream, data, trip);
+            }
+            else if (data[1] == "Composed")
+            {
+                tripIndex = stoi(data[0]);
+                importComposedTrip(this, tripStream, data, trip, tripIndex);
+            }
+        }
+
+        delete [ ] data;
+
+    }
+
+    if(count == 0){
+        cout << "Sorry, no trips starting from " << departureCity << " are available..."<<endl;
+    } else{
+        cout << count << " trips starting from " << departureCity << " have been found !" << endl;
+    }
+}
+
+void Catalogue::importTripsToArrival ( ifstream & tripStream )
+{
+    string trip;
+
+    string arrivalCity;
+    cout << "Enter the city of arrival you are looking for : ";
+    cin >> arrivalCity;
+
+    int count = 0;
+    int tripIndex;
+
+    while(tripStream.good())
+    {
+        getline(tripStream,trip);
+
+        if(trip.empty()) continue;
+
+        string * data = split(trip,',');
+
+        if( data[3] == arrivalCity && data[0] != "0")
+        {
+            count++;
+
+            if(data[1] == "Simple")
+            {
+                importSimpleTrip(this, tripStream, data, trip);
+            }
+            else if (data[1] == "Composed")
+            {
+                tripIndex = stoi(data[0]);
+                importComposedTrip(this, tripStream, data, trip, tripIndex);
+            }
+        }
+
+    }
+
+    if(count == 0){
+        cout << "Sorry, no trips going to " << arrivalCity << " are available..."<<endl;
+    }else{
+        cout << count << " cities going to " << arrivalCity << " have been found !" << endl;
+    }
+}
+
+void Catalogue::importTripsFromTo( ifstream & tripStream )
+{
+    int count = 0;
+    int tripIndex;
+
+    string trip;
+    string departureCity , arrivalCity;
+
+    cout << "Enter the city of departure of the trip(s) you are looking for : ";
+    cin >> departureCity;
+    cout << "Enter the city of arrival of the trip(s) you are looking for : ";
+    cin >> arrivalCity;
+
+    while(tripStream.good())
+    {
+        getline(tripStream , trip);
+
+        if(trip.empty()) continue;
+
+        string *data = split(trip , ',');
+
+        if(data[0] != "0" && data[2] == departureCity && data[3] == arrivalCity)
+        {
+            count++;
+            tripIndex = stoi(data[0]);
+
+            if(data[1] == "Simple")
+            {
+                importSimpleTrip(this , tripStream , data , trip);
+            }
+            else if(data[1] == "Composed")
+            {
+                importComposedTrip(this , tripStream , data , trip , tripIndex);
+            }
+        }
+        delete[ ] data;
+    }
+}
 void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
 // XXXX
 {
     int choice;
-    char * start = new char [ 64 ];
-    char * end = new char [ 64 ];
+
+    string start , end;
+
     for ( ; ; )
     {
         cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: import trips leaving from a certain city" << endl;
         cout << "\t2: import trips arriving at a certain city" << endl;
         cout << "\t3: import trips both leaving and arriving to the cities you want" << endl;
+        cout << "\t4: go back to import menu" << endl;
 
         cin >> choice;
 
         switch ( choice )
         {
             case 1:
-                //TODO : import trips a partir d'une ville de depart
-                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
-                cin >> start;
+                importTripsFromDeparture( tripStream );
                 break;
             case 2:
-                //TODO : import trips a partir d'une ville d'arrivee
-                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
-                cin >> end;
+                importTripsToArrival( tripStream );
                 break;
             case 3:
-                //TODO : import trips a partir des deux villes de depart & arrivee
-                cout << endl << "Please enter the city of departure (no spaces!): " << endl;
-                cin >> start;
-                cout << endl << "Please enter the city of arrival (no spaces!): " << endl;
-                cin >> end;
+                importTripsFromTo( tripStream );
+                break;
+            case 4:
+                cout <<endl << "Going back to import menu..." << endl << endl;
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
@@ -276,8 +409,6 @@ void Catalogue::importCities ( ifstream & tripStream ) ///A FINIR
         }
         break;
     }
-    delete [ ] start;
-    delete [ ] end;
 } //----- Fin de importCities
 
 void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
@@ -316,7 +447,6 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 ifstream Catalogue::askNameFileImport ( ) const
 {
     string nameFile;
-    ifstream tripStream;
 
     bool fileOk = false; // to check if name of file respects the conditions and exists
 
@@ -330,30 +460,31 @@ ifstream Catalogue::askNameFileImport ( ) const
 
         if ( nameFile.empty() )
         {
-            cerr << "No input, going back to the menu..." << endl;
-            return tripStream;
+            cerr << "File name is empty, please enter a valid name..." << endl;
+            continue;
         }
-        if ( nameFile == "." || nameFile == ".." )
+        if ( nameFile.find('.') != string::npos)
         {
             cout << "This name of file is NOT valid..." << endl;
             continue;
         }
 
-        nameFile = "../C++/TP3/" + nameFile + ".txt";
-        tripStream.open( nameFile.c_str() );
+        nameFile.insert(0,"../C++/TP3/");
+        nameFile.append(".txt");
 
-        if ( !tripStream )
-        {
-            cerr << "Error opening the file, going back to the menu..." << endl;
-            return tripStream;
-        }
-        if ( !tripStream.good() )
-        {
-            cerr << "File " << nameFile << " does not exist... Try another file." << endl;
-            continue;
-        }
         fileOk = true;
     }
-    cout << endl << "Importing trips from " << nameFile << endl;
+
+    ifstream tripStream(nameFile.c_str());
+
+    if ( !tripStream )
+    {
+        cerr << "Error opening the file, going back to the menu..." << endl;
+    }
+    else
+    {
+        cout << endl << "Importing trips from " << nameFile << endl;
+    }
+
     return tripStream;
 } //----- Fin de askNameFileImport

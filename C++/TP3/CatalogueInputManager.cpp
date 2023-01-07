@@ -296,6 +296,7 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
 {
     string trip;
     string departureCity;
+
     cout << "Please enter the city of departure (no spaces!): " << endl;
     cin >> departureCity;
 
@@ -440,32 +441,54 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 {
     int start, end;
 
-    //findLastIndex( tripStream );
-    for ( ; ; )
-    {
-        cout << endl << "From which trip NUMBER do you wish to save into the file?" << endl;
+    int lastTripIndex = findLastIndex( tripStream ) - 1;
+
+    string trip , *data;
+
+    cout << "From which trip NUMBER you want to start the import ? " << endl;
+
+    do{
+
         cin >> start;
-
-        /*if ( start > //NB OF TRIPS IN FILE )
+        if( start > lastTripIndex )
         {
-            cout << endl << "Please enter a number inferior or equal to " << //NB OF TRIPS IN FILE << endl;
+            cout << "Starting index is bigger than the index of the last trip in your file (" << lastTripIndex << ")..." << endl;
         }
-        else break;*/
-        break; /// a virer
-    }
+    }while ( !cin || start > lastTripIndex );
 
-    for ( ; ; )
+    cout << "To which trip NUMBER you want to finish the import ? " << endl;
+
+    do {
+        cin >> end ;
+        if ( end > lastTripIndex )
+        {
+            cout << "Ending index is bigger than the index of the last trip in your file ( " << lastTripIndex << ")..." << endl;
+            continue;
+        }
+        if ( end < start )
+        {
+            cout << "Ending index is less than starting index (" << start << ")..." << endl;
+        }
+    }while ( !cin || end > lastTripIndex || end < start );
+
+    while( getline( tripStream , trip ) )
     {
-        cout << "Until which trip NUMBER?" << endl;
-        cin >> end;
+        data = split( trip, ',' );
 
-        /*if ( end > //NB OF TRIPS IN FILE )
+        if ( stoi(data[0] ) == start)
         {
-            cout << endl << "Please enter a number inferior or equal to " << //NB OF TRIPS IN FILE << endl;
+                if (data[1] == "Simple")
+                {
+                    importSimpleTrip(this, tripStream, data, trip);
+
+                } else if (data[1] == "Composed")
+                {
+                    importComposedTrip(this, tripStream, data, trip, start);
+                }
         }
-        else break;*/
-        break; /// a virer
     }
+
+
 
 } //----- Fin de importInterval
 

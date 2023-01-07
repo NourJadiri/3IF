@@ -375,11 +375,17 @@ ofstream Catalogue::askNameFileSave ( )
         cout << endl << "Enter the name of the file in which you want to save the trips (can be non-existent)." << endl;
         cout << "Names containing '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
+        cout << "Enter '...' to cancel and go back to the save menu" << endl;
 
-        //nameFile = ""; // reset the file name
         cin >> nameFile;
 
-        if ( nameFile.find('.') != string::npos )
+        if ( nameFile == "..." )
+        {
+            cout << endl << "Going back to save menu..." << endl;
+            return tripStream;
+        }
+
+        if (nameFile.find('.') != string::npos) // if there's at least one '.' in the input name
         {
             cout << endl << "This name of file is NOT valid..." << endl;
             continue;
@@ -402,32 +408,7 @@ ofstream Catalogue::askNameFileSave ( )
     return tripStream;
 } //----- Fin de askNameFileSave
 
-void Catalogue::appendOutput ( ifstream & tempStream, ofstream & tripStream, string & nameFile )
-{
-    lastIndex = findNextTripIndex( tempStream );
-    tempStream.close();
-
-    tripStream.open( nameFile.c_str(), ios_base::app ); // appending
-
-    // a new line after the last trip must be added if the file is not empty
-    tripStream.seekp( 0, ios_base::end );
-    // goes to end of file
-    long size;
-    size = tripStream.tellp(); // get current position = size of file
-
-    if ( size > 0 ) // file is not empty
-    {
-        tripStream << endl;
-    }
-    ///POUR CSV
-    else // add the first line in the .csv file
-    {
-        tripStream << "index,type,departure,arrival,transportation" << endl;
-    }
-}
-
-void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, string & nameFile, bool & fileOk )
-{
+void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, string & nameFile, bool & fileOk ) {
     bool appendOk = false;
 
     tempStream.open( nameFile.c_str() ); // input stream to check if file already exists
@@ -497,4 +478,28 @@ void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, stri
             fileOk = true;
         }
     }
-}
+} //----- Fin de openingMode
+
+void Catalogue::appendOutput ( ifstream & tempStream, ofstream & tripStream, string & nameFile )
+{
+    lastIndex = findNextTripIndex( tempStream );
+    tempStream.close();
+
+    tripStream.open( nameFile.c_str(), ios_base::app ); // appending
+
+    // a new line after the last trip must be added if the file is not empty
+    tripStream.seekp( 0, ios_base::end );
+    // goes to end of file
+    long size;
+    size = tripStream.tellp(); // get current position = size of file
+
+    if ( size > 0 ) // file is not empty
+    {
+        tripStream << endl;
+    }
+    ///POUR CSV
+    else // add the first line in the .csv file
+    {
+        tripStream << "index,type,departure,arrival,transportation" << endl;
+    }
+}  //----- Fin de appendOutput

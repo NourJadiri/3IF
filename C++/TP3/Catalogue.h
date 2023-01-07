@@ -13,8 +13,6 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "List.h"
-#include "CatalogueUtils.h"
-#include <string>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Catalogue>
@@ -94,7 +92,7 @@ protected:
     // Le nom du fichier doit etre correct (sans espace), et le fichier
     // doit exister et respecter le schema que l'on souhaite
 
-    void importAll ( std::ifstream & );
+    void importAll ( std::ifstream & tripStream );
     // Mode d'emploi :
     // La méthode sert à importer tous les trajets présents dans un fichier dans le catalogue courant
     // Elle effectue un parcours du fichier ligne par ligne, et en fonction du type de trajet
@@ -217,6 +215,14 @@ protected:
     // Mode d'emploi :
     //
     // Contrat :
+
+    void appendOutput ( std::ifstream & tempStream, std::ofstream & tripStream, string & nameFile );
+    // Mode d'emploi :
+    //
+    // Contrat :
+
+    void openingMode ( ifstream & tempStream, ofstream & tripStream, string & nameFile, bool & fileOk );
+
 
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );

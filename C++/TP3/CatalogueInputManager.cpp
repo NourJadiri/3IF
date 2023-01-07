@@ -12,13 +12,16 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
+#include <iostream>
 #include <fstream>
 //#include <limits>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
+#include "SimpleTrip.h"
 #include "ComposedTrip.h"
+#include "CatalogueUtils.h"
 
 //------------------------------------------------------------------ PRIVE
 
@@ -194,7 +197,7 @@ void Catalogue::importType ( ifstream & tripStream )
     }
     else if ( type == CANCEL )
     {
-        cout << "Going back to import menu..." << endl;
+        cout << endl << "Going back to import menu..." << endl;
         return;
     }
 } //----- Fin de importType
@@ -281,8 +284,8 @@ void Catalogue::importCities ( ifstream & tripStream )
                 importTripsFromTo( tripStream );
                 break;
             case 4:
-                cout <<endl << "Going back to import menu..." << endl << endl;
-                break;
+                cout << endl << "Going back to import menu..." << endl;
+                return;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
                 //sleep(1);
@@ -440,56 +443,66 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // XXXX
 {
     int start, end;
+    int lastTripIndex = findNextTripIndex( tripStream ) - 1;
+    // -1 because the method returns the index of next trip ; so last trip index + 1
 
-    int lastTripIndex = findLastIndex( tripStream ) - 1;
+    string trip, * data;
 
-    string trip , *data;
-
-    cout << "From which trip NUMBER you want to start the import ? " << endl;
-
-    do{
-
+    for ( ; ; )
+    {
+        cout << endl << "From which trip NUMBER do you wish to start the import? " << endl;
+        cout << "Enter 0 to go back to import menu" << endl;
         cin >> start;
-        if( start > lastTripIndex )
+        if ( start == 0 )
         {
-            cout << "Starting index is bigger than the index of the last trip in your file (" << lastTripIndex << ")..." << endl;
+            cout << endl << "Going back to import menu..." << endl;
+            return; // going back to import menu
         }
-    }while ( !cin || start > lastTripIndex );
 
-    cout << "To which trip NUMBER you want to finish the import ? " << endl;
+        if ( start > lastTripIndex )
+        {
+            cout << endl << "Starting index is bigger than the index of the last trip in your file (" << lastTripIndex << ")..." << endl;
+            cout << "Please enter a number less than or equal to " << lastTripIndex << endl;
+        }
+        else break;
+    }
 
-    do {
+    for ( ; ; )
+    {
+        cout << endl << "To which trip NUMBER do you wish to finish the import ? " << endl;
         cin >> end ;
-        if ( end > lastTripIndex )
-        {
-            cout << "Ending index is bigger than the index of the last trip in your file ( " << lastTripIndex << ")..." << endl;
-            continue;
-        }
         if ( end < start )
         {
-            cout << "Ending index is less than starting index (" << start << ")..." << endl;
+            cout << endl << "Ending index is less than starting index (" << start << ")..." << endl;
+            cout << "Please enter a number less than or equal to " << start << endl;
+            continue;
         }
-    }while ( !cin || end > lastTripIndex || end < start );
 
-    while( getline( tripStream , trip ) )
+        if ( end > lastTripIndex )
+        {
+            cout << endl << "Ending index is bigger than the index of the last trip in your file (" << lastTripIndex << ")..." << endl;
+            cout << "Please enter a number less than or equal to " << lastTripIndex << endl;
+        }
+        else break;
+    }
+
+    while ( getline( tripStream , trip ) )
     {
         data = split( trip, ',' );
 
-        if ( stoi(data[0] ) == start)
+        if ( stoi(data[0] ) == start )
         {
-                if (data[1] == "Simple")
-                {
-                    importSimpleTrip(this, tripStream, data, trip);
+            if ( data[1] == "Simple" )
+            {
+                importSimpleTrip( this, tripStream, data, trip );
 
-                } else if (data[1] == "Composed")
-                {
-                    importComposedTrip(this, tripStream, data, trip, start);
-                }
+            }
+            else if ( data[1] == "Composed" )
+            {
+                importComposedTrip( this, tripStream, data, trip, start );
+            }
         }
     }
-
-
-
 } //----- Fin de importInterval
 
 ifstream Catalogue::askNameFileImport ( ) const
@@ -500,30 +513,25 @@ ifstream Catalogue::askNameFileImport ( ) const
 
     while ( !fileOk )
     {
-        cout << endl << "Enter the name of the file containing the trips to import." << endl;
+        cout << endl << "Enter the name of the file containing the trips to import (file must exist)." << endl;
         cout << "Names such as '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add spaces or any special character!!" << endl;
 
         cin >> nameFile;
 
-        if ( nameFile.empty() )
+        if ( nameFile.find('.') != string::npos ) // if there's at least one '.' in the input name
         {
-            cerr << "File name is empty, please enter a valid name..." << endl;
-            continue;
-        }
-        if ( nameFile.find('.') != string::npos )
-        {
-            cout << "This name of file is NOT valid..." << endl;
+            cout << endl << "This name of file is NOT valid..." << endl;
             continue;
         }
 
-        nameFile.insert(0,"../C++/TP3/");
-        nameFile.append(".txt");
+        nameFile.insert( 0,"../C++/TP3/" );
+        nameFile.append( ".txt" );
 
         fileOk = true;
     }
 
-    ifstream tripStream(nameFile.c_str());
+    ifstream tripStream( nameFile.c_str() );
 
     if ( !tripStream )
     {

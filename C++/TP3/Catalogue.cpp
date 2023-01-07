@@ -18,8 +18,8 @@
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-#include "ComposedTrip.h"
 #include "Catalogue.h"
+#include "ComposedTrip.h"
 #include "SimpleTrip.h"
 
 //----------------------------------------------------------------- PUBLIC
@@ -216,13 +216,13 @@ void Catalogue::add ( )
         }
         while ( keepAdding );
 
-        tripList.AddTripSorted(newCTrip );
+        tripList.AddTripSorted( newCTrip );
 
         delete [ ] addNewStep;
     }
     else
     {
-        tripList.AddTripSorted(newSTrip );
+        tripList.AddTripSorted( newSTrip );
         delete newCTrip;
     }
 

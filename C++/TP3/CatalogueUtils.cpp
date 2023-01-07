@@ -10,7 +10,8 @@
 //---------- Fichier source <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
-
+#include <iostream>
+#include <fstream>
 using namespace std;
 //-------------------------------------------------------- Include système
 
@@ -71,45 +72,51 @@ string * split ( string & str, char seperator )
     return strings;
 } //----- Fin de split
 
-int findLastIndex( ifstream & tripStream )
+int findNextTripIndex ( ifstream & tripStream )
 {
-    int index;
+    int lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
 
-    tripStream.seekg(0,ios::end);
-
-    if(!tripStream)
+    // if user decided to append to a file, need to get the lastIndex of the last trip in file
+    tripStream.seekg( 0, ios::end ); // move to end of file
+    if ( tripStream.tellg() == 0 ) // if file is empty
     {
-        //cout << "File does not exist..." << endl;
-        return -1;
+        tripStream.close();
+        return lastIndex; // lastIndex will stay 1
     }
 
-    if(tripStream.tellg() == 0)
+    long pos;
+    pos = tripStream.tellg();
+    pos--;
+
+    for ( ; ; ) // useful if composed trip as the last trip, to move up in the file until the last number ≠ 0
     {
-        return 1;
+        // 1st iteration: go to end of last line
+        tripStream.seekg( pos-- );
+
+        // 1st iteration: move position back to char just before last line
+        char c;
+        do
+        {
+            tripStream.seekg( pos-- );
+            c = tripStream.peek();
+        }
+        while ( pos > 0 && c != '\n' );
+
+        // 1st iteration: go back +1 char to get to beginning of last line (digit)
+        tripStream.seekg( 1, ios_base::cur );
+
+        string trip, * data;
+
+        // get the line to extract the number of the trip
+        getline( tripStream, trip );
+        data = split( trip, ',' );
+        if ( !trip.empty() && data[0] != "0" ) // if it's not a composed trip -> digit 0
+        {
+            lastIndex = stoi( data[0] );
+            delete [ ] data;
+            tripStream.close();
+
+            return lastIndex + 1; // index of next trip to be saved (index of last trip in file +1)
+        }
     }
-
-    tripStream.seekg(0,ios::beg);
-
-    string trip;
-    string * data;
-
-    while(getline(tripStream,trip))
-    {
-        data = split(trip,',');
-
-        if(!trip.empty() && data[0] != "0") index = stoi(data[0]);
-
-    }
-
-    delete[] data;
-
-
-
-
-    return index + 1;
-}
-
-bool isEmpty ( ifstream & tripStream )
-{
-    return tripStream.peek() == std::ifstream::traits_type::eof();
-}
+}  //----- Fin de findNextTripIndex

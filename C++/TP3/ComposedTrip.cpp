@@ -13,6 +13,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -42,7 +43,7 @@ void ComposedTrip::AddSimpleTrip ( SimpleTrip const * newSTrip )
 // end correspond à la toute derniere ville d'arrivee du ComposedTrip,
 // donc à la ville d'arrivée du dernier SimpleTrip ajouté au ComposedTrip
 {
-    trips.AddTrip (newSTrip );
+    trips.AddTrip ( newSTrip );
     strcpy( start, trips.GetFirst()->GetTrip()->GetStart() );
     strcpy( end, newSTrip->GetEnd() );
 } //----- Fin de AddSimpleTrip

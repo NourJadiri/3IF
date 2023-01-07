@@ -13,7 +13,6 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trip.h"
-#include <cstring>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <SimpleTrip>

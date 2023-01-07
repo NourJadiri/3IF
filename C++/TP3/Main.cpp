@@ -30,8 +30,8 @@ static void test ( )
 {
     Catalogue c;
     c.Launch ( );
-/*    ifstream stream("../C++/TP3/myT.txt");
-    cout << findLastIndex(stream) << endl;*/
+    /*ifstream stream("../C++/TP3/myTTT.txt");
+    cout << findNextTripIndex(stream) << endl;*/
 /*    ComposedTrip * ct = new ComposedTrip();
 
     SimpleTrip *st1 = new SimpleTrip("aaa","bbb","ccc");

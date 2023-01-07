@@ -12,9 +12,6 @@
 #define TRIP_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include <iostream>
-#include <cstring>
-#include <fstream>
 #include <string>
 
 //------------------------------------------------------------------ Types

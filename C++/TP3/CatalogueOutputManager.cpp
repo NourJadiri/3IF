@@ -12,11 +12,13 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
+#include <iostream>
 #include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
+#include "CatalogueUtils.h"
 
 //------------------------------------------------------------------ PRIVE
 
@@ -123,7 +125,7 @@ void Catalogue::saveType ( ofstream & tripStream )
 
     if ( choice == 3 )
     {
-        cout << "Going back to save menu..." << endl;
+        cout << endl << "Going back to save menu..." << endl;
         return; // going back to save menu
     }
 
@@ -171,7 +173,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
                 saveTripsFromTo( tripStream );
                 break;
             case 4:
-                cout << "Going back to save menu..." << endl;
+                cout << endl << "Going back to save menu..." << endl;
                 return;  // going back to save menu
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 4!" << endl;
@@ -296,6 +298,7 @@ void Catalogue::saveInterval ( ofstream & tripStream )
 // XXX
 {
     int start, end;
+    int size = tripList.GetSize();
 
     for ( ; ; )
     {
@@ -305,25 +308,34 @@ void Catalogue::saveInterval ( ofstream & tripStream )
 
         if ( start == 0 )
         {
-            cout << "Going back to save menu..." << endl;
+            cout << endl << "Going back to save menu..." << endl;
             return;  // going back to save menu
         }
 
-        if ( start > tripList.GetSize() )
+        if ( start > size )
         {
-            cout << endl << "Please enter a number less than or equal to " << tripList.GetSize() << endl;
+            cout << endl << "Starting index is bigger than the number of trips (" << size << ")..." << endl;
+            cout << "Please enter a number less than or equal to " << size << endl;
         }
         else break;
     }
 
     for ( ; ; )
     {
-        cout << "Until which trip NUMBER?" << endl;
+        cout << endl << "To which trip NUMBER do you wish to finish the saving?" << endl;
         cin >> end;
 
-        if ( end > tripList.GetSize() )
+        if ( end < start )
         {
-            cout << endl << "Please enter a number inferior or equal to " << tripList.GetSize() << endl;
+            cout << endl << "Ending index is less than starting index (" << start << ")..." << endl;
+            cout << "Please enter a number less than or equal to " << start << endl;
+            continue;
+        }
+
+        if ( end > size )
+        {
+            cout << endl << "Ending index is bigger than the number of trips (" << size << ")..." << endl;
+            cout << "Please enter a number less than or equal to " << size << endl;
         }
         else break;
     }
@@ -360,96 +372,23 @@ ofstream Catalogue::askNameFileSave ( )
 
     while ( !fileOk )
     {
-        cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
+        cout << endl << "Enter the name of the file in which you want to save the trips (can be non-existent)." << endl;
         cout << "Names such as '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
 
         //nameFile = ""; // reset the file name
         cin >> nameFile;
 
-        if ( nameFile.find('.') != string::npos  )
+        if (nameFile.find('.') != string::npos) // if there's at least one '.' in the input name
         {
-            cout << "This name of file is NOT valid..." << endl;
+            cout << endl << "This name of file is NOT valid..." << endl;
             continue;
-
         }
 
-        nameFile.insert(0,"../C++/TP3/");
-        nameFile.append(".txt");
+        nameFile.insert( 0, "../C++/TP3/" );
+        nameFile.append( ".txt" );
 
-        bool appendOk = false;
-        streampos size; // useful if appending
-
-        tempStream.open( nameFile.c_str() ); // to check if file already exists
-
-        while ( !appendOk )
-        {
-            // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
-            if ( tempStream.good() )
-            {
-                int mode;
-                for ( ; ; )
-                {
-                    cout << endl << "File " << nameFile << " already exists." << endl;
-                    cout << endl << "Enter the number corresponding to the option about the management of the file:" << endl;
-                    cout << "\t1. Append to it" << endl;
-                    cout << "\t2. Overwrite it" << endl;
-                    cout << "\t3. Cancel the operation and choose another file (it can be non-existent)" << endl;
-
-                    cin >> mode;
-
-                    switch ( mode )
-                    {
-                        case 1:
-                            lastIndex = findLastIndex( tempStream );
-                            tempStream.close();
-
-                            tripStream.open( nameFile.c_str(), ios_base::app ); // appending
-
-                            // a new line after the last trip must be added if the file is not empty
-                            tripStream.seekp( 0, ios::end );
-                            // goes to end of file
-                            size = tripStream.tellp(); // get current position = size of file
-
-                            if ( size > 0 ) // file is not empty
-                            {
-                                tripStream << endl;
-                            }
-
-                            appendOk = true;
-                            fileOk = true; // the file is now okay
-                            break;
-                        case 2:
-                            tempStream.close();
-
-                            tripStream.open( nameFile.c_str() ); // default mode, overwriting
-                            lastIndex = 1;
-
-                            appendOk = true;
-                            fileOk = true; // the file is now okay
-                            break;
-                        case 3:
-                            tempStream.close();
-                            cout << "Operation cancelled, choose another file..." << endl;
-                            appendOk = true;
-                            // the file is still not okay so goes through the first while loop once again
-                            break;
-                        default:
-                            cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
-                            //sleep(1);
-                            continue; // go back to options
-                    }
-                    break; // getting out of the for loop if went through case 1 2 or 3
-                }
-            }
-            else // else the file does not exist, hence the mode is the default one
-            {
-                tempStream.close();
-                tripStream.open( nameFile.c_str() );
-                appendOk = true;
-                fileOk = true;
-            }
-        }
+        openingMode( tempStream, tripStream, nameFile, fileOk );
     }
 
     if ( !tripStream.good() )
@@ -463,3 +402,87 @@ ofstream Catalogue::askNameFileSave ( )
         return tripStream;
     }
 } //----- Fin de askNameFileSave
+
+void Catalogue::appendOutput ( ifstream & tempStream, ofstream & tripStream, string & nameFile )
+{
+    lastIndex = findNextTripIndex( tempStream );
+    tempStream.close();
+
+    tripStream.open( nameFile.c_str(), ios_base::app ); // appending
+
+    // a new line after the last trip must be added if the file is not empty
+    tripStream.seekp( 0, ios_base::end );
+    // goes to end of file
+    long size;
+    size = tripStream.tellp(); // get current position = size of file
+
+    if ( size > 0 ) // file is not empty
+    {
+        tripStream << endl;
+    }
+}
+
+void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, string & nameFile, bool & fileOk )
+{
+    bool appendOk = false;
+
+    tempStream.open( nameFile.c_str() ); // input stream to check if file already exists
+
+    // this loop is to check with the user the opening mode of the stream
+    while ( !appendOk )
+    {
+        // if file already exists, ask the user if they want to append to it, overwrite it, or cancel
+        if ( tempStream.good() )
+        {
+            int mode;
+            for ( ; ; )
+            {
+                cout << endl << "File " << nameFile << " already exists." << endl;
+                cout << endl << "Enter the number corresponding to the option about the management of the file:" << endl;
+                cout << "\t1. Append to it" << endl;
+                cout << "\t2. Overwrite it" << endl;
+                cout << "\t3. Cancel the operation and choose another file (it can be a non-existent one)" << endl;
+
+                cin >> mode;
+
+                switch ( mode )
+                {
+                    case 1:
+                        appendOutput( tempStream, tripStream, nameFile );
+
+                        appendOk = true;
+                        fileOk = true; // the file is now okay
+                        break;
+                    case 2:
+                        tempStream.close();
+
+                        tripStream.open( nameFile.c_str() ); // default mode, overwriting
+                        lastIndex = 1;
+
+                        appendOk = true;
+                        fileOk = true; // the file is now okay
+                        break;
+                    case 3:
+                        tempStream.close();
+                        cout << "Operation cancelled, choose another file..." << endl;
+                        appendOk = true;
+                        // the file is still not okay so goes through the first while loop once again
+                        break;
+                    default:
+                        cout << endl << "Incorrect choice, please enter a number between 1 and 3!" << endl;
+                        //sleep(1);
+                        continue; // go back to options
+                }
+                break; // getting out of the for loop if went through case 1 2 or 3
+            }
+        }
+        else // else the file does not exist, hence the mode is the default one
+        {
+            lastIndex = 1;
+            tempStream.close();
+            tripStream.open( nameFile.c_str() );
+            appendOk = true;
+            fileOk = true;
+        }
+    }
+}

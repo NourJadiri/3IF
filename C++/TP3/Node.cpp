@@ -10,11 +10,10 @@
 //---------- Réalisation de la classe <Node> (fichier Node.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Node.h"
-#include "Trip.h"
-using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 

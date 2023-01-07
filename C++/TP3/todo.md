@@ -14,17 +14,14 @@
 
 ### Save cette merde dans le catalogue 
 
-# Trucs cools à avoir à coté
+### faire qqch avec le catalogueUtils, genre le ratacher à Catalogue ou smtg
 
-### Rajouter une option "Cancel choice" dans le menu
-Pour que l'utilisateur n'ait pas à fermer le programme s'il change d'avis
+### makefile : est ce qu'il faut aussi rajouter les .h CatalogueIN/OUTput....???
+## makefile : dependance des fichiers
+
+# Trucs cools à avoir à coté
 
 ### Pour importInterval, vérifier avant toute chose que l'intervalle est valide
 Genre vérifier que si l'utilisateur rentre [5,7], il y a bien au moins 7 trips available
 (check ce que j'ai fait pour saveInterval, ptet meme redemander le premier indice s'il
 dépasse déjà le nombre de trips available)
-
-
-
-# marie
-### refactor asknamefilesave & redonner nom findlastindex + update avec chatGPT

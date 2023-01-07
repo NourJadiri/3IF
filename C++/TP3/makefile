@@ -1,18 +1,23 @@
 # makefile plus ou moins générique
+
+# outils
 ECHO = @echo
 RM = @rm
-RMFLAGS = rm -f
 
 CXX = g++
 LD = g++
+
+# options
 CXXFLAGS = -g -DMAP -Wall -ansi -pedantic -std=c++11
 LDFLAGS = -g -Wall -pedantic -std=c++11
+RMFLAGS = rm -f
 
+# definition des cibles
 INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h
 REALISATION = $(INTERFACE:.h=.cpp)
 OBJETS = $(INTERFACE:.h=.o)
-FICHIERSTXT = $(wildcard *.txt)
 EXE = trajets
+FICHIERSTXT = $(wildcard *.txt)
 EFFACE = clean
 
 # edition des liens
@@ -27,3 +32,16 @@ $(EXE) : $(OBJETS)
 
 $(EFFACE) :
 	$(RM) $(RMFLAGS) $(EXE) $(OBJETS) $(FICHIERSTXT)
+
+
+# dependance des fichiers
+Main.o : Main.h Catalogue.h
+Catalogue.o : Catalogue.h SimpleTrip.h ComposedTrip.h CatalogueInputManager.h CatalogueOutputManager.h CatalogueUtils.h List.h
+CatalogueInputManager.o : Catalogue.h ComposedTrip.h CatalogueUtils.h
+CatalogueOutputManager.o : Catalogue.h List.h CatalogueUtils.h
+CatalogueUtils.o : CatalogueUtils.h ## ca jsp s'il le faut
+ComposedTrip.o : ComposedTrip.h List.h Trip.h
+List.o : List.h Node.h
+Node.o : Node.h Trip.h
+SimpleTrip.o : SimpleTrip.h Trip.h
+Trip.o : Trip.h SimpleTrip.h ComposedTrip.h

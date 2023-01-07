@@ -519,8 +519,15 @@ ifstream Catalogue::askNameFileImport ( ) const
         cout << endl << "Enter the name of the file containing the trips to import (file must exist)." << endl;
         cout << "Names containing '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add spaces or any special character!!" << endl;
+        cout << "Enter '...' to cancel and go back to the import menu" << endl;
 
         cin >> nameFile;
+
+        if ( nameFile == "..." )
+        {
+            cout << endl << "Going back to import menu..." << endl;
+            return tripStream;
+        }
 
         if ( nameFile.find('.') != string::npos ) // if there's at least one '.' in the input name
         {
@@ -540,6 +547,23 @@ ifstream Catalogue::askNameFileImport ( ) const
             continue;
         }
 
+        // to check if file is empty
+        tripStream.seekg( 0, ios_base::end );
+        // goes to end of file
+        long size;
+        size = tripStream.tellg(); // get current position = size of file
+
+        if ( size == 0 ) // file is empty
+        {
+            cout << endl << "File " << nameFile << " is empty." << endl;
+            cout << "Please choose a non-empty (and existing) file." << endl;
+            continue;
+        }
+        else
+        {
+            tripStream.clear();
+            tripStream.seekg(0);
+        }
         fileOk = true;
     }
 

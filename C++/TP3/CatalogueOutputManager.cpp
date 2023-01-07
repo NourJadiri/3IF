@@ -367,7 +367,7 @@ ofstream Catalogue::askNameFileSave ( )
         //nameFile = ""; // reset the file name
         cin >> nameFile;
 
-        if ( nameFile.find('.') != string::npos )
+        if ( nameFile.find('.') != string::npos  )
         {
             cout << "This name of file is NOT valid..." << endl;
             continue;

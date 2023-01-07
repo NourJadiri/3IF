@@ -12,6 +12,7 @@
 //---------------------------------------------------------------- INCLUDE
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 //-------------------------------------------------------- Include système
 
@@ -42,7 +43,7 @@ string * split ( string & str, char seperator )
 //
 {
     // Creating the string array that will hold our strings after splitting
-    // hard coded 5 as a value because our format gives exactly 5 splitted strings (optimization)
+    // hard coded 5 as a value because our format gives exactly 5 split strings (optimization)
     // the possibility to use a more generic separation can be considered by using :
     // string * strings = new string[countSparators(str,',') + 1]
     string * strings = new string [ 5 ];
@@ -103,7 +104,15 @@ int findNextTripIndex ( ifstream & tripStream )
         while ( pos > 0 && c != '\n' );
 
         // 1st iteration: go back +1 char to get to beginning of last line (digit)
-        tripStream.seekg( 1, ios_base::cur );
+        if ( pos > 0 )
+        {
+            tripStream.seekg( 1, ios_base::cur );
+        }
+        // else the position is the beginning of the file hence the digit is the first character
+        else
+        {
+            tripStream.seekg(0, ios_base::beg);
+        }
 
         string trip, * data;
 

@@ -373,7 +373,7 @@ ofstream Catalogue::askNameFileSave ( )
     while ( !fileOk )
     {
         cout << endl << "Enter the name of the file in which you want to save the trips (can be non-existent)." << endl;
-        cout << "Names such as '.' or '..' are NOT valid!" << endl;
+        cout << "Names containing '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
 
         //nameFile = ""; // reset the file name
@@ -394,13 +394,12 @@ ofstream Catalogue::askNameFileSave ( )
     if ( !tripStream.good() )
     {
         cerr << "Error opening the file, going back to the menu..." << endl;
-        return tripStream; // going back to menu
     }
     else
     {
         cout << endl << "Saving files into file " << nameFile << endl;
-        return tripStream;
     }
+    return tripStream;
 } //----- Fin de askNameFileSave
 
 void Catalogue::appendOutput ( ifstream & tempStream, ofstream & tripStream, string & nameFile )
@@ -478,9 +477,11 @@ void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, stri
         }
         else // else the file does not exist, hence the mode is the default one
         {
-            lastIndex = 1;
             tempStream.close();
+
             tripStream.open( nameFile.c_str() );
+            lastIndex = 1;
+
             appendOk = true;
             fileOk = true;
         }

@@ -16,7 +16,7 @@
 
 //------------------------------------------------------------------ Types
 enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };
-const std::string tripTypes [ 3 ] = { "Virtual" , "Simple" , "Composed" };
+const std::string tripTypes [ 3 ] = { "V" , "S" , "C" };
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Trip>

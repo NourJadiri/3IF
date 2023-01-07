@@ -33,9 +33,9 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
 
     while ( getline( tripStream, trip ) && !trip.empty() )
     {
-        data = split( trip , ',' );
+        data = split( trip, ',' );
 
-        if ( data[0] != "0" )
+        if ( data[0] != "0" ) // corresponds to the label of the composedTrip and not the simpleTrips composing it
         {
             break;
         }
@@ -143,12 +143,12 @@ void Catalogue::importAll ( ifstream & tripStream )
         int tripIndex = stoi( data[0] );
 
         // If the trip is a simple trip (data[1] corresponds to the type of the trip), we import it as a simple trip
-        if ( data[1] == "Simple" && data[0] != "0" )
+        if ( data[1] == "S" && data[0] != "0" )
         {
             importSimpleTrip( this, tripStream, data, trip );
         }
         // Else if the trip is a composed trip, we import it as such
-        else if ( data[1] == "Composed" )
+        else if ( data[1] == "C" )
         {
             importComposedTrip( this, tripStream, data, trip, tripIndex );
         }
@@ -167,7 +167,8 @@ void Catalogue::importType ( ifstream & tripStream )
     cout << "\t3: go back to import menu" << endl;
 
     int type;
-    do {
+    do
+    {
         cin >> type;
 
         /// Commented code checks if the input is numeric (not asked in the specifications)
@@ -217,7 +218,7 @@ void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 
         string * data = split( trip, ',' );
 
-        if ( data[1] == "Simple" && data[0] != "0" )
+        if ( data[1] == "S" && data[0] != "0" )
         {
             importSimpleTrip( this, tripStream, data, trip );
         }
@@ -244,7 +245,7 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
         string * data = split( trip, ',' );
 
         tripIndex = stoi( data[0] );
-        if ( data[1] == "Composed" )
+        if ( data[1] == "C" )
         {
             importComposedTrip( this, tripStream, data, trip, tripIndex );
         }
@@ -319,11 +320,11 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
         if ( data[2] == departureCity && data[0] != "0" )
         {
             count++;
-            if ( data[1] == "Simple" )
+            if ( data[1] == "S" )
             {
                 importSimpleTrip( this, tripStream, data, trip );
             }
-            else if ( data[1] == "Composed" )
+            else if ( data[1] == "C" )
             {
                 tripIndex = stoi( data[0] );
                 importComposedTrip( this, tripStream, data, trip, tripIndex );
@@ -365,11 +366,11 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
         if ( data[3] == arrivalCity && data[0] != "0" )
         {
             count++;
-            if ( data[1] == "Simple" )
+            if ( data[1] == "S" )
             {
                 importSimpleTrip( this, tripStream, data, trip );
             }
-            else if ( data[1] == "Composed" )
+            else if ( data[1] == "C" )
             {
                 tripIndex = stoi( data[0] );
                 importComposedTrip( this, tripStream, data, trip, tripIndex );
@@ -415,11 +416,11 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
             count++;
             tripIndex = stoi( data[0] );
 
-            if ( data[1] == "Simple" )
+            if ( data[1] == "S" )
             {
                 importSimpleTrip( this, tripStream, data, trip );
             }
-            else if ( data[1] == "Composed" )
+            else if ( data[1] == "C" )
             {
                 importComposedTrip( this, tripStream, data, trip, tripIndex );
             }
@@ -492,12 +493,12 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
         if ( stoi(data[0] ) == start )
         {
-            if ( data[1] == "Simple" )
+            if ( data[1] == "S" )
             {
                 importSimpleTrip( this, tripStream, data, trip );
 
             }
-            else if ( data[1] == "Composed" )
+            else if ( data[1] == "C" )
             {
                 importComposedTrip( this, tripStream, data, trip, start );
             }
@@ -508,13 +509,14 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 ifstream Catalogue::askNameFileImport ( ) const
 {
     string nameFile;
+    ifstream tripStream;
 
     bool fileOk = false; // to check if name of file respects the conditions and exists
 
     while ( !fileOk )
     {
         cout << endl << "Enter the name of the file containing the trips to import (file must exist)." << endl;
-        cout << "Names such as '.' or '..' are NOT valid!" << endl;
+        cout << "Names containing '.' or '..' are NOT valid!" << endl;
         cout << "Please, do NOT add the extension of the file, nor add spaces or any special character!!" << endl;
 
         cin >> nameFile;
@@ -528,10 +530,17 @@ ifstream Catalogue::askNameFileImport ( ) const
         nameFile.insert( 0,"../C++/TP3/" );
         nameFile.append( ".txt" );
 
+        tripStream.open( nameFile.c_str() );
+
+        if ( !tripStream.good() )
+        {
+            cout << endl << "File " << nameFile << " doesn't exist." << endl;
+            cout << "Please choose a file already existing." << endl;
+            continue;
+        }
+
         fileOk = true;
     }
-
-    ifstream tripStream( nameFile.c_str() );
 
     if ( !tripStream )
     {
@@ -541,6 +550,5 @@ ifstream Catalogue::askNameFileImport ( ) const
     {
         cout << endl << "Importing trips from " << nameFile << endl;
     }
-
     return tripStream;
 } //----- Fin de askNameFileImport

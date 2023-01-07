@@ -35,7 +35,7 @@ void Catalogue::save ( )
 
     ofstream tripStream( askNameFileSave() );
 
-    if ( !tripStream.good() )
+    if ( !tripStream.is_open() )
     {
         return; // going back to menu
     }
@@ -154,7 +154,7 @@ void Catalogue::saveCities ( ofstream & tripStream )
 
     for ( ; ; )
     {
-        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
+        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
         cout << "\t1: save trips leaving from a certain city" << endl;
         cout << "\t2: save trips arriving at a certain city" << endl;
         cout << "\t3: save trips both leaving and arriving to the cities you want" << endl;
@@ -381,7 +381,7 @@ ofstream Catalogue::askNameFileSave ( )
 
         if ( nameFile == "..." )
         {
-            cout << endl << "Going back to save menu..." << endl;
+            cout << endl << "Going back to main menu..." << endl;
             return tripStream;
         }
 

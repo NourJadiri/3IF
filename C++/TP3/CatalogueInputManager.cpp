@@ -85,14 +85,8 @@ void Catalogue::import ( )
 // Appending XXXXXX
 {
     ifstream tripStream( askNameFileImport() );
-    if ( !tripStream )
+    if ( !tripStream.is_open() )
     {
-        return; // going back to menu
-    }
-
-    if ( tripStream.peek() == EOF )
-    {
-        cout << endl << "File is empty... Nothing to add to the Catalogue :(" << endl;
         return; // going back to menu
     }
 
@@ -487,9 +481,9 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
     interval = end - start;
 
-    while ( getline( tripStream , trip ) )
+    while ( getline( tripStream, trip ) )
     {
-        if( trip.empty() )
+        if ( trip.empty() )
         {
             continue;
         }
@@ -498,7 +492,7 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
         if ( stoi(data[0] ) == start )
         {
-            cout << "importing " << trip << endl;
+            //cout << "importing " << trip << endl;
             importTrip( this, tripStream, data, trip, tripIndex );
             interval--;
 
@@ -510,18 +504,21 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
     {
         getline( tripStream , trip );
 
-        if( trip.empty() ) continue;
+        if ( trip.empty() )
+        {
+            continue;
+        }
 
-        data = split( trip , ',');
+        data = split( trip, ',');
 
-        tripIndex = stoi(data[0]);
+        tripIndex = stoi( data[0] );
 
         importTrip( this, tripStream, data, trip, tripIndex );
 
         interval--;
     }
 
-    delete [] data;
+    delete [ ] data;
 } //----- Fin de importInterval
 
 ifstream Catalogue::askNameFileImport ( ) const
@@ -542,7 +539,7 @@ ifstream Catalogue::askNameFileImport ( ) const
 
         if ( nameFile == "..." )
         {
-            cout << endl << "Going back to import menu..." << endl;
+            cout << endl << "Going back to main menu..." << endl;
             return tripStream;
         }
 

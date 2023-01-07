@@ -13,6 +13,8 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <string>
+#include <fstream>
+#include <cstring>
 
 //------------------------------------------------------------------ Types
 enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };

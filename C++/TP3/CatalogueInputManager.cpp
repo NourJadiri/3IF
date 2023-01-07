@@ -55,12 +55,29 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
     }
 } //----- Fin de importComposedTrip
 
-void importSimpleTrip ( Catalogue * c, ifstream & tripStream, std::string * data, string & trip )
+void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip )
 // Generic method that allows to import a single simpleTrip into a catalogue C
 {
     c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
                                                data[3].c_str(), data[4].c_str() ) );
 } //----- Fin de importSimpleTrip
+
+void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string & trip , int tripIndex )
+{
+    if ( data[1] == "S" )
+    {
+        importSimpleTrip( c, tripStream, data, trip );
+    }
+    else if ( data[1] == "C")
+    {
+        importComposedTrip( c, tripStream, data, trip, tripIndex );
+    }
+    else
+    {
+        cout << "Trip type is not valid. Aborting...";
+        return;
+    }
+}
 
 //----------------------------------------------------- Méthodes protégées
 void Catalogue::import ( )
@@ -142,16 +159,8 @@ void Catalogue::importAll ( ifstream & tripStream )
         // Store the lastIndex of the trip (useful)
         int tripIndex = stoi( data[0] );
 
-        // If the trip is a simple trip (data[1] corresponds to the type of the trip), we import it as a simple trip
-        if ( data[1] == "S" && data[0] != "0" )
-        {
-            importSimpleTrip( this, tripStream, data, trip );
-        }
-        // Else if the trip is a composed trip, we import it as such
-        else if ( data[1] == "C" )
-        {
-            importComposedTrip( this, tripStream, data, trip, tripIndex );
-        }
+        importTrip(this, tripStream, data, trip, tripIndex );
+
         delete [ ] data;
     }
     tripStream.clear();
@@ -320,15 +329,10 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
         if ( data[2] == departureCity && data[0] != "0" )
         {
             count++;
-            if ( data[1] == "S" )
-            {
-                importSimpleTrip( this, tripStream, data, trip );
-            }
-            else if ( data[1] == "C" )
-            {
-                tripIndex = stoi( data[0] );
-                importComposedTrip( this, tripStream, data, trip, tripIndex );
-            }
+
+            tripIndex = stoi( data[0] );
+
+            importTrip( this, tripStream, data, trip, tripIndex );
         }
         delete [ ] data;
     }
@@ -366,15 +370,10 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
         if ( data[3] == arrivalCity && data[0] != "0" )
         {
             count++;
-            if ( data[1] == "S" )
-            {
-                importSimpleTrip( this, tripStream, data, trip );
-            }
-            else if ( data[1] == "C" )
-            {
-                tripIndex = stoi( data[0] );
-                importComposedTrip( this, tripStream, data, trip, tripIndex );
-            }
+
+            tripIndex = stoi( data[0] );
+
+            importTrip( this, tripStream, data, trip, tripIndex );
         }
     }
     if ( count == 0 )
@@ -416,14 +415,7 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
             count++;
             tripIndex = stoi( data[0] );
 
-            if ( data[1] == "S" )
-            {
-                importSimpleTrip( this, tripStream, data, trip );
-            }
-            else if ( data[1] == "C" )
-            {
-                importComposedTrip( this, tripStream, data, trip, tripIndex );
-            }
+            importTrip( this, tripStream, data, trip, tripIndex );
         }
         delete [ ] data;
     }
@@ -443,7 +435,7 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
 // XXXX
 {
-    int start, end;
+    int start, end, interval, tripIndex;
     int lastTripIndex = findNextTripIndex( tripStream ) - 1;
     // -1 because the method returns the index of next trip ; so last trip index + 1
 
@@ -467,6 +459,7 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
         }
         else break;
     }
+    tripIndex = start;
 
     for ( ; ; )
     {
@@ -487,23 +480,31 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
         else break;
     }
 
+    interval = end - start;
+
     while ( getline( tripStream , trip ) )
     {
         data = split( trip, ',' );
 
         if ( stoi(data[0] ) == start )
         {
-            if ( data[1] == "S" )
-            {
-                importSimpleTrip( this, tripStream, data, trip );
-
-            }
-            else if ( data[1] == "C" )
-            {
-                importComposedTrip( this, tripStream, data, trip, start );
-            }
+            importTrip( this, tripStream, data, trip, tripIndex );
         }
     }
+
+    while ( interval >= 0 )
+    {
+        getline( tripStream , trip );
+        data = split( trip , ',');
+
+        tripIndex = stoi(data[0]);
+
+        importTrip( this, tripStream, data, trip, tripIndex );
+
+        interval--;
+    }
+
+    delete [] data;
 } //----- Fin de importInterval
 
 ifstream Catalogue::askNameFileImport ( ) const

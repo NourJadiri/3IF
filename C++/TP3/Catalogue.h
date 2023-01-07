@@ -236,6 +236,13 @@ protected:
     // Méthode amie à Catalogue qui sert à importer à partir d'un fichier un seul trajet composé
     // Contrat :
 
+    friend void importTrip ( Catalogue * c, ifstream & tripStream, string * data,
+                             string & trip, int tripIndex );
+    // Mode d'emploi :
+    // Méthode amie à Catalogue qui sert à importer un trajet selon son type
+    // La méthode fait appel à importSimpleTrip() ou importComposedTrip() selon
+    // le type du trajet lu sur le fichier tripStream
+    // Contrat :
 //----------------------------------------------------- Attributs protégés
     List tripList;
 

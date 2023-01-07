@@ -35,7 +35,7 @@ char * SimpleTrip::GetTransport ( ) const
 
 void SimpleTrip::SaveTripToFile ( ofstream & tripStream )
 {
-    Trip::SaveTripToFile(tripStream);
+    Trip::SaveTripToFile( tripStream );
     tripStream << "," << transportation << endl;
 }
 

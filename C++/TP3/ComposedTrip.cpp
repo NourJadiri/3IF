@@ -50,15 +50,15 @@ void ComposedTrip::AddSimpleTrip ( SimpleTrip const * newSTrip )
 
 void ComposedTrip::SaveTripToFile ( ofstream & tripStream )
 {
-    Trip::SaveTripToFile(tripStream);
+    Trip::SaveTripToFile( tripStream );
     tripStream << ",-" << endl;
 
     Node * iter = trips.GetFirst();
 
-    while( iter != nullptr )
+    while ( iter != nullptr )
     {   
         tripStream << 0 << ",";
-        iter->GetTrip()->SaveTripToFile(tripStream);
+        iter->GetTrip()->SaveTripToFile( tripStream );
         iter = iter->GetNext();
     } 
 }

@@ -89,7 +89,7 @@ void Catalogue::saveAll ( ofstream & tripStream )
         // Saves all the trips to file
         tripStream << lastIndex << ",";
 
-        iter->GetTrip()->SaveTripToFile(tripStream);
+        iter->GetTrip()->SaveTripToFile( tripStream );
         if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
         {
             tripStream << endl;
@@ -135,7 +135,7 @@ void Catalogue::saveType ( ofstream & tripStream )
         if ( iter->GetTrip()->GetType() == choice )
         {
             tripStream << lastIndex << ",";
-            iter->GetTrip()->SaveTripToFile(tripStream);
+            iter->GetTrip()->SaveTripToFile( tripStream );
             if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
             {
                 tripStream << endl;
@@ -350,7 +350,7 @@ void Catalogue::saveInterval ( ofstream & tripStream )
         if ( currPos >= start && currPos <= end )
         {
             tripStream << lastIndex << ",";
-            iter->GetTrip()->SaveTripToFile(tripStream);
+            iter->GetTrip()->SaveTripToFile( tripStream );
             if ( iter->GetNext() != nullptr ) // if there's a trip after to add, then add a new line
             {
                 tripStream << endl;

@@ -166,8 +166,8 @@ void Catalogue::importType ( ifstream & tripStream )
 {
     const int CANCEL = 3;
     cout << "Please enter the type of trips you want to import from the file : " << endl;
-    cout << "\t1: import all Simple trips" << endl;
-    cout << "\t2: import all Composed trips" << endl;
+    cout << "\t1: import SIMPLE trips only" << endl;
+    cout << "\t2: import COMPOSED trips only" << endl;
     cout << "\t3: go back to import menu" << endl;
 
     int type;

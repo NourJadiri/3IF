@@ -593,6 +593,8 @@ ifstream Catalogue::askNameFileImport ( ) const
         cout << endl << "Importing trips from " << nameFile << endl;
     }
     string firstLineSkipped;
+
+    // We skip the first line of the file (there is no trip in it)
     getline(tripStream , firstLineSkipped );
 
     return tripStream;

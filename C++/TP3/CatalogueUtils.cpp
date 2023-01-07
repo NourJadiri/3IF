@@ -123,7 +123,7 @@ int findNextTripIndex ( ifstream & tripStream )
         if ( !trip.empty() && data[0] != "0" ) // if it's not a composed trip -> digit 0
         {
             lastIndex = stoi( data[0] );
-            tripStream.seekg(0);
+            //tripStream.seekg(0);
 
             delete [ ] data;
 

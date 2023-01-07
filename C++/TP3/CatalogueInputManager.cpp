@@ -120,7 +120,6 @@ void Catalogue::import ( )
                 importCities ( tripStream );
                 break;
             case 4:
-                //TODO : import interval
                 importInterval ( tripStream );
                 break;
             case 5:
@@ -436,9 +435,10 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // XXXX
 {
     int start, end, interval, tripIndex;
+
     int lastTripIndex = findNextTripIndex( tripStream ) - 1;
     // -1 because the method returns the index of next trip ; so last trip index + 1
-
+    cout << lastTripIndex << endl;
     string trip, * data;
 
     for ( ; ; )
@@ -484,17 +484,27 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
     while ( getline( tripStream , trip ) )
     {
+        if( trip.empty() ) continue;
+
+
         data = split( trip, ',' );
 
         if ( stoi(data[0] ) == start )
         {
+            cout << "importing " << trip << endl;
             importTrip( this, tripStream, data, trip, tripIndex );
+            interval--;
+
+            break;
         }
     }
 
     while ( interval >= 0 )
     {
         getline( tripStream , trip );
+
+        if( trip.empty() ) continue;
+
         data = split( trip , ',');
 
         tripIndex = stoi(data[0]);

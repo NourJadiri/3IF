@@ -119,11 +119,13 @@ int findNextTripIndex ( ifstream & tripStream )
         // get the line to extract the number of the trip
         getline( tripStream, trip );
         data = split( trip, ',' );
+
         if ( !trip.empty() && data[0] != "0" ) // if it's not a composed trip -> digit 0
         {
             lastIndex = stoi( data[0] );
+            tripStream.seekg(0);
+
             delete [ ] data;
-            tripStream.close();
 
             return lastIndex + 1; // index of next trip to be saved (index of last trip in file +1)
         }

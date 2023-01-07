@@ -152,6 +152,7 @@ void Catalogue::importAll ( ifstream & tripStream )
             continue;
         }
 
+
         // Else we get the line, and split it with the ',' delimiter and store it in a string array
         string * data = split( trip, ',' );
 
@@ -162,6 +163,7 @@ void Catalogue::importAll ( ifstream & tripStream )
 
         delete [ ] data;
     }
+
     tripStream.clear();
     tripStream.seekg(0);
 } //----- Fin de importAll
@@ -432,7 +434,10 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
 
 void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
-// XXXX
+// L'utilisateur entre l'index de début de son import et l'index de fin
+// On parse dans le fichier jusqu'à trouver l'index de début
+// Puis on importe (fin - début) trajets dans le catalogue
+// La fonction vérifie si l'entrée utilisateur est valide (fin >= début)
 {
     int start, end, interval, tripIndex;
 
@@ -484,8 +489,10 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
     while ( getline( tripStream , trip ) )
     {
-        if( trip.empty() ) continue;
-
+        if( trip.empty() )
+        {
+            continue;
+        }
 
         data = split( trip, ',' );
 
@@ -546,7 +553,7 @@ ifstream Catalogue::askNameFileImport ( ) const
         }
 
         nameFile.insert( 0,"../C++/TP3/" );
-        nameFile.append( ".txt" );
+        nameFile.append( ".csv" );
 
         tripStream.open( nameFile.c_str() );
 
@@ -585,5 +592,8 @@ ifstream Catalogue::askNameFileImport ( ) const
     {
         cout << endl << "Importing trips from " << nameFile << endl;
     }
+    string firstLineSkipped;
+    getline(tripStream , firstLineSkipped );
+
     return tripStream;
 } //----- Fin de askNameFileImport

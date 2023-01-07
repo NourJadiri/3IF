@@ -386,7 +386,7 @@ ofstream Catalogue::askNameFileSave ( )
         }
 
         nameFile.insert( 0, "../C++/TP3/" );
-        nameFile.append( ".txt" );
+        nameFile.append( ".csv" );
 
         openingMode( tempStream, tripStream, nameFile, fileOk );
     }
@@ -418,6 +418,11 @@ void Catalogue::appendOutput ( ifstream & tempStream, ofstream & tripStream, str
     if ( size > 0 ) // file is not empty
     {
         tripStream << endl;
+    }
+    ///POUR CSV
+    else // add the first line in the .csv file
+    {
+        tripStream << "index,type,departure,arrival,transportation" << endl;
     }
 }
 
@@ -458,6 +463,9 @@ void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, stri
                         tripStream.open( nameFile.c_str() ); // default mode, overwriting
                         lastIndex = 1;
 
+                        // first line in .csv
+                        tripStream << "index,type,departure,arrival,transportation" << endl;
+
                         appendOk = true;
                         fileOk = true; // the file is now okay
                         break;
@@ -481,6 +489,9 @@ void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, stri
 
             tripStream.open( nameFile.c_str() );
             lastIndex = 1;
+
+            // first line in .csv
+            tripStream << "index,type,departure,arrival,transportation" << endl;
 
             appendOk = true;
             fileOk = true;

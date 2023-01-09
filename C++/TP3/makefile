@@ -1,5 +1,4 @@
 # makefile plus ou moins générique
-
 # outils
 ECHO = @echo
 RM = @rm
@@ -13,12 +12,13 @@ LDFLAGS = -g -Wall -pedantic -std=c++11
 RMFLAGS = rm -f
 
 # definition des cibles
-INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h
+INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h CatalogueInputManager.h CatalogueOutputManager.h CatalogueUtils.h
 REALISATION = $(INTERFACE:.h=.cpp)
 OBJETS = $(INTERFACE:.h=.o)
 EXE = trajets
-FICHIERSTXT = $(wildcard *.txt)
+FICHIERSTXT = $(wildcard *.csv)
 EFFACE = clean
+.PHONY : $(EFFACE)
 
 # edition des liens
 $(EXE) : $(OBJETS)
@@ -39,7 +39,7 @@ Main.o : Main.h Catalogue.h
 Catalogue.o : Catalogue.h SimpleTrip.h ComposedTrip.h CatalogueInputManager.h CatalogueOutputManager.h CatalogueUtils.h List.h
 CatalogueInputManager.o : Catalogue.h ComposedTrip.h CatalogueUtils.h
 CatalogueOutputManager.o : Catalogue.h List.h CatalogueUtils.h
-CatalogueUtils.o : CatalogueUtils.h ## ca jsp s'il le faut
+CatalogueUtils.o : CatalogueUtils.h
 ComposedTrip.o : ComposedTrip.h List.h Trip.h
 List.o : List.h Node.h
 Node.o : Node.h Trip.h

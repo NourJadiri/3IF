@@ -20,8 +20,5 @@
 ## makefile : dependance des fichiers
 
 # Trucs cools à avoir à coté
-
-### Pour importInterval, vérifier avant toute chose que l'intervalle est valide
-Genre vérifier que si l'utilisateur rentre [5,7], il y a bien au moins 7 trips available
-(check ce que j'ai fait pour saveInterval, ptet meme redemander le premier indice s'il
-dépasse déjà le nombre de trips available)
+# makefile
+.phony?

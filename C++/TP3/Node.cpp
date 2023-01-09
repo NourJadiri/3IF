@@ -10,6 +10,7 @@
 //---------- Réalisation de la classe <Node> (fichier Node.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
+#include <iostream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel

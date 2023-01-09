@@ -81,7 +81,6 @@ int findNextTripIndex ( ifstream & tripStream )
     tripStream.seekg( 0, ios::end ); // move to end of file
     if ( tripStream.tellg() == 0 ) // if file is empty
     {
-        tripStream.close();
         return lastIndex; // lastIndex will stay 1
     }
 
@@ -123,7 +122,6 @@ int findNextTripIndex ( ifstream & tripStream )
         if ( !trip.empty() && data[0] != "0" ) // if it's not a composed trip -> digit 0
         {
             lastIndex = stoi( data[0] );
-            //tripStream.seekg(0);
 
             delete [ ] data;
 

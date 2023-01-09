@@ -127,5 +127,7 @@ int findNextTripIndex ( ifstream & tripStream )
 
             return lastIndex + 1; // index of next trip to be saved (index of last trip in file +1)
         }
+
+        delete [ ] data;
     }
 }  //----- Fin de findNextTripIndex

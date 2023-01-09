@@ -108,7 +108,7 @@ int findNextTripIndex ( ifstream & tripStream )
         {
             tripStream.seekg( 1, ios_base::cur );
         }
-        // else the position is the beginning of the file hence the digit is the first character
+            // else the position is the beginning of the file hence the digit is the first character
         else
         {
             tripStream.seekg( 0, ios_base::beg );

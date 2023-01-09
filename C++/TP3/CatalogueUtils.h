@@ -25,6 +25,8 @@ int countSeparators ( std::string & s, char separator );
 
 std::string * split ( std::string & s, char separator );
 
+string readLastLine ( ifstream & tripStream );
+
 int findNextTripIndex( std::ifstream & tripStream );
 
 

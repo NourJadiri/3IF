@@ -37,11 +37,14 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
 
         if ( data[0] != "0" ) // corresponds to the label of the composedTrip and not the simpleTrips composing it
         {
+            delete [ ] data;
             break;
         }
 
         composedTrip->AddSimpleTrip( new SimpleTrip( data[2].c_str(),
                                                      data[3].c_str(), data[4].c_str() ) );
+
+        delete [ ] data;
     }
 
     if ( composedTrip->IsValid() )
@@ -60,6 +63,8 @@ void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, str
 {
     c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
                                                data[3].c_str(), data[4].c_str() ) );
+
+    delete [ ] data;
 } //----- Fin de importSimpleTrip
 
 void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string & trip , int tripIndex )
@@ -75,6 +80,7 @@ void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string
     else
     {
         cout << "Trip type is not valid. Aborting...";
+        delete [ ] data;
         return;
     }
 }
@@ -133,6 +139,7 @@ void Catalogue::importAll ( ifstream & tripStream )
 //
 {
     string trip;
+    string * data;
 
     // While the stream does not return an error
     while ( tripStream.good() )
@@ -148,16 +155,13 @@ void Catalogue::importAll ( ifstream & tripStream )
 
 
         // Else we get the line, and split it with the ',' delimiter and store it in a string array
-        string * data = split( trip, ',' );
+        data = split( trip, ',' );
 
         // Store the lastIndex of the trip (useful)
         int tripIndex = stoi( data[0] );
 
-        importTrip(this, tripStream, data, trip, tripIndex );
-
-        delete [ ] data;
+        importTrip( this, tripStream, data, trip, tripIndex );
     }
-
     tripStream.clear();
     tripStream.seekg(0);
 } //----- Fin de importAll
@@ -226,7 +230,10 @@ void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
         {
             importSimpleTrip( this, tripStream, data, trip );
         }
-        delete [ ] data;
+        else
+        {
+            delete [ ] data;
+        }
     }
     tripStream.clear();
     tripStream.seekg(0);
@@ -253,7 +260,11 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
         {
             importComposedTrip( this, tripStream, data, trip, tripIndex );
         }
-        delete [ ] data;
+        else
+        {
+            delete [ ] data;
+        }
+
     }
     tripStream.clear();
     tripStream.seekg(0);
@@ -329,8 +340,8 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
 
             importTrip( this, tripStream, data, trip, tripIndex );
         }
-        delete [ ] data;
     }
+
     if ( count == 0 )
     {
         cout << "Sorry, no trips starting from " << departureCity << " are available..." << endl;
@@ -371,6 +382,7 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
             importTrip( this, tripStream, data, trip, tripIndex );
         }
     }
+
     if ( count == 0 )
     {
         cout << "Sorry, no trips going to " << arrivalCity << " are available..." << endl;
@@ -412,8 +424,8 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
 
             importTrip( this, tripStream, data, trip, tripIndex );
         }
-        delete [ ] data;
     }
+
     if ( count == 0 )
     {
         cout << "Sorry, no trips starting from " << departureCity << " and going to " << arrivalCity
@@ -517,8 +529,6 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 
         interval--;
     }
-
-    delete [ ] data;
 } //----- Fin de importInterval
 
 ifstream Catalogue::askNameFileImport ( ) const
@@ -549,7 +559,7 @@ ifstream Catalogue::askNameFileImport ( ) const
             continue;
         }
 
-        nameFile.insert( 0,"../C++/TP3/" );
+        //nameFile.insert( 0,"../C++/TP3/" );
         nameFile.append( ".csv" );
 
         tripStream.open( nameFile.c_str() );

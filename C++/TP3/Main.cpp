@@ -11,6 +11,7 @@
 
 /////////////////////////////////////////////////////////////////  INCLUDE
 //-------------------------------------------------------- Include système
+#include <iostream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -28,10 +29,13 @@ static void test ( )
 // Algorithme :
 // Création d'un catalogue vide lors du lancement de l'application
 {
+/*
     Catalogue c;
     c.Launch ( );
-    /*ifstream stream("../C++/TP3/myTTT.txt");
-    cout << findNextTripIndex(stream) << endl;*/
+*/
+    ifstream tripStream("../C++/TP3/myTT.csv");
+    cout << findNextTripIndex( tripStream ) << endl;
+
 /*    ComposedTrip * ct = new ComposedTrip();
 
     SimpleTrip *st1 = new SimpleTrip("aaa","bbb","ccc");

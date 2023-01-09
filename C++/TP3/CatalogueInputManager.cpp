@@ -31,6 +31,8 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
 {
     ComposedTrip * composedTrip = new ComposedTrip();
 
+    delete [ ] data;
+
     while ( getline( tripStream, trip ) && !trip.empty() )
     {
         data = split( trip, ',' );
@@ -243,6 +245,7 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
 {
     string trip;
     int tripIndex;
+    string * data;
 
     while ( tripStream.good() )
     {
@@ -253,7 +256,7 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
             continue;
         }
 
-        string * data = split( trip, ',' );
+        data = split( trip, ',' );
 
         tripIndex = stoi( data[0] );
         if ( data[1] == "C" )

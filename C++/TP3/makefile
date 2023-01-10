@@ -33,7 +33,6 @@ $(EXE) : $(OBJETS)
 $(EFFACE) :
 	$(RM) $(RMFLAGS) $(EXE) $(OBJETS) $(FICHIERSTXT)
 
-
 # dependance des fichiers
 Main.o : Main.h Catalogue.h
 Catalogue.o : Catalogue.h SimpleTrip.h ComposedTrip.h CatalogueUtils.h List.h

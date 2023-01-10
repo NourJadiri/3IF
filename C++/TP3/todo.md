@@ -12,14 +12,4 @@
 
 ### Lire un composed Trip à partir d'un fichier (cout)
 
-### Save cette merde dans le catalogue 
-
-
-### makefile : est ce qu'il faut aussi rajouter les .h CatalogueIN/OUTput....???
-## makefile : dependance des fichiers
-
-# Trucs cools à avoir à coté
-# makefile
-.phony?
-
-# catalogueUtils + importTrip dans trip.h
+### Save cette merde dans le catalogue

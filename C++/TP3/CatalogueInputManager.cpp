@@ -79,6 +79,8 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
 void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip )
 // La méthode permet d'importer un trajet simple à partir de sa version texte
 // traitée au préalable.
+// string * data correspond à un tableau qui contient les informations relatives
+// au trajet qu'on est entrain de traiter.
 {
     c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
                                                data[3].c_str(), data[4].c_str() ) );
@@ -281,6 +283,13 @@ void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 } //----- Fin de importAllSimpleTrips
 
 void Catalogue::importAllComposedTrips ( ifstream & tripStream )
+// Algorithme :
+// On parcourt tout le fichier
+// Pour chaque ligne parcourue, on extrait les informations
+// relatives au trajet renseigné dans cette ligne et on les
+// stock dans un tableau de string grace à la fonction split.
+// Si le trajet s'avère être un trajet composé, on appelle la fonction
+// importComposedTrip()
 {
     string trip;
     int tripIndex;
@@ -314,7 +323,11 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
 
 void Catalogue::importCities ( ifstream & tripStream )
 // Algorithme :
-// XXXX
+// LA fonction permet d'importer des trajets en fonction d'information relatives
+// aux villes qui les constituent.
+// L'utilisateur a le choix entre importer les trajets qui partent d'une ville connue,
+// qui finissent dans une ville connue, ou qui vérifient les deux conditions en même temps.
+// En fonction du choix de l'utilisateur, la fonction adaptée sera appelée.
 {
     int choice;
 
@@ -354,6 +367,14 @@ void Catalogue::importCities ( ifstream & tripStream )
 } //----- Fin de importCities
 
 void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
+// Algorithme :
+// On demande à l'utilisateur d'entrer la ville de départ
+// des trajets que l'on souhaite récupérer.
+// On parcourt tout le fichier ligne par ligne,
+// et on extrait les informations de chaque ligne grâce à la
+// fonction split() .
+// Si on trouve que la ville de départ correspond bien, on importe le trajet
+// quelque soit son type.
 {
     string trip;
     string departureCity;
@@ -395,6 +416,14 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
 } //----- Fin de importTripsFromDeparture
 
 void Catalogue::importTripsToArrival ( ifstream & tripStream )
+// Algorithme :
+// On demande à l'utilisateur d'entrer la ville d'arrivé
+// des trajets que l'on souhaite récupérer.
+// On parcourt tout le fichier ligne par ligne,
+// et on extrait les informations de chaque ligne grâce à la
+// fonction split() .
+// Si on trouve que la ville d'arrivée correspond bien, on importe le trajet
+// quelque soit son type.
 {
     int count = 0;
     int tripIndex;
@@ -436,6 +465,14 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
 } //----- Fin de importAllComposedTrips
 
 void Catalogue::importTripsFromTo ( ifstream & tripStream )
+// Algorithme :
+// On demande à l'utilisateur d'entrer la ville de départ et d'arrivée
+// des trajets que l'on souhaite récupérer.
+// On parcourt tout le fichier ligne par ligne,
+// et on extrait les informations de chaque ligne grâce à la
+// fonction split() .
+// Si on trouve que les informations correspond bien, on importe le trajet
+// quelque soit son type.
 {
     int count = 0;
     int tripIndex;
@@ -482,9 +519,9 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
 
 void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
 // Algorithme :
-// L'utilisateur entre l'index de début de son import et l'index de fin
+// L'utilisateur entre l'index de début de son import et l'index de fin.
 // On parse dans le fichier jusqu'à trouver l'index de début
-// Puis on importe (fin - début) trajets dans le catalogue
+// puis on importe (fin - début) trajets dans le catalogue.
 // La fonction vérifie si l'entrée utilisateur est valide (fin >= début)
 {
     int start, end, interval, tripIndex;

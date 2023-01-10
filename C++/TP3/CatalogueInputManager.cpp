@@ -25,15 +25,38 @@ using namespace std;
 //------------------------------------------------------------------ PRIVE
 
 //--------------------------------------------------------- Méthodes amies
-void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip, int tripIndex )
+void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string & trip , int tripIndex )
+// Algorithme :
+// Appelle la méthode adaptée au type du trajet à importer en fonction de son type
+// Le type du trajet est transmis grace au tableau data.
+{
+    if ( data[1] == "S" )
+    {
+        importSimpleTrip( c, tripStream, data, trip );
+    }
+    else if ( data[1] == "C")
+    {
+        importComposedTrip( c, tripStream, data, trip, tripIndex );
+    }
+    else
+    {
+        cout << "Trip type is not valid. Aborting..." << endl;
+        delete [ ] data;
+        return;
+    }
+} //----- Fin de importTrip
+
+void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data,
+                          string & trip, int tripIndex )
 // Algorithme :
 // La méthode permet d'importer un trajet composé à partir de sa version texte
-// traitée au préalable.
 // Tant qu'on n'arrive pas à une ligne vide, et que les indices des étapes
-// du trajet composé sont logiques, le trajet composé se voit rajouter
+// du composedTrip sont logiques (=0), le trajet composé se voit rajouter
 // une nouvelle étape.
 // Si le trajet n'est pas valide, ou que le format texte n'est pas respecté,
-// le trajet n'est pas importé dans sa totalité.
+// le trajet n'est pas importé
+// string * data correspond à un tableau qui contient les informations relatives
+// au trajet qu'on est entrain de traiter
 {
     ComposedTrip * composedTrip = new ComposedTrip();
 
@@ -78,9 +101,8 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
 
 void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip )
 // La méthode permet d'importer un trajet simple à partir de sa version texte
-// traitée au préalable.
 // string * data correspond à un tableau qui contient les informations relatives
-// au trajet qu'on est entrain de traiter.
+// au trajet qu'on est entrain de traiter
 {
     c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
                                                data[3].c_str(), data[4].c_str() ) );
@@ -88,32 +110,12 @@ void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, str
     delete [ ] data;
 } //----- Fin de importSimpleTrip
 
-void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string & trip , int tripIndex )
-// Algorithme :
-// Appelle la fonction adapté au type du trajet à importer en fonction de son type.
-// Le type du trajet est lu au préalabe à partir du tableau data.
-{
-    if ( data[1] == "S" )
-    {
-        importSimpleTrip( c, tripStream, data, trip );
-    }
-    else if ( data[1] == "C")
-    {
-        importComposedTrip( c, tripStream, data, trip, tripIndex );
-    }
-    else
-    {
-        cout << "Trip type is not valid. Aborting..." << endl;
-        delete [ ] data;
-        return;
-    }
-}
-
 //----------------------------------------------------- Méthodes protégées
 void Catalogue::import ( )
 // Algorithme :
+// Appelle la méthode askNameFileImport() pour connaitre le nom du fichier
 // Demande une entrée de l'utilisateur
-// Appelle la fonction d'import adaptée en fonction de l'entrée de l'utilisateur
+// Appelle la méthode d'import adaptée en fonction de l'entrée de l'utilisateur
 {
     ifstream tripStream( askNameFileImport() );
     if ( !tripStream.is_open() )
@@ -162,12 +164,12 @@ void Catalogue::import ( )
 
 void Catalogue::importAll ( ifstream & tripStream )
 // Algorithme :
-// On parcourt le fichier csv
+// Parcours du fichier csv
 // A chaque ligne, on sépare la chaine de caractère contenue dans la ligne
-// en utilisant ',' comme séparateur
+// en utilisant ',' comme séparateur, grâce à la méthode split( string, char )
 // Puis on extrait les données qui y sont présentes, et en fonction
-// du type de trajet, on appelle la fonction adaptée.
-// La fonction effectue ces actions pour tous les trajets contenus dans le fichier.
+// du type de trajet, on appelle la méthode adaptée.
+// La méthode effectue ces actions pour tous les trajets contenus dans le fichier.
 {
     string trip;
     string * data;
@@ -184,7 +186,6 @@ void Catalogue::importAll ( ifstream & tripStream )
             continue;
         }
 
-
         // Else we get the line, and split it with the ',' delimiter and store it in a string array
         data = split( trip, ',' );
 
@@ -199,10 +200,10 @@ void Catalogue::importAll ( ifstream & tripStream )
 
 void Catalogue::importType ( ifstream & tripStream )
 // Algorithme :
-// L'utilisateur choisit le type de trajets à importer à partir du fichier de trajets.
+// L'utilisateur choisit le type de trajets à importer à partir du fichier
 // Pour chaque ligne parcourue dans le fichier csv, on extrait l'information du type de trajet
-// grâce à la fonction split(string,char).
-// Si le type est le bon, on appelle la fonction adaptée pour importer le trajet en question
+// grâce à la méthode split( string, char ).
+// Si le type est le bon, on appelle la méthode adaptée pour importer les trajets en question
 // dans le Catalogue.
 {
     const int CANCEL = 3;
@@ -217,7 +218,7 @@ void Catalogue::importType ( ifstream & tripStream )
         cin >> type;
 
         /// Commented code checks if the input is numeric (not asked in the specifications)
-/*      if(!cin)
+      /*if(!cin)
         {
             cin.clear();
             cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
@@ -250,11 +251,10 @@ void Catalogue::importType ( ifstream & tripStream )
 
 void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 // Algorithme :
-// On parcourt tout le fichier.
-// Chaque ligne est traitée à l'aide de la fonction split.
-// Si le trajet s'avère être simple, et qu'il ne s'agit pas d'une étape de trajet composé,
-// on appelle la fonction importSimpleTrip().
-//
+// Parcours de tout le fichier.
+// Chaque ligne est traitée à l'aide de la méthode split.
+// Si le trajet s'avère être simple, et qu'il ne s'agit pas d'une étape d'un trajet composé,
+// on appelle la méthode importSimpleTrip().
 {
     string trip;
 
@@ -269,7 +269,7 @@ void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 
         string * data = split( trip, ',' );
 
-        if ( data[1] == "S" && data[0] != "0" )
+        if ( data[1] == "S" && data[0] != "0" ) // si trajet simple et non une etape
         {
             importSimpleTrip( this, tripStream, data, trip );
         }
@@ -284,11 +284,11 @@ void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
 
 void Catalogue::importAllComposedTrips ( ifstream & tripStream )
 // Algorithme :
-// On parcourt tout le fichier
+// Parcours de tout le fichier
 // Pour chaque ligne parcourue, on extrait les informations
 // relatives au trajet renseigné dans cette ligne et on les
-// stock dans un tableau de string grace à la fonction split.
-// Si le trajet s'avère être un trajet composé, on appelle la fonction
+// stock dans un tableau de string grace à la méthode split.
+// Si le trajet s'avère être un trajet composé, on appelle la méthode
 // importComposedTrip()
 {
     string trip;
@@ -315,7 +315,6 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
         {
             delete [ ] data;
         }
-
     }
     tripStream.clear();
     tripStream.seekg(0);
@@ -323,11 +322,11 @@ void Catalogue::importAllComposedTrips ( ifstream & tripStream )
 
 void Catalogue::importCities ( ifstream & tripStream )
 // Algorithme :
-// LA fonction permet d'importer des trajets en fonction d'information relatives
+// La méthode permet d'importer des trajets en fonction d'information relatives
 // aux villes qui les constituent.
 // L'utilisateur a le choix entre importer les trajets qui partent d'une ville connue,
 // qui finissent dans une ville connue, ou qui vérifient les deux conditions en même temps.
-// En fonction du choix de l'utilisateur, la fonction adaptée sera appelée.
+// En fonction du choix de l'utilisateur, la méthode adaptée sera appelée.
 {
     int choice;
 
@@ -368,12 +367,12 @@ void Catalogue::importCities ( ifstream & tripStream )
 
 void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
 // Algorithme :
-// On demande à l'utilisateur d'entrer la ville de départ
-// des trajets que l'on souhaite récupérer.
-// On parcourt tout le fichier ligne par ligne,
-// et on extrait les informations de chaque ligne grâce à la
-// fonction split() .
-// Si on trouve que la ville de départ correspond bien, on importe le trajet
+// Demande à l'utilisateur d'entrer la ville de départ
+// des trajets qu'il souhaite importer.
+// Parcours de tout le fichier ligne par ligne,
+// et extraction des informations de chaque ligne grâce à la
+// méthode split() .
+// Si la ville de départ correspond bien, on importe le trajet
 // quelque soit son type.
 {
     string trip;
@@ -398,9 +397,7 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
         if ( data[2] == departureCity && data[0] != "0" )
         {
             count++;
-
             tripIndex = stoi( data[0] );
-
             importTrip( this, tripStream, data, trip, tripIndex );
         }
     }
@@ -417,12 +414,12 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
 
 void Catalogue::importTripsToArrival ( ifstream & tripStream )
 // Algorithme :
-// On demande à l'utilisateur d'entrer la ville d'arrivé
-// des trajets que l'on souhaite récupérer.
-// On parcourt tout le fichier ligne par ligne,
-// et on extrait les informations de chaque ligne grâce à la
-// fonction split() .
-// Si on trouve que la ville d'arrivée correspond bien, on importe le trajet
+// Demande à l'utilisateur d'entrer la ville d'arrivée
+// des trajets qu'il souhaite importer.
+// Parcours de tout le fichier ligne par ligne,
+// et extraction des informations de chaque ligne grâce à la
+// méthode split() .
+// Si la ville d'arrivée correspond bien, on importe le trajet
 // quelque soit son type.
 {
     int count = 0;
@@ -447,9 +444,7 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
         if ( data[3] == arrivalCity && data[0] != "0" )
         {
             count++;
-
             tripIndex = stoi( data[0] );
-
             importTrip( this, tripStream, data, trip, tripIndex );
         }
     }
@@ -462,16 +457,16 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
     {
         cout << count << " trips going to " << arrivalCity << " have been found !" << endl;
     }
-} //----- Fin de importAllComposedTrips
+} //----- Fin de importTripsToArrival
 
 void Catalogue::importTripsFromTo ( ifstream & tripStream )
 // Algorithme :
-// On demande à l'utilisateur d'entrer la ville de départ et d'arrivée
-// des trajets que l'on souhaite récupérer.
-// On parcourt tout le fichier ligne par ligne,
-// et on extrait les informations de chaque ligne grâce à la
-// fonction split() .
-// Si on trouve que les informations correspond bien, on importe le trajet
+// Demande à l'utilisateur d'entrer les villes de départ et d'arrivée
+// des trajets qu'il souhaite importer.
+// Parcours de tout le fichier ligne par ligne,
+// et extraction des informations de chaque ligne grâce à la
+// méthode split() .
+// Si les informations données correspondent bien, on importe le trajet
 // quelque soit son type.
 {
     int count = 0;
@@ -500,7 +495,6 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
         {
             count++;
             tripIndex = stoi( data[0] );
-
             importTrip( this, tripStream, data, trip, tripIndex );
         }
     }
@@ -517,12 +511,13 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
     }
 } //----- Fin de importTripsFromTo
 
-void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
+void Catalogue::importInterval ( ifstream & tripStream )
 // Algorithme :
 // L'utilisateur entre l'index de début de son import et l'index de fin.
-// On parse dans le fichier jusqu'à trouver l'index de début
-// puis on importe (fin - début) trajets dans le catalogue.
-// La fonction vérifie si l'entrée utilisateur est valide (fin >= début)
+// Parcours du fichier jusqu'à trouver l'index de début
+// puis on importe (fin - début + 1) trajets dans le catalogue.
+// La méthode vérifie si l'entrée utilisateur est valide (fin >= début et si début <= nb
+// de trajets dans le fichier)
 {
     int start, end, interval, tripIndex;
 
@@ -586,7 +581,6 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
             //cout << "importing " << trip << endl;
             importTrip( this, tripStream, data, trip, tripIndex );
             interval--;
-
             break;
         }
     }
@@ -601,16 +595,17 @@ void Catalogue::importInterval ( ifstream & tripStream ) ///A FINIR
         }
 
         data = split( trip, ',');
-
         tripIndex = stoi( data[0] );
-
         importTrip( this, tripStream, data, trip, tripIndex );
-
         interval--;
     }
 } //----- Fin de importInterval
 
 ifstream Catalogue::askNameFileImport ( ) const
+// Algorithme :
+// Demande à l'utilisateur d'entrer le nom (sans l'extension) d'un fichier EXISTANT et valide
+// c'est-à-dire non-vide et non-corrompu
+// tant que l'utilisateur ne respecte pas les contraintes, demande à nouveau le nom de fichier
 {
     string nameFile;
     ifstream tripStream;

@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Interface de la classe <CatalogueUtils> (fichier CatalogueUtils.h) ----------------
+//---------- Interface de la librairie <CatalogueUtils> (fichier CatalogueUtils.h) ----------------
 #if ! defined ( CATALOGUEUTILS_H )
 #define CATALOGUEUTILS_H
 
@@ -15,24 +15,42 @@
 #include "Catalogue.h"
 
 //------------------------------------------------------------------------
-// Rôle de la classe <CatalogueUtils>
-// La classe permet de
-//
+// Rôle de la librairie <CatalogueUtils>
+// La librairie permet de gérer le format dans un fichier d'un trip
+// Elle permet notamment de distinguer les différentes informations d'un
+// trajet, mais aussi de trouver l'indice du dernier trajet qui a été
+// écrit dans le fichier, afin de reprendre la numérotation au bon
+// chiffre lors de l'écriture, mais aussi afin de déterminer le nombre de
+// trajets disponibles dans le fichier pour pouvoir avoir la borne
+// maximale lors de l'importation par intervalle
 //------------------------------------------------------------------------
 
+//----------------------------------------------------------------- PUBLIC
 
+//---------------------------------------------------- Fonctions publiques
 int countSeparators ( std::string & s, char separator );
+// Mode d'emploi :
+// Cette fonction permet de généraliser la fonction split en comptant
+// le nombre de séparateurs 'separators' sur une ligne d'un fichier 's'
 
 std::string * split ( std::string & s, char separator );
+// Mode d'emploi :
+// Cette fonction permet de séparer les informations d'un trajet 's' écrit
+// dans un fichier, et stocker ses informations dans le tableau de string
+// qu'elle retourne
+// les informations sont, dans l'ordre : l'index (numéro), le type, la ville
+// de depart, la ville d'arrivée (finale pour un composedTrip) et le moyen de
+// transport ('-' pour un composedTrip)
 
 int findNextTripIndex( std::ifstream & tripStream );
 // Mode d'emploi :
 // Cette fonction retourne le prochain indice d'un potentiel trajet
-// qui pourrait s'ajouter au catalogue.
-
+// qui pourrait s'ajouter au catalogue afin de poursuivre la numerotation
+// lors de l'ecriture.
+// elle permet egalement de savoir combien il y a de trips dans un fichier
+// afin de determiner la borne maximale que l'utilisateur peut rentrer
+// lors d'un import par intervalle
+// Contrat :
+// tripStream est un flux d'entrée valide, i.e. : le fichier existe et n'est pas vide ou corrompu
 
 #endif // CATALOGUEUTILS_H
-
-
-
-///est ce que cest une classe?

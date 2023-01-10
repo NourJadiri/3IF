@@ -14,7 +14,6 @@
 
 ### Save cette merde dans le catalogue 
 
-### faire qqch avec le catalogueUtils, genre le ratacher à Catalogue ou smtg
 
 ### makefile : est ce qu'il faut aussi rajouter les .h CatalogueIN/OUTput....???
 ## makefile : dependance des fichiers
@@ -23,3 +22,4 @@
 # makefile
 .phony?
 
+# catalogueUtils + importTrip dans trip.h

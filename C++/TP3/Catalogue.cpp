@@ -77,10 +77,10 @@ void Catalogue::Launch ( )
                 fetch();
                 break;
             case 4:
-                import();
+                import(); // dans CatalogueInputManager.cpp
                 break;
             case 5:
-                save();
+                save(); // dans CatalogueOutputManager.cpp
                 break;
             case 6:
                 goto end;

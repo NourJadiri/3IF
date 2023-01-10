@@ -34,10 +34,12 @@ char * SimpleTrip::GetTransport ( ) const
 } //----- Fin de GetTransport
 
 void SimpleTrip::SaveTripToFile ( ofstream & tripStream )
+// Algorithme :
+// permet d'écrire le mode de transport d'un trajet simple
 {
     Trip::SaveTripToFile( tripStream );
     tripStream << "," << transportation << endl;
-}
+} //----- Fin de SaveTripToFile
 
 //-------------------------------------------- Constructeurs - destructeur
 SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd,

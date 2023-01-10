@@ -7,14 +7,15 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Fichier source <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
+//---------- Librairie <CatalogueUtils> (fichier CatalogueUtils.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
 #include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
-//-------------------------------------------------------- Include système
 
 //------------------------------------------------------ Include personnel
 #include "CatalogueUtils.h"
@@ -24,28 +25,27 @@ using namespace std;
 //----------------------------------------------------- Méthodes protégées
 int countSeparators ( string & s, char separator )
 // Algorithme :
-//
+// compte le nombre de separateurs recherchés dans un string s
 {
     int count = 0;
 
-    for (char i: s)
+    for (char i : s)
     {
-        if (i == separator) {
+        if ( i == separator )
+        {
             count++;
         }
     }
-
     return count;
 } //----- Fin de countSeparators
 
 string * split ( string & str, char seperator )
 // Algorithme :
-//
+// creation d'un tableau de string qui separe et stock les parties d'un trajet apres splitting
+// la valeur de 5 a été forcée car notre format aura toujours exactement 5 separateurs ','
+// la possibilite d'utiliser cette methode de facon plus generique peut se faire en utilisant
+// la methode countSeparators : string * strings = new string[ countSparators( str, ',' ) + 1 ]
 {
-    // Creating the string array that will hold our strings after splitting
-    // hard coded 5 as a value because our format gives exactly 5 split strings (optimization)
-    // the possibility to use a more generic separation can be considered by using :
-    // string * strings = new string[ countSparators(str,',') + 1 ]
     string * strings = new string [ 5 ];
 
     int currIndex = 0, i = 0;
@@ -54,7 +54,7 @@ string * split ( string & str, char seperator )
     while ( i <= str.size() )
     {
         // if reaches the separator or the end of the string to split
-        if ( str[i] == seperator || i == str.size() )
+        if ( str[ i ] == seperator || i == str.size() )
         {
             // New string ends at the separator
             endIndex = i;
@@ -75,9 +75,9 @@ string * split ( string & str, char seperator )
 
 int findNextTripIndex ( ifstream & tripStream )
 // Algorithme :
-// La fonction parcourt le fichier donné en argument de la fin vers le début.
-// Elle cherche le dernier indice de trajet différent de 0.
-// Retroune cet indice augmenté de 1.
+// Parcours du fichier donné en partant de la fin, et remonte progressivement jusqu'à
+// trouver un indice de trajet qui soit different de 0
+// Retourne cet indice augmenté de 1
 {
     int lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
 

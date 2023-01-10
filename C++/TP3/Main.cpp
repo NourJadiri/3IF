@@ -17,8 +17,6 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "Main.h"
 #include "Catalogue.h"
-#include "ComposedTrip.h"
-#include "CatalogueUtils.h"
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------ Fonctions privées
@@ -31,19 +29,6 @@ static void test ( )
 {
     Catalogue c;
     c.Launch ( );
-/*    ifstream tripStream("../C++/TP3/myTT.csv");
-    cout << findNextTripIndex( tripStream ) << endl;*/
-
-/*    ComposedTrip * ct = new ComposedTrip();
-
-    SimpleTrip *st1 = new SimpleTrip("aaa","bbb","ccc");
-    SimpleTrip *st2 = new SimpleTrip("eee","ccc","ccc");
-
-    ct->AddSimpleTrip(st1),ct->AddSimpleTrip(st2);
-
-    ct->Display();
-    cout << endl;
-    cout << ct->IsValid() << endl;*/
 } //----- Fin de test
 
 int main ( )

@@ -36,12 +36,12 @@ $(EFFACE) :
 
 # dependance des fichiers
 Main.o : Main.h Catalogue.h
-Catalogue.o : Catalogue.h SimpleTrip.h ComposedTrip.h CatalogueInputManager.h CatalogueOutputManager.h CatalogueUtils.h List.h
-CatalogueInputManager.o : Catalogue.h ComposedTrip.h CatalogueUtils.h
-CatalogueOutputManager.o : Catalogue.h List.h CatalogueUtils.h
-CatalogueUtils.o : CatalogueUtils.h
+Catalogue.o : Catalogue.h SimpleTrip.h ComposedTrip.h CatalogueUtils.h List.h
+CatalogueInputManager.o : Catalogue.h ComposedTrip.h SimpleTrip.h CatalogueUtils.h
+CatalogueOutputManager.o : List.h Catalogue.h CatalogueUtils.h
+CatalogueUtils.o : CatalogueUtils.h Catalogue.h
 ComposedTrip.o : ComposedTrip.h List.h Trip.h
 List.o : List.h Node.h
-Node.o : Node.h Trip.h
+Node.o : Node.h Trip.h SimpleTrip.h
 SimpleTrip.o : SimpleTrip.h Trip.h
-Trip.o : Trip.h SimpleTrip.h ComposedTrip.h
+Trip.o : Trip.h

@@ -25,7 +25,10 @@ using namespace std;
 //----------------------------------------------------- Méthodes protégées
 void Catalogue::save ( )
 // Algorithme :
-// Appending XXXXXX
+// ne continue que si le catalogue contient au moins un trajet susceptible d'etre sauvegarde
+// Appelle la méthode askNameFileSave() pour connaitre le nom du fichier
+//  Demande une entrée de l'utilisateur
+// Appelle la fonction d'export adaptée en fonction de l'entrée de l'utilisateur
 {
     if ( tripList.GetFirst() == nullptr )
     {
@@ -80,7 +83,8 @@ void Catalogue::save ( )
 
 void Catalogue::saveAll ( ofstream & tripStream )
 // Algorithme :
-// XXX
+// Parcours de la liste qui compose notre catalogue
+// Ajout d'une ligne entre chaque nouveau trajet et incrémentation de l'indice
 {
     Node * iter = tripList.GetFirst();
 
@@ -102,7 +106,10 @@ void Catalogue::saveAll ( ofstream & tripStream )
 
 void Catalogue::saveType ( ofstream & tripStream )
 // Algorithme :
-// XXX
+// L'utilisateur choisit le type de trajets à exporter dans un fichier
+// Parcours de la liste qui compose le Catalogue
+// si le trip pointé est du type voulu, alors écriture dans le fichier
+// et saut de ligne entre chaque nouveau trajet + incrementation de l'indice
 {
     Node * iter = tripList.GetFirst();
 
@@ -148,7 +155,9 @@ void Catalogue::saveType ( ofstream & tripStream )
 
 void Catalogue::saveCities ( ofstream & tripStream )
 // Algorithme :
-// XXXX
+// L'utilisateur a le choix entre sauvegarder les trajets qui partent d'une ville connue,
+// qui finissent dans une ville connue, ou qui vérifient les deux conditions en même temps
+// En fonction du choix de l'utilisateur, la méthode adaptée sera appelée
 {
     int choice;
 
@@ -182,10 +191,16 @@ void Catalogue::saveCities ( ofstream & tripStream )
         }
         break;
     }
-
 } //----- Fin de saveFromCities
 
 void Catalogue::saveTripsFromDeparture ( std::ofstream & tripStream )
+// Algorithme :
+// Demande à l'utilisateur d'entrer la ville de départ
+// des trajets qu'il souhaite sauvegarder.
+// Parcours de la liste qui compose notre Catalogue
+// Si la ville de départ correspond bien, ecriture du trip dans le fichier,
+// quelque soit son type
+// + saut de ligne entre chaque nouveau trajet + incrementation de l'indice
 {
     int count = 0;
     string start;
@@ -220,6 +235,13 @@ void Catalogue::saveTripsFromDeparture ( std::ofstream & tripStream )
 } //----- Fin de saveTripsFromDeparture
 
 void Catalogue::saveTripsToArrival ( std::ofstream & tripStream )
+// Algorithme :
+// Demande à l'utilisateur d'entrer la ville d'arrivée
+// des trajets qu'il souhaite sauvegarder.
+// Parcours de la liste qui compose notre Catalogue
+// Si la ville d'arrivée correspond bien, ecriture du trip dans le fichier,
+// quelque soit son type
+// + saut de ligne entre chaque nouveau trajet + incrementation de l'indice
 {
     int count = 0;
     string end;
@@ -255,6 +277,13 @@ void Catalogue::saveTripsToArrival ( std::ofstream & tripStream )
 } //----- Fin de saveTripsToArrival
 
 void Catalogue::saveTripsFromTo ( std::ofstream & tripStream )
+// Algorithme :
+// Demande à l'utilisateur d'entrer les villes de départ et d'arrivée
+// des trajets qu'il souhaite sauvegarder.
+// Parcours de la liste qui compose notre Catalogue
+// Si les deux villes correspondent bien, ecriture du trip dans le fichier,
+// quelque soit son type
+// + saut de ligne entre chaque nouveau trajet + incrementation de l'indice
 {
     int count = 0;
     string start, end;
@@ -295,10 +324,15 @@ void Catalogue::saveTripsFromTo ( std::ofstream & tripStream )
 
 void Catalogue::saveInterval ( ofstream & tripStream )
 // Algorithme :
-// XXX
+// L'utilisateur entre l'index de début de la sauvegarde et l'index de fin
+// Les indices sont disponibles lors de l'affichage du catalogue (méthode display())
+// Parcours de la liste jusqu'à trouver l'index de début
+// puis on sauvegarde (fin - début + 1) trajets dans le fichier de destination
+// + saut de ligne entre chaque nouveau trajet + incrementation de l'indice
+// La méthode vérifie si l'entrée utilisateur est valide (fin >= début et si début <= nb
+// de trajets dans le catalogue)
 {
-    int start, end;
-    int size = tripList.GetSize();
+    int start, end, size = tripList.GetSize();
 
     for ( ; ; )
     {
@@ -363,6 +397,11 @@ void Catalogue::saveInterval ( ofstream & tripStream )
 } //----- Fin de saveInterval
 
 ofstream Catalogue::askNameFileSave ( )
+// Algorithme :
+// Demande à l'utilisateur d'entrer le nom (sans l'extension) d'un fichier, qui peut être non existant
+// mais qui doit être valide s'il est deja existant, c'est-à-dire non-corrompu
+// tant que l'utilisateur ne respecte pas les contraintes, demande à nouveau le nom de fichier
+// appel de la méthode openingMode() pour savoir selon quel mode d'ouverture le fichier doit être géré
 {
     string nameFile;
     ofstream tripStream;
@@ -408,7 +447,15 @@ ofstream Catalogue::askNameFileSave ( )
     return tripStream;
 } //----- Fin de askNameFileSave
 
-void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, string & nameFile, bool & fileOk ) {
+void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, string & nameFile, bool & fileOk )
+// Algorithme :
+// Si le fichier entré par l'utilisateur existe déjà, l'utilisateur peut choisir entre écrire à la suite
+// (append), écraser son contenu (overwrite), ou bien abandonner l'opération
+// s'il faut écrire à la suite, une méthode sera appelée pour gérer cela
+// pour l'écrasement, le fichier sera ouvert avec le mode par défaut
+// s'il faut écrire pour la première fois dans le fichier (si non existant ou si overwriting)
+// alors les noms des colonnes sont inscrites
+{
     bool appendOk = false;
 
     tempStream.open( nameFile.c_str() ); // input stream to check if file already exists
@@ -481,25 +528,29 @@ void Catalogue::openingMode ( ifstream & tempStream, ofstream & tripStream, stri
 } //----- Fin de openingMode
 
 void Catalogue::appendOutput ( ifstream & tempStream, ofstream & tripStream, string & nameFile )
+// Algorithme :
+// Méthode appelée si l'utilisateur souhaite écrire à la suite d'un fichier deja existant
+// Pour cela, il faut tout d'abord récupérer l'indice du dernier trajet sauvegarder afin de conserver
+// l'ordre numérique des trajets dans ce fichier
+// ceci n'est fait que si le fichier n'est pas vide
 {
-    lastIndex = findNextTripIndex( tempStream );
-    tempStream.close();
-
-    tripStream.open( nameFile.c_str(), ios_base::app ); // appending
-
-    // a new line after the last trip must be added if the file is not empty
-    tripStream.seekp( 0, ios_base::end );
-    // goes to end of file
     long size;
-    size = tripStream.tellp(); // get current position = size of file
+    // a new line after the last trip must be added if the file is not empty
+    // goes to end of file
+    tempStream.seekg( 0, ios_base::end );
+    size = tempStream.tellg(); // gets current position = size of file
 
-    if ( size > 0 ) // file is not empty
+    if ( size > 0 ) // file is not empty so new line + finding last index
     {
+        lastIndex = findNextTripIndex( tempStream );
+        tempStream.close();
+        tripStream.open( nameFile.c_str(), ios_base::app ); // appending mode
         tripStream << endl;
     }
-    ///POUR CSV
     else // add the first line in the .csv file
     {
+        tempStream.close();
+        tripStream.open( nameFile.c_str(), ios_base::app ); // appending mode
         tripStream << "index,type,departure,arrival,transportation" << endl;
     }
 }  //----- Fin de appendOutput

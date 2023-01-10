@@ -38,7 +38,8 @@ int Trip::GetType ( ) const
 
 void Trip::SaveTripToFile ( ofstream & tripStream )
 // Algorithme :
-//
+// Ecriture du type et des villes de depart et d'arrivée d'un trajet,
+// peu importe son type
 {
     tripStream << tripTypes[type] << "," << this->start << "," << this->end;
 } //----- Fin de saveTripToFile

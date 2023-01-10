@@ -80,17 +80,13 @@ protected:
 
     void import ( );
     // Mode d'emploi :
-    // Demande a l'utilisateur d'entrer le nom du fichier qui contient les
-    // trips a importer dans le catalogue
-    // Verification que le fichier existe et lecture de ce fichier
-    // L'utilisateur peut alors choisir entre quatre options de lecture :
+    // L'utilisateur peut choisir entre quatre options de lecture :
     // 1. lire l'ensemble du fichier pour l'ajouter au catalogue
     // 2. lire un seul type de trajets pour l'ajouter au newSTripcatalogue
     // 3. lire les trajets correspondant a une recherche
     // 4. lire une selection de trajets compris dans un intervalle
+    // En fonction du choix de l'utilisateur, la fonction adaptée sera appelée.
     // Contrat :
-    // Le nom du fichier doit etre correct (sans espace), et le fichier
-    // doit exister et respecter le schema que l'on souhaite
 
     void importAll ( std::ifstream & tripStream );
     // Mode d'emploi :
@@ -98,7 +94,7 @@ protected:
     // Elle effectue un parcours du fichier ligne par ligne, et en fonction du type de trajet
     // rencontré à chaque ligne, elle appelle une des méthodes importSimpleTrip ou importComposedTrip
     // Contrat :
-    //
+    // tripStream est un flux d'entrée valide, i.e : le fichier existe et n'est pas vide ou corrompu
 
     void importAllSimpleTrips ( std::ifstream & tripStream );
     // Mode d'emploi :
@@ -110,10 +106,14 @@ protected:
     // Mode d'emploi :
     // Cette méthode est utile pour importer tous les trajets composés dans le Catalogue
     // Elle sera notemment utilisée dans les méthodes importAll et importTripsFromType
+    // Contrat :
+    // tripStream est un flux d'entrée valide, i.e : le fichier existe et n'est pas vide ou corrompu
 
     void importType ( std::ifstream & tripStream );
     // Mode d'emploi :
     // Permet d'importer à partir d'un fichier tous les trajets qui répondent à un certain type
+    // Contrat :
+    // tripStream est un flux d'entrée valide, i.e : le fichier existe et n'est pas vide ou corrompu
 
     void importCities ( std::ifstream & tripStream );
     // Mode d'emploi :
@@ -122,35 +122,44 @@ protected:
     // 1. depuis ville de depart
     // 2. depuis ville d'arrivee
     // 3. depuis les deux
-    /// PAS DE CONTRAT?
+    // En fonction du choix de l'utilisateur, la fonction adaptée sera appelée.
+    // Contrat :
+    // tripStream est un flux d'entrée valide, i.e : le fichier existe et n'est pas vide ou corrompu
 
     void importTripsFromDeparture ( std::ifstream & tripStream );
     // Mode d'emploi :
-    //
+    // La fonction se charge d'importer tous les trajets dont la ville de départ
+    // correspond au choix de l'utilisateur.
     // Contrat :
     //
 
     void importTripsToArrival ( std::ifstream & tripStream );
     // Mode d'emploi :
-    //
+    // La fonction se charge d'importer tous les trajets dont la ville d'arrivée
+    // correspond au choix de l'utilisateur.
     // Contrat :
     //
 
     void importTripsFromTo ( std::ifstream & tripStream );
     // Mode d'emploi :
-    //
+    // La fonction se charge d'importer tous les trajets dont la ville de départ
+    // ET la ville d'arrivée correspondent au choix de l'utilisateur.
     // Contrat :
     //
 
     void importInterval ( std::ifstream & tripStream );
     // Mode d'emploi :
-    //
+    // La fonction permet d'importer des trajets situés dans un intervalle que
+    // l'utilisateur donne à l'application.
     // Contrat :
-    //
+    // tripStream est un flux d'entrée valide, i.e : le fichier existe et n'est pas vide ou corrompu
 
     ifstream askNameFileImport ( ) const;
     // Mode d'emploi :
-    //
+    // Demande a l'utilisateur d'entrer le nom du fichier qui contient les
+    // trajets a importer dans le catalogue
+    // La fonction est appelée à chaque appel de la fonction import().
+    // Cela garantit que le nom du fichier et le fichier lui même sont valides.
     // Contrat :
 
     void save ( );
@@ -168,7 +177,11 @@ protected:
 
     void saveAll ( std::ofstream & tripStream );
     // Mode d'emploi :
-    //
+    // Permet d'exporter tous les trajets du catalogue dans un fichier .csv
+    // dont le nom est donné par l'utilisateur.
+    // Si le fichier existe, l'utilisateur peut alors choisir entre les options
+    // de réécrire complètement le fichier ( overwrite ), ou de rajouter les trajets à la fin
+    // de ce fichier ( append ) .
     // Contrat :
 
     void saveType ( std::ofstream & tripStream );

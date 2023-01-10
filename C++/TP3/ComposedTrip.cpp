@@ -64,6 +64,10 @@ void ComposedTrip::SaveTripToFile ( ofstream & tripStream )
 }
 
 bool ComposedTrip::IsValid ( )
+// Algorithme :
+// Itère à travers la liste de trajets qui compose le trajet composé
+// Si on trouve qu'une des étapes n'est pas cohérentes ( finit dans une ville
+// différente de la ville de départ de la prochaine étape ), alors le trajet n'est pas valide.
 {
     Node * current = trips.GetFirst();
     Node * next = current->GetNext();

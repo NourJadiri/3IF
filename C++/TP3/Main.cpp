@@ -29,12 +29,10 @@ static void test ( )
 // Algorithme :
 // Création d'un catalogue vide lors du lancement de l'application
 {
-/*
     Catalogue c;
     c.Launch ( );
-*/
-    ifstream tripStream("../C++/TP3/myTT.csv");
-    cout << findNextTripIndex( tripStream ) << endl;
+/*    ifstream tripStream("../C++/TP3/myTT.csv");
+    cout << findNextTripIndex( tripStream ) << endl;*/
 
 /*    ComposedTrip * ct = new ComposedTrip();
 

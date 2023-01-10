@@ -45,6 +45,10 @@ public:
     void SaveTripToFile ( std::ofstream & tripStream );
 
     bool IsValid ( );
+    // Mode d'emploi :
+    // La fonction permet de vérifier si toutes les étapes d'un trajet composé
+    // donné sont valides.
+    // Contrat :
 
 //-------------------------------------------- Constructeurs - destructeur
     ComposedTrip ( );

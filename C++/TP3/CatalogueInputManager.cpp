@@ -13,7 +13,6 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <fstream>
 //#include <limits>
 using namespace std;
 
@@ -27,20 +26,35 @@ using namespace std;
 
 //--------------------------------------------------------- Méthodes amies
 void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip, int tripIndex )
-// Generic method that allows to import a single composedTrip into a catalogue C
+// Algorithme :
+// La méthode permet d'importer un trajet composé à partir de sa version texte
+// traitée au préalable.
+// Tant qu'on n'arrive pas à une ligne vide, et que les indices des étapes
+// du trajet composé sont logiques, le trajet composé se voit rajouter
+// une nouvelle étape.
+// Si le trajet n'est pas valide, ou que le format texte n'est pas respecté,
+// le trajet n'est pas importé dans sa totalité.
 {
     ComposedTrip * composedTrip = new ComposedTrip();
 
+    // We delete the first line that has been used to determine the type of the trip
     delete [ ] data;
 
+    // While there is no empty string
     while ( getline( tripStream, trip ) && !trip.empty() )
     {
         data = split( trip, ',' );
 
-        if ( data[0] != "0" ) // corresponds to the label of the composedTrip and not the simpleTrips composing it
+        // If one of the steps has an index different than 0, break out of the loop
+        if ( data[0] != "0" )
         {
+            cerr << "Error in composed trip of index " << tripIndex << "." << endl;
+            cerr << "Step " << data[2] << " to " << data[3] << " has a non zero index." << endl;
+            cerr << "Aborting..." << endl;
+
             delete [ ] data;
-            break;
+            delete composedTrip;
+            return;
         }
 
         composedTrip->AddSimpleTrip( new SimpleTrip( data[2].c_str(),
@@ -49,8 +63,10 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
         delete [ ] data;
     }
 
+    // If the composed trip is valid
     if ( composedTrip->IsValid() )
     {
+        // The composed trip gets added in a sorted way in our catalogue
         c->tripList.AddTripSorted( composedTrip );
     }
     else
@@ -61,7 +77,8 @@ void importComposedTrip ( Catalogue * c, ifstream & tripStream, string * data, s
 } //----- Fin de importComposedTrip
 
 void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, string & trip )
-// Generic method that allows to import a single simpleTrip into a catalogue C
+// La méthode permet d'importer un trajet simple à partir de sa version texte
+// traitée au préalable.
 {
     c->tripList.AddTripSorted( new SimpleTrip( data[2].c_str(),
                                                data[3].c_str(), data[4].c_str() ) );
@@ -70,6 +87,9 @@ void importSimpleTrip ( Catalogue * c, ifstream & tripStream, string * data, str
 } //----- Fin de importSimpleTrip
 
 void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string & trip , int tripIndex )
+// Algorithme :
+// Appelle la fonction adapté au type du trajet à importer en fonction de son type.
+// Le type du trajet est lu au préalabe à partir du tableau data.
 {
     if ( data[1] == "S" )
     {
@@ -81,7 +101,7 @@ void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string
     }
     else
     {
-        cout << "Trip type is not valid. Aborting...";
+        cout << "Trip type is not valid. Aborting..." << endl;
         delete [ ] data;
         return;
     }
@@ -90,7 +110,8 @@ void importTrip ( Catalogue * c , ifstream & tripStream , string * data , string
 //----------------------------------------------------- Méthodes protégées
 void Catalogue::import ( )
 // Algorithme :
-// Appending XXXXXX
+// Demande une entrée de l'utilisateur
+// Appelle la fonction d'import adaptée en fonction de l'entrée de l'utilisateur
 {
     ifstream tripStream( askNameFileImport() );
     if ( !tripStream.is_open() )
@@ -125,6 +146,7 @@ void Catalogue::import ( )
                 importInterval ( tripStream );
                 break;
             case 5:
+                cout << "Going back to main menu..." << endl;
                 break;
             default:
                 cout << endl << "Incorrect choice, please enter a number between 1 and 5!" << endl;
@@ -138,7 +160,12 @@ void Catalogue::import ( )
 
 void Catalogue::importAll ( ifstream & tripStream )
 // Algorithme :
-//
+// On parcourt le fichier csv
+// A chaque ligne, on sépare la chaine de caractère contenue dans la ligne
+// en utilisant ',' comme séparateur
+// Puis on extrait les données qui y sont présentes, et en fonction
+// du type de trajet, on appelle la fonction adaptée.
+// La fonction effectue ces actions pour tous les trajets contenus dans le fichier.
 {
     string trip;
     string * data;
@@ -169,6 +196,12 @@ void Catalogue::importAll ( ifstream & tripStream )
 } //----- Fin de importAll
 
 void Catalogue::importType ( ifstream & tripStream )
+// Algorithme :
+// L'utilisateur choisit le type de trajets à importer à partir du fichier de trajets.
+// Pour chaque ligne parcourue dans le fichier csv, on extrait l'information du type de trajet
+// grâce à la fonction split(string,char).
+// Si le type est le bon, on appelle la fonction adaptée pour importer le trajet en question
+// dans le Catalogue.
 {
     const int CANCEL = 3;
     cout << "Please enter the type of trips you want to import from the file : " << endl;
@@ -214,6 +247,12 @@ void Catalogue::importType ( ifstream & tripStream )
 } //----- Fin de importType
 
 void Catalogue::importAllSimpleTrips ( ifstream & tripStream )
+// Algorithme :
+// On parcourt tout le fichier.
+// Chaque ligne est traitée à l'aide de la fonction split.
+// Si le trajet s'avère être simple, et qu'il ne s'agit pas d'une étape de trajet composé,
+// on appelle la fonction importSimpleTrip().
+//
 {
     string trip;
 
@@ -562,7 +601,7 @@ ifstream Catalogue::askNameFileImport ( ) const
             continue;
         }
 
-        //nameFile.insert( 0,"../C++/TP3/" );
+        nameFile.insert( 0,"../C++/TP3/" );
         nameFile.append( ".csv" );
 
         tripStream.open( nameFile.c_str() );

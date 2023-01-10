@@ -25,9 +25,10 @@ int countSeparators ( std::string & s, char separator );
 
 std::string * split ( std::string & s, char separator );
 
-string readLastLine ( ifstream & tripStream );
-
 int findNextTripIndex( std::ifstream & tripStream );
+// Mode d'emploi :
+// Cette fonction retourne le prochain indice d'un potentiel trajet
+// qui pourrait s'ajouter au catalogue.
 
 
 #endif // CATALOGUEUTILS_H

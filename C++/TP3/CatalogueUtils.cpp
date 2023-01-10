@@ -45,7 +45,7 @@ string * split ( string & str, char seperator )
     // Creating the string array that will hold our strings after splitting
     // hard coded 5 as a value because our format gives exactly 5 split strings (optimization)
     // the possibility to use a more generic separation can be considered by using :
-    // string * strings = new string[countSparators(str,',') + 1]
+    // string * strings = new string[ countSparators(str,',') + 1 ]
     string * strings = new string [ 5 ];
 
     int currIndex = 0, i = 0;
@@ -74,6 +74,10 @@ string * split ( string & str, char seperator )
 } //----- Fin de split
 
 int findNextTripIndex ( ifstream & tripStream )
+// Algorithme :
+// La fonction parcourt le fichier donné en argument de la fin vers le début.
+// Elle cherche le dernier indice de trajet différent de 0.
+// Retroune cet indice augmenté de 1.
 {
     int lastIndex = 1; // by default, the lastIndex of the first trip to be saved is 1
 

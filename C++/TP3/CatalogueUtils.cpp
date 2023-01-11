@@ -135,3 +135,35 @@ int findNextTripIndex ( ifstream & tripStream )
         delete [ ] data;
     }
 }  //----- Fin de findNextTripIndex
+
+
+string inputValidString ( const string& label )
+// Algorithme :
+// Utilisation de la fonction string.find() qui permet de
+// repérer si l'entrée utilisateur comporte des caractères spéciaux qui pourraient
+// compromettre le fichier de sauvegarde des trajets.
+// Note :
+// Pour l'instant seule la virgule ',' représente une réelle menace pour la sauvegarde,
+// mais on pourrait facilement imaginer l'élimination de plus de caractères histoire de
+// rendre l'application plus robuste :)
+{
+    string input;
+
+    cout << "----- Enter the " << label << ": ";
+
+    bool validString;
+    do {
+        cin >> input;
+        // The string is valid if it does not contain any ',' character
+        validString = !( input.find( ',' ) != string :: npos );
+
+        if ( !validString )
+        {
+            cout << "Please enter a valid " << label;
+        };
+    }
+    while ( !validString );
+
+    return input;
+} //----- Fin de inputValidString
+

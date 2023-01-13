@@ -12,7 +12,7 @@
 #define CATALOGUEUTILS_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include "Catalogue.h"
+//#include "Catalogue.h"
 
 //------------------------------------------------------------------------
 // Rôle de la librairie <CatalogueUtils>
@@ -50,5 +50,16 @@ int findNextTripIndex( std::ifstream & tripStream );
 // lors d'un import par intervalle
 // Contrat :
 // tripStream est un flux d'entrée valide, i.e. : le fichier existe et n'est pas vide ou corrompu
+
+string inputValidString ( const string& label );
+// Mode d'emploi :
+// La fonction renvoie un string qui contient les informations
+// que l'utilisateur a entré.
+// Le paramètre label permet d'avoir un affichage sur la console
+// plus personnalisé.
+// Contrat :
+// L'utilisateur ne doit pas renseigner de caractère " " (espace)
+// au risque de comprommettre le flux d'entrée standard.
+
 
 #endif // CATALOGUEUTILS_H

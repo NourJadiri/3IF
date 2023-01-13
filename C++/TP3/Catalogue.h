@@ -13,6 +13,9 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "List.h"
+#include "ComposedTrip.h"
+#include "SimpleTrip.h"
+#include "CatalogueUtils.h"
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Catalogue>
@@ -218,6 +221,7 @@ protected:
     // le trajet doit être valide (doit respecter le format texte)
     // tripStream est un flux d'entrée valide, i.e. : le fichier existe et n'est pas vide ou corrompu
 
+
     //--------------------------------- Méthodes de CatalogueOutputManager
     void save ( );
     // Mode d'emploi :
@@ -335,5 +339,7 @@ protected:
     List tripList;
     int lastIndex = 1;
 };
+
+
 
 #endif // CATALOGUE_H

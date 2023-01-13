@@ -25,9 +25,7 @@
 // maximale lors de l'importation par intervalle
 //------------------------------------------------------------------------
 
-//----------------------------------------------------------------- PUBLIC
-
-//---------------------------------------------------- Fonctions publiques
+//-------------------------------------------------------------- Fonctions
 int countSeparators ( std::string & s, char separator );
 // Mode d'emploi :
 // Cette fonction permet de généraliser la fonction split en comptant

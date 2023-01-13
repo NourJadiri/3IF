@@ -103,7 +103,7 @@ protected:
     // La méthode sert à importer tous les trajets présents dans un fichier
     // vers le catalogue courant
     // Elle effectue un parcours du fichier ligne par ligne, et en fonction du type de trajet
-    // rencontré à chaque ligne, elle appelle une des méthodes importSimpleTrip ou importComposedTrip
+    // rencontré à chaque ligne, elle appelle une des fonctions importSimpleTrip ou importComposedTrip
     // Contrat :
     // tripStream est un flux d'entrée valide, i.e. : le fichier existe et n'est pas vide ou corrompu
 
@@ -188,8 +188,8 @@ protected:
     friend void importTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                              std::string & trip, int tripIndex );
     // Mode d'emploi :
-    // Méthode amie à Catalogue qui sert à importer un trajet selon son type
-    // La méthode fait appel à importSimpleTrip() ou importComposedTrip() selon
+    // Fonction amie à Catalogue qui sert à importer un trajet selon son type
+    // La fonction fait appel à importSimpleTrip() ou importComposedTrip() selon
     // le type du trajet lu sur le fichier
     // Catalogue correspond à notre catalogue courant, data aux informations du trajet qui
     // est en train d'être lu, trip à la ligne lue, et tripIndex à son indice dans le fichier
@@ -200,7 +200,7 @@ protected:
     friend void importComposedTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                      std::string & trip, int tripIndex );
     // Mode d'emploi :
-    // Méthode amie à Catalogue qui sert à importer à partir d'un ficher un seul trajet composé
+    // Fonction amie à Catalogue qui sert à importer à partir d'un ficher un seul trajet composé
     // Catalogue correspond à notre catalogue courant, data aux informations du trajet qui
     // est en train d'être lu, trip à la ligne lue, et tripIndex à son indice dans le fichier
     // Contrat :
@@ -211,7 +211,7 @@ protected:
     friend void importSimpleTrip ( Catalogue * c, std::ifstream & tripStream, std::string * data,
                                    std::string & trip );
     // Mode d'emploi :
-    // Méthode amie à Catalogue qui sert à importer à partir d'un fichier un seul trajet simple
+    // Fonction amie à Catalogue qui sert à importer à partir d'un fichier un seul trajet simple
     // Catalogue correspond à notre catalogue courant, data aux informations du trajet qui
     // est en train d'être lu, trip à la ligne lue, et tripIndex à son indice dans le fichier
     // Contrat :

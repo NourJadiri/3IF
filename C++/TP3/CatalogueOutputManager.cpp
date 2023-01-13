@@ -28,7 +28,7 @@ void Catalogue::save ( )
 // ne continue que si le catalogue contient au moins un trajet susceptible d'etre sauvegarde
 // Appelle la méthode askNameFileSave() pour connaitre le nom du fichier
 //  Demande une entrée de l'utilisateur
-// Appelle la fonction d'export adaptée en fonction de l'entrée de l'utilisateur
+// Appelle la méthode d'export adaptée en fonction de l'entrée de l'utilisateur
 {
     if ( tripList.GetFirst() == nullptr )
     {

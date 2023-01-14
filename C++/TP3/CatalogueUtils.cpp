@@ -51,10 +51,10 @@ string * split ( string & str, char seperator )
     int currIndex = 0, i = 0;
     int startIndex = 0, endIndex;
 
-    while ( i <= str.size() )
+    while ( i <= (int) str.size() )
     {
         // if reaches the separator or the end of the string to split
-        if ( str[ i ] == seperator || i == str.size() )
+        if ( str[ i ] == seperator || i == (int) str.size() )
         {
             // New string ends at the separator
             endIndex = i;

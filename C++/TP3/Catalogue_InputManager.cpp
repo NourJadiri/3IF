@@ -629,7 +629,6 @@ ifstream Catalogue::askNameFileImport ( ) const
             continue;
         }
 
-        //nameFile.insert( 0,"../C++/TP3/" );
         nameFile.append( ".csv" );
 
         tripStream.open( nameFile.c_str() );

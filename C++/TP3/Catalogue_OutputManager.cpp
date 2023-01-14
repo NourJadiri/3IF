@@ -430,7 +430,6 @@ ofstream Catalogue::askNameFileSave ( )
             continue;
         }
 
-        //nameFile.insert( 0, "../C++/TP3/" );
         nameFile.append( ".csv" );
 
         openingMode( tempStream, tripStream, nameFile, fileOk );

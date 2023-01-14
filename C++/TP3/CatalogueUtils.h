@@ -23,6 +23,8 @@
 // chiffre lors de l'écriture, mais aussi afin de déterminer le nombre de
 // trajets disponibles dans le fichier pour pouvoir avoir la borne
 // maximale lors de l'importation par intervalle
+// Enfin, elle permet de veiller à la bonne utilisation de l'application
+// en empechant l'utilisateur de rentrer le caractère ',' dans une ville
 //------------------------------------------------------------------------
 
 //-------------------------------------------------------------- Fonctions
@@ -51,15 +53,14 @@ int findNextTripIndex( std::ifstream & tripStream );
 // Contrat :
 // tripStream est un flux d'entrée valide, i.e. : le fichier existe et n'est pas vide ou corrompu
 
-string inputValidString ( const string& label );
+string inputValidString ( const string & label );
 // Mode d'emploi :
 // La fonction renvoie un string qui contient les informations
-// que l'utilisateur a entré.
+// que l'utilisateur a entrées.
 // Le paramètre label permet d'avoir un affichage sur la console
 // plus personnalisé.
 // Contrat :
 // L'utilisateur ne doit pas renseigner de caractère " " (espace)
 // au risque de comprommettre le flux d'entrée standard.
-
 
 #endif // CATALOGUEUTILS_H

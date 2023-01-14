@@ -31,6 +31,7 @@ $(EXE) : $(OBJETS)
 	@$(ECHO) ">>>Compilation de" $<
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# commentaire ci-dessous à enlever si vous souhaitez egalement supprimer les fichiers .csv avec la commande make clean
 $(EFFACE) :
 	$(RM) $(RMFLAGS) $(EXE) $(OBJETS) 
 	#$(RM) $(RMFLAGS) $(FICHIERSTXT)

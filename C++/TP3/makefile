@@ -32,7 +32,8 @@ $(EXE) : $(OBJETS)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(EFFACE) :
-	$(RM) $(RMFLAGS) $(EXE) $(OBJETS) $(FICHIERSTXT)
+	$(RM) $(RMFLAGS) $(EXE) $(OBJETS) 
+	#$(RM) $(RMFLAGS) $(FICHIERSTXT)
 
 # dependance des fichiers
 Main.o : Main.h Catalogue.h

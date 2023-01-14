@@ -572,8 +572,6 @@ void Catalogue::importInterval ( ifstream & tripStream )
 
      while ( getline( tripStream, trip ) )
     {
-
-        cout << "Testing " << trip << endl ;
         if ( trip.empty() )
         {
             continue;

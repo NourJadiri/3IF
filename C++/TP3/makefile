@@ -12,8 +12,8 @@ LDFLAGS = -g -Wall -pedantic -std=c++11
 RMFLAGS = rm -f
 
 # definition des cibles
-INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h CatalogueInputManager.h CatalogueOutputManager.h CatalogueUtils.h
-REALISATION = $(INTERFACE:.h=.cpp)
+INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h CatalogueUtils.h
+REALISATION = $(INTERFACE:.h=.cpp) Catalogue_InputManager.cpp Catalogue_OutputManager.cpp
 OBJETS = $(INTERFACE:.h=.o)
 EXE = trajets
 FICHIERSTXT = $(wildcard *.csv)

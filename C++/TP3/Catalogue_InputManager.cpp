@@ -514,8 +514,7 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
 void Catalogue::importInterval ( ifstream & tripStream )
 // Algorithme :
 // L'utilisateur entre l'index de début de son import et l'index de fin.
-// Parcours du fichier jusqu'à trouver l'index de début
-// puis on importe (fin - début + 1) trajets dans le catalogue.
+// Parcours du fichier et importation des trajets qui sont compris dans l'intervalle
 // La méthode vérifie si l'entrée utilisateur est valide (fin >= début et si début <= nb
 // de trajets dans le fichier)
 {
@@ -569,7 +568,6 @@ void Catalogue::importInterval ( ifstream & tripStream )
         else break;
     }
 
-
      while ( getline( tripStream, trip ) )
     {
         if ( trip.empty() )
@@ -583,13 +581,12 @@ void Catalogue::importInterval ( ifstream & tripStream )
         {
             importTrip( this, tripStream, data, trip, tripIndex );
         }
-        else
+        else // all trips in interval have been imported
         {
             delete [ ] data;
             break;
         }
     }
-
     tripStream.clear();
     tripStream.seekg(0);
 } //----- Fin de importInterval

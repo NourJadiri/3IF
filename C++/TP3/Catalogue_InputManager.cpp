@@ -519,10 +519,14 @@ void Catalogue::importInterval ( ifstream & tripStream )
 // La méthode vérifie si l'entrée utilisateur est valide (fin >= début et si début <= nb
 // de trajets dans le fichier)
 {
-    int start, end, interval, tripIndex;
+    int start, end, tripIndex;
+    string skippedLine;
 
     int lastTripIndex = findNextTripIndex( tripStream ) - 1;
     // -1 because the method returns the index of next trip ; so last trip index + 1
+    tripStream.seekg(0);
+    getline( tripStream, skippedLine );
+
     cout << lastTripIndex << endl;
     string trip, * data;
 
@@ -565,10 +569,11 @@ void Catalogue::importInterval ( ifstream & tripStream )
         else break;
     }
 
-    interval = end - start;
 
-    while ( getline( tripStream, trip ) )
+     while ( getline( tripStream, trip ) )
     {
+
+        cout << "Testing " << trip << endl ;
         if ( trip.empty() )
         {
             continue;
@@ -576,29 +581,20 @@ void Catalogue::importInterval ( ifstream & tripStream )
 
         data = split( trip, ',' );
 
-        if ( stoi(data[0] ) == start )
+        if ( stoi(data[0] ) >= start && stoi( data[0] ) <= end )
         {
-            //cout << "importing " << trip << endl;
             importTrip( this, tripStream, data, trip, tripIndex );
-            interval--;
+            //interval--;
+        }
+        else
+        {
+            delete [ ] data;
             break;
         }
     }
 
-    while ( interval >= 0 )
-    {
-        getline( tripStream , trip );
-
-        if ( trip.empty() )
-        {
-            continue;
-        }
-
-        data = split( trip, ',');
-        tripIndex = stoi( data[0] );
-        importTrip( this, tripStream, data, trip, tripIndex );
-        interval--;
-    }
+    tripStream.clear();
+    tripStream.seekg(0);
 } //----- Fin de importInterval
 
 ifstream Catalogue::askNameFileImport ( ) const
@@ -676,7 +672,7 @@ ifstream Catalogue::askNameFileImport ( ) const
     string firstLineSkipped;
 
     // We skip the first line of the file (there is no trip in it)
-    getline(tripStream , firstLineSkipped );
+    getline( tripStream , firstLineSkipped );
 
     return tripStream;
 } //----- Fin de askNameFileImport

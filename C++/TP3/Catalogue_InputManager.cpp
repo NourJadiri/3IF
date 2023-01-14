@@ -1,5 +1,5 @@
 /*************************************************************************
-                           CatalogueInputManager  -  gestion des imports
+                           Catalogue_InputManager  -  gestion des imports
                              -------------------
     début                : 04/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Fichier source <CatalogueInputManager> (fichier CatalogueInputManager.cpp) ------------
+//---------- Fichier source <Catalogue_InputManager> (fichier Catalogue_InputManager.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 

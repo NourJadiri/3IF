@@ -75,10 +75,10 @@ void Catalogue::Launch ( )
                 fetch();
                 break;
             case 4:
-                import(); // dans CatalogueInputManager.cpp
+                import(); // dans Catalogue_InputManager.cpp
                 break;
             case 5:
-                save(); // dans CatalogueOutputManager.cpp
+                save(); // dans Catalogue_OutputManager.cpp
                 break;
             case 6:
                 goto end;

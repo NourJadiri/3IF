@@ -1,5 +1,5 @@
 /*************************************************************************
-                           CatalogueOutputManager  -  gestion des exports
+                           Catalogue_OutputManager  -  gestion des exports
                              -------------------
     début                : 04/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Fichier source <CatalogueOutputManager> (fichier CatalogueOutputManager.cpp) ------------
+//---------- Fichier source <Catalogue_OutputManager> (fichier Catalogue_OutputManager.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 

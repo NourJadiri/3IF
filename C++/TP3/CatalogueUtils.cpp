@@ -136,8 +136,7 @@ int findNextTripIndex ( ifstream & tripStream )
     }
 }  //----- Fin de findNextTripIndex
 
-
-string inputValidString ( const string& label )
+string inputValidString ( const string & label )
 // Algorithme :
 // Utilisation de la fonction string.find() qui permet de
 // repérer si l'entrée utilisateur comporte des caractères spéciaux qui pourraient
@@ -152,15 +151,16 @@ string inputValidString ( const string& label )
     cout << "----- Enter the " << label << ": ";
 
     bool validString;
-    do {
+    do
+    {
         cin >> input;
         // The string is valid if it does not contain any ',' character
-        validString = !( input.find( ',' ) != string :: npos );
+        validString = !( input.find( ',' ) != string::npos );
 
         if ( !validString )
         {
             cout << "Please enter a valid " << label;
-        };
+        }
     }
     while ( !validString );
 

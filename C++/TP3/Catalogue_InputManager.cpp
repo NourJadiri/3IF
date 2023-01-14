@@ -582,7 +582,6 @@ void Catalogue::importInterval ( ifstream & tripStream )
         if ( stoi(data[0] ) >= start && stoi( data[0] ) <= end )
         {
             importTrip( this, tripStream, data, trip, tripIndex );
-            //interval--;
         }
         else
         {

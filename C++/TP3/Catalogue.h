@@ -37,7 +37,7 @@
 // - on peut faire de même mais pour exporter des trajets du catalogue
 // vers un fichier
 // ces deux parties ont respectivement ete implementees dans
-// CatalogueInputManager.cpp et CatalogueOutputManager.cpp
+// Catalogue_InputManager.cpp et Catalogue_OutputManager.cpp
 //------------------------------------------------------------------------
 
 class Catalogue
@@ -88,7 +88,7 @@ protected:
     // L'utilisateur ne doit pas rentrer d'espaces, et les chaines de caractères
     // entrées font moins de 64 caractères
 
-    //---------------------------------- Méthodes de CatalogueInputManager
+    //---------------------------------- Méthodes de Catalogue_InputManager
     void import ( );
     // Mode d'emploi :
     // L'utilisateur peut choisir entre quatre options de lecture :
@@ -222,7 +222,7 @@ protected:
     // tripStream est un flux d'entrée valide, i.e. : le fichier existe et n'est pas vide ou corrompu
 
 
-    //--------------------------------- Méthodes de CatalogueOutputManager
+    //--------------------------------- Méthodes de Catalogue_OutputManager
     void save ( );
     // Mode d'emploi :
     // si le catalogue est non vide :

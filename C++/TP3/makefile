@@ -12,9 +12,10 @@ LDFLAGS = -g -Wall -pedantic -std=c++11
 RMFLAGS = rm -f
 
 # definition des cibles
-INTERFACE = Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h CatalogueUtils.h
-REALISATION = $(INTERFACE:.h=.cpp) Catalogue_InputManager.cpp Catalogue_OutputManager.cpp
-OBJETS = $(INTERFACE:.h=.o)
+INTERFACE := Main.h Catalogue.h ComposedTrip.h List.h Node.h SimpleTrip.h Trip.h CatalogueUtils.h
+REALISATION := $(INTERFACE:.h=.cpp)
+REALISATION := $(REALISATION) Catalogue_InputManager.cpp Catalogue_OutputManager.cpp
+OBJETS = $(REALISATION:.cpp=.o)
 EXE = trajets
 FICHIERSTXT = $(wildcard *.csv)
 EFFACE = clean
@@ -36,8 +37,8 @@ $(EFFACE) :
 # dependance des fichiers
 Main.o : Main.h Catalogue.h
 Catalogue.o : Catalogue.h SimpleTrip.h ComposedTrip.h CatalogueUtils.h List.h
-CatalogueInputManager.o : Catalogue.h ComposedTrip.h SimpleTrip.h CatalogueUtils.h
-CatalogueOutputManager.o : List.h Catalogue.h CatalogueUtils.h
+Catalogue_InputManager.o : Catalogue.h ComposedTrip.h SimpleTrip.h CatalogueUtils.h
+Catalogue_OutputManager.o : List.h Catalogue.h CatalogueUtils.h
 CatalogueUtils.o : CatalogueUtils.h Catalogue.h
 ComposedTrip.o : ComposedTrip.h List.h Trip.h
 List.o : List.h Node.h

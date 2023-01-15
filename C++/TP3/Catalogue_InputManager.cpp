@@ -588,11 +588,15 @@ void Catalogue::importInterval ( ifstream & tripStream )
         }
 
         data = split( trip, ',' );
-        cout << "Trying " << trip << endl;
-    
-        if ( stoi(data[0] ) >= start && stoi( data[0] ) <= end )
+
+        if ( stoi( data[0] ) < start )
         {
-            cout << "Importing " << trip << endl;
+            delete [ ] data;
+            continue;
+        }
+    
+        if ( stoi( data[0] ) >= start && stoi( data[0] ) <= end )
+        {
             importTrip( this, tripStream, data, trip, tripIndex );
         }
         else // all trips in interval have been imported

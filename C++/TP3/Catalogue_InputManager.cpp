@@ -535,10 +535,6 @@ void Catalogue::importInterval ( ifstream & tripStream )
 
     int lastTripIndex = findNextTripIndex( tripStream ) - 1;
     // -1 because the method returns the index of next trip ; so last trip index + 1
-    
-    // findNextTripIndex positions the cursor at the end of the file
-    // We go back to the beginning
-    tripStream.seekg(0);
 
     // And we skip the first line
     getline( tripStream, skippedLine );
@@ -584,7 +580,7 @@ void Catalogue::importInterval ( ifstream & tripStream )
         else break;
     }
 
-     while ( getline( tripStream, trip ) )
+    while ( getline( tripStream, trip ) )
     {
         if ( trip.empty() )
         {

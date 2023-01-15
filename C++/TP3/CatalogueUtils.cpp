@@ -85,6 +85,9 @@ int findNextTripIndex ( ifstream & tripStream )
     tripStream.seekg( 0, ios::end ); // move to end of file
     if ( tripStream.tellg() == 0 ) // if file is empty
     {
+        // findNextTripIndex positions the cursor at the end of the file
+        // We go back to the beginning
+        tripStream.seekg( 0 );
         return lastIndex; // lastIndex will stay 1
     }
 
@@ -128,7 +131,9 @@ int findNextTripIndex ( ifstream & tripStream )
             lastIndex = stoi( data[0] );
 
             delete [ ] data;
-
+            // findNextTripIndex positions the cursor at the end of the file
+            // We go back to the beginning
+            tripStream.seekg( 0 );
             return lastIndex + 1; // index of next trip to be saved (index of last trip in file +1)
         }
 

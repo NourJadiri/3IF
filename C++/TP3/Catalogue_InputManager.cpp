@@ -400,6 +400,10 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
             tripIndex = stoi( data[0] );
             importTrip( this, tripStream, data, trip, tripIndex );
         }
+        else
+        {
+            delete [ ] data;
+        }
     }
 
     if ( count == 0 )
@@ -433,7 +437,7 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
 
     while ( tripStream.good() )
     {
-        getline(tripStream,trip);
+        getline( tripStream,trip );
         if ( trip.empty() )
         {
             continue;
@@ -446,6 +450,10 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
             count++;
             tripIndex = stoi( data[0] );
             importTrip( this, tripStream, data, trip, tripIndex );
+        }
+        else
+        {
+            delete [ ] data;
         }
     }
 
@@ -497,6 +505,10 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
             tripIndex = stoi( data[0] );
             importTrip( this, tripStream, data, trip, tripIndex );
         }
+        else
+        {
+            delete [ ] data;
+        }
     }
 
     if ( count == 0 )
@@ -523,10 +535,14 @@ void Catalogue::importInterval ( ifstream & tripStream )
 
     int lastTripIndex = findNextTripIndex( tripStream ) - 1;
     // -1 because the method returns the index of next trip ; so last trip index + 1
+    
+    // findNextTripIndex positions the cursor at the end of the file
+    // We go back to the beginning
     tripStream.seekg(0);
+
+    // And we skip the first line
     getline( tripStream, skippedLine );
 
-    cout << lastTripIndex << endl;
     string trip, * data;
 
     for ( ; ; )
@@ -576,9 +592,11 @@ void Catalogue::importInterval ( ifstream & tripStream )
         }
 
         data = split( trip, ',' );
-
+        cout << "Trying " << trip << endl;
+    
         if ( stoi(data[0] ) >= start && stoi( data[0] ) <= end )
         {
+            cout << "Importing " << trip << endl;
             importTrip( this, tripStream, data, trip, tripIndex );
         }
         else // all trips in interval have been imported

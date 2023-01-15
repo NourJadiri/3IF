@@ -362,7 +362,7 @@ void Catalogue::saveInterval ( ofstream & tripStream )
         if ( end < start )
         {
             cout << endl << "Ending index is less than starting index (" << start << ")..." << endl;
-            cout << "Please enter a number less than or equal to " << start << endl;
+            cout << "Please enter a number greater than or equal to " << start << endl;
             continue;
         }
 

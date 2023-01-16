@@ -33,7 +33,7 @@ as (select c.* from ryori.commandes@LINKAMERIQUETORYORI c
                             inner join CLIENTS_AM on ( c.code_client = CLIENTS_AM.CODE_CLIENT ));
 
 -- creation de la table details_commandes
-create table DETAILS_COMMMANDES_AM
+create table DETAILS_COMMANDES_AM
 as (select dc.* from ryori.details_commandes@LINKAMERIQUETORYORI dc
                             inner join COMMANDES_AM on (dc.no_commande = COMMANDES_AM.NO_COMMANDE));
 
@@ -77,7 +77,7 @@ alter table DETAILS_COMMANDES_AM add constraint pk_no_comm_ref_prod_det
                                  primary key (NO_COMMANDE, REF_PRODUIT);
 alter table DETAILS_COMMANDES_AM add constraint fk_no_commande_det
                                  foreign key (NO_COMMANDE)
-                                 references COMMANDES_AMERIQUE.(NO_COMMANDE);
+                                 references COMMANDES_AM (NO_COMMANDE);
 
 -- table stock
 alter table STOCK_AM add constraint pk_ref_prod_pays_stock
@@ -94,11 +94,11 @@ create or replace trigger trig_stock
         counter$ number(8);
 begin
         select count(*) into counter$
-        from cgillier.produits@LINKAMERIQUETOEUROPESUD
+        from cgillier.PRODUITS@LINKAMERIQUETOEUROPESUD
         where ref_produit = :new.ref_produit;
 
         if (counter$ = 0) then
-                raise_application_error(-20001,'le produit n`existe pas dans la table produits');
+                raise_application_error(-20021,'le produit n`existe pas dans la table produits');
         end if;
 end;
 /
@@ -112,11 +112,11 @@ create or replace trigger trig_details_commandes
         counter$ number(8);
 begin
         select count(*) into counter$
-        from cgillier.produits@LINKAMERIQUETOEUROPESUD
+        from cgillier.PRODUITS@LINKAMERIQUETOEUROPESUD
         where ref_produit = :new.ref_produit;
 
         if (counter$ = 0) then
-            raise_application_error(-20002,'le produit n`existe pas dans la table produits');
+            raise_application_error(-20022,'le produit n`existe pas dans la table produits');
         end if;
 end;
 /
@@ -132,15 +132,15 @@ begin
         select count(*) into counter$
         from (select * from COMMANDES_AM
                     union all
-              select * from cgillier.Commandes_ES@LINKAMERIQUETOEUROPESUD
+              select * from cgillier.COMMANDES_ES@LINKAMERIQUETOEUROPESUD
                        union all
-              select * from smalard.Commandes_EN@LINKAMERIQUETOEUROPENORD
+              select * from smalard.COMMANDES_EN@LINKAMERIQUETOEUROPENORD
                        union all
-              select * from smalard.Commandes_Autre@LINKAMERIQUETOEUROPENORD)
+              select * from smalard.COMMANDES_AUTRE@LINKAMERIQUETOEUROPENORD)
         where NO_EMPLOYE = :old.no_employe;
 
         if (counter$ > 0) then
-            raise_application_error(-20003,'l`employe existe dans une commande');
+            raise_application_error(-20023,'l`employe existe dans une commande');
         end if;
 end;
 /
@@ -169,15 +169,15 @@ create view clients as
                                        'Saint-Vincent-et-les Grenadines', 'Salvador', 'Suriname', 'Trinite-et-Tobago',
                                        'Uruguay', 'Venezuela')
         union all
-    select * from cgillier.clients_ES@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.CLIENTS_ES@LINKAMERIQUETOEUROPESUD
              where pays in ('Espagne', 'Portugal', 'Andorre', 'France', 'Gibraltar', 'Italie', 'Saint-Marin', 'Vatican', 'Malte',
                            'Albanie', 'Bosnie-Herzegovine', 'Croatie', 'Grece', 'Macedoine', 'Montenegro', 'Serbie', 'Slovenie', 'Bulgarie')
         union all
-    select * from smalard.clients_EN@LINKAMERIQUETOEUROPENORD
+    select * from smalard.CLIENTS_EN@LINKAMERIQUETOEUROPENORD
              where pays in ('Allemagne', 'Norvege', 'Suede', 'Danemark', 'Islande', 'Finlande', 'Royaume-Uni',
              'Irlande', 'Belgique', 'Luxembourg', 'Pays-Bas', 'Pologne')
         union all
-    select * from smalard.clients_Autre@LINKAMERIQUETOEUROPENORD
+    select * from smalard.CLIENTS_AUTRE@LINKAMERIQUETOEUROPENORD
              where pays not in ('Norvege', 'Suede', 'Danemark', 'Islande', 'Finlande', 'Royaume-Uni',
 'Irlande', 'Belgique', 'Luxembourg', 'Pays-Bas', 'Pologne', 'France','Antigua-et-Barbuda', 'Argentine', 'Bahamas', 'Barbade', 'Belize', 'Bolivie', 'Bresil',
 'Canada', 'Chili', 'Colombie', 'Costa Rica', 'Cuba', 'Republique dominicaine', 'Dominique',
@@ -189,38 +189,38 @@ create view clients as
 create view commandes as
     select * from COMMANDES_AM
         union all
-    select * from cgillier.commandes_ES@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.COMMANDES_ES@LINKAMERIQUETOEUROPESUD
         union all
-    select * from smalard.commandes_EN@LINKAMERIQUETOEUROPENORD
+    select * from smalard.COMMANDES_EN@LINKAMERIQUETOEUROPENORD
         union all
-    select * from smalard.commandes_Autre@LINKAMERIQUETOEUROPENORD;
+    select * from smalard.COMMANDES_AUTRE@LINKAMERIQUETOEUROPENORD;
 
 create view details_commandes as
     select * from DETAILS_COMMANDES_AM
         union all
-    select * from cgillier.details_commandes_ES@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.DETAILS_COMMANDES_ES@LINKAMERIQUETOEUROPESUD
         union all
-    select * from smalard.details_Commandes_EN@LINKAMERIQUETOEUROPENORD
+    select * from smalard.DETAILS_COMMANDES_EN@LINKAMERIQUETOEUROPENORD
         union all
-    select * from smalard.details_Commandes_Autre@LINKAMERIQUETOEUROPENORD;
+    select * from smalard.DETAILS_COMMANDES_AUTRE@LINKAMERIQUETOEUROPENORD;
 
 create view stock as
     select * from STOCK_AM
         union all
-    select * from cgillier.stock_ES@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.STOCK_ES@LINKAMERIQUETOEUROPESUD
         union all
-    select * from smalard.stock_EN@LINKAMERIQUETOEUROPENORD
+    select * from smalard.STOCK_EN@LINKAMERIQUETOEUROPENORD
         union all
-    select * from smalard.stock_Autre@LINKAMERIQUETOEUROPENORD
+    select * from smalard.STOCK_AUTRE@LINKAMERIQUETOEUROPENORD
         union all
-    select * from smalard.stock_Allemagne@LINKAMERIQUETOEUROPENORD;
+    select * from smalard.STOCK_ALLEMAGNE@LINKAMERIQUETOEUROPENORD;
 
 
 --- synonymes
 -- synonymes pour les tables distantes non fragmentees
-create or replace synonym produits for cgillier.produits@LINKAMERIQUETOEUROPESUD;
-create or replace synonym categories for cgillier.categories@LINKAMERIQUETOEUROPESUD;
-create or replace synonym fournisseurs for smalard.fournisseurs@LINKAMERIQUETOEUROPENORD;
+create or replace synonym produits for cgillier.PRODUITS@LINKAMERIQUETOEUROPESUD;
+create or replace synonym categories for cgillier.CATEGORIES@LINKAMERIQUETOEUROPESUD;
+create or replace synonym fournisseurs for smalard.FOURNISSEURS@LINKAMERIQUETOEUROPENORD;
 
 
 
@@ -242,6 +242,7 @@ delete from EMPLOYES where NO_EMPLOYE = 1;                      -- cet employe a
 
 -- tests des vues
 select * from clients;
+select * from clients where pays in ('Etats-Unis', 'Argentine', 'Salvador');
 select * from commandes;
 select * from details_commandes;
 select * from stock;
@@ -250,3 +251,36 @@ select * from stock;
 select * from produits;
 select * from categories;
 select * from fournisseurs;
+
+
+
+----- PLANS D'EXECUTIONS
+select * from clients;
+select * from clients where pays in ('Etats-Unis', 'Argentine', 'Salvador');
+select * from clients_am;
+select * from clients where pays in ('Norvege','Suede');
+select * from fournisseurs;
+
+
+create materialized view log on EMPLOYES;
+grant select on MLog$_employes to cgillier, smalard;
+
+create materialized view dmv_categories
+  refresh complete
+  next sysdate + (2/24/60)
+  as select * from cgillier.categories@LINKAMERIQUETOEUROPESUD;
+
+create materialized view dmv_fournisseurs
+  refresh complete
+  next sysdate + (2/24/60)
+  as select * from smalard.fournisseurs@LINKAMERIQUETOEUROPENORD;
+
+create materialized view dmv_produits
+  refresh fast
+  next sysdate + (2/24/60)
+  as select * from cgillier.produits@LINKAMERIQUETOEUROPESUD;
+
+drop materialized view dmv_categories;
+drop materialized view dmv_fournisseurs;
+drop materialized view dmv_produits;
+drop materialized view log on EMPLOYES;

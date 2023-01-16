@@ -55,36 +55,10 @@ alter table EMPLOYES add constraint pk_no_employe_emp
 alter table EMPLOYES add constraint fk_rend_compte_emp
                      foreign key (REND_COMPTE)
                      references EMPLOYES (NO_EMPLOYE);
-alter table EMPLOYES add constraint nom_notnull_emp
-                     check (NOM is not null);
-alter table EMPLOYES add constraint prenom_notnull_emp
-                     check (PRENOM is not null);
-alter table EMPLOYES add constraint fonction_notnull_emp
-                     check (FONCTION is not null);
-alter table EMPLOYES add constraint titre_notnull_emp
-                     check (TITRE is not null);
-alter table EMPLOYES add constraint naissance_notnull_emp
-                     check (DATE_NAISSANCE is not null);
-alter table EMPLOYES add constraint embauche_notnull_emp
-                     check (DATE_EMBAUCHE is not null);
-alter table EMPLOYES add constraint salaire_notnull_emp
-                     check (SALAIRE is not null);
 
 -- table clients
 alter table CLIENTSAMERIQUE add constraint pk_code_client_cli
                             primary key (CODE_CLIENT);
-alter table CLIENTSAMERIQUE add constraint societe_notnull_cli
-                            check (SOCIETE is not null);
-alter table CLIENTSAMERIQUE add constraint adresse_notnull_cli
-                            check (ADRESSE is not null);
-alter table CLIENTSAMERIQUE add constraint ville_notnull_cli
-                            check (VILLE is not null);
-alter table CLIENTSAMERIQUE add constraint codepostal_notnull_cli
-                            check (CODE_POSTAL is not null);
-alter table CLIENTSAMERIQUE add constraint pays_notnull_cli
-                            check (PAYS is not null);
-alter table CLIENTSAMERIQUE add constraint telephone_notnull_cli
-                            check (TELEPHONE is not null);
 
 -- table commandes
 alter table COMMANDESAMERIQUE add constraint pk_no_commande_comm
@@ -95,37 +69,16 @@ alter table COMMANDESAMERIQUE add constraint fk_code_client_comm
 alter table COMMANDESAMERIQUE add constraint fk_no_employe_comm
                               foreign key (NO_EMPLOYE)
                               references EMPLOYES (NO_EMPLOYE);
-alter table COMMANDESAMERIQUE add constraint code_client_notnull_comm
-                              check (CODE_CLIENT is not null);
-alter table COMMANDESAMERIQUE add constraint no_emp_notnull_comm
-                              check (NO_EMPLOYE is not null);
-alter table COMMANDESAMERIQUE add constraint date_commande_notnull_comm
-                              check (DATE_COMMANDE is not null);
-
 -- table details_commandes
 alter table DETAILS_COMMANDESAMERIQUE add constraint pk_no_comm_ref_prod_det
                                       primary key (NO_COMMANDE, REF_PRODUIT);
 alter table DETAILS_COMMANDESAMERIQUE add constraint fk_no_commande_det
                                       foreign key (NO_COMMANDE)
                                       references COMMANDESAMERIQUE (NO_COMMANDE);
-alter table DETAILS_COMMANDESAMERIQUE add constraint ref_prod_notnull_det
-                                      check (REF_PRODUIT is not null);
-alter table DETAILS_COMMANDESAMERIQUE add constraint no_commande_notnull_det
-                                      check (NO_COMMANDE is not null);
-alter table DETAILS_COMMANDESAMERIQUE add constraint prix_unitaire_notnull_det
-                                      check (PRIX_UNITAIRE is not null);
-alter table DETAILS_COMMANDESAMERIQUE add constraint quantite_notnull_det
-                                      check (QUANTITE is not null);
-alter table DETAILS_COMMANDESAMERIQUE add constraint remise_notnull_det
-                                      check (REMISE is not null);
 
 -- table stock
 alter table STOCKAMERIQUE add constraint pk_ref_prod_pays_stock
                           primary key (REF_PRODUIT, PAYS);
-alter table STOCKAMERIQUE add constraint ref_prod_notnull_stock
-                          check (REF_PRODUIT is not null);
-alter table STOCKAMERIQUE add constraint pays_notnull_stock
-                          check (PAYS is not null);
 
 
 --- triggers pour les fk sur des tables distantes

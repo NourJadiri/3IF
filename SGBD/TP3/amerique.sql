@@ -155,12 +155,30 @@ grant select on STOCKAMERIQUE to CGILLIER, SMALARD;
 -- vues pour reunir les tables fragmentees
 create view clients as
     select * from CLIENTSAMERIQUE
+             where pays in ('Antigua-et-Barbuda', 'Argentine', 'Bahamas', 'Barbade', 'Belize', 'Bolivie',
+                                       'Bresil', 'Canada', 'Chili', 'Colombie', 'Costa Rica', 'Cuba',
+                                       'Republique dominicaine', 'Dominique', 'Equateur', 'Etats-Unis', 'Grenade',
+                                       'Guatemala', 'Guyana', 'Haïti', 'Honduras', 'Jamaique', 'Mexique', 'Nicaragua',
+                                       'Panama', 'Paraguay', 'Perou', 'Saint-Christophe-et-Nieves', 'Sainte-Lucie',
+                                       'Saint-Vincent-et-les Grenadines', 'Salvador', 'Suriname', 'Trinite-et-Tobago',
+                                       'Uruguay', 'Venezuela')
         union all
     select * from cgillier.clientsEuropeSud@LINKAMERIQUETOEUROPESUD
+             where pays in ('Espagne', 'Portugal', 'Andorre', 'France', 'Gibraltar', 'Italie', 'Saint-Marin', 'Vatican', 'Malte',
+                           'Albanie', 'Bosnie-Herzegovine', 'Croatie', 'Grece', 'Macedoine', 'Montenegro', 'Serbie', 'Slovenie', 'Bulgarie')
         union all
     select * from smalard.clients_EN@LINKAMERIQUETOEUROPENORD
+             where pays in ('Allemagne', 'Norvege', 'Suede', 'Danemark', 'Islande', 'Finlande', 'Royaume-Uni',
+             'Irlande', 'Belgique', 'Luxembourg', 'Pays-Bas', 'Pologne')
         union all
-    select * from smalard.clients_Autre@LINKAMERIQUETOEUROPENORD;
+    select * from smalard.clients_Autre@LINKAMERIQUETOEUROPENORD
+             where pays not in ('Norvege', 'Suede', 'Danemark', 'Islande', 'Finlande', 'Royaume-Uni',
+'Irlande', 'Belgique', 'Luxembourg', 'Pays-Bas', 'Pologne', 'France','Antigua-et-Barbuda', 'Argentine', 'Bahamas', 'Barbade', 'Belize', 'Bolivie', 'Bresil',
+'Canada', 'Chili', 'Colombie', 'Costa Rica', 'Cuba', 'Republique dominicaine', 'Dominique',
+'Equateur', 'Etats-Unis', 'Grenade', 'Guatemala', 'Guyana', 'Haiti', 'Honduras', 'Jamaique',
+'Mexique', 'Nicaragua', 'Panama', 'Paraguay', 'Perou', 'Saint-Christophe-et-Nieves', 'SainteLucie', 'Saint-Vincent-et-les Grenadines', 'Salvador', 'Suriname', 'Trinite-et-Tobago', 'Uruguay',
+'Venezuela','Espagne', 'Portugal', 'Andorre', 'Gibraltar', 'Italie', 'SaintMarin', 'Vatican', 'Malte', 'Albanie', 'Bosnie-Herzegovine', 'Croatie', 'Grece', 'Macedoine',
+'Montenegro', 'Serbie', 'Slovenie', 'Bulgarie');
 
 create view commandes as
     select * from COMMANDESAMERIQUE

@@ -18,7 +18,7 @@ create database link LinkAmeriqueToEuropeSud
 create table EMPLOYES as (select * from RYORI.employes@LinkAmeriqueToRyori);
 
 -- creation de la table clients
-create table CLIENTSAMERIQUE as (select * from ryori.clients@LINKAMERIQUETORYORI
+create table CLIENTS_AM as (select * from ryori.clients@LINKAMERIQUETORYORI
                         where pays in ('Antigua-et-Barbuda', 'Argentine', 'Bahamas', 'Barbade', 'Belize', 'Bolivie',
                                        'Bresil', 'Canada', 'Chili', 'Colombie', 'Costa Rica', 'Cuba',
                                        'Republique dominicaine', 'Dominique', 'Equateur', 'Etats-Unis', 'Grenade',
@@ -28,16 +28,18 @@ create table CLIENTSAMERIQUE as (select * from ryori.clients@LINKAMERIQUETORYORI
                                        'Uruguay', 'Venezuela'));
 
 -- creation de la table commandes
-create table COMMANDESAMERIQUE as (select c.* from ryori.commandes@LINKAMERIQUETORYORI c
-                            inner join CLIENTSAMERIQUE on ( c.code_client = CLIENTSAMERIQUE.CODE_CLIENT ));
+create table COMMMANDES_AMERIQUE
+as (select c.* from ryori.commandes@LINKAMERIQUETORYORI c
+                            inner join CLIENTS_AM on ( c.code_client = CLIENTS_AM.CODE_CLIENT ));
 
 -- creation de la table details_commandes
-create table DETAILS_COMMANDESAMERIQUE as (select dc.*
-                                      from ryori.details_commandes@LINKAMERIQUETORYORI dc
-                                      inner join COMMANDESAMERIQUE on (dc.no_commande = COMMANDESAMERIQUE.NO_COMMANDE));
+create table DETAILS_COMMMANDES_AMERIQUE
+as (select dc.* from ryori.details_commandes@LINKAMERIQUETORYORI dc
+                            inner join COMMANDES_AM on (dc.no_commande = COMMANDES_AM.NO_COMMANDE));
 
 -- creation de la table stock
-create table STOCKAMERIQUE as (select * from ryori.stock@LINKAMERIQUETORYORI
+create table STOCK_AM
+as (select * from ryori.stock@LINKAMERIQUETORYORI
                         where pays in ('Antigua-et-Barbuda', 'Argentine', 'Bahamas', 'Barbade', 'Belize', 'Bolivie',
                                        'Bresil', 'Canada', 'Chili', 'Colombie', 'Costa Rica', 'Cuba',
                                        'Republique dominicaine', 'Dominique', 'Equateur', 'Etats-Unis', 'Grenade',
@@ -57,35 +59,36 @@ alter table EMPLOYES add constraint fk_rend_compte_emp
                      references EMPLOYES (NO_EMPLOYE);
 
 -- table clients
-alter table CLIENTSAMERIQUE add constraint pk_code_client_cli
+alter table CLIENTS_AM add constraint pk_code_client_cli
                             primary key (CODE_CLIENT);
 
 -- table commandes
-alter table COMMANDESAMERIQUE add constraint pk_no_commande_comm
-                              primary key (NO_COMMANDE);
-alter table COMMANDESAMERIQUE add constraint fk_code_client_comm
-                              foreign key (CODE_CLIENT)
-                              references CLIENTSAMERIQUE (CODE_CLIENT);
-alter table COMMANDESAMERIQUE add constraint fk_no_employe_comm
-                              foreign key (NO_EMPLOYE)
-                              references EMPLOYES (NO_EMPLOYE);
+alter table COMMANDES_AM add constraint pk_no_commande_comm
+                         primary key (NO_COMMANDE);
+alter table COMMANDES_AM add constraint fk_code_client_comm
+                         foreign key (CODE_CLIENT)
+                         references CLIENTS_AM (CODE_CLIENT);
+alter table COMMANDES_AM add constraint fk_no_employe_comm
+                         foreign key (NO_EMPLOYE)
+                         references EMPLOYES (NO_EMPLOYE);
+
 -- table details_commandes
-alter table DETAILS_COMMANDESAMERIQUE add constraint pk_no_comm_ref_prod_det
-                                      primary key (NO_COMMANDE, REF_PRODUIT);
-alter table DETAILS_COMMANDESAMERIQUE add constraint fk_no_commande_det
-                                      foreign key (NO_COMMANDE)
-                                      references COMMANDESAMERIQUE (NO_COMMANDE);
+alter table DETAILS_COMMANDES_AM add constraint pk_no_comm_ref_prod_det
+                                 primary key (NO_COMMANDE, REF_PRODUIT);
+alter table DETAILS_COMMANDES_AM add constraint fk_no_commande_det
+                                 foreign key (NO_COMMANDE)
+                                 references COMMANDES_AMERIQUE.(NO_COMMANDE);
 
 -- table stock
-alter table STOCKAMERIQUE add constraint pk_ref_prod_pays_stock
-                          primary key (REF_PRODUIT, PAYS);
+alter table STOCK_AM add constraint pk_ref_prod_pays_stock
+                     primary key (REF_PRODUIT, PAYS);
 
 
 --- triggers pour les fk sur des tables distantes
 -- verif que le produit existe avant de l'ajouter / modifier dans le stock
 /
 create or replace trigger trig_stock
-    before insert or update on STOCKAMERIQUE
+    before insert or update on STOCK_AM
     for each row
     declare
         counter$ number(8);
@@ -103,7 +106,7 @@ end;
 -- verif que le produit existe avant de l'ajouter / modifier dans les details de commande
 /
 create or replace trigger trig_details_commandes
-    before insert or update on DETAILS_COMMANDESAMERIQUE
+    before insert or update on DETAILS_COMMANDES_AM
     for each row
     declare
         counter$ number(8);
@@ -127,9 +130,12 @@ create or replace trigger trig_employes
         counter$ number(8);
 begin
         select count(*) into counter$
-        from (select * from COMMANDESAMERIQUE union all
-              select * from cgillier.commandesEuropeSud@LINKAMERIQUETOEUROPESUD union all
-              select * from smalard.Commandes_EN@LINKAMERIQUETOEUROPENORD union all
+        from (select * from COMMANDES_AM
+                    union all
+              select * from cgillier.Commandes_ES@LINKAMERIQUETOEUROPESUD
+                       union all
+              select * from smalard.Commandes_EN@LINKAMERIQUETOEUROPENORD
+                       union all
               select * from smalard.Commandes_Autre@LINKAMERIQUETOEUROPENORD)
         where NO_EMPLOYE = :old.no_employe;
 
@@ -143,10 +149,10 @@ end;
 ----- DROITS
 -- dons du droit de selection aux autres sites (pas besoin d'update ou delete)
 grant select on EMPLOYES to CGILLIER, SMALARD;
-grant select on CLIENTSAMERIQUE to CGILLIER, SMALARD;
-grant select on COMMANDESAMERIQUE to CGILLIER, SMALARD;
-grant select on DETAILS_COMMANDESAMERIQUE to CGILLIER, SMALARD;
-grant select on STOCKAMERIQUE to CGILLIER, SMALARD;
+grant select on CLIENTS_AM to CGILLIER, SMALARD;
+grant select on COMMANDES_AM to CGILLIER, SMALARD;
+grant select on DETAILS_COMMANDES_AM to CGILLIER, SMALARD;
+grant select on STOCK_AM to CGILLIER, SMALARD;
 
 
 
@@ -154,7 +160,7 @@ grant select on STOCKAMERIQUE to CGILLIER, SMALARD;
 --- vues
 -- vues pour reunir les tables fragmentees
 create view clients as
-    select * from CLIENTSAMERIQUE
+    select * from CLIENTS_AM
              where pays in ('Antigua-et-Barbuda', 'Argentine', 'Bahamas', 'Barbade', 'Belize', 'Bolivie',
                                        'Bresil', 'Canada', 'Chili', 'Colombie', 'Costa Rica', 'Cuba',
                                        'Republique dominicaine', 'Dominique', 'Equateur', 'Etats-Unis', 'Grenade',
@@ -163,7 +169,7 @@ create view clients as
                                        'Saint-Vincent-et-les Grenadines', 'Salvador', 'Suriname', 'Trinite-et-Tobago',
                                        'Uruguay', 'Venezuela')
         union all
-    select * from cgillier.clientsEuropeSud@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.clients_ES@LINKAMERIQUETOEUROPESUD
              where pays in ('Espagne', 'Portugal', 'Andorre', 'France', 'Gibraltar', 'Italie', 'Saint-Marin', 'Vatican', 'Malte',
                            'Albanie', 'Bosnie-Herzegovine', 'Croatie', 'Grece', 'Macedoine', 'Montenegro', 'Serbie', 'Slovenie', 'Bulgarie')
         union all
@@ -181,27 +187,27 @@ create view clients as
 'Montenegro', 'Serbie', 'Slovenie', 'Bulgarie');
 
 create view commandes as
-    select * from COMMANDESAMERIQUE
+    select * from COMMANDES_AM
         union all
-    select * from cgillier.commandesEuropeSud@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.commandes_ES@LINKAMERIQUETOEUROPESUD
         union all
     select * from smalard.commandes_EN@LINKAMERIQUETOEUROPENORD
         union all
     select * from smalard.commandes_Autre@LINKAMERIQUETOEUROPENORD;
 
 create view details_commandes as
-    select * from DETAILS_COMMANDESAMERIQUE
+    select * from DETAILS_COMMANDES_AM
         union all
-    select * from cgillier.details_commandesEuropeSud@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.details_commandes_ES@LINKAMERIQUETOEUROPESUD
         union all
     select * from smalard.details_Commandes_EN@LINKAMERIQUETOEUROPENORD
         union all
     select * from smalard.details_Commandes_Autre@LINKAMERIQUETOEUROPENORD;
 
 create view stock as
-    select * from STOCKAMERIQUE
+    select * from STOCK_AM
         union all
-    select * from cgillier.stockEuropeSud@LINKAMERIQUETOEUROPESUD
+    select * from cgillier.stock_ES@LINKAMERIQUETOEUROPESUD
         union all
     select * from smalard.stock_EN@LINKAMERIQUETOEUROPENORD
         union all
@@ -224,14 +230,14 @@ select * from RYORI.clients@LinkAmeriqueToRyori;
 
 -- tests pour verifier la bonne creation des tables
 select * from EMPLOYES;
-select * from CLIENTSAMERIQUE;
-select * from COMMANDESAMERIQUE;
-select * from DETAILS_COMMANDESAMERIQUE;
-select * from STOCKAMERIQUE;
+select * from CLIENTS_AM;
+select * from COMMANDES_AM;
+select * from DETAILS_COMMANDES_AM;
+select * from STOCK_AM;
 
 -- test des triggers
-insert into DETAILS_COMMANDESAMERIQUE values(999, 80, 12.1, 4, 0);   -- cette ref_produit n'existe pas
-insert into STOCKAMERIQUE values(80, 'Etats-Unis', 42, null, 0);     -- cette ref_produit n'existe pas
+insert into DETAILS_COMMANDES_AM values(999, 80, 12.1, 4, 0);   -- cette ref_produit n'existe pas
+insert into STOCK_AM values(80, 'Etats-Unis', 42, null, 0);     -- cette ref_produit n'existe pas
 delete from EMPLOYES where NO_EMPLOYE = 1;                      -- cet employe a deja fait des commandes
 
 -- tests des vues

@@ -400,6 +400,10 @@ void Catalogue::importTripsFromDeparture ( ifstream & tripStream )
             tripIndex = stoi( data[0] );
             importTrip( this, tripStream, data, trip, tripIndex );
         }
+        else
+        {
+            delete [ ] data;
+        }
     }
 
     if ( count == 0 )
@@ -433,7 +437,7 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
 
     while ( tripStream.good() )
     {
-        getline(tripStream,trip);
+        getline( tripStream,trip );
         if ( trip.empty() )
         {
             continue;
@@ -446,6 +450,10 @@ void Catalogue::importTripsToArrival ( ifstream & tripStream )
             count++;
             tripIndex = stoi( data[0] );
             importTrip( this, tripStream, data, trip, tripIndex );
+        }
+        else
+        {
+            delete [ ] data;
         }
     }
 
@@ -497,6 +505,10 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
             tripIndex = stoi( data[0] );
             importTrip( this, tripStream, data, trip, tripIndex );
         }
+        else
+        {
+            delete [ ] data;
+        }
     }
 
     if ( count == 0 )
@@ -514,8 +526,7 @@ void Catalogue::importTripsFromTo ( ifstream & tripStream )
 void Catalogue::importInterval ( ifstream & tripStream )
 // Algorithme :
 // L'utilisateur entre l'index de début de son import et l'index de fin.
-// Parcours du fichier jusqu'à trouver l'index de début
-// puis on importe (fin - début + 1) trajets dans le catalogue.
+// Parcours du fichier et importation des trajets qui sont compris dans l'intervalle
 // La méthode vérifie si l'entrée utilisateur est valide (fin >= début et si début <= nb
 // de trajets dans le fichier)
 {
@@ -524,10 +535,10 @@ void Catalogue::importInterval ( ifstream & tripStream )
 
     int lastTripIndex = findNextTripIndex( tripStream ) - 1;
     // -1 because the method returns the index of next trip ; so last trip index + 1
-    tripStream.seekg(0);
+
+    // And we skip the first line
     getline( tripStream, skippedLine );
 
-    cout << lastTripIndex << endl;
     string trip, * data;
 
     for ( ; ; )
@@ -557,7 +568,7 @@ void Catalogue::importInterval ( ifstream & tripStream )
         if ( end < start )
         {
             cout << endl << "Ending index is less than starting index (" << start << ")..." << endl;
-            cout << "Please enter a number less than or equal to " << start << endl;
+            cout << "Please enter a number greater than or equal to " << start << endl;
             continue;
         }
 
@@ -569,8 +580,7 @@ void Catalogue::importInterval ( ifstream & tripStream )
         else break;
     }
 
-
-     while ( getline( tripStream, trip ) )
+    while ( getline( tripStream, trip ) )
     {
         if ( trip.empty() )
         {
@@ -579,18 +589,22 @@ void Catalogue::importInterval ( ifstream & tripStream )
 
         data = split( trip, ',' );
 
-        if ( stoi(data[0] ) >= start && stoi( data[0] ) <= end )
+        if ( stoi( data[0] ) < start )
+        {
+            delete [ ] data;
+            continue;
+        }
+    
+        if ( stoi( data[0] ) >= start && stoi( data[0] ) <= end )
         {
             importTrip( this, tripStream, data, trip, tripIndex );
-            //interval--;
         }
-        else
+        else // all trips in interval have been imported
         {
             delete [ ] data;
             break;
         }
     }
-
     tripStream.clear();
     tripStream.seekg(0);
 } //----- Fin de importInterval

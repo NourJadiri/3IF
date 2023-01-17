@@ -33,7 +33,7 @@ as (select c.* from ryori.commandes@LINKAMERIQUETORYORI c
                             inner join CLIENTS_AM on ( c.code_client = CLIENTS_AM.CODE_CLIENT ));
 
 -- creation de la table details_commandes
-create table DETAILS_COMMMANDES_AM
+create table DETAILS_COMMANDES_AM
 as (select dc.* from ryori.details_commandes@LINKAMERIQUETORYORI dc
                             inner join COMMANDES_AM on (dc.no_commande = COMMANDES_AM.NO_COMMANDE));
 

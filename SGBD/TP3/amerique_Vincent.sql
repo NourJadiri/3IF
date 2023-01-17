@@ -77,7 +77,7 @@ alter table DETAILS_COMMANDES_AM add constraint pk_no_comm_ref_prod_det
                                  primary key (NO_COMMANDE, REF_PRODUIT);
 alter table DETAILS_COMMANDES_AM add constraint fk_no_commande_det
                                  foreign key (NO_COMMANDE)
-                                 references COMMANDES_AMERIQUE.(NO_COMMANDE);
+                                 references COMMANDES_AM (NO_COMMANDE);
 
 -- table stock
 alter table STOCK_AM add constraint pk_ref_prod_pays_stock

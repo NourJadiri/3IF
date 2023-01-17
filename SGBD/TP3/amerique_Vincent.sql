@@ -238,18 +238,25 @@ select * from STOCK_AM;
 -- test des triggers
 insert into DETAILS_COMMANDES_AM values(999, 80, 12.1, 4, 0);   -- cette ref_produit n'existe pas
 insert into STOCK_AM values(80, 'Etats-Unis', 42, null, 0);     -- cette ref_produit n'existe pas
-delete from EMPLOYES where NO_EMPLOYE = 1;                      -- cet employe a deja fait des commandes
+delete from EMPLOYES where NO_EMPLOYE = 1;                      -- l`employe existe dans une commande
 
 -- tests des vues
-select * from clients;
-select * from commandes;
-select * from details_commandes;
-select * from stock;
+select * from ryori.CLIENTS@LINKAMERIQUETORYORI
+       minus (select * from clients);
+select * from ryori.COMMANDES@LINKAMERIQUETORYORI
+       minus (select * from commandes);
+select * from ryori.DETAILS_COMMANDES@LINKAMERIQUETORYORI
+       minus (select * from details_commandes);
+select * from ryori.STOCK@LINKAMERIQUETORYORI
+       minus (select * from stock);
 
 -- tests des liens & synonymes
-select * from produits;
-select * from categories;
-select * from fournisseurs;
+select * from ryori.PRODUITS@LINKAMERIQUETORYORI
+       minus (select * from produits);
+select * from ryori.CATEGORIES@LINKAMERIQUETORYORI
+       minus (select * from categories);
+select * from ryori.FOURNISSEURS@LINKAMERIQUETORYORI
+       minus (select * from fournisseurs);
 
 
 ---- Question 3

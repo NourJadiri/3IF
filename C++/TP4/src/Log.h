@@ -7,21 +7,26 @@
 #include <fstream>
 #include <regex>
 
+#include "Log_Utils.h"
+
 typedef std::string Referer;
 typedef std::string DocumentRequested;
 typedef std::string RegexParser;
 
+const enum returnCodes { OK = 200 , PREMANENT_REDIRECT = 301 , TEMPORARY_REDIRECT = 302 ,
+        UNAUTHORIZED = 401 , FORBIDDEN = 403 , PAGE_NOT_FOUND = 404 , INTERNAL_SERVER_ERROR = 500 ,
+        NOT_IMPLEMENTED = 501 , BAD_GATEWAY = 502 , SERVICE_UNAVAILABLE = 503 , GATEWAY_TIMEOUT = 504 };
+
 class Log {
 private:
     std::string ip;
+    int heureConsultation;
 
-    Referer referer;
-
-private:
+    Referer longReferer;
+    Referer shortReferer;
     DocumentRequested documentRequested;
 
-    std::regex logFormat;
-
+    int returnCode;
 
 public:
     Log( const std::string & );
@@ -32,17 +37,32 @@ public:
 
     ~Log();
 
-    const std::string &getIp() const;
+
+    const std::string & getIp() const;
     // Mode d'emploi:
     //
 
-    const Referer &getReferer() const;
+    const Referer & getLongReferer() const;
     // Mode d'emploi :
     //
 
-    const DocumentRequested &getDocumentRequested() const;
+    const Referer & getShortReferer() const;
     // Mode d'emploi :
     //
+
+    const DocumentRequested & getDocumentRequested() const;
+    // Mode d'emploi :
+    //
+
+    const int & getHeureConsultation() const;
+    // Mode d'emploi :
+    //
+
+    int getReturnCode() const;
+    // Mode d'emploi :
+    //
+
+
 
 };
 

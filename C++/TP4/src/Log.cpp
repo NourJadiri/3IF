@@ -37,7 +37,7 @@ Log::Log( const string & logLine )
 // On affecte les valeurs qui nous interessent aux attributs de notre classe.
 {
     // On utilisera le regex ici pour capturer les éléments qui composent un log
-    std::regex logFormat("(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+:\\d+:\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" ");
+    std::regex logFormat("(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" ");
     smatch matches;
 
     if( regex_search( logLine.begin(), logLine.end(), matches, logFormat ) )
@@ -45,11 +45,20 @@ Log::Log( const string & logLine )
         // Le premier élément du groupe de capture est l'ip de l'utilisateur
         ip = matches.str(1);
 
-        // Le 8e éléments est l'url de la page requested
-        documentRequested = matches.str(8);
+        // Le 5e élément correspond
+        heureConsultation = stoi( matches.str(5) );
 
-        // Le 12e élément correspond au referer
-        referer = matches.str(12);
+        // Le 8e éléments est l'url de la page requested
+        documentRequested = matches.str(10);
+
+        returnCode = stoi( matches.str(12) );
+
+        // Le 12e élément correspond au longReferer
+        longReferer = matches.str(14);
+
+        // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
+        // Sinon le short referer sera une copie du longReferer
+        shortReferer = isValidUrl( longReferer ) ? get_path_from_url( longReferer ) : longReferer ;
     }
 }
 
@@ -58,14 +67,28 @@ const string & Log::getIp() const
     return ip;
 }
 
-const Referer & Log::getReferer() const
+const Referer & Log::getLongReferer() const
 {
-    return referer;
+    return longReferer;
 }
 
 const DocumentRequested & Log::getDocumentRequested() const
 {
     return documentRequested;
+}
+
+const int & Log::getHeureConsultation() const
+{
+    return heureConsultation;
+}
+
+const Referer & Log::getShortReferer() const {
+    return shortReferer;
+}
+
+int Log::getReturnCode() const
+{
+    return returnCode;
 }
 
 

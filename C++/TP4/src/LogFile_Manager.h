@@ -1,5 +1,5 @@
-#ifndef INC_3IF_LOGMANAGER_H
-#define INC_3IF_LOGMANAGER_H
+#ifndef INC_3IF_LOGFILE_MANAGER_H
+#define INC_3IF_LOGFILE_MANAGER_H
 #include <fstream>
 #include "Log.h"
 //--------------------------------------------------- Interfaces utilisées
@@ -12,23 +12,25 @@ typedef std::string path;
 
 //------------------------------------------------------------------------
 
-// Rôle de la classe <LogManager>
+// Rôle de la classe <LogFile_Manager>
 
 //------------------------------------------------------------------------
 
 
 
-class LogManager
+class LogFile_Manager
 {
 //----------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------- Méthodes publiques
 
-    LogManager();
-//------------------------------------------------- Surcharge d'opérateurs
-
 //-------------------------------------------- Constructeurs - destructeur
+    LogFile_Manager();
+
+    ~LogFile_Manager();
+
+//------------------------------------------------- Surcharge d'opérateurs
 
 
 //------------------------------------------------------------------ PRIVE
@@ -46,4 +48,4 @@ protected:
 //-------------------------------- Autres définitions dépendantes de <Ensemble>
 
 
-#endif //INC_3IF_LOGMANAGER_H
+#endif //INC_3IF_LOGFILE_MANAGER_H

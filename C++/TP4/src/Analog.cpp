@@ -293,4 +293,4 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg ) c
     }
 
     return 0;
-}
+} //----- Fin de verifFichierLog

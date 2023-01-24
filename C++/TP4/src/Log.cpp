@@ -58,7 +58,7 @@ Log::Log( const string & logLine )
 
         // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
         // Sinon le short referer sera une copie du longReferer
-        shortReferer = isValidUrl( longReferer ) ? get_path_from_url( longReferer ) : longReferer ;
+        shortReferer = isValidUrl( longReferer ) ? getPathFromUrl(longReferer) : longReferer ;
     }
 }
 

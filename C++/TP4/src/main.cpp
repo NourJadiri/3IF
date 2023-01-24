@@ -1,17 +1,17 @@
 #include <iostream>
 #include <regex>
-#include "Log.h"
+#include "LogFile_Manager.h"
 
 using namespace std;
 
 int main(){
 
     const string log = "192.168.0.11 - - [08/Sep/2012:12:01:18 +0200] \"GET /notesif HTTP/1.1\" 301 248 \"https://intranet-if.insa-lyon.fr/temps/zizi\" \"Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)\"";
-    Log * aLog = new Log(log);
+/*    Log * aLog = new Log(log);
 
     cout << aLog->getLongReferer() << endl;
 
-    cout << get_path_from_url( aLog->getLongReferer() ) << endl;
+    cout << getPathFromUrl( aLog->getLongReferer() ) << endl;
 
     cout << aLog->getShortReferer() << endl;
 
@@ -21,6 +21,10 @@ int main(){
 
     cout << aLog->getReturnCode() << endl;
 
-    delete aLog;
+    delete aLog;*/
+/*    LogFile_Manager fileManager("../C++/TP4/Logs/short.log");
+
+    fileManager.Display();*/
+
     return 0;
 }

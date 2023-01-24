@@ -11,7 +11,7 @@ bool isValidUrl ( const string & url )
     return std::regex_match( url, pattern );
 }
 
-string get_path_from_url ( const string & url )
+string getPathFromUrl (const string &url )
 // Algorithme :
 // Parcours l'url et
 {
@@ -21,6 +21,21 @@ string get_path_from_url ( const string & url )
     if ( std::regex_search(url, match, path_regex) )
     {
         return match[2];
+    }
+
+    return "";
+}
+
+string getBaseFromUrl ( const string & url )
+// Algorithme :
+// Parcours l'url et
+{
+    std::regex path_regex("(ftp|https?)://[^/]+/(.*)");
+    std::smatch match;
+
+    if ( std::regex_search(url, match, path_regex) )
+    {
+        return match[1];
     }
 
     return "";

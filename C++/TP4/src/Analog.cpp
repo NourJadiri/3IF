@@ -28,11 +28,13 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
 // Algorithme :
 //
 {
+    string mainArg = argvMain[0];
+
     if ( argcMain < 2 )
     {
         // s'il n'y a pas assez d'arguments dans la ligne de commande
         cerr << "Il faut insérer le fichier log ainsi que son extension." << endl;
-        cerr << "Usage : " << argvMain[0] << " [options] nomFichier.log" << endl;
+        cerr << "Usage : " << mainArg << " [options] nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
     }
@@ -107,9 +109,16 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         }
     }
 
+    retour = verifFichierLog( logFile, mainArg );
+    if ( retour )
+    {
+        return retour;
+    }
+
     // par defaut, afficher la liste des 10 documents les plus consultes
     // appel de la fonction qui execute l'application par defaut
     commandeDefaut();
+
     return 0;
 
 } //----- Fin de Launch
@@ -240,3 +249,48 @@ void Analog::commandeDefaut ( ) const
 {
     // appel de la fonction pour afficher les documents les plus consultes
 } //----- Fin de commandeDefaut
+
+int Analog::verifFichierLog ( const string & logFile, const string & mainArg ) const
+// Algorithme :
+//
+{
+    // verification du fichier de log
+    if ( !( logFile.find( ".log" ) != string::npos ) )
+    {
+        cerr << "Il faut insérer le fichier log existant ainsi que son extension." << endl;
+        cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
+        cerr << "Fermeture de l'application." << endl;
+        return 1;
+    }
+
+    // lecture du contenu du fichier de logs
+    ifstream configUrlStream ( logFile );
+    if ( !configUrlStream.good() )
+    {
+        cerr << "Le fichier de log n'existe pas. Merci de rentrer un fichier existant." << endl;
+        cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
+        cerr << "Fermeture de l'application." << endl;
+        return 1;
+    }
+
+    // vérifier si le fichier est vide
+    configUrlStream.seekg( 0, ios_base::end );
+    // va a la fin du fichier
+    long size;
+    size = configUrlStream.tellg(); // get position actuelle = taille du fichier
+
+    if ( size == 0 ) // fichier est vide
+    {
+        cerr << "Le fichier de log est vide. Merci de rentrer un fichier non vide." << endl;
+        cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
+        cerr << "Fermeture de l'application." << endl;
+        return 1;
+    }
+    else
+    {
+        configUrlStream.clear();
+        configUrlStream.seekg(0);
+    }
+
+    return 0;
+}

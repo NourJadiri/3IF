@@ -46,7 +46,7 @@ int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-    const string log = "192.168.0.11 - - [08/Sep/2012:12:01:18 +0200] \"GET /notesif HTTP/1.1\" 301 248 \"https://intranet-if.insa-lyon.fr/temps/zizi\" \"Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)\"";
+    //const string log = "192.168.0.11 - - [08/Sep/2012:12:01:18 +0200] \"GET /notesif HTTP/1.1\" 301 248 \"https://intranet-if.insa-lyon.fr/temps/zizi\" \"Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)\"";
 /*    Log * aLog = new Log(log);
 
     cout << aLog->getLongReferer() << endl;

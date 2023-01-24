@@ -12,6 +12,7 @@
 #define ANALOG_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include "Graph.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -90,8 +91,14 @@ protected:
     // Contrat :
     //
 
+    int verifFichierLog ( const string & logFile, const string & mainArg ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
 //----------------------------------------------------- Attributs protégés
-    url urlUser = "";
+    url urlUser;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Analog>

@@ -40,9 +40,9 @@ void Graph::AddNode( const Node & aNode )
 
 void Graph::Display ( )
 {
-    for( auto const & [cible , node] : nodes )
+    for( auto const & i : nodes )
     {
-        node->Display();
+        i.second->Display();
     }
 }
 
@@ -63,7 +63,11 @@ Graph::Graph ( )
 Graph::Graph ( const string & path )
 {
     fileManager = make_unique<LogFile_Manager>( path );
+
+    AddNode( Node() );
+
     Node temp;
+    
     for ( auto const & log : fileManager->getLogs() )
     {
         temp = Node( log->getCible() , log->getShortReferer() );

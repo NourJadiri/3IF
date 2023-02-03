@@ -37,9 +37,9 @@ void Node::AddReferer( const Referer & aReferer )
 
 void Node::AddReferer( const Node & aNode )
 {
-    for( auto const & [ref , weigth] : aNode.referers )
+    for( auto const & i : aNode.referers )
     {
-        this->AddReferer ( ref );
+        this->AddReferer ( i.first );
     }
 }
 
@@ -53,9 +53,9 @@ void Node::Display() const
     cout << "Cible : " << name << endl;
     cout << "Referers : " << endl;
 
-    for ( auto const & [ref , weight] : referers)
+    for ( auto const & i : referers)
     {
-        cout << "\t" << ref << " : " << weight << endl;
+        cout << "\t" << i.first << " : " << i.second << endl;
     }
 }
 
@@ -68,9 +68,9 @@ std::ostream &operator<<(ostream &os, Node &aNode) {
     os << "Cible : " << aNode.name << endl;
     cout << "Referers : " << endl;
 
-    for ( auto const & [ref , weight] : aNode.referers)
+    for ( auto const & i : aNode.referers)
     {
-        cout << "\t" << ref << " : " << weight << endl;
+        cout << "\t" << i.first << " : " << i.second << endl;
     }
 
     return os;
@@ -78,6 +78,9 @@ std::ostream &operator<<(ostream &os, Node &aNode) {
 
 
 //-------------------------------------------- Constructeurs - destructeur
+
+
+
 Node::Node ( const Cible & uneCible, const Referer & unReferer )
 // Algorithme :
 //
@@ -90,15 +93,15 @@ Node::Node( const Node & aNode )
 {
     name = aNode.name;
 
-    for( auto const & [ref , weight] : aNode.referers )
+    for( auto const & i : aNode.referers )
     {
-        referers[ref] = weight;
+        referers[i.first] = i.second;
     }
 }
 
 Node::Node()
 {
-
+    name = "-";
 }
 
 

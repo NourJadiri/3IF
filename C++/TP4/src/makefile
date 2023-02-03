@@ -7,12 +7,12 @@ CXX = g++
 LD = g++
 
 # options
-CXXFLAGS = -g -DMAP -Wall -ansi -pedantic -std=c++11
-LDFLAGS = -g -Wall -pedantic -std=c++11
+CXXFLAGS = -g -DMAP -Wall -ansi -pedantic -std=c++14
+LDFLAGS = -g -Wall -pedantic -std=c++14
 RMFLAGS = rm -f
 
 # definition des cibles
-INTERFACE := Main.h LogFile_Manager.h Log_Utils.h Log.h Analog.h
+INTERFACE := $(wildcard *.h)
 REALISATION := $(INTERFACE:.h=.cpp)
 OBJETS = $(REALISATION:.cpp=.o)
 EXE = analog

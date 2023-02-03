@@ -52,7 +52,7 @@ int main ( int argc, char * argv [ ] )
 
     LogFile_Manager l("../C++/TP4/Logs/short.log");
 
-    Graph g("../C++/TP4/Logs/short.log");
+    Graph g("../Logs/short.log");
 
     g.Display();
 } //----- fin de main

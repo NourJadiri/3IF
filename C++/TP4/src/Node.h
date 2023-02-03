@@ -44,11 +44,11 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    Node ();
+    explicit Node ();
 
-    Node ( const Node & aNode );
+    explicit Node ( const Node & aNode );
 
-    Node ( const Cible & uneCible, const Referer & unReferer );
+    explicit Node ( const Cible & uneCible, const Referer & unReferer );
 
     ~Node ( );
 //------------------------------------------------------------------ PRIVE

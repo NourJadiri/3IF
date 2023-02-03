@@ -19,6 +19,7 @@ using namespace std;
 #include "LogFile_Manager.h"
 #include "Analog.h"
 
+
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
 
@@ -33,39 +34,25 @@ static int test ( int & argcMain, char * * & argvMain )
 // Algorithme :
 // Création d'un Analog lors du lancement de l'application
 {
+/*
     int retour;
 
     Analog anal;
     retour = anal.Launch ( argcMain, argvMain );
+*/
 
-    return retour;
+    return 0;
 } //----- Fin de test
 
 int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-    //const string log = "192.168.0.11 - - [08/Sep/2012:12:01:18 +0200] \"GET /notesif HTTP/1.1\" 301 248 \"https://intranet-if.insa-lyon.fr/temps/zizi\" \"Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)\"";
-/*    Log * aLog = new Log(log);
+    const string log = "192.168.0.11 - - [08/Sep/2012:12:01:18 +0200] \"GET /notesif HTTP/1.1\" 301 248 \"https://intranet-if.insa-lyon.fr/temps/zizi\" \"Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)\"";
 
-    cout << aLog->getLongReferer() << endl;
+    LogFile_Manager l("../C++/TP4/Logs/short.log");
 
-    cout << getPathFromUrl( aLog->getLongReferer() ) << endl;
+    Graph g("../C++/TP4/Logs/short.log");
 
-    cout << aLog->getShortReferer() << endl;
-
-    cout << aLog->getDocumentRequested() << endl;
-
-    cout << aLog->getHeureConsultation() << endl;
-
-    cout << aLog->getReturnCode() << endl;
-
-    delete aLog;*/
-/*    LogFile_Manager fileManager("../C++/TP4/Logs/short.log");
-
-    fileManager.Display();*/
-
-    int retour;
-    retour = test ( argc, argv );
-    return retour;
+    g.Display();
 } //----- fin de main

@@ -30,13 +30,13 @@ string getBaseFromUrl ( const string & url )
 // Algorithme :
 // Parcours l'url et
 {
-    std::regex path_regex("(ftp|https?)://[^/]+/(.*)");
+    std::regex path_regex("(ftp|https?)://([^/]+)/(.*)");
     std::smatch match;
 
     if ( std::regex_search(url, match, path_regex) )
     {
-        return match[1];
+        return match[2];
     }
 
-    return "";
+    return url;
 }

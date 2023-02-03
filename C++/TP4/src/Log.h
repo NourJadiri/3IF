@@ -10,7 +10,8 @@
 #include "Log_Utils.h"
 
 typedef std::string Referer;
-typedef std::string DocumentRequested;
+typedef std::string Cible;
+typedef std::string Extension;
 typedef std::string RegexParser;
 
 enum returnCodes { OK = 200 , PREMANENT_REDIRECT = 301 , TEMPORARY_REDIRECT = 302 ,
@@ -24,7 +25,9 @@ private:
 
     Referer longReferer;
     Referer shortReferer;
-    DocumentRequested documentRequested;
+    Cible cible;
+
+    Extension extension;
 
     int returnCode;
 
@@ -50,7 +53,7 @@ public:
     // Mode d'emploi :
     //
 
-    const DocumentRequested & getDocumentRequested() const;
+    const Cible & getCible() const;
     // Mode d'emploi :
     //
 
@@ -59,6 +62,10 @@ public:
     //
 
     int getReturnCode() const;
+    // Mode d'emploi :
+    //
+
+    const Extension & GetExtension() const;
     // Mode d'emploi :
     //
 

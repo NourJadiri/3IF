@@ -25,10 +25,23 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
+const vector<std::shared_ptr<Log>> &LogFile_Manager::getLogs() const
+{
+    return logs;
+}
+
 
 
 //------------------------------------------------- Surcharge d'opérateurs
 
+std::ostream &operator<<( ostream &os, LogFile_Manager & l ) {
+    for( auto & i : l.logs )
+    {
+        os << i-> getShortReferer() << " -> " << i->getCible() << endl;
+    }
+
+    return os;
+}
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -46,13 +59,6 @@ LogFile_Manager::LogFile_Manager( const string & pathToFile )
     }
 }
 
-void LogFile_Manager::Display()
-{
-    for ( auto & i : logs )
-    {
-        cout << i->getShortReferer() << " -> " << i->getDocumentRequested() << endl;
-    }
-}
 
 LogFile_Manager :: ~LogFile_Manager() = default;
 //------------------------------------------------------------------ PRIVE

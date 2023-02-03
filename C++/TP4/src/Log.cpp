@@ -22,6 +22,43 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
+const string & Log::getIp() const
+{
+    return ip;
+}
+
+const Referer & Log::getLongReferer() const
+{
+    return longReferer;
+}
+
+const Cible & Log::getCible() const
+{
+    return cible;
+}
+
+const int & Log::getHeureConsultation() const
+{
+    return heureConsultation;
+}
+
+const Referer & Log::getShortReferer() const
+{
+    return shortReferer;
+}
+
+int Log::getReturnCode() const
+{
+    return returnCode;
+}
+
+const Extension & Log::GetExtension() const
+// Algorithme :
+//
+{
+    return extension;
+}
+
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -49,46 +86,22 @@ Log::Log( const string & logLine )
         heureConsultation = stoi( matches.str(5) );
 
         // Le 8e éléments est l'url de la page requested
-        documentRequested = matches.str(10);
+        cible = matches.str(10);
 
         returnCode = stoi( matches.str(12) );
 
         // Le 12e élément correspond au longReferer
-        longReferer = matches.str(14);
+        longReferer = getBaseFromUrl(matches.str(14));
 
         // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
         // Sinon le short referer sera une copie du longReferer
         shortReferer = isValidUrl( longReferer ) ? getPathFromUrl(longReferer) : longReferer ;
+
+        if ( shortReferer.empty() )
+        {
+            shortReferer = longReferer;
+        }
     }
-}
-
-const string & Log::getIp() const
-{
-    return ip;
-}
-
-const Referer & Log::getLongReferer() const
-{
-    return longReferer;
-}
-
-const DocumentRequested & Log::getDocumentRequested() const
-{
-    return documentRequested;
-}
-
-const int & Log::getHeureConsultation() const
-{
-    return heureConsultation;
-}
-
-const Referer & Log::getShortReferer() const {
-    return shortReferer;
-}
-
-int Log::getReturnCode() const
-{
-    return returnCode;
 }
 
 

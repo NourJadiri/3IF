@@ -24,9 +24,14 @@ class LogFile_Manager
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Display();
+
+    friend std::ostream & operator<<( std::ostream & os , LogFile_Manager & l );
+
 //-------------------------------------------- Constructeurs - destructeur
+    LogFile_Manager() = default;
+
     explicit LogFile_Manager( const std :: string & pathToFile );
+
 
     ~LogFile_Manager();
 
@@ -41,6 +46,8 @@ protected:
     std :: ifstream logFile;
 
     std::vector< std::shared_ptr<Log> > logs;
+public:
+    const std::vector<std::shared_ptr<Log>> &getLogs() const;
 
 //----------------------------------------------------- Méthodes protégées
 

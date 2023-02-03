@@ -19,7 +19,7 @@
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------ Fonctions privées
-static void test ( int & argcMain, char * * & argvMain );
+static int test ( int & argcMain, char * * & argvMain );
 // Mode d'emploi :
 // Procédure de test appelée par la fonction Main
 // Permet de mieux tracer les destructeurs à la fin de l'éxécution de

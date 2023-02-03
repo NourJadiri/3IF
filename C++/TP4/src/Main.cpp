@@ -29,7 +29,7 @@ using namespace std;
 //---------------------------------------------------- Variables statiques
 
 //------------------------------------------------------ Fonctions privées
-static void test ( int & argcMain, char * * & argvMain )
+static int test ( int & argcMain, char * * & argvMain )
 // Mode d'emploi :
 // Procédure de test appelée par le main
 // Algorithme :

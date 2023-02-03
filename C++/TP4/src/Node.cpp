@@ -12,6 +12,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <map>
 using namespace std;
 
 //------------------------------------------------------ Include personnel

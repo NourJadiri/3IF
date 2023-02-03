@@ -189,13 +189,17 @@ int Analog::commandeG ( const string & dotFile ) const
 
             if (choice == 'y')
             {
+                cout << "Le contenu du fichier " << dotFile << " va être écrasé." << endl;
+                fileStream.close();
+
                 ofstream dotFileStream;
                 dotFileStream.open( dotFile.c_str() );
 
                 // appel de la fonction pour generer le fichier GraphViz
 
+                fileStream.close();
                 dotFileStream.close();
-                break;
+                return 0;
             }
             else if (choice == 'n')
             {
@@ -204,8 +208,7 @@ int Analog::commandeG ( const string & dotFile ) const
                 string newFile;
                 cin >> newFile;
 
-                commandeG( newFile ); // on répète le meme processus avec le nouveau fichier
-                break;
+                return commandeG( newFile ); // on répète le meme processus avec le nouveau fichier
             }
             else
             {
@@ -213,8 +216,6 @@ int Analog::commandeG ( const string & dotFile ) const
             }
         }
     }
-
-    fileStream.close();
 
     return 0;
 } //----- Fin de commandeG

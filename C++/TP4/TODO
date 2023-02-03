@@ -1,0 +1,5 @@
+1. il faut renommer le directory "Logs" en bin (c'est la où il faut mettre analog)
+
+2. framework de tests
+
+3. personnaliser le mktest.sh

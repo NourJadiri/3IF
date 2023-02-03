@@ -38,7 +38,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     if ( argcMain < 2 )
     {
         // s'il n'y a pas assez d'arguments dans la ligne de commande
-        cerr << "Il faut insérer le fichier log ainsi que son extension." << endl;
+        cerr << endl << "Il faut insérer le fichier log ainsi que son extension." << endl;
         cerr << "Usage : " << mainArg << " [options] nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -106,7 +106,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         else
         {
             // option inconnue / non valide
-            cerr << "Option inconnue ou non valide : " << argvMain[i] << endl;
+            cerr << endl << "Option inconnue ou non valide : " << argvMain[i] << endl;
             cerr << "Usage : " << argvMain[0] << " [options] nomFichier.log" << endl;
             cerr << "Les options sont : -g, -e, -t heure, -u fichierConfig.txt" << endl;
             cerr << "Fermeture de l'application." << endl;
@@ -163,10 +163,10 @@ int Analog::commandeG ( const string & dotFile ) const
 // Algorithme :
 //
 {
-    // si jamais l'utilisateur ne rentre pas un nom de fichier
+    // si jamais l'utilisateur ne rentre pas un nom de fichier, ou pas un fichier .dot
     if ( !( dotFile.find( ".dot" ) != string::npos ) )
     {
-        cerr << "Il faut insérer le fichier dot ainsi que son extension." << endl;
+        cerr << endl << "Il faut insérer le fichier dot ainsi que son extension." << endl;
         cerr << "Usage : -g nomFichier.dot" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -177,11 +177,11 @@ int Analog::commandeG ( const string & dotFile ) const
     ifstream fileStream;
     fileStream.open( dotFile.c_str() );
 
-    if ( fileStream.peek() != ifstream::traits_type::eof() )
+    if ( fileStream.good() && fileStream.peek() != ifstream::traits_type::eof() )
     {
         char choice;
         cout << endl << "Le fichier " << dotFile << " existe déjà et n'est pas vide." << endl;
-        cout << endl << "Souhaitez-vous écraser son contenu ? [y/n]" << endl;
+        cout << "Souhaitez-vous écraser son contenu ? [y/n]" << endl;
 
         for ( ; ; )
         {
@@ -189,21 +189,12 @@ int Analog::commandeG ( const string & dotFile ) const
 
             if (choice == 'y')
             {
-                cout << "Le contenu du fichier " << dotFile << " va être écrasé." << endl;
-                fileStream.close();
-
-                ofstream dotFileStream;
-                dotFileStream.open( dotFile.c_str() );
-
-                // appel de la fonction pour generer le fichier GraphViz
-
-                fileStream.close();
-                dotFileStream.close();
-                return 0;
+                cout << endl << "Le contenu du fichier " << dotFile << " va être écrasé." << endl;
+                break;
             }
             else if (choice == 'n')
             {
-                cout << "Merci d'entrer un autre nom de fichier .dot." << endl;
+                cout << endl << "Merci d'entrer un autre nom de fichier .dot." << endl;
 
                 string newFile;
                 cin >> newFile;
@@ -212,11 +203,19 @@ int Analog::commandeG ( const string & dotFile ) const
             }
             else
             {
-                cout << "Merci de rentrer une option valide (y/n)." << endl;
+                cout << endl << "Merci de rentrer une option valide (y/n)." << endl;
             }
         }
     }
 
+    fileStream.close();
+
+    ofstream dotFileStream;
+    dotFileStream.open( dotFile.c_str() );
+
+    // appel de la fonction pour generer le fichier GraphViz
+
+    dotFileStream.close();
     return 0;
 } //----- Fin de commandeG
 
@@ -234,7 +233,7 @@ int Analog::commandeT ( const string & hour ) const
     // si jamais l'utilisateur ne rentre pas des chiffres
     if ( !all_of( hour.begin(), hour.end(), ::isdigit ) )
     {
-        cerr << "Il faut insérer une heure (en numérique, entre 0 et 23)." << endl;
+        cerr << endl << "Il faut insérer une heure (en numérique, entre 0 et 23)." << endl;
         cerr << "Usage : -t heure" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -244,7 +243,7 @@ int Analog::commandeT ( const string & hour ) const
 
     // si les heures ne sont pas correctes
     if ( heure < 0 || heure > 23 ) {
-        cerr << "Il faut insérer une heure comprise entre 0 et 23." << endl;
+        cerr << endl << "Il faut insérer une heure comprise entre 0 et 23." << endl;
         cerr << "Usage : -t heure" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -262,7 +261,7 @@ int Analog::commandeU ( const string & fichierConfig )
     // si jamais l'utilisateur ne rentre pas un nom de fichier correct
     if ( !( fichierConfig.find( ".txt" ) != string::npos ) )
     {
-        cerr << "Il faut insérer le fichier txt ainsi que son extension." << endl;
+        cerr << endl << "Il faut insérer le fichier txt ainsi que son extension." << endl;
         cerr << "Usage : -u nomFichier.txt" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -272,7 +271,7 @@ int Analog::commandeU ( const string & fichierConfig )
     ifstream configUrlStream ( fichierConfig );
     if ( !configUrlStream.good() )
     {
-        cerr << "Le fichier de configuration URL n'existe pas." << endl;
+        cerr << endl << "Le fichier de configuration URL n'existe pas." << endl;
         cerr << "Usage : -u nomFichier.txt" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -284,7 +283,7 @@ int Analog::commandeU ( const string & fichierConfig )
     if ( urlUser.empty() )
     {
         // execution par defaut du programme
-        cout << "Le fichier de configuration URL est vide." << endl;
+        cout << endl << "Le fichier de configuration URL est vide." << endl;
         cout << "Execution par défaut." << endl;
     }
 
@@ -306,7 +305,7 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg ) c
     // verification du fichier de log
     if ( !( logFile.find( ".log" ) != string::npos ) )
     {
-        cerr << "Il faut insérer le fichier log existant ainsi que son extension." << endl;
+        cerr << endl << "Il faut insérer le fichier log existant ainsi que son extension." << endl;
         cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -316,7 +315,7 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg ) c
     ifstream configUrlStream ( logFile );
     if ( !configUrlStream.good() )
     {
-        cerr << "Le fichier de log n'existe pas. Merci de rentrer un fichier existant." << endl;
+        cerr << endl << "Le fichier de log n'existe pas. Merci de rentrer un fichier existant." << endl;
         cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -330,7 +329,7 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg ) c
 
     if ( size == 0 ) // fichier est vide
     {
-        cerr << "Le fichier de log est vide. Merci de rentrer un fichier non vide." << endl;
+        cerr << endl << "Le fichier de log est vide. Merci de rentrer un fichier non vide." << endl;
         cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;

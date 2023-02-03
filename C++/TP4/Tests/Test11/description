@@ -1,0 +1,2 @@
+Ce test permet de vérifier que l'utilisateur a bien le choix, s'il entre un fichier .dot non vide, entre choisir un autre fichier, ou écraser son contenu.
+Dans ce test, on vérifiera en particulier que l'utilisateur peut choisir d'écraser le contenu du fichier.

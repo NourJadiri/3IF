@@ -1,0 +1,3 @@
+Ce test permet de vérifier que l'utilisateur a bien le choix, s'il entre un fichier .dot non vide, entre choisir un autre fichier, ou écraser son contenu.
+Dans ce test, on vérifiera en particulier que l'utilisateur peut choisir un autre fichier afin de ne pas écraser le contenu du premier.
+Par ailleurs, ce test permet de vérifier que l'implémentation du graphe peut se faire dans un fichier .dot déjà existant mais vide.

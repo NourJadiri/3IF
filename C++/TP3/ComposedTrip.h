@@ -1,7 +1,7 @@
 /*************************************************************************
                            ComposedTrip  -  Objet d'un trajet composé
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -21,6 +21,8 @@
 // de SimpleTrips
 // Un trajet composé est un trajet dont la ville d'arrivée d'un trajet doit
 // correspondre à la ville de départ du trajet suivant
+// Permet d'écrire un ComposedTrip dans un fichier et de vérifier s'il
+// est valide avant de l'importer
 //------------------------------------------------------------------------
 
 class ComposedTrip : public Trip
@@ -43,6 +45,15 @@ public:
     // en profondeur
 
     void SaveTripToFile ( std::ofstream & tripStream );
+    // Mode d'emploi :
+    // Ecriture de l'entete d'un composedTrip et de ses escales
+    // Contrat :
+    // tripStream est un flux de sortie valide, i.e. : le fichier existe ou est créé et n'est pas corrompu
+
+    bool IsValid ( );
+    // Mode d'emploi :
+    // La méthode permet de vérifier si toutes les étapes d'un trajet composé
+    // donné dans un fichier sont valides
 
 //-------------------------------------------- Constructeurs - destructeur
     ComposedTrip ( );

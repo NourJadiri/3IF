@@ -1,7 +1,7 @@
 /*************************************************************************
                            SimpleTrip  -  Objet d'un trajet simple
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -13,7 +13,6 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trip.h"
-#include <cstring>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <SimpleTrip>
@@ -22,6 +21,7 @@
 // Il contient donc par héritage une ville de départ start et d'arrivée end
 // Un trajet simple a pour attribut spécifique son moyen de transport
 // transportation, qui est donc une chaine de caractères
+// La classe permet aussi d'écrire le mode de transport d'un trajet simple
 //------------------------------------------------------------------------
 
 class SimpleTrip : public Trip
@@ -36,15 +36,18 @@ public:
     // c'est-à-dire de ses villes de départ et d'arrivée et de son moyen de
     // transport
 
-
     char * GetTransport ( ) const;
     // Mode d'emploi :
     // Renvoie un pointeur sur la chaine de caractères du moyen de transport
     // du SimpleTrip
 
     virtual void SaveTripToFile ( std::ofstream & tripStream );
+    // Mode d'emploi :
+    // Ecriture de la caractéristique d'un trajet simple : son mode de transport
+    // Contrat :
+    // tripStream est un flux de sortie valide, i.e. : le fichier existe ou est créé et n'est pas corrompu
 
-//-------------------------------------------- Constructeurs - destructeur
+    //-------------------------------------------- Constructeurs - destructeur
     SimpleTrip ( const char * aStart = nullptr, const char * aEnd = nullptr, const char * aTransportation = nullptr );
     // Mode d'emploi :
     // Constructeur d'un SimpleTrip à partir d'une copie en profondeur des

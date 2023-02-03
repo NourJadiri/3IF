@@ -10,11 +10,13 @@
 //---------- Réalisation du module <Main> (fichier Main.cpp) ------------
 
 /////////////////////////////////////////////////////////////////  INCLUDE
+//-------------------------------------------------------- Include système
+#include <iostream>
+using namespace std;
+
 //------------------------------------------------------ Include personnel
 #include "Main.h"
 #include "Catalogue.h"
-#include "ComposedTrip.h"
-using namespace std;
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------ Fonctions privées
@@ -27,20 +29,7 @@ static void test ( )
 {
     Catalogue c;
     c.Launch ( );
-/*     ofstream tripStream("myTrips.txt");
-    SimpleTrip *st1 = new SimpleTrip("Rabat" , "Lyon" , "Plane");
-    SimpleTrip *st2 = new SimpleTrip("Lyon" , "Paris" , "Plane");
-
-    ComposedTrip *ct1 = new ComposedTrip();
-    ct1->AddSimpleTrip(st1);
-    ct1->AddSimpleTrip(st2);
-
-    ct1->SaveTripToFile(tripStream);
-
-    ct1->Display();
-    cout << endl; */
-     
-} //----- fin de test
+} //----- Fin de test
 
 int main ( )
 // Algorithme :
@@ -48,4 +37,4 @@ int main ( )
 {
     test ( );
     return 0;
-} //----- fin de main
+} //----- Fin de main

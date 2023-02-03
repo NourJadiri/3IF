@@ -1,0 +1,152 @@
+Nombre d'echantillons : 32768 (obligatoire!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!l!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!) ((ya un piege dans la suite de !, retrouve le :)))
+% X_a : Amplitude
+% [a,b[ : interval d'étude
+% T_e : periode d'échantillonage
+% N : Nombre d'échantillons
+% n : variable ?
+% t : temps
+% f_e : fréquence d'échantillonage
+% On prend la fréquence du signal analogique f = 1
+
+N = 32768;
+X_a = 5;
+a = -5;
+b = 5;
+T_e = (b-a)/N;
+f_e = 1/T_e;
+t = a:T_e:b;
+t = t(1:end-1);
+
+x_0 = 1;
+x_1 = cos(2*pi*t);
+x_2 = sin(2*pi*t);
+x_3 = dirac(t);
+x_4 = exp(2i*pi*t);
+x_5 = t >= 0 & t <= 1;
+x_6 = exp(-pi*pow2(t,2));
+
+% plot(x_0);
+% plot(t, x_1);
+% plot(t, x_2);
+% % plot(real(x_4),imag(x_4),'*');
+% plot(t, x_3 == Inf);
+% plot(t,x_5);
+% plot(t, x_6);
+
+% x_0four = tfour(x_0);
+x_1four = tfour(x_1);
+% x_2four = tfour(x_2);
+% x_3four = tfour(x_3);
+% x_4four = tfour(x_4);
+% x_5four = tfour(x_5);
+% x_6four = tfour(x_6);
+
+f = linspace( -f_e/2 , f_e/2 , N+1 );
+f = f(1:end-1);
+
+
+% plot(f, abs(x_0four));
+% grid on;
+% ylabel ('x_0 fourier');
+% plot(f, abs(x_1four));
+% ylabel ('x_1 fourier');
+% plot(f, abs(x_2four));
+% ylabel ('x_2 fourier');
+% plot(f, abs(x_3four));
+% ylabel ('x_3 fourier');
+% xlim([-f_e/2 f_e/2]);
+% %plot(f, abs(x_4four));
+% plot(f, abs(x_5four));
+% ylabel ('x_5 fourier');
+% plot(f, abs(x_6four));
+% ylabel ('x_6 fourier');
+
+x_1reconstituted = tfourinv(x_1four);
+%plot(t, x_1);
+Echantillonage et aliasing
+f1 = 800;
+f2 = 2400;
+
+g800 = sin(2*pi*f1*t) + sin(2*pi*(f1+50)*t) - 2*sin(2*pi*(f1+2*50)*t);
+g2400 = sin(2*pi*f2*t) + sin(2*pi*(f2+50)*t) - 2*sin(2*pi*(f2+2*50)*t);
+
+g800_four = tfour(g800);
+g2400_four = tfour(g2400);
+
+figure;
+hold on;
+plot(f, imag(g800_four));
+plot(f, imag(g2400_four));
+legend('g800','g2400');
+hold off;
+
+figure;
+hold on;
+plot(f,abs(g800_four));
+plot(f,abs(g2400_four));
+legend('g800-four','g2400-four');
+hold off;
+Modulation d'amplitude
+
+
+Utility functions :
+
+Fourrier Transform
+function [Fw]=tfour(vf)
+
+
+%tf	Transformée de Fourier discrète.
+% 	tf(vf) est la transformée de Fourier discrète de la fonction f
+%       dont (ne) échantillons sont rangés dans le vecteur ligne vf. 
+%	Ces échantillons correspondent à des "instants" centrés sur la 
+%	valeur zéro. La valeur de f(0) doit être contenue dans 
+%	l'échantillon (ne/2 + 1).
+%
+%  	Voir aussi tfi, IFFT, FFT2, IFFT2, FFTSHIFT.
+%   <3
+
+    if (size(vf,1)==1)
+
+	ne=size(vf,2);
+
+	i=sqrt(-1);
+	nes2=ne/2;
+	Fw=fft(vf);
+	Fw=fftshift(Fw);
+    %	for n=1:ne,
+    %   		Fw(n)=exp(i*(n-nes2+1)*pi)*Fw(n);
+    %	end
+        temp=[1:ne];
+        Fw=(exp(i*temp*pi)*exp(-i*(nes2-1)*pi)).*Fw;
+
+    else 	'tf : Le vecteur des données doit être un vecteur ligne'
+    end
+end
+
+Inverse Fourrier Transform
+function [vf]=tfourinv(vFw)
+
+
+%tfi	Transformée de Fourier Inverse discrète.
+% 	tfi(vFw) est la transformée de Fourier inverse discrète de 
+%	la fonction F(w) dont (ne) echantillons sont rangés dans le 
+%	vecteur ligne vFw. La valeur F(0) doit être dans 
+%	l'echantillon (ne/2 + 1).
+%
+%  	Voir aussi tf, IFFT, FFT2, IFFT2, FFTSHIFT.
+%   <3 coeur
+
+    if (size(vFw,1)==1)
+    
+	    ne=size(vFw,2);
+    
+	    i=sqrt(-1);
+	    nes2=ne/2;
+	    for n=1:ne,
+	   	    vFw(n)=exp(-i*(n-nes2+1)*pi)*vFw(n);
+	    end
+	    vFw=fftshift(vFw);
+	    vf=ifft(vFw);
+    else 	'tfi : Le vecteur des données doit être un vecteur ligne'
+    end
+end

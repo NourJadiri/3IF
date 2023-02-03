@@ -1,7 +1,7 @@
 /*************************************************************************
                            Trip  -  Objet d'un trajet en général
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -12,14 +12,13 @@
 #define TRIP_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include <iostream>
-#include <cstring>
-#include <fstream>
 #include <string>
+#include <fstream>
+#include <cstring>
 
 //------------------------------------------------------------------ Types
 enum types { VIRTUAL, SIMPLE_TRIP, COMPOSED_TRIP };
-const std::string tripTypes [ 3 ] = { "Virtual" , "Simple" , "Composed" };
+const std::string tripTypes [ 3 ] = { "V" , "S" , "C" };
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Trip>
@@ -34,6 +33,8 @@ const std::string tripTypes [ 3 ] = { "Virtual" , "Simple" , "Composed" };
 // Composed_Trip si le Trip comporte une ou plusieurs escales
 // un trajet, qu'il soit simple ou composé, a une ville de départ et
 // d'arrivée, donc deux chaines de caractères start et end respectivement
+// Enfin, elle permet de commencer l'écriture d'un trajet, peu importe
+// son type
 //------------------------------------------------------------------------
 
 class Trip
@@ -69,8 +70,12 @@ public:
     // Composed)
 
     virtual void SaveTripToFile ( std::ofstream & tripStream );
+    // Mode d'emploi :
+    // Ecriture du type du trajet ainsi que de ses villes de depart et d'arrivée
+    // Contrat :
+    // tripStream est un flux de sortie valide, i.e. : le fichier existe ou est créé et n'est pas corrompu
 
-//------------------------------------------------- Surcharge d'opérateurs
+    //------------------------------------------------- Surcharge d'opérateurs
     virtual bool operator == ( Trip const & aTrip ) const;
     // Mode d'emploi :
     // Surcharge de l'opérateur == afin de retourner un bool en fonction de

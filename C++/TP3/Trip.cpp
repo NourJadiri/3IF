@@ -1,7 +1,7 @@
 /*************************************************************************
                            Trip  -  Objet d'un trajet en général
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -38,7 +38,8 @@ int Trip::GetType ( ) const
 
 void Trip::SaveTripToFile ( ofstream & tripStream )
 // Algorithme :
-//
+// Ecriture du type et des villes de depart et d'arrivée d'un trajet,
+// peu importe son type
 {
     tripStream << tripTypes[type] << "," << this->start << "," << this->end;
 } //----- Fin de saveTripToFile

@@ -1,7 +1,7 @@
 /*************************************************************************
                            Catalogue  -  menu et interface utilisateur
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -18,9 +18,7 @@
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-#include "ComposedTrip.h"
 #include "Catalogue.h"
-#include "SimpleTrip.h"
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -77,15 +75,15 @@ void Catalogue::Launch ( )
                 fetch();
                 break;
             case 4:
-                import();
+                import(); // dans Catalogue_InputManager.cpp
                 break;
             case 5:
-                save();
+                save(); // dans Catalogue_OutputManager.cpp
                 break;
             case 6:
                 goto end;
             default:
-                cout << "Incorrect choice, please enter a number between 1 and 6!" << endl;
+                cout << endl << "Incorrect choice, please enter a number between 1 and 6!" << endl;
                 //sleep(1);
                 continue; // go back to menu
         }
@@ -138,28 +136,23 @@ void Catalogue::add ( )
 // Si jamais l'utilisateur veut insérer un ComposedTrip, alors une suite de SimpleTrips
 // sera ajoutée au ComposedTrip tant qu'il le décidera
 {
-    char * start = new char [ 64 ];
-    char * end = new char [ 64 ];
-    char * transport = new char [ 64 ];
+    string start, end, transport;
 
     cout << endl << "Let's add a trip to our beautiful and (in)exhaustive catalogue!" << endl;
     cout << "Be a good samaritan and DO NOT INSERT SPACES!!! when you write your trip information (please...)" << endl;
 
-    cout << "----- Enter the city of departure: ";
-    cin >> start ;
+    start = inputValidString( "city of departure" );
+    end = inputValidString( "city of arrival" );
+    transport = inputValidString(  "kind of transport used" );
 
-    cout << "----- Enter the city of arrival: ";
-    cin >> end;
-
-    cout << "----- Enter the kind of transport used: ";
-    cin >> transport;
 
     // We consider the eventuality of having a composed trip
     // These things are useful trust me.
-    char * yesOrNo = new char [ 64 ];
+    /*char * yesOrNo = new char [ 64 ];*/
+    string yesOrNo;
     bool validInput;
 
-    SimpleTrip * newSTrip = new SimpleTrip( start, end, transport );
+    SimpleTrip * newSTrip = new SimpleTrip( start.c_str(), end.c_str(), transport.c_str() );
     ComposedTrip * newCTrip = new ComposedTrip();
 
     // Checks if the user input is valid (yes/no)
@@ -168,7 +161,7 @@ void Catalogue::add ( )
         cout << endl << "Do you wish to make this trip a composed trip? [yes/no]: ";
         cin >> yesOrNo;
 
-        validInput = !strcmp( yesOrNo, "yes" ) || !strcmp( yesOrNo, "no" );
+        validInput = yesOrNo == "yes" || yesOrNo == "no";
 
         if ( !validInput )
         {
@@ -178,24 +171,22 @@ void Catalogue::add ( )
     }
     while ( !validInput );
 
-    bool isComposed = !strcmp( yesOrNo, "yes" );
+    bool isComposed = ( yesOrNo == "yes" );
     if ( isComposed )
     {
         bool keepAdding;
-        char * addNewStep = new char [ 64 ];
+        string addNewStep;
+
         newCTrip->AddSimpleTrip( newSTrip );
 
         do
         {
-            strcpy( start,end );
+            start = end;
 
-            cout << "----- Enter the next city of arrival: ";
-            cin >> end;
+            end = inputValidString( "next city of arrival");
+            transport = inputValidString( "kind of transport used");
 
-            cout << "----- Enter the kind of transport used: ";
-            cin >> transport;
-
-            newCTrip->AddSimpleTrip ( new SimpleTrip( start, end, transport ) );
+            newCTrip->AddSimpleTrip ( new SimpleTrip( start.c_str(), end.c_str(), transport.c_str() ) );
 
             // Checks if the user input is valid [yes/no]
             do
@@ -203,7 +194,7 @@ void Catalogue::add ( )
                 cout << endl << "Do you wish to add another step to this trip? [yes/no]: ";
                 cin >> addNewStep;
 
-                validInput = !strcmp( addNewStep, "yes" ) || !strcmp( addNewStep, "no" );
+                validInput = addNewStep == "yes" || addNewStep == "no";
 
                 if ( !validInput ) {
                     cout << "Please enter a valid input [yes/no]..." << endl;
@@ -212,31 +203,26 @@ void Catalogue::add ( )
             }
             while ( !validInput );
 
-            keepAdding = !strcmp( addNewStep, "yes" );
+            keepAdding = ( addNewStep == "yes" );
         }
         while ( keepAdding );
 
-        tripList.AddTripSorted(newCTrip );
+        tripList.AddTripSorted( newCTrip );
 
-        delete [ ] addNewStep;
     }
     else
     {
-        tripList.AddTripSorted(newSTrip );
+        tripList.AddTripSorted( newSTrip );
         delete newCTrip;
     }
 
-    // to free allocated memory in heap
-    delete [ ] start;
-    delete [ ] end ;
-    delete [ ] transport;
-    delete [ ] yesOrNo;
 } //----- Fin de add
 
 void Catalogue::fetch ( ) const
 // Algorithme :
 // Si la liste des Trips est non vide, appel de la méthode de la classe List
 // pour rechercher le trajet
+// Teste si la liste de trajets composant le catalogue est vide.
 {
     if ( tripList.GetSize() == 0 ) {
         cout << endl << "Unfortunately, there are no trips yet..." << endl;
@@ -245,14 +231,12 @@ void Catalogue::fetch ( ) const
     {
         cout << endl << "Let's find you the best way to get to your destination!" << endl;
 
-        char * start = new char [ 64 ];
-        char * end = new char [ 64 ];
-        cout << "----- Choose your departure city: ";
-        cin >> start;
-        cout << "----- Choose your destination city: " ;
-        cin >> end;
+        string start, end;
 
-        char * advanced = new char [ 64 ];
+        start = inputValidString( "city of departure" );
+        end = inputValidString( "city of arrival" );
+
+        string advanced;
         bool validInput;
 
         do
@@ -260,7 +244,7 @@ void Catalogue::fetch ( ) const
             cout << endl << "Do you wish to do an advanced search for this trip? [yes/no]: ";
             cin >> advanced;
 
-            validInput = !strcmp( advanced, "yes" ) || !strcmp( advanced, "no" );
+            validInput = advanced == "yes" || advanced == "no";
 
             if ( !validInput ) {
                 cout << "Please enter a valid input [yes/no]..." << endl;
@@ -270,14 +254,14 @@ void Catalogue::fetch ( ) const
         while ( !validInput );
 
         // if user wants the complete search
-        if ( !strcmp( advanced, "yes" ) )
+        if ( advanced == "yes" )
         {
             // allocated memory for an array of Trips to store the potential trips to fulfill request
             // The maximum size of this array will be the size of the trip List
             Trip * * tab = new Trip * [ this->tripList.GetSize() ];
 
             cout << endl << "Here's what we can get you (or not): " << endl;
-            bool found = tripList.FetchTripAdvanced( start, end, tab );
+            bool found = tripList.FetchTripAdvanced( start.c_str(), end.c_str(), tab );
 
             if ( !found )
             {
@@ -285,276 +269,12 @@ void Catalogue::fetch ( ) const
                 << "The trip from " << start << " to " << end << " does not exist..." << endl;
             }
 
-            delete [ ] tab;
             cout << endl;
         }
         else
         {
-            tripList.FetchTrip( start, end );
+            tripList.FetchTrip( start.c_str(), end.c_str() );
         }
 
-        // to free allocated memory in heap
-        delete [ ] advanced;
-        delete [ ] start;
-        delete [ ] end;
     }
 } //----- Fin de fetch
-
-void Catalogue::import ( )
-// Algorithme :
-// Appending XXXXXX
-{
-    string nameFile;
-    cout << "Enter the name of the file containing the trips to import: ";
-    cin >> nameFile;
-    //TODO : while pour checker que le nom du fichier est ok et que ce fichier existe
-
-    int choice;
-    for ( ; ; ) {
-        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: import all the trips from the file into the Catalogue" << endl;
-        cout << "\t2: import only the trips of a certain type from the file into the Catalogue" << endl;
-        cout << "\t3: import only the trips corresponding to specific city(ies) conditions" << endl;
-        cout << "\t4: import only an interval of trips from the file into the Catalogue" << endl;
-
-        cin >> choice;
-
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
-        switch ( choice ) {
-            case 1:
-                //TODO : import all
-                break;
-            case 2:
-                //TODO : import type
-                break;
-            case 3:
-                //TODO : import cities
-                importCities();
-                break;
-            case 4:
-                //TODO : import interval
-                break;
-            default:
-                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
-                //sleep(1);
-                continue; // go back to options
-        }
-        break;
-    }
-} //----- Fin de import
-
-void Catalogue::save ( ) const
-// Algorithme :
-// Appending XXXXXX
-{
-    string nameFile;
-    cout << endl << "Enter the name of the file in which you want to save the trips." << endl;
-    cout << "Know that the previous content of the file will be overwritten." << endl;
-    cout << "Please, do NOT add the extension of the file, nor add '/' or any other special character!!" << endl;
-    
-    cin >> nameFile;
-    //TODO : while pour checker que le nom du fichier est ok
-    nameFile += ".txt";
-    ofstream tripStream( nameFile.c_str() );
-
-    int choice;
-    for ( ; ; ) {
-        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: save all the trips from the Catalogue into a file" << endl;
-        cout << "\t2: save only the trips of a certain type from the Catalogue into a file" << endl;
-        cout << "\t3: save only the trips corresponding to specific city(ies) conditions" << endl;
-        cout << "\t4: save only an interval of trips from the Catalogue into a file" << endl;
-
-        cin >> choice;
-
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
-        switch ( choice ) {
-            case 1:
-                //TODO : save all
-                saveAll( tripStream );
-                break;
-            case 2:
-                //TODO : save type
-                break;
-            case 3:
-                //TODO : save cities
-                saveFromCities();
-                break;
-            case 4:
-                //TODO : save interval
-                break;
-            default:
-                cout << "Incorrect choice, please enter a number between 1 and 4!" << endl;
-                //sleep(1);
-                continue; // go back to options
-        }
-        break;
-    }
-} //----- Fin de save
-
-void Catalogue::importCities ( )
-// Algorithme :
-// XXXX
-{
-    int choice;
-    for ( ; ; ) {
-        cout << endl << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: import trips leaving from a certain city" << endl;
-        cout << "\t2: import trips arriving at a certain city" << endl;
-        cout << "\t3: import trips both leaving and arriving to the cities you want" << endl;
-
-        cin >> choice;
-
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
-        switch ( choice ) {
-            case 1:
-                //TODO : import trips a partir d'une ville de depart
-                break;
-            case 2:
-                //TODO : import trips a partir d'une ville d'arrivee
-                break;
-            case 3:
-                //TODO : import trips a partir des deux villes de depart & arrivee
-                break;
-            default:
-                cout << "Incorrect choice, please enter a number between 1 and 3!" << endl;
-                //sleep(1);
-                continue; // go back to options
-        }
-        break;
-    }
-} //----- Fin de importCities
-
-void Catalogue::saveAll ( ofstream & tripStream ) const 
-
-{   
-    if( tripList.GetFirst() == nullptr )
-    {
-        cout << "Catalogue is empty... Nothing to add to the file :(";
-        return;
-    }
-    int index = 1;
-
-    Node * iter = tripList.GetFirst();
-
-    while( iter != nullptr )
-    // Parses through tripList
-    {   
-        // Saves all the trips to file
-
-        tripStream << index << ",";
-
-        iter->GetTrip()->SaveTripToFile(tripStream);
-
-        index++;
-
-        iter = iter->GetNext();
-    }
-
-    
-}
-
-void Catalogue::saveFromCities ( ) const
-// Algorithme :
-// XXXX
-{
-    int choice;
-    for ( ; ; ) {
-        cout << "Enter a NUMBER corresponding to one of the options listed below" << endl;
-        cout << "\t1: save trips leaving from a certain city" << endl;
-        cout << "\t2: save trips arriving at a certain city" << endl;
-        cout << "\t3: save trips both leaving and arriving to the cities you want" << endl;
-
-        cin >> choice;
-
-        // si on pouvait importer la librairie <limits>
-        // pour gerer les exceptions
-        /*for( ; ; )
-        {
-            cin >> choice;
-            // si on pouvait importer la librairie <limits>
-            if ( !cin )
-            {
-                cout << "Wrong input, please enter a NUMBER" << endl;
-                //sleep(1);
-                // pour clear l'erreur
-                cin.clear();
-                // pour enlever ce qui reste dans le buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else break;
-        }*/
-
-        switch ( choice ) {
-            case 1:
-                //TODO : save trips a partir d'une ville de depart
-                break;
-            case 2:
-                //TODO : save trips a partir d'une ville d'arrivee
-                break;
-            case 3:
-                //TODO : save trips a partir des deux villes de depart & arrivee
-                break;
-            default:
-                cout << "Incorrect choice, please enter a number between 1 and 3!" << endl;
-                //sleep(1);
-                continue; // go back to options
-        }
-        break;
-    }
-} //----- Fin de saveFromCities

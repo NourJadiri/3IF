@@ -12,7 +12,6 @@
 #define NODE_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include <iostream>
 #include "Trip.h"
 #include "SimpleTrip.h"
 

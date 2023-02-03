@@ -26,14 +26,20 @@ static void test ( )
 // Algorithme :
 // Création d'un catalogue vide lors du lancement de l'application
 {
-    Catalogue c;
-    c.Launch ( );
+
 } //----- fin de test
 
 int main ( )
 // Algorithme :
 // Appel à la procédure de test
 {
-    test ( );
+    SimpleTrip * sTrip = new SimpleTrip("aaa","bbb","ccc");
+    sTrip->Display();
+
+    Trip * a = dynamic_cast <Trip*> (sTrip);
+
+    a->Display();
+
+    delete sTrip;
     return 0;
 } //----- fin de main

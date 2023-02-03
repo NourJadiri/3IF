@@ -1,7 +1,7 @@
 /*************************************************************************
                            SimpleTrip  -  Objet d'un trajet simple
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -13,6 +13,8 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <fstream>
+#include <cstring>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -23,7 +25,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void SimpleTrip::Display ( ) const
 {
-    cout << "Trip from " << start << " to " << end << " by " << transportation;
+    cout << "trip from " << start << " to " << end << " by " << transportation;
 } //----- Fin de Display
 
 char * SimpleTrip::GetTransport ( ) const
@@ -32,10 +34,12 @@ char * SimpleTrip::GetTransport ( ) const
 } //----- Fin de GetTransport
 
 void SimpleTrip::SaveTripToFile ( ofstream & tripStream )
+// Algorithme :
+// permet d'écrire le mode de transport d'un trajet simple
 {
-    Trip::SaveTripToFile(tripStream);
+    Trip::SaveTripToFile( tripStream );
     tripStream << "," << transportation << endl;
-}
+} //----- Fin de SaveTripToFile
 
 //-------------------------------------------- Constructeurs - destructeur
 SimpleTrip::SimpleTrip ( const char * aStart, const char * aEnd,

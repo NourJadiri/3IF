@@ -1,7 +1,7 @@
 /*************************************************************************
                            ComposedTrip  -  Objet d'un trajet composé
                              -------------------
-    début                : 22/11/2022
+    début                : 03/01/2023
     copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
@@ -13,6 +13,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -42,25 +43,53 @@ void ComposedTrip::AddSimpleTrip ( SimpleTrip const * newSTrip )
 // end correspond à la toute derniere ville d'arrivee du ComposedTrip,
 // donc à la ville d'arrivée du dernier SimpleTrip ajouté au ComposedTrip
 {
-    trips.AddTrip (newSTrip );
+    trips.AddTrip ( newSTrip );
     strcpy( start, trips.GetFirst()->GetTrip()->GetStart() );
     strcpy( end, newSTrip->GetEnd() );
 } //----- Fin de AddSimpleTrip
 
 void ComposedTrip::SaveTripToFile ( ofstream & tripStream )
+// Algorithme :
+// ecriture de l'entete du trajet compose (ville de depart + arrivee finale)
+// puis parcours de sa liste de SimpleTrips pour les ecrire dans le fichier
 {
-    Trip::SaveTripToFile(tripStream);
+    Trip::SaveTripToFile( tripStream );
     tripStream << ",-" << endl;
 
     Node * iter = trips.GetFirst();
 
-    while( iter != nullptr )
+    while ( iter != nullptr )
     {   
         tripStream << 0 << ",";
-        iter->GetTrip()->SaveTripToFile(tripStream);
+        iter->GetTrip()->SaveTripToFile( tripStream );
         iter = iter->GetNext();
     } 
-}
+} //----- Fin de SaveTripToFile
+
+bool ComposedTrip::IsValid ( )
+// Algorithme :
+// Itère à travers la liste de trajets qui compose le trajet composé
+// Si on trouve qu'une des étapes n'est pas cohérentes (finit dans une ville
+// différente de la ville de départ de la prochaine étape), alors le trajet n'est pas valide
+{
+    Node * current = trips.GetFirst();
+    Node * next = current->GetNext();
+
+    while ( next->GetNext() != nullptr )
+    {
+        // checking if city of arrival = city of departure of the next simple trip
+        if ( strcmp( current->GetTrip()->GetEnd(), next->GetTrip()->GetStart() ) != 0 )
+        {
+            return false;
+        }
+        current = next;
+        next = next->GetNext();
+    }
+
+    return !strcmp( trips.GetFirst()->GetTrip()->GetStart(), this->GetStart() )
+            && !strcmp( next->GetTrip()->GetEnd(), this->GetEnd() )
+            && !strcmp(current->GetTrip()->GetEnd(), next->GetTrip()->GetStart() );
+} //----- Fin de IsValid
 
 //-------------------------------------------- Constructeurs - destructeur
 ComposedTrip::ComposedTrip ( )

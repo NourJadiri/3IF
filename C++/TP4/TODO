@@ -3,3 +3,11 @@
 2. framework de tests
 
 3. personnaliser le mktest.sh
+
+4. ajouter les codes 206 / 304 / 405
+
+5. euh lui il get quoi comme cible mdr?
+192.168.0.14 - - [08/Sep/2012:11:33:40 +0200] "GET / HTTP/1.1" 200 216 "http://www.google.com/url?sa=D&q=http://intranet-if.insa-lyon.fr/&usg=AFQjCNHV-gCqPo-huDqFpvtCum8KGpr5JQ" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1"
+
+6. faire gaffe aux trucs comme ca ou ya pas de nombre après le code de retour
+192.168.0.11 - - [08/Sep/2012:13:39:25 +0200] "GET /notesif/ HTTP/1.1" 302 - "-" "Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)"

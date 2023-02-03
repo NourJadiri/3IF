@@ -56,7 +56,7 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
     std::unique_ptr<LogFile_Manager> fileManager;
-    std :: map < Cible , std::shared_ptr<Node> > nodes;
+    std::map < Cible , std::shared_ptr<Node> > nodes;
 
 };
 

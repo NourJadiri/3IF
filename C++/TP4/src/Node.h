@@ -46,6 +46,8 @@ public:
 //-------------------------------------------- Constructeurs - destructeur
     explicit Node ();
 
+    explicit Node ( const Cible & uneCible );
+
     explicit Node ( const Node & aNode );
 
     explicit Node ( const Cible & uneCible, const Referer & unReferer );

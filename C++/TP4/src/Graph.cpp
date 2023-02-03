@@ -42,7 +42,7 @@ void Graph::Display ( )
 {
     for( auto const & i : nodes )
     {
-        i.second->Display();
+        cout << *(i.second);
     }
 }
 
@@ -64,14 +64,12 @@ Graph::Graph ( const string & path )
 {
     fileManager = make_unique<LogFile_Manager>( path );
 
-    AddNode( Node() );
-
-    Node temp;
+    AddNode( Node("-") );
     
     for ( auto const & log : fileManager->getLogs() )
     {
-        temp = Node( log->getCible() , log->getShortReferer() );
-        AddNode( temp );
+        AddNode( Node( log->getCible() , log->getShortReferer() ) );
+        AddNode( Node( log->getShortReferer() ) );
     }
 }
 

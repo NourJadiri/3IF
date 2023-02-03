@@ -64,9 +64,10 @@ void Node::Display() const
 
 //------------------------------------------------- Surcharge d'opérateurs
 
-std::ostream &operator<<(ostream &os, Node &aNode) {
-    os << "Cible : " << aNode.name << endl;
-    cout << "Referers : " << endl;
+std::ostream &operator<<( ostream &os, Node &aNode ) 
+{
+    os << "Noeud : " << aNode.name << endl;
+    cout << "> Referers : " << endl;
 
     for ( auto const & i : aNode.referers)
     {
@@ -79,7 +80,10 @@ std::ostream &operator<<(ostream &os, Node &aNode) {
 
 //-------------------------------------------- Constructeurs - destructeur
 
-
+Node::Node ( const Cible & uneCible )
+{
+    name = uneCible;
+}
 
 Node::Node ( const Cible & uneCible, const Referer & unReferer )
 // Algorithme :

@@ -2,7 +2,7 @@
                            Main  -  description
                              -------------------
     début                : 17/01/2023
-    copyright            : (C) 2022 par Nour ELJADIRI, Marie ROULIER
+    copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
     e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
@@ -17,6 +17,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "LogFile_Manager.h"
+#include "Main.h"
 #include "Analog.h"
 
 

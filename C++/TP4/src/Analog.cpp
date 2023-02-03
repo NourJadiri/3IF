@@ -15,6 +15,11 @@
 #include <iostream>
 using namespace std;
 
+#include <map>
+#include <queue>
+#include <vector>
+#include <algorithm>
+
 //------------------------------------------------------ Include personnel
 #include "Analog.h"
 #include "LogFile_Manager.h"
@@ -167,7 +172,50 @@ int Analog::commandeG ( const string & dotFile ) const
         return 1;
     }
 
-    // appel de la fonction pour generer le fichier GraphViz
+    // si le fichier est deja existant et non vide, demander a l'utilisateur s'il
+    // souhaite poursuivre l'operation et donc ecraser le contenu du fichier
+    ifstream fileStream;
+    fileStream.open( dotFile.c_str() );
+
+    if ( fileStream.peek() != ifstream::traits_type::eof() )
+    {
+        char choice;
+        cout << endl << "Le fichier " << dotFile << " existe déjà et n'est pas vide." << endl;
+        cout << endl << "Souhaitez-vous écraser son contenu ? [y/n]" << endl;
+
+        for ( ; ; )
+        {
+            cin >> choice;
+
+            if (choice == 'y')
+            {
+                ofstream dotFileStream;
+                dotFileStream.open( dotFile.c_str() );
+
+                // appel de la fonction pour generer le fichier GraphViz
+
+                dotFileStream.close();
+                break;
+            }
+            else if (choice == 'n')
+            {
+                cout << "Merci d'entrer un autre nom de fichier .dot." << endl;
+
+                string newFile;
+                cin >> newFile;
+
+                commandeG( newFile ); // on répète le meme processus avec le nouveau fichier
+                break;
+            }
+            else
+            {
+                cout << "Merci de rentrer une option valide (y/n)." << endl;
+            }
+        }
+    }
+
+    fileStream.close();
+
     return 0;
 } //----- Fin de commandeG
 

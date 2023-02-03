@@ -29,16 +29,15 @@ using namespace std;
 //------------------------------------------------------ Fonctions privées
 static int test ( int & argcMain, char * * & argvMain )
 // Mode d'emploi :
-//
-// Contrat :
-//
+// Procédure de test appelée par le main
 // Algorithme :
-//
+// Création d'un Analog lors du lancement de l'application
 {
     int retour;
 
     Analog anal;
     retour = anal.Launch ( argcMain, argvMain );
+
     return retour;
 } //----- Fin de test
 

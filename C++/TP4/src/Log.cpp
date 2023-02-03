@@ -91,16 +91,24 @@ Log::Log( const string & logLine )
         returnCode = stoi( matches.str(12) );
 
         // Le 12e élément correspond au longReferer
-        longReferer = getBaseFromUrl(matches.str(14));
+        longReferer = matches.str(14);
 
         // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
         // Sinon le short referer sera une copie du longReferer
-        shortReferer = isValidUrl( longReferer ) ? getPathFromUrl(longReferer) : longReferer ;
-
-        if ( shortReferer.empty() )
+        if ( !isValidUrl(longReferer) )
         {
             shortReferer = longReferer;
         }
+        else if ( getBaseFromUrl(longReferer) == "intranet-if.insa-lyon.fr" )
+        {
+            shortReferer = getPathFromUrl(longReferer);
+        }
+        else
+        {
+            shortReferer = getBaseFromUrl( longReferer );
+        }
+
+
     }
 }
 

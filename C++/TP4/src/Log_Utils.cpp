@@ -11,7 +11,7 @@ bool isValidUrl ( const string & url )
     return std::regex_match( url, pattern );
 }
 
-string getPathFromUrl (const string &url )
+string getPathFromUrl ( const string &url )
 // Algorithme :
 // Parcours l'url et
 {
@@ -23,7 +23,7 @@ string getPathFromUrl (const string &url )
         return match[2];
     }
 
-    return "";
+    return url;
 }
 
 string getBaseFromUrl ( const string & url )

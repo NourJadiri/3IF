@@ -29,7 +29,7 @@ using namespace std;
 //---------------------------------------------------- Variables statiques
 
 //------------------------------------------------------ Fonctions privées
-static int test ( int & argcMain, char * * & argvMain )
+static void test ( int & argcMain, char * * & argvMain )
 // Mode d'emploi :
 // Procédure de test appelée par le main
 // Algorithme :
@@ -42,7 +42,6 @@ static int test ( int & argcMain, char * * & argvMain )
     retour = anal.Launch ( argcMain, argvMain );
 */
 
-    return 0;
 } //----- Fin de test
 
 int main ( int argc, char * argv [ ] )

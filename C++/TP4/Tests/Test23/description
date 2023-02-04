@@ -1,0 +1,4 @@
+Ce test permet de vérifier que la sortie est correcte lorsque l'utilisateur utilise correctement à la fois les commandes -g et -t.
+Ce test vérifie en particulier que la bonne sortie est affichée lorsqu'il y a plus de 10 log qui correspondent à la plage horaire souhaitée par l'utilisateur,
+et que le graph sera quand même généré, et ce uniquement avec les logs de la plage horaire concernée.
+On suppose pour cela que tous les tests relatifs aux commandes -g et -t, et l'utilisation par défaut, considérés seules, sont vérifiés.

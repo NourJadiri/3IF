@@ -1,0 +1,1 @@
+../../bin/analog -g shortTest.dot -t 11 logTest23.log

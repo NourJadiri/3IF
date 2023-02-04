@@ -1,0 +1,47 @@
+digraph {
+    node10 [label="/SiteWebIF/Intranet-etudiant.php"];
+    node12 [label="/SiteWebIF/Intranet-etudiant.php?ticket=ST-341667-KHlNEzic9e5btb4JQ1Nw-dsi-vm03"];
+    node9 [label="/favicon.ico"];
+    node13 [label="/stages/Listestage.php"];
+    node2 [label="/temps/"];
+    node1 [label="/temps/3IF37.html"];
+    node0 [label="/temps/3IF38.html"];
+    node11 [label="/temps/3IF39.html"];
+    node5 [label="/temps/FondInsa.jpg"];
+    node4 [label="/temps/InsaIF.ico"];
+    node7 [label="/temps/choix.gif"];
+    node6 [label="/temps/precedent.gif"];
+    node3 [label="/temps/style_emploi_du_temps.css"];
+    node8 [label="/temps/suivant.gif"];
+    node0 -> node11 [label="1"];
+    node1 -> node0 [label="2"];
+    node1 -> node6 [label="1"];
+    node1 -> node7 [label="1"];
+    node1 -> node8 [label="1"];
+    node2 -> node1 [label="1"];
+    node2 -> node3 [label="1"];
+    node2 -> node10 [label="2"];
+    node2 -> node12 [label="1"];
+    node3 -> node2 [label="1"];
+    node3 -> node4 [label="1"];
+    node3 -> node5 [label="1"];
+    node10 -> node9 [label="1"];
+    node10 -> node13 [label="1"];
+}
+
+/temps/3IF38.html HTTP/1.1" 200 21722 "/temps/3IF37.html"
+/temps/ HTTP/1.1" 200 6835 "/temps/style_emploi_du_temps.css"
+/temps/style_emploi_du_temps.css HTTP/1.1" 200 1216 "/temps/"
+/temps/InsaIF.ico HTTP/1.1" 200 766 "/temps/style_emploi_du_temps.css"
+/temps/FondInsa.jpg HTTP/1.1" 200 2828 "/temps/style_emploi_du_temps.css"
+/temps/3IF37.html HTTP/1.1" 200 17269 "/temps/"
+/temps/precedent.gif HTTP/1.1" 200 1906 "/temps/3IF37.html"
+/temps/choix.gif HTTP/1.1" 200 2836 "/temps/3IF37.html"
+/temps/suivant.gif HTTP/1.1" 200 1634 "/temps/3IF37.html"
+/temps/3IF38.html HTTP/1.1" 200 21722 "/temps/3IF37.html"
+/favicon.ico HTTP/1.1" 200 1700 "/SiteWebIF/Intranet-etudiant.php"
+/temps/3IF39.html HTTP/1.1" 200 22495 "/temps/3IF38.html"
+/SiteWebIF/Intranet-etudiant.php HTTP/1.1" 302 477 "/temps/"
+/SiteWebIF/Intranet-etudiant.php?ticket=ST-341667-KHlNEzic9e5btb4JQ1Nw-dsi-vm03 HTTP/1.1" 302 - "/temps/"
+/SiteWebIF/Intranet-etudiant.php HTTP/1.1" 200 3775 "/temps/"
+/stages/Listestage.php HTTP/1.1" 200 74694 "/SiteWebIF/Intranet-etudiant.php"

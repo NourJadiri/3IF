@@ -1,2 +1,3 @@
 Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur rentre un nom de fichier incorrect.
 C'est-à-dire que ce test vérifie la sortie lorsque l'utilisateur entre le nom d'un fichier qui n'est pas un .log.
+Cela vérifie donc qu'on a une erreur et une fermeture de l'application.

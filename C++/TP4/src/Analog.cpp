@@ -233,7 +233,7 @@ int Analog::commandeT ( const string & hour ) const
     // si jamais l'utilisateur ne rentre pas des chiffres
     if ( !all_of( hour.begin(), hour.end(), ::isdigit ) )
     {
-        cerr << endl << "Il faut insérer une heure (en numérique, entre 0 et 23)." << endl;
+        cerr << endl << "Il faut insérer une heure (en numérique, entre 0 et 23, inclus)." << endl;
         cerr << "Usage : -t heure" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;

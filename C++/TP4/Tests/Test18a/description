@@ -1,0 +1,2 @@
+Ce test permet de vérifier que l'utilisateur doit rentrer une heure valide lorsqu'il utilise la commande -t.
+Il doit donc rentrer une heure comprise dans l'intervalle 0 <= t <= 23 (inclus).

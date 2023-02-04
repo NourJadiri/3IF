@@ -1,0 +1,3 @@
+Ce test permet de vérifier si la sortie est correcte lorsque l'on utilise correctement la commande -e.
+Il permet notamment de vérifier que les fichiers type image, js ou css seront bien supprimés des analyses de log.
+Ce test vérifie que c'est le cas lorsque tous les documents sont à exclure.

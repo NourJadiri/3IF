@@ -45,7 +45,7 @@ void Graph::Display ( )
 {
     for ( auto const & i : nodes )
     {
-        cout << * (i.second);
+        cout << * ( i.second );
     }
 } //----- Fin de Display
 
@@ -55,7 +55,10 @@ list < shared_ptr < Node > > Graph::Top10Logs ( )
 
     for ( auto & node : nodes )
     {
-        insertSorted( top10 , node.second );
+        if( node.second->GetHits() > 0 )
+        {
+            insertSorted( top10 , node.second );
+        }
 
         if ( top10.size( ) > 10 )
         {
@@ -70,6 +73,17 @@ list < shared_ptr < Node > > Graph::Top10Logs ( )
 
 ostream & operator << ( ostream & os , Graph & g )
 {
+    if ( g.fileManager->GetLogs().empty() )
+    {
+        os << "/!\\ Warning: no target has been found /!\\" << endl;
+    }
+    else if ( g.fileManager->GetLogs().size() < 10 )
+    {
+        os << "/!\\ Warning: less than 10 targets have been found /!\\" << endl;
+    }
+
+    os << endl;
+
     for ( auto const & node : g.top10Logs )
     {
         if ( node->GetHits() > 0 )
@@ -97,8 +111,6 @@ Graph::Graph ( const string & path, const int command )
 #endif
 
     fileManager = make_unique < LogFile_Manager > ( path, command );
-
-    AddNode( Node( "-" ) );
     
     for ( auto const & log : fileManager->GetLogs() )
     {

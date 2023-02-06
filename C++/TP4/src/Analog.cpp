@@ -231,7 +231,7 @@ void Analog::commandeE ( ) const
     // appel de la fonction pour exclure les fichiers image
 } //----- Fin de commandeE
 
-int Analog::commandeT ( const string & hour ) const
+int Analog::commandeT ( const string & hour )
 // Algorithme :
 //
 {
@@ -296,12 +296,17 @@ int Analog::commandeU ( const string & fichierConfig )
     return 0;
 } //----- Fin de commandeU
 
-void Analog::commandeDefaut ( const string & file )
+void Analog::commandeDefaut ( const & string file )
 // Algorithme :
 //
 {
     Graph g( file );
     list < shared_ptr<Node> > l = g.commandeDefaut();
+
+    for ( auto const & node : l )
+    {
+        cout << *node;
+    }
 } //----- Fin de commandeDefaut
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )

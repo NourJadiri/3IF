@@ -73,7 +73,7 @@ protected:
     // Contrat :
     //
 
-    int commandeT ( const string & hour ) const;
+    static int commandeT ( const string & hour ) ;
     // Mode d'emploi :
     //
     // Contrat :
@@ -85,7 +85,7 @@ protected:
     // Contrat :
     //
 
-    void commandeDefaut ( const string & file );
+    static void commandeDefaut ( const string & );
     // Mode d'emploi :
     //
     // Contrat :

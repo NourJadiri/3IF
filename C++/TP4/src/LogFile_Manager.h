@@ -37,7 +37,13 @@ public:
 
 
 //----------------------------------------------------- Méthodes publiques
-    void commandeDefaut ( const std::string & pathToFile );
+    void commandeDefaut ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void commandeE ( );
     // Mode d'emploi :
     //
     // Contrat :

@@ -6,15 +6,24 @@ nMis=0
 
 for i in Test*
 do
-  ./test.sh $i results.csv
-
-  if [ $i -eq 11 ]
+  # gestion des cas particuliers (commande -g)
+  # il faut notamment supprimer les .dot qui ont ete generes
+  # mais aussi retrouver les anciens contenus des fichiers qui doivent servir pour tester
+  # lorsqu'un fichier non vide est donné sur la ligne de commande
+  # (et donc verifier si on ecrase bien le contenu ou pas)
+  if [ $i -eq 8 ] || [ $i -eq 9 ] || [ $i -eq 17 ] || [ $i -eq 23 ] || [ $i -eq 25 ]
+  then
+    rm -f shortTest.dot
+  elif [ $i -eq 11 ] || [ $i -eq 13 ]
   then
     cp shortTest_Old.dot shortTest.dot
   elif [ $i -eq 12 ]
   then
       cp dontTouchTest_old.dot dontTouchTest.old
+      rm -f touchTest.dot
   fi
+
+  ./test.sh $i results.csv
 
   result=$?
   if [ $result -eq 0 ]

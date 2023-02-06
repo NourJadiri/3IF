@@ -1,0 +1,4 @@
+Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur ne rentre pas une option valide, ou qu'il oublie le tiret par exemple.
+C'est-à-dire que l'utilisateur ne peut pas mettre une commande qui ne fait pas partie des suivantes :
+-g, -e, -t, -u
+Cela vérifie donc qu'on a une erreur et une fermeture de l'application.

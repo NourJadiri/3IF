@@ -107,7 +107,6 @@ Log::Log ( const string & logLine )
     }
 } //----- Fin de Log
 
-// TODO : a modifier
 Log::~Log ( )
 {
 #ifdef MAP

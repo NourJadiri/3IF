@@ -30,14 +30,15 @@ OPTIONS
        -e     Exclut tous les documents ayant des extensions de type image, css ou javascript. Un avertissement indiquera que cette option a été
               utilisée. Affiche également la liste des 10 documents les plus consultés.
 
-       -g heure
+       -t heure
               Spécifie la plage horaire [heure, heure + 1[ sur laquelle il faut prendre en compte les logs. Exclut les hits qui ne font pas partie de
               cette fenêtre. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
 
-       -g fichierTxt.txt
+       -u fichierTxt.txt
               Spécifie le fichier de configuration à utiliser contenant la base URL à supprimer des logs. Si ce fichier est vide, l’application analog
-              sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Affiche également la liste des 10 documents les
-              plus consultés.
+              sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Sinon, l'analyse des logs se fera uniquement sur
+              les logs dont la base URL du referer a été spécifiée dans le fichier. Un avertissement indiquera si cette option a été utilisée avec une
+              base URL spécifique. Affiche également la liste des 10 documents les plus consultés.
 
 CODE DE RETOUR
        analog sort 0 en cas de succès, et >0 si une erreur survient.

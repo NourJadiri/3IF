@@ -114,3 +114,12 @@ void LogFile_Manager::commandeE ( )
         }
     }
 }
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+void LogFile_Manager::commandeU ( )
+// Algorithme :
+//
+{
+
+}

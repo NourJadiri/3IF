@@ -22,7 +22,6 @@ typedef std::string Cible;
 typedef std::string Extension;
 typedef std::string RegexParser;
 
-
 //------------------------------------------------------------------------
 // Rôle de la classe <Log>
 //

@@ -1,11 +1,7 @@
 1. il faut renommer le directory "Logs" en bin (c'est la où il faut mettre analog)
 
-2. framework de tests
+2. framework de tests - normalement cest bon
 
-3. personnaliser le mktest.sh
+3. personnaliser le mktest.sh - normalement cest bon
 
-4. ajouter les codes 206 / 304 / 405
-
-5. extension à exclure : .css ; .js ; .ico ; .jpg ; .jpeg ; .png ; .gif ; .bmp ; .tiff
-
-6. le result.csv j'ai pas trop compris comment ca fonctionne ce truc et ce qu'il faut faire dessus
+4. le result.csv j'ai pas trop compris comment ca fonctionne ce truc et ce qu'il faut faire dessus

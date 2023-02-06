@@ -72,37 +72,38 @@ Log::Log ( const string & logLine )
     std::regex logFormat("(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" ");
     smatch matches;
 
-    // Le 1er element du groupe de capture est l'IP de l'utilisateur
-    ip = matches.str(1);
-
-    // Le 5e element correspond a l'heure
-    heureConsultation = stoi( matches.str(5) );
-
-    // Le 10e element est l'url de la page demandee
-    cible = matches.str(10);
-
-    // On stock l'extension du fichier aussi
-    extension = getExtensionFromFile( cible );
-
-    // le 12e element correspond au code de retour
-    returnCode = stoi( matches.str(12) );
-
-    // Le 14e element correspond au longReferer
-    longReferer = matches.str(14);
-
-    // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
-    // Sinon le short referer sera une copie du longReferer
-    if ( !isValidUrl( longReferer) )
+    if ( regex_search( logLine , matches , logFormat ) )
     {
-        shortReferer = longReferer;
-    }
-    else if ( getBaseFromUrl( longReferer ) == "intranet-if.insa-lyon.fr" )
-    {
-        shortReferer = getPathFromUrl( longReferer );
-    }
-    else
-    {
-        shortReferer = getBaseFromUrl( longReferer );
+        // Le 1er element du groupe de capture est l'IP de l'utilisateur
+        ip = matches.str(1);
+
+        // Le 5e element correspond a l'heure
+        heureConsultation = stoi(matches.str(5));
+
+        // Le 10e element est l'url de la page demandee
+        cible = matches.str(10);
+
+        // On stock l'extension du fichier aussi
+        extension = getExtensionFromFile(cible);
+
+        // le 12e element correspond au code de retour
+        returnCode = stoi(matches.str(12));
+
+        // Le 14e element correspond au longReferer
+        longReferer = matches.str(14);
+
+        // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
+        // Sinon le short referer sera une copie du longReferer
+        if (!isValidUrl(longReferer))
+        {
+            shortReferer = longReferer;
+        } else if (getBaseFromUrl(longReferer) == "intranet-if.insa-lyon.fr")
+        {
+            shortReferer = getPathFromUrl(longReferer);
+        } else
+        {
+            shortReferer = getBaseFromUrl(longReferer);
+        }
     }
 } //----- Fin de Log
 

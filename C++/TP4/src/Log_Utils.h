@@ -73,6 +73,6 @@ std::string getExtensionFromFile ( const std:: string & file );
 // Contrat :
 //
 
-bool connectionSuccess ( int & returnCode );
+bool connectionSuccess ( int returnCode );
 
 #endif // LOG_UTILS_H

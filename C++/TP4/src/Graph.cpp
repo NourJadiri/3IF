@@ -66,6 +66,17 @@ list< shared_ptr< Node > > Graph::Top10Logs ( )
     return top10;
 }
 
+//------------------------------------------------- Surcharge d'opérateurs
+
+ostream & operator<< ( ostream & os , Graph & g )
+{
+    for (auto const & node : g.top10Logs )
+    {
+        os << *node;
+    }
+
+    return os;
+}
 
 //-------------------------------------------- Constructeurs - destructeur
 Graph::Graph ( )
@@ -92,6 +103,8 @@ Graph::Graph ( const string & path, const int command )
         AddNode( Node(log->GetCible(), log->GetShortReferer() ) );
         AddNode( Node(log->GetShortReferer() ) );
     }
+
+    top10Logs = Top10Logs();
 } //----- Fin de Graph (constructeur parametre)
 
 Graph::~Graph ( )

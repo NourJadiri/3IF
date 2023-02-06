@@ -25,6 +25,10 @@ class Graph
 {
 //----------------------------------------------------------------- PUBLIC
 
+//------------------------------------------------- Surcharge d'opérateurs
+
+    friend ostream & operator<< ( ostream & os , Graph & g );
+
 public:
 //----------------------------------------------------- Méthodes publiques
     void AddNode ( const Node & aNode );
@@ -53,7 +57,7 @@ public:
     // Contrat :
     //
 
-    explicit Graph ( const std::string & path, const int command = DEFAULT );
+    explicit Graph ( const std::string & path, int command = DEFAULT );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :
@@ -74,6 +78,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
     std::unique_ptr < LogFile_Manager > fileManager;
     std::map < Cible, std::shared_ptr < Node > > nodes;
+    std::list < std::shared_ptr<Node> > top10Logs;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Graph>

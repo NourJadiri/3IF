@@ -43,5 +43,9 @@ int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-    return test(argc,argv);
+
+    Graph p( "../C++/TP4/Logs/short.log" );
+
+    cout << p;
+    return 0;
 } //----- fin de main

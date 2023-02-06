@@ -69,8 +69,6 @@ LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command 
         case E:
             commandeE();
             break;
-        case G:
-            break;
 
         default:
             break;
@@ -89,7 +87,11 @@ void LogFile_Manager::commandeDefaut ( )
     string log;
     while ( getline( logFile, log ) )
     {
-        logs.push_back(std::make_shared<Log>(log));
+        auto temp = Log( log );
+        if( connectionSuccess( temp.GetReturnCode() ) )
+        {
+            logs.push_back(std::make_shared<Log>(log));
+        }
     }
 }
 
@@ -101,12 +103,14 @@ void LogFile_Manager::commandeE ( )
         auto temp = Log ( log );
         const auto & ext = temp.GetExtension();
 
-        // TODO : chercher les autres extension a exclure
-        if ( ext == ".png" || ext == ".jpg" || ext == ".css" || ext == ".js" )
+        // TODO : chercher les autres extension a exclure then factoriser ça proprement
+        if ( ext == "png" || ext == "jpg" || ext == "css" || ext == "js" || ext == "gif" )
         {
             continue;
         }
-
-        logs.push_back( std::make_shared<Log>(log) );
+        if ( connectionSuccess( temp.GetReturnCode() ) )
+        {
+            logs.push_back( std::make_shared<Log>( log ) );
+        }
     }
 }

@@ -120,7 +120,7 @@ bool fileIsEmpty ( const string & logFile )
     return false;
 } //----- Fin de fileIsEmpty
 
-bool connectionSuccess ( int & returnCode )
+bool connectionSuccess ( int returnCode )
 {
     return returnCode == OK || returnCode == PREMANENT_REDIRECT || returnCode == TEMPORARY_REDIRECT;
 }

@@ -71,7 +71,7 @@ public:
     // Contrat :
     //
 
-    explicit LogFile_Manager ( const std :: string & pathToFile, const int command = DEFAULT );
+    explicit LogFile_Manager ( const std :: string & pathToFile, int command = DEFAULT );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :

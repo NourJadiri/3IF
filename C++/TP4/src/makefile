@@ -7,7 +7,7 @@ CXX = g++
 LD = g++
 
 # options
-CXXFLAGS = -g -DMAP -Wall -ansi -pedantic -std=c++14
+CXXFLAGS = -g -Wall -ansi -pedantic -std=c++14
 LDFLAGS = -g -Wall -pedantic -std=c++14
 RMFLAGS = rm -f
 

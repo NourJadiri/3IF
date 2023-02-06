@@ -77,6 +77,10 @@ std::ostream &operator<<( ostream &os, Node &aNode )
     return os;
 }
 
+bool operator<( Node & a , Node & b )
+{
+    return b.hits != a.hits ? b.hits > a.hits : b.name < a.name;
+}
 
 //-------------------------------------------- Constructeurs - destructeur
 
@@ -109,11 +113,6 @@ Node::Node()
 {
     name = "-";
     hits = 0;
-}
-
-bool operator<( Node & a , Node & b)
-{
-    return b.hits > a.hits;
 }
 
 

@@ -33,27 +33,14 @@ public:
 
 
 //----------------------------------------------------- Méthodes publiques
-    void commandeDefaut ( );
-    // Mode d'emploi :
-    // L'appel de cette fonction privé sert à la construction de l'objet LogFile_Manager.
-    // Elle permet d'importer dans le vector [logs] toutes les logs présentes
-    // dans un fichier donné.
-    // Contrat :
-    // Le fichier de log existe, est valide et est non vide
-
-    void commandeE ( );
-    // Mode d'emploi :
-    // L'appel de cette fonction privé sert à la construction de l'objet LogFile_Manager.
-    // Elle permet d'importer dans le vector [logs] toutes les logs dont la cible n'est pas
-    // un fichier image, js ou css.
-    // Contrat :
-    // Le fichier de log existe, est valide et est non vide>
 
     const std::vector < std::shared_ptr < Log > > & GetLogs ( ) const;
     // Mode d'emploi :
     // Getter qui retourne le vector logs
     // Contrat :
     //
+
+    void Init ( const bool commandes[ ] , int temps = 0 , const string & url = "" );
 
 
 
@@ -72,11 +59,11 @@ public:
     // Contrat :
     //
 
-    explicit LogFile_Manager ( const std :: string & pathToFile, int command = DEFAULT );
+    explicit LogFile_Manager ( const std :: string & pathToFile );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :
-    //
+    // Le fichier existe et a la bonne extension
 
     ~LogFile_Manager();
     // Mode d'emploi :
@@ -89,11 +76,7 @@ public:
 
 protected:
     //----------------------------------------------------- Méthodes protégées
-    void commandeU ( std::string const & url );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+
 
     //----------------------------------------------------- Attributs protégés
     std::ifstream logFile;

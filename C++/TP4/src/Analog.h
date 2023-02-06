@@ -82,11 +82,6 @@ protected:
     // Contrat :
     //
 
-    static int commandeDefaut ( const string & );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     static int verifFichierLog ( const string & logFile, const string & mainArg ) ;
     // Mode d'emploi :
@@ -95,9 +90,10 @@ protected:
     //
 
 //----------------------------------------------------- Attributs protégés
+    bool commandes[5] = {true , false , false , false , false };
     url urlUser;
-    LogFile_Manager logs;
-    Graph graph;
+    shared_ptr<LogFile_Manager> logs;
+    shared_ptr<Graph> graph;
 };
 
 #endif // ANALOG_H

@@ -41,11 +41,11 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         return 1;
     }
 
-    // pour ne pas executer plusieurs fois la meme commande
-    bool commandes [5] = { false };
-
     // le dernier argument est le fichier log
     string path = argvMain[argcMain - 1];
+    string dotfile;
+    string hour;
+    string fichierConfig;
 
     // valeur de retour des fonctions appelees
     int retour;
@@ -56,59 +56,31 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         {
             // option -g : generer fichier GraphViz
             commandes[G] = true;
-            string dotfile = argvMain[ ++i ];
-
-            // appel de la fonction qui execute la commande -g
-            retour = commandeG( dotfile );
-
-            // si erreur lors de l'execution de la commande
-            if ( retour )
-            {
-                return retour;
-            }
+            dotfile = argvMain[ ++i ];
+            retour = commandeG ( dotfile );
         }
         else if ( string( argvMain[ i ] ) == "-e" && !commandes[E] )
         {
             // option -e : exclure les fichiers images
             commandes[E] = true;
-
-            // appel de la fonction qui execute la commande -e
-            retour = commandeE ( path );
-
-            if ( retour )
-            {
-                return retour;
-            }
+            commandes[DEFAULT] = false;
         }
         else if ( string( argvMain[ i ] ) == "-t" && !commandes[T] )
         {
             // option -t : seulement considerer hits dans un intervalle de temps
             commandes[T] = true;
-            string hour = argvMain[ ++i ];
-
-            // appel de la fonction qui execute la commande -t
-            retour = commandeT( hour );
-
-            // si erreur lors de l'execution de la commande
-            if ( retour )
-            {
-                return retour;
-            }
+            commandes[DEFAULT] = false;
+            hour = argvMain[ ++i ];
+            retour = commandeT ( hour );
         }
         else if ( string( argvMain[ i ] ) == "-u" && !commandes[U] )
         {
             // option -u : pour donner le fichier de l'url
             commandes[U] = true;
-            string fichierConfig = argvMain[ ++i ];
+            commandes[DEFAULT] = false;
+            fichierConfig = argvMain[ ++i ];
+            retour = commandeU ( fichierConfig );
 
-            // appel de la fonction qui execute la commande -u
-            retour = commandeU( fichierConfig );
-
-            // si erreur lors de l'execution de la commande
-            if ( retour )
-            {
-                return retour;
-            }
         }
         else
         {
@@ -117,7 +89,12 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             cerr << "Usage : " << argvMain[0] << " [options] nomFichier.log" << endl;
             cerr << "Les options sont : -g, -e, -t heure, -u fichierConfig.txt" << endl;
             cerr << "Fermeture de l'application." << endl;
-            return 1;
+            retour = 1;
+        }
+
+        if ( retour != 0 )
+        {
+            return retour;
         }
     }
 
@@ -127,12 +104,11 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         return retour;
     }
 
-    // par defaut, afficher la liste des 10 documents les plus consultes
-    // appel de la fonction qui execute l'application par defaut
-    if ( !commandes[E] && !commandes[G] && !commandes[T] && !commandes[U])
-    {
-        commandeDefaut( path );
-    }
+    logs = make_shared< LogFile_Manager >( path );
+    logs->Init( commandes , stoi(hour ) , urlUser );
+
+    graph = make_shared< Graph >( logs );
+    cout << *graph;
 
     return 0;
 
@@ -231,9 +207,6 @@ int Analog::commandeE ( const string & file ) const
     cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl;
 
     // appel de la fonction pour exclure les fichiers image
-    Graph g( file , E );
-
-    cout << g;
 
     return 0;
 } //----- Fin de commandeE
@@ -302,18 +275,6 @@ int Analog::commandeU ( const string & fichierConfig )
     // else tout est okay on continue
     return 0;
 } //----- Fin de commandeU
-
-int Analog::commandeDefaut ( const string & file )
-// Algorithme :
-//
-{
-    cout << endl << "Top 10 of most accessed targets:" << endl;
-    Graph g( file , DEFAULT );
-
-    cout << g;
-
-    return 0;
-} //----- Fin de Top10Logs
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
 // Algorithme :

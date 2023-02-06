@@ -28,6 +28,40 @@ const vector < shared_ptr < Log > > & LogFile_Manager::GetLogs ( ) const
 } //----- Fin de GetLogs
 
 
+void LogFile_Manager::Init( const bool *commandes, int temps , const string & url )
+{
+    string line;
+
+    // On parcourt le fichier de logs
+    while ( getline ( logFile , line ) )
+    {
+        // On extrait les informations de chaque ligne
+        auto temp = Log ( line );
+
+        // Si -e et que temp a une extension invalide
+        if ( commandes[E] && isExcluded( temp.GetExtension() ) )
+        {
+            // On ne considère pas temp
+            continue;
+        }
+        // Si -t et que temp a un temps de consultation invalide
+        if ( commandes[T] && ( temp.GetHeureConsultation() < temps || temp.GetHeureConsultation() > temps + 1 ) )
+        {
+            // On ne considère pas temp
+            continue;
+        }
+
+        // Si -u et que le referer n'a pas l'url de base qui est demandée dans le fichierd e config
+        if ( commandes[U] && getBaseFromUrl( temp.GetLongReferer() ) != url )
+        {
+            continue;
+        }
+
+        // Sinon on importe le log
+        logs.push_back( make_shared<Log>(temp) );
+    }
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, LogFile_Manager & l )
 // Algorithme :
@@ -49,7 +83,7 @@ LogFile_Manager::LogFile_Manager ( )
 #endif
 } //----- Fin de LogFile_Manager (constructeur par defaut)
 
-LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command )
+LogFile_Manager::LogFile_Manager ( const string & pathToFile )
 // Algorithme :
 //
 {
@@ -58,21 +92,7 @@ LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command 
 #endif
 
     logFile.open( pathToFile );
-    string log;
 
-    // TODO : il manque le default
-    switch( command )
-    {
-        case DEFAULT:
-            commandeDefaut();
-            break;
-        case E:
-            commandeE();
-            break;
-
-        default:
-            break;
-    }
 } //----- Fin de LogFile_Manager (constructeur parametre)
 
 LogFile_Manager :: ~LogFile_Manager ( )
@@ -80,58 +100,9 @@ LogFile_Manager :: ~LogFile_Manager ( )
 #ifdef MAP
     cout << "Appel au destructeur de <LogFile_Manager>" << endl;
 #endif
-} //----- Fin de ~LogFile_Manager
+}//----- Fin de ~LogFile_Manager
 
-void LogFile_Manager::commandeDefaut ( )
-{
-    string log;
 
-    while ( getline( logFile, log ) )
-    {
-        auto temp = Log( log );
-        if( connectionSuccess( temp.GetReturnCode() ) )
-        {
-            logs.push_back(std::make_shared<Log>(log));
-        }
-    }
-}
-
-void LogFile_Manager::commandeE ( )
-{
-    string log;
-    while( getline ( logFile , log ) )
-    {
-        auto temp = Log ( log );
-        const auto & ext = temp.GetExtension();
-
-        if ( isExcluded ( ext ))
-        {
-            continue;
-        }
-        if ( connectionSuccess( temp.GetReturnCode() ) )
-        {
-            logs.push_back( std::make_shared<Log>( log ) );
-        }
-    }
-}
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-void LogFile_Manager::commandeU ( string const & url )
-// Algorithme :
-// pour chaque ligne de log, verifie la base URL du referer
-// si cette base correspond à l'URL specifiee dans le fichier de configuration par l'utilisateur,
-// alors la cible est rajoutee aux logs
-{
-    string log;
-    while ( getline( logFile, log ) )
-    {
-        auto temp = Log ( log );
-        const auto & baseURL = getBaseFromUrl( temp.GetLongReferer() );
-
-        if ( baseURL == url )
-        {
-            logs.push_back(make_shared < Log >( log ) );
-        }
-    }
-} //----- Fin de commandeU

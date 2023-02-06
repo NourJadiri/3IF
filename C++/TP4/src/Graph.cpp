@@ -104,13 +104,13 @@ Graph::Graph ( )
 #endif
 } //----- Fin de Graph (constructeur par defaut)
 
-Graph::Graph ( const string & path, const int command )
+Graph::Graph ( const string & path )
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
 #endif
 
-    fileManager = make_unique < LogFile_Manager > ( path, command );
+    fileManager = make_shared < LogFile_Manager > ( path );
     
     for ( auto const & log : fileManager->GetLogs() )
     {
@@ -121,6 +121,19 @@ Graph::Graph ( const string & path, const int command )
     top10Logs = Top10Logs();
 } //----- Fin de Graph (constructeur parametre)
 
+Graph::Graph( const shared_ptr<LogFile_Manager> & logs )
+{
+    fileManager = logs;
+
+    for ( auto const & log : fileManager->GetLogs() )
+    {
+        AddNode( Node(log->GetCible(), log->GetShortReferer() ) );
+        AddNode( Node(log->GetShortReferer() ) );
+    }
+
+    top10Logs = Top10Logs();
+}
+
 Graph::~Graph ( )
 // Algorithme :
 //
@@ -128,7 +141,10 @@ Graph::~Graph ( )
 #ifdef MAP
     cout << "Appel au destructeur de <Graph>" << endl;
 #endif
-} //----- Fin de ~Graph
+}
+
+
+//----- Fin de ~Graph
 
 
 //------------------------------------------------------------------ PRIVE

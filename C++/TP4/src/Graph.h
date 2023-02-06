@@ -62,11 +62,13 @@ public:
     // Contrat :
     //
 
-    explicit Graph ( const std::string & path, int command = DEFAULT );
+    explicit Graph ( const std::string & path );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :
     //
+
+    explicit Graph ( const shared_ptr<LogFile_Manager>& );
 
     virtual ~Graph ( );
     // Mode d'emploi :
@@ -81,7 +83,7 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    std::unique_ptr < LogFile_Manager > fileManager;
+    std::shared_ptr < LogFile_Manager > fileManager;
     std::map < Cible, std::shared_ptr < Node > > nodes;
     std::list < std::shared_ptr < Node > > top10Logs;
 };

@@ -30,30 +30,31 @@ class LogFile_Manager
 
 public:
     friend class Graph;
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
 
 //----------------------------------------------------- Méthodes publiques
     void commandeDefaut ( );
     // Mode d'emploi :
-    //
+    // L'appel de cette fonction privé sert à la construction de l'objet LogFile_Manager.
+    // Elle permet d'importer dans le vector [logs] toutes les logs présentes
+    // dans un fichier donné.
     // Contrat :
-    //
+    // Le fichier de log existe, est valide et est non vide
 
     void commandeE ( );
     // Mode d'emploi :
-    //
+    // L'appel de cette fonction privé sert à la construction de l'objet LogFile_Manager.
+    // Elle permet d'importer dans le vector [logs] toutes les logs dont la cible n'est pas
+    // un fichier image, js ou css.
     // Contrat :
-    //
+    // Le fichier de log existe, est valide et est non vide>
 
     const std::vector < std::shared_ptr < Log > > & GetLogs ( ) const;
     // Mode d'emploi :
-    //
+    // Getter qui retourne le vector logs
     // Contrat :
     //
+
 
 
 //------------------------------------------------- Surcharge d'opérateurs

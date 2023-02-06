@@ -85,6 +85,7 @@ LogFile_Manager :: ~LogFile_Manager ( )
 void LogFile_Manager::commandeDefaut ( )
 {
     string log;
+
     while ( getline( logFile, log ) )
     {
         auto temp = Log( log );
@@ -103,8 +104,7 @@ void LogFile_Manager::commandeE ( )
         auto temp = Log ( log );
         const auto & ext = temp.GetExtension();
 
-        // TODO : chercher les autres extension a exclure then factoriser ça proprement
-        if ( ext == "png" || ext == "jpg" || ext == "css" || ext == "js" || ext == "gif" )
+        if ( isExcluded ( ext ))
         {
             continue;
         }

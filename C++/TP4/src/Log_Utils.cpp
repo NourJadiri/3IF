@@ -121,7 +121,21 @@ bool fileIsEmpty ( const string & logFile )
 } //----- Fin de fileIsEmpty
 
 bool connectionSuccess ( int returnCode )
+// Algorithme :
+//
 {
-    return returnCode == OK || returnCode == PREMANENT_REDIRECT || returnCode == TEMPORARY_REDIRECT;
-}
+    return returnCode == OK || returnCode == PREMANENT_REDIRECT || returnCode == TEMPORARY_REDIRECT ||
+        returnCode == PARTIAL_CONTENT || returnCode == NOT_MODIFIED;
+
+} //----- Fin de connectionSuccess
+
+bool isExcluded ( const string & ext )
+// Algorithme :
+// On effectue une recherche par dichotomie de l'extension à exclure dans le tableau extensionsToExclude
+// La fonction retourne True si l'extension est trouvée (donc à exclure)
+{
+    std::array< std::string , 9 > extensionsToExclude = { "bmp", "css", "gif", "ico", "jpeg", "jpg", "js", "tiff" };
+
+    return binary_search( extensionsToExclude.begin(), extensionsToExclude.end(), ext );
+} //----- Fin de isExcluded
 

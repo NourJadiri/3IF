@@ -218,16 +218,14 @@ void Analog::commandeE ( const string & file ) const
 // Algorithme :
 //
 {
-    cout << endl << "Top 10 of most accessed targets:" << endl << endl;
+
+    cout << endl << "Top 10 of most accessed targets:" << endl;
+    cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl << endl;
 
     // appel de la fonction pour exclure les fichiers image
     Graph g( file , E );
-    list < shared_ptr<Node> > top10 = g.Top10Logs();
 
-    for ( auto const & node : top10 )
-    {
-        cout << *node;
-    }
+    cout << g;
 
 } //----- Fin de commandeE
 
@@ -302,12 +300,8 @@ void Analog::commandeDefaut ( const string & file )
 {
     cout << endl << "Top 10 of most accessed targets:" << endl << endl;
     Graph g( file , DEFAULT );
-    list < shared_ptr<Node> > top10 = g.Top10Logs();
 
-    for ( auto const & node : top10 )
-    {
-        cout << *node;
-    }
+    cout << g;
 } //----- Fin de Top10Logs
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )

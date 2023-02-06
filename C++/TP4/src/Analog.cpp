@@ -80,7 +80,6 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             commandes[DEFAULT] = false;
             fichierConfig = argvMain[ ++i ];
             retour = commandeU ( fichierConfig );
-
         }
         else
         {
@@ -91,8 +90,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             cerr << "Fermeture de l'application." << endl;
             retour = 1;
         }
-
-        if ( retour != 0 )
+        if ( retour )
         {
             return retour;
         }
@@ -104,17 +102,16 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         return retour;
     }
 
-    logs = make_shared< LogFile_Manager >( path );
-    logs->Init( commandes , stoi(hour ) , urlUser );
+    logs = make_shared < LogFile_Manager > ( path );
+    logs->Init( commandes, stoi(hour ), urlUser );
 
-    graph = make_shared< Graph >( logs );
+    graph = make_shared < Graph > ( logs );
 
     displayHeading();
 
-    cout << *graph;
+    cout << * graph;
 
     return 0;
-
 } //----- Fin de Launch
 
 const url & Analog::GetUrlUser ( ) const

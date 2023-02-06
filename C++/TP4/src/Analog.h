@@ -92,7 +92,7 @@ protected:
     //
 
 //----------------------------------------------------- Attributs protégés
-    bool commandes[5] = {true , false , false , false , false };
+    bool commandes[5] = {true, false, false, false, false };
     url urlUser;
     shared_ptr<LogFile_Manager> logs;
     shared_ptr<Graph> graph;

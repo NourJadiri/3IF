@@ -108,6 +108,9 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     logs->Init( commandes , stoi(hour ) , urlUser );
 
     graph = make_shared< Graph >( logs );
+
+    displayHeading();
+
     cout << *graph;
 
     return 0;

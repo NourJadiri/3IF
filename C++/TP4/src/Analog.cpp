@@ -296,7 +296,7 @@ int Analog::commandeU ( const string & fichierConfig )
     return 0;
 } //----- Fin de commandeU
 
-void Analog::commandeDefaut ( const & string file )
+void Analog::commandeDefaut ( const string & file )
 // Algorithme :
 //
 {

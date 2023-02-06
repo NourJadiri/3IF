@@ -48,7 +48,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     string fichierConfig;
 
     // valeur de retour des fonctions appelees
-    int retour;
+    int retour = 0;
 
     for ( int i = 1; i < argcMain - 1; i++ )
     {
@@ -103,7 +103,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     }
 
     logs = make_shared < LogFile_Manager > ( path );
-    logs->Init( commandes, stoi(hour ), urlUser );
+    logs->Init( commandes, stoi( hour ), urlUser );
 
     graph = make_shared < Graph > ( logs );
 
@@ -224,7 +224,7 @@ int Analog::commandeT ( const string & hour )
         return 1;
     }
 
-    int heure = stoi( hour );
+    heure = stoi( hour );
 
     // si les heures ne sont pas correctes
     if ( heure < 0 || heure > 23 ) {
@@ -233,8 +233,6 @@ int Analog::commandeT ( const string & hour )
         cerr << "Fermeture de l'application." << endl;
         return 1;
     }
-
-    cout << "/!\\ Warning: only hits between "<< stoi(hour) <<"h and " << ( stoi(hour) + 1 ) << " h have been taken into account /!\\" << endl;
 
     return 0;
 } //----- Fin de commandeT
@@ -273,7 +271,7 @@ int Analog::commandeU ( const string & fichierConfig )
     }
 
     // else tout est okay on continue
-    cout << "/!\\ Warning: only hits coming grom referers with an URL-base " << urlUser <<" have been processed /!\\" << endl;
+    
     return 0;
 } //----- Fin de commandeU
 
@@ -299,6 +297,14 @@ void Analog::displayHeading ( ) const
     if ( commandes[E] )
     {
         cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl;
+    }
+    if ( commandes[T] )
+    {
+        cout << "/!\\ Warning: only hits between "<< heure <<"h and " << ( heure + 1 ) << "h have been taken into account /!\\" << endl;
+    }
+    if ( commandes[U] )
+    {
+        cout << "/!\\ Warning: only hits coming grom referers with an URL-base " << urlUser <<" have been processed /!\\" << endl;
     }
 }
 //----- Fin de verifFichierLog

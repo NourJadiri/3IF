@@ -72,7 +72,7 @@ protected:
 
     void displayHeading ( ) const;
 
-    static int commandeT ( const string & hour ) ;
+    int commandeT ( const string & hour ) ;
     // Mode d'emploi :
     //
     // Contrat :
@@ -94,6 +94,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
     bool commandes[5] = {true, false, false, false, false };
     url urlUser;
+    int heure;
     shared_ptr<LogFile_Manager> logs;
     shared_ptr<Graph> graph;
 };

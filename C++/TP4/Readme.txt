@@ -45,7 +45,8 @@ CODE DE RETOUR
 
 NOTES
        Le fichier de log fichierLog.log doit exister et ne doit pas être vide.
-       L’option -g ne fonctionne que si le fichier fichierDot.dot est donné et existe. Sinon, analog se terminera.
+       L’option -g ne fonctionne que si le fichier fichierDot.dot est donné. Sinon, analog se terminera. Si ce fichier est non vide, il est possible de
+       confirmer l'écrasement de son contenu, ou de poursuivre l'opération dans un autre fichier.
        L’option -e supprime toute la ligne de log si au moins une des deux pages (cible ou referer) est de type image, css ou javascript. Par exemple,
        si un referer de type .jpg accède à une page .ics, alors ni le referer ni la cible ne seront pris en compte dans l’analyse.
        L’option -u ne fonctionne que si le fichier fichierTxt.txt est donné et existe. Il peut être vide au besoin.

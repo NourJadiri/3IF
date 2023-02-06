@@ -40,7 +40,7 @@ Le \fIfichier\fP de log fichierLog.log doit exister et ne doit pas être vide.
 .PD 0
 .P
 .PD
-L’option \fB-g\fP ne fonctionne que si le \fIfichier\fP fichierDot.dot est donné et existe. Sinon, \fBanalog\fP se terminera.
+L’option \fB-g\fP ne fonctionne que si le \fIfichier\fP fichierDot.dot est donné. Sinon, \fBanalog\fP se terminera. Si ce \fIfichier\fP est non vide, il est possible de confirmer l'écrasement de son contenu, ou de poursuivre l'opération dans un autre \fIfichier\fP.
 .PD 0
 .P
 .PD

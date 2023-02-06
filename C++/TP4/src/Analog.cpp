@@ -44,7 +44,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     // le dernier argument est le fichier log
     string path = argvMain[argcMain - 1];
     string dotfile;
-    string hour;
+    string hour = "0";
     string fichierConfig;
 
     // valeur de retour des fonctions appelees

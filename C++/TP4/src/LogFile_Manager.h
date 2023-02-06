@@ -88,7 +88,7 @@ public:
 
 protected:
     //----------------------------------------------------- Méthodes protégées
-    void commandeU ( );
+    void commandeU ( std::string const & url );
     // Mode d'emploi :
     //
     // Contrat :

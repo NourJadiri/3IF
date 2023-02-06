@@ -117,9 +117,21 @@ void LogFile_Manager::commandeE ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-void LogFile_Manager::commandeU ( )
+void LogFile_Manager::commandeU ( string const & url )
 // Algorithme :
-//
+// pour chaque ligne de log, verifie la base URL du referer
+// si cette base correspond à l'URL specifiee dans le fichier de configuration par l'utilisateur,
+// alors la cible est rajoutee aux logs
 {
+    string log;
+    while ( getline( logFile, log ) )
+    {
+        auto temp = Log ( log );
+        const auto & baseURL = getBaseFromUrl( temp.GetLongReferer() );
 
-}
+        if ( baseURL == url )
+        {
+            logs.push_back(make_shared < Log >( log ) );
+        }
+    }
+} //----- Fin de commandeU

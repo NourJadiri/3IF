@@ -221,12 +221,12 @@ void Analog::commandeE ( const string & file ) const
     cout << endl << "Top 10 of most accessed targets:" << endl << endl;
 
     // appel de la fonction pour exclure les fichiers image
-    Graph g( file , E );
-    list < shared_ptr<Node> > top10 = g.Top10Logs();
+    Graph g ( file, E );
+    list < shared_ptr < Node > > top10 = g.Top10Logs();
 
     for ( auto const & node : top10 )
     {
-        cout << *node;
+        cout << * node;
     }
 
 } //----- Fin de commandeE
@@ -301,12 +301,12 @@ void Analog::commandeDefaut ( const string & file )
 //
 {
     cout << endl << "Top 10 of most accessed targets:" << endl << endl;
-    Graph g( file , DEFAULT );
-    list < shared_ptr<Node> > top10 = g.Top10Logs();
+    Graph g ( file, DEFAULT );
+    list < shared_ptr < Node > > top10 = g.Top10Logs();
 
     for ( auto const & node : top10 )
     {
-        cout << *node;
+        cout << * node;
     }
 } //----- Fin de Top10Logs
 

@@ -320,7 +320,7 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
 //
 {
     // vérification de la validité du fichier mis en paramètre
-    if ( fileNotFound( logFile ) || !validExtension( logFile , "log" ) || fileIsEmpty( logFile ) )
+    if ( !validExtension( logFile , "log" ) || fileNotFound( logFile ) || fileIsEmpty( logFile ) )
     {
         cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;

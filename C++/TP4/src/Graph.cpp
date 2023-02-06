@@ -72,7 +72,10 @@ ostream & operator << ( ostream & os , Graph & g )
 {
     for ( auto const & node : g.top10Logs )
     {
-        os << * node;
+        if ( node->GetHits() > 0 )
+        {
+            os << * node;
+        }
     }
     return os;
 }

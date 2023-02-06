@@ -31,7 +31,9 @@ public:
 
     friend std::ostream & operator<<( std::ostream & os , LogFile_Manager & l );
 
-    void commandeDefaut ( const std::string & pathToFile );
+    void commandeDefaut ( );
+
+    void commandeE ( );
 
 //-------------------------------------------- Constructeurs - destructeur
     LogFile_Manager() = default;

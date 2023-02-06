@@ -34,7 +34,7 @@ private:
     int returnCode;
 
 public:
-    Log( const std::string & logLine, int command = DEFAULT );
+    Log( const std::string & logLine );
     // Mode d'emploi :
     // Constructeur pour instancier un objet Log à partir d'une ligne de texte
     // Contrat :
@@ -42,7 +42,6 @@ public:
 
     ~Log();
 
-    void initDefaut( std::smatch & matches );
 
     const std::string & GetIp() const;
     // Mode d'emploi:
@@ -72,7 +71,11 @@ public:
     // Mode d'emploi :
     //
 
+protected:
 
+    void initDefaut( std::smatch & matches );
+
+    void initCommandeE ( std::smatch & matches );
 
 };
 

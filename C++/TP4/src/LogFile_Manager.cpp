@@ -27,10 +27,6 @@ const vector < shared_ptr< Log > > & LogFile_Manager::GetLogs ( ) const
     return logs;
 } //----- Fin de GetLogs
 
-void LogFile_Manager::commandeDefaut( const string & path )
-{
-    //TODO : completer ou enlever cette methode
-} //----- Fin de commandeDefaut
 
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, LogFile_Manager & l )
@@ -61,12 +57,12 @@ LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command 
     switch( command )
     {
         case DEFAULT:
-            while ( getline( logFile, log ) )
-            {
-                logs.push_back(std::make_shared<Log>(log));
-            }
+            commandeDefaut();
             break;
         case E:
+
+            break;
+        default:
             break;
     }
 } //----- Fin de LogFile_Manager
@@ -77,3 +73,30 @@ LogFile_Manager :: ~LogFile_Manager ( )
     cout << "Appel au destructeur de <LogFile_Manager>" << endl;
 #endif
 } //----- Fin de ~LogFile_Manager
+
+void LogFile_Manager::commandeDefaut ( )
+{
+    string log;
+    while ( getline( logFile, log ) )
+    {
+        logs.push_back(std::make_shared<Log>(log));
+    }
+}
+
+void LogFile_Manager::commandeE ( )
+{
+    string log;
+    while( getline ( logFile , log ) )
+    {
+        auto temp = Log ( log );
+        const auto & ext = temp.GetExtension();
+
+        // TODO : chercher les autres extension a exclure
+        if ( ext == ".png" || ext == ".jpg" || ext == ".css" || ext == ".js" )
+        {
+            continue;
+        }
+
+        logs.push_back( std::make_shared<Log>(log) );
+    }
+}

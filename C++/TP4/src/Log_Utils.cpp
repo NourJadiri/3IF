@@ -44,6 +44,17 @@ string getPathFromUrl ( const string & url )
     return url;
 } //----- Fin de getPathFromUrl
 
+string getExtensionFromFile ( const std::string & file )
+{
+    size_t last_dot_pos = file.find_last_of('.');
+    if (last_dot_pos == std::string::npos)
+    {
+        return "";
+    }
+
+    return file.substr(last_dot_pos + 1);
+}
+
 string getBaseFromUrl ( const string & url )
 // Algorithme :
 // Parcourt l'url et

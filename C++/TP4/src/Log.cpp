@@ -59,7 +59,7 @@ const Extension & Log::GetExtension ( ) const
 
 //-------------------------------------------- Constructeurs - destructeur
 // TODO : il manque un default case dans le switch + initialisation de heureConsultation et codeRetour
-Log::Log ( const string & logLine, int command )
+Log::Log ( const string & logLine )
 // Algorithme :
 // On capture les differents elements du log grace à du regex
 // On repartit ces elements en plusieurs groupes de capture
@@ -72,34 +72,6 @@ Log::Log ( const string & logLine, int command )
     std::regex logFormat("(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" ");
     smatch matches;
 
-    if ( regex_search( logLine.begin(), logLine.end(), matches, logFormat ) )
-    {
-        switch ( command )
-        {
-            case DEFAULT:
-                initDefaut( matches );
-                break;
-            case E:
-                break;
-        }
-
-    }
-} //----- Fin de Log
-
-// TODO : a modifier
-Log::~Log ( )
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Log>" << endl;
-#endif
-} //----- Fin de ~Log
-
-
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées
-void Log::initDefaut ( smatch & matches )
-{
     // Le 1er element du groupe de capture est l'IP de l'utilisateur
     ip = matches.str(1);
 
@@ -108,6 +80,9 @@ void Log::initDefaut ( smatch & matches )
 
     // Le 10e element est l'url de la page demandee
     cible = matches.str(10);
+
+    // On stock l'extension du fichier aussi
+    extension = getExtensionFromFile( cible );
 
     // le 12e element correspond au code de retour
     returnCode = stoi( matches.str(12) );
@@ -129,4 +104,17 @@ void Log::initDefaut ( smatch & matches )
     {
         shortReferer = getBaseFromUrl( longReferer );
     }
-} //----- Fin de initDefaut
+} //----- Fin de Log
+
+// TODO : a modifier
+Log::~Log ( )
+{
+#ifdef MAP
+    cout << "Appel au destructeur de <Log>" << endl;
+#endif
+} //----- Fin de ~Log
+
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées

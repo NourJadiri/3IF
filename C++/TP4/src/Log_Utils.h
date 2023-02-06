@@ -22,5 +22,6 @@ bool fileNotFound ( const std::string & logFile );
 
 bool fileIsEmpty ( const std::string & logFile );
 
+std::string getExtensionFromFile ( const std:: string & file );
 
 #endif //INC_3IF_LOG_UTILS_H

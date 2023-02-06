@@ -67,7 +67,7 @@ const Extension & Log::GetExtension() const
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Log::Log( const string & logLine )
+Log::Log( const string & logLine , int command )
 // Algorithme :
 // On capture les différents éléments du log grâce à du regex
 // On répartit ces éléments en plusieurs groupes de capture
@@ -79,36 +79,48 @@ Log::Log( const string & logLine )
 
     if( regex_search( logLine.begin(), logLine.end(), matches, logFormat ) )
     {
-        // Le premier élément du groupe de capture est l'ip de l'utilisateur
-        ip = matches.str(1);
-
-        // Le 5e élément correspond
-        heureConsultation = stoi( matches.str(5) );
-
-        // Le 8e éléments est l'url de la page requested
-        cible = matches.str(10);
-
-        returnCode = stoi( matches.str(12) );
-
-        // Le 12e élément correspond au longReferer
-        longReferer = matches.str(14);
-
-        // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
-        // Sinon le short referer sera une copie du longReferer
-        if ( !isValidUrl(longReferer) )
+        switch ( command )
         {
-            shortReferer = longReferer;
-        }
-        else if ( getBaseFromUrl(longReferer) == "intranet-if.insa-lyon.fr" )
-        {
-            shortReferer = getPathFromUrl(longReferer);
-        }
-        else
-        {
-            shortReferer = getBaseFromUrl( longReferer );
+            case DEFAULT:
+                initDefaut( matches );
+                break;
+            case E:
+
+            break;
         }
 
+    }
+}
 
+void Log::initDefaut ( smatch & matches )
+{
+    // Le premier élément du groupe de capture est l'ip de l'utilisateur
+    ip = matches.str(1);
+
+    // Le 5e élément correspond
+    heureConsultation = stoi( matches.str(5) );
+
+    // Le 8e éléments est l'url de la page requested
+    cible = matches.str(10);
+
+    returnCode = stoi( matches.str(12) );
+
+    // Le 12e élément correspond au longReferer
+    longReferer = matches.str(14);
+
+    // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
+    // Sinon le short referer sera une copie du longReferer
+    if ( !isValidUrl( longReferer) )
+    {
+        shortReferer = longReferer;
+    }
+    else if ( getBaseFromUrl( longReferer ) == "intranet-if.insa-lyon.fr" )
+    {
+        shortReferer = getPathFromUrl( longReferer );
+    }
+    else
+    {
+        shortReferer = getBaseFromUrl( longReferer );
     }
 }
 

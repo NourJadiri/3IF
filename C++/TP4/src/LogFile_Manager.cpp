@@ -56,13 +56,21 @@ LogFile_Manager::LogFile_Manager( const string & pathToFile , const int command 
 {
     logFile.open(pathToFile);
     string log;
-    if ( command == DEFAULT )
+
+    switch( command )
     {
-        while ( getline( logFile, log ) )
-        {
-            logs.push_back(std::make_shared<Log>(log));
-        }
+        case DEFAULT:
+            while ( getline( logFile, log ) )
+            {
+                logs.push_back(std::make_shared<Log>(log));
+            }
+        break;
+
+        case E:
+            
+        break;
     }
+
 }
 
 

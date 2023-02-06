@@ -73,7 +73,12 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             commandes[E] = true;
 
             // appel de la fonction qui execute la commande -e
-            commandeE ( path );
+            retour = commandeE ( path );
+
+            if ( retour )
+            {
+                return retour;
+            }
         }
         else if ( string( argvMain[ i ] ) == "-t" && !commandes[T] )
         {
@@ -124,7 +129,10 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
 
     // par defaut, afficher la liste des 10 documents les plus consultes
     // appel de la fonction qui execute l'application par defaut
-    commandeDefaut( path );
+    if ( !commandes[E] && !commandes[G] && !commandes[T] && !commandes[U])
+    {
+        commandeDefaut( path );
+    }
 
     return 0;
 
@@ -214,21 +222,20 @@ int Analog::commandeG ( const string & dotFile ) const
     return 0;
 } //----- Fin de commandeG
 
-void Analog::commandeE ( const string & file ) const
+int Analog::commandeE ( const string & file ) const
 // Algorithme :
 //
 {
-    cout << endl << "Top 10 of most accessed targets:" << endl << endl;
+
+    cout << endl << "Top 10 of most accessed targets:" << endl;
+    cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl << endl;
 
     // appel de la fonction pour exclure les fichiers image
-    Graph g ( file, E );
-    list < shared_ptr < Node > > top10 = g.Top10Logs();
+    Graph g( file , E );
 
-    for ( auto const & node : top10 )
-    {
-        cout << * node;
-    }
+    cout << g;
 
+    return 0;
 } //----- Fin de commandeE
 
 int Analog::commandeT ( const string & hour )
@@ -296,18 +303,16 @@ int Analog::commandeU ( const string & fichierConfig )
     return 0;
 } //----- Fin de commandeU
 
-void Analog::commandeDefaut ( const string & file )
+int Analog::commandeDefaut ( const string & file )
 // Algorithme :
 //
 {
     cout << endl << "Top 10 of most accessed targets:" << endl << endl;
-    Graph g ( file, DEFAULT );
-    list < shared_ptr < Node > > top10 = g.Top10Logs();
+    Graph g( file , DEFAULT );
 
-    for ( auto const & node : top10 )
-    {
-        cout << * node;
-    }
+    cout << g;
+
+    return 0;
 } //----- Fin de Top10Logs
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )

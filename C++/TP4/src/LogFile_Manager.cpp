@@ -1,9 +1,10 @@
 /*************************************************************************
-                           Ensemble  -  description
+                           LogFile_Manager  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 17/01/2023
+    copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <LogFile_Manager> (fichier LogFile_Manager.cpp) ------------
@@ -13,50 +14,50 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <memory>
-#include "LogFile_Manager.h"
-
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-
-//------------------------------------------------------------- Constantes
+#include "LogFile_Manager.h"
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-
-const vector<std::shared_ptr<Log>> &LogFile_Manager::getLogs() const
+const vector < shared_ptr< Log > > & LogFile_Manager::GetLogs ( ) const
 {
     return logs;
-}
+} //----- Fin de GetLogs
 
-void LogFile_Manager::commandeDefaut(const string &path)
+void LogFile_Manager::commandeDefaut( const string & path )
 {
-
-
-}
+    //TODO : completer ou enlever cette methode
+} //----- Fin de commandeDefaut
 
 //------------------------------------------------- Surcharge d'opérateurs
-
-std::ostream &operator<<( ostream &os, LogFile_Manager & l ) {
-    for( auto & i : l.logs )
-    {
-        os << i-> getShortReferer() << " -> " << i->getCible() << endl;
-    }
-
-    return os;
-}
-
-
-//-------------------------------------------- Constructeurs - destructeur
-
-LogFile_Manager::LogFile_Manager( const string & pathToFile , const int command )
+ostream & operator << ( ostream & os, LogFile_Manager & l )
 // Algorithme :
 //
 {
-    logFile.open(pathToFile);
+    for ( auto & i : l.logs )
+    {
+        os << i->GetShortReferer() << " -> " << i->GetCible() << endl;
+    }
+    return os;
+} //----- Fin de operator <<
+
+
+//-------------------------------------------- Constructeurs - destructeur
+LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command )
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <LogFile_Manager>" << endl;
+#endif
+
+    logFile.open( pathToFile );
     string log;
 
+    // TODO : il manque le default
     switch( command )
     {
         case DEFAULT:
@@ -64,17 +65,15 @@ LogFile_Manager::LogFile_Manager( const string & pathToFile , const int command 
             {
                 logs.push_back(std::make_shared<Log>(log));
             }
-        break;
-
+            break;
         case E:
-            
-        break;
+            break;
     }
+} //----- Fin de LogFile_Manager
 
-}
-
-
-LogFile_Manager :: ~LogFile_Manager() = default;
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées
+LogFile_Manager :: ~LogFile_Manager ( )
+{
+#ifdef MAP
+    cout << "Appel au destructeur de <LogFile_Manager>" << endl;
+#endif
+} //----- Fin de ~LogFile_Manager

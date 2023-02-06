@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Analog  -  description
+                           Analog  -  interface utilisateur & appels
                              -------------------
     début                : 17/01/2023
     copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
@@ -12,23 +12,18 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-#include <iostream>
-using namespace std;
-
 #include <map>
 #include <queue>
 #include <vector>
 #include <algorithm>
+#include <iostream>
+using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analog.h"
 #include "LogFile_Manager.h"
 
-//------------------------------------------------------------- Constantes
-
 //----------------------------------------------------------------- PUBLIC
-
-
 
 //----------------------------------------------------- Méthodes publiques
 int Analog::Launch ( int & argcMain, char * * & argvMain )
@@ -46,10 +41,10 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         return 1;
     }
 
-    // pour ne pas executer trois fois la meme commande
-    bool commandes [4] = { false };
+    // pour ne pas executer plusieurs fois la meme commande
+    bool commandes [5] = { false };
 
-    // dernier argument est le fichier log
+    // le dernier argument est le fichier log
     string path = argvMain[argcMain - 1];
 
     // valeur de retour des fonctions appelees
@@ -136,16 +131,13 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
 } //----- Fin de Launch
 
 const url & Analog::GetUrlUser ( ) const
-// Algorithme :
-//
 {
     return urlUser;
 } //----- Fin de GetUrlUser
 
+
 //-------------------------------------------- Constructeurs - destructeur
 Analog::Analog ( )
-// Algorithme :
-//
 {
 #ifdef MAP
     cout << "Appel au constructeur de <Analog>" << endl;
@@ -153,8 +145,6 @@ Analog::Analog ( )
 } //----- Fin de Analog
 
 Analog::~Analog ( )
-// Algorithme :
-//
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Analog>" << endl;
@@ -302,13 +292,13 @@ void Analog::commandeDefaut ( const string & file )
 {
     cout << endl << "Top 10 of most accessed targets:" << endl << endl;
     Graph g( file );
-    list < shared_ptr<Node> > l = g.commandeDefaut();
+    list < shared_ptr<Node> > l = g.CommandeDefaut();
 
     for ( auto const & node : l )
     {
         cout << *node;
     }
-} //----- Fin de commandeDefaut
+} //----- Fin de CommandeDefaut
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
 // Algorithme :
@@ -323,4 +313,4 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
     }
 
     return 0;
-}//----- Fin de verifFichierLog
+} //----- Fin de verifFichierLog

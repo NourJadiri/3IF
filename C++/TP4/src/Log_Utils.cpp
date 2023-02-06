@@ -1,48 +1,67 @@
-#include "Log_Utils.h"
-#include <fstream>
+/*************************************************************************
+                           Log_Utils  -  description
+                             -------------------
+    début                : 17/01/2023
+    copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
+*************************************************************************/
 
+//---------- Réalisation de la classe <Log_Utils> (fichier Log_Utils.cpp) ------------
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
+#include <fstream>
 using namespace std;
 
+//------------------------------------------------------ Include personnel
+#include "Log_Utils.h"
+
+//----------------------------------------------------------------- PUBLIC
+
+//----------------------------------------------------- Méthodes publiques
 bool isValidUrl ( const string & url )
 // Algorithme :
 // retourne True si l'url suit le bon format
 {
     std::regex pattern( "(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]" );
     return std::regex_match( url, pattern );
-}
+} //----- Fin de isValidUrl
 
-string getPathFromUrl ( const string &url )
+string getPathFromUrl ( const string & url )
 // Algorithme :
-// Parcours l'url et
+// Parcourt l'url et
 {
-    std::regex path_regex("(ftp|https?)://[^/]+/(.*)");
+    std::regex path_regex( "(ftp|https?)://[^/]+/(.*)" );
     std::smatch match;
 
-    if ( std::regex_search(url, match, path_regex) )
+    if ( std::regex_search( url, match, path_regex ) )
     {
         return match[2];
     }
 
     return url;
-}
+} //----- Fin de getPathFromUrl
 
 string getBaseFromUrl ( const string & url )
 // Algorithme :
-// Parcours l'url et
+// Parcourt l'url et
 {
-    std::regex path_regex("(ftp|https?)://([^/]+)/(.*)");
+    std::regex path_regex( "(ftp|https?)://([^/]+)/(.*)" );
     std::smatch match;
 
-    if ( std::regex_search(url, match, path_regex) )
+    if ( std::regex_search( url, match, path_regex ) )
     {
         return match[2];
     }
 
     return url;
-}
+} //----- Fin de getBaseFromUrl
 
-
-bool validExtension( const string & file , const string & ext )
+bool validExtension( const string & file, const string & ext )
+// Algorithme :
+//
 {
     // verification de l'extension du fichier
     if ( !(file.find("." + ext ) != string::npos ) )
@@ -50,13 +69,12 @@ bool validExtension( const string & file , const string & ext )
         cerr << endl << "Il faut insérer le fichier " << ext << " ainsi que son extension." << endl;
         return false;
     }
-    else
-    {
-        return true;
-    }
-}
+    return true;
+} //----- Fin de validExtension
 
 bool fileNotFound ( const string & logFile )
+// Algorithme :
+//
 {
     // fichier bien existant
     ifstream configUrlStream ( logFile );
@@ -66,7 +84,7 @@ bool fileNotFound ( const string & logFile )
         return true;
     }
     return false;
-}
+} //----- Fin de fileNotFound
 
 bool fileIsEmpty ( const string & logFile )
 {
@@ -83,12 +101,9 @@ bool fileIsEmpty ( const string & logFile )
         cerr << endl << "Le fichier de log est vide. Merci de rentrer un fichier non vide." << endl;
         return true;
     }
-    else
-    {
-        configUrlStream.clear();
-        configUrlStream.seekg(0);
+    configUrlStream.clear();
+    configUrlStream.seekg( 0 );
 
-        return false;
-    }
-}
+    return false;
+} //----- Fin de fileIsEmpty
 

@@ -34,7 +34,7 @@ private:
     int returnCode;
 
 public:
-    Log( const std::string & , const int command = DEFAULT );
+    Log( const std::string & logLine, int command = DEFAULT );
     // Mode d'emploi :
     // Constructeur pour instancier un objet Log à partir d'une ligne de texte
     // Contrat :
@@ -44,27 +44,27 @@ public:
 
     void initDefaut( std::smatch & matches );
 
-    const std::string & getIp() const;
+    const std::string & GetIp() const;
     // Mode d'emploi:
     //
 
-    const Referer & getLongReferer() const;
+    const Referer & GetLongReferer() const;
     // Mode d'emploi :
     //
 
-    const Referer & getShortReferer() const;
+    const Referer & GetShortReferer() const;
     // Mode d'emploi :
     //
 
-    const Cible & getCible() const;
+    const Cible & GetCible() const;
     // Mode d'emploi :
     //
 
-    const int & getHeureConsultation() const;
+    const int & GetHeureConsultation() const;
     // Mode d'emploi :
     //
 
-    int getReturnCode() const;
+    int GetReturnCode() const;
     // Mode d'emploi :
     //
 

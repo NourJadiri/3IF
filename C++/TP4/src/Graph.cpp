@@ -1,9 +1,10 @@
 /*************************************************************************
                            Graph  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 17/01/2023
+    copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <Graph> (fichier Graph.cpp) ------------
@@ -18,52 +19,41 @@ using namespace std;
 #include "Graph.h"
 #include "Log_Utils.h"
 
-//------------------------------------------------------------- Constantes
-
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-
-template <typename T>
-void insertSorted( std::list< shared_ptr<T> > & list , const shared_ptr<T> & value )
-{
-    auto comp = []( const shared_ptr<T> & a, const shared_ptr<T> & b )
-    {
-        return *b < *a;
-    };
-    auto it = lower_bound( list.begin(), list.end(), value , comp );
-    list.insert( it, value );
-}
-
 void Graph::AddNode( const Node & aNode )
+// Algorithme :
+//
 {
     const Cible & c = aNode.GetName();
     // Si une des cibles existe déjà dans notre graph
     if ( nodes.count( c ) > 0 )
     {
-        // On ajoute les réferers de aNode dans le node qui est déja présent
+        // On ajoute les referers de aNode dans le node qui est deja present
         nodes[c]->AddReferer( aNode );
     }
     else
     {
         nodes[c] = make_shared<Node>( aNode );
     }
-}
-//----- Fin de ~Graph
+} //----- Fin de AddNode
 
 void Graph::Display ( )
+// Algorithme :
+//
 {
-    for( auto const & i : nodes )
+    for ( auto const & i : nodes )
     {
-        cout << *(i.second);
+        cout << * (i.second);
     }
-}
+} //----- Fin de Display
 
-list< shared_ptr<Node> > Graph::commandeDefaut()
+list< shared_ptr< Node > > Graph::CommandeDefaut ( )
 {
-    list < shared_ptr<Node> > top10;
+    list < shared_ptr< Node > > top10;
 
-    for (auto & node : nodes)
+    for ( auto & node : nodes )
     {
         insertSorted( top10 , node.second );
 
@@ -76,42 +66,44 @@ list< shared_ptr<Node> > Graph::commandeDefaut()
     return top10;
 }
 
-//------------------------------------------------- Surcharge d'opérateurs
-
 
 //-------------------------------------------- Constructeurs - destructeur
-
-
 Graph::Graph ( )
 // Algorithme :
 //
 {
-
-} //----- Fin de Graph
-
+#ifdef MAP
+    cout << "Appel au constructeur par défaut de <Graph>" << endl;
+#endif
+} //----- Fin de Graph (constructeur par défaut)
 
 Graph::Graph ( const string & path )
 {
-    fileManager = make_unique<LogFile_Manager>( path );
+#ifdef MAP
+    cout << "Appel au constructeur paramétré de <Graph>" << endl;
+#endif
 
-    AddNode( Node("-") );
+    fileManager = make_unique< LogFile_Manager >( path );
+
+    AddNode( Node( "-" ) );
     
-    for ( auto const & log : fileManager->getLogs() )
+    for ( auto const & log : fileManager->GetLogs() )
     {
-        AddNode( Node( log->getCible() , log->getShortReferer() ) );
-        AddNode( Node( log->getShortReferer() ) );
+        AddNode( Node(log->GetCible(), log->GetShortReferer() ) );
+        AddNode( Node(log->GetShortReferer() ) );
     }
-}
+} //----- Fin de Graph (constructeur parametre)
 
 Graph::~Graph ( )
 // Algorithme :
 //
 {
+#ifdef MAP
+    cout << "Appel au destructeur de <Graph>" << endl;
+#endif
+} //----- Fin de ~Graph
 
-}
 
-
-//----- Fin de ~Graph
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

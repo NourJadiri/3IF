@@ -55,7 +55,7 @@ protected:
     std::vector< std::shared_ptr<Log> > logs;
 public:
 
-    const std::vector<std::shared_ptr<Log>> &getLogs() const;
+    const std::vector<std::shared_ptr<Log>> &GetLogs() const;
 
 //----------------------------------------------------- Méthodes protégées
 

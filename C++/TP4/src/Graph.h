@@ -30,7 +30,7 @@ public:
 //----------------------------------------------------- Méthodes publiques
     void AddNode ( const Node & aNode );
 
-    list< shared_ptr<Node> > commandeDefaut ( );
+    list< shared_ptr<Node> > CommandeDefaut ( );
 
     void Display ( );
 
@@ -58,14 +58,22 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    std::unique_ptr<LogFile_Manager> fileManager;
-    std::map < Cible , std::shared_ptr<Node> > nodes;
-
+    std::unique_ptr < LogFile_Manager > fileManager;
+    std::map < Cible, std::shared_ptr < Node > > nodes;
 };
 
-//-------------------------------- Autres définitions dépendantes de <Graph>
-
-template <typename T>
-void insertSorted( std::list<T>& list , const T & value );
+//------------------------------ Autres définitions dépendantes de <Graph>
+template < typename T >
+void insertSorted( std::list < shared_ptr < T > > & list , const shared_ptr < T > & value )
+// Algorithme :
+//
+{
+    auto comp = [ ] ( const shared_ptr < T > & a, const shared_ptr < T > & b )
+    {
+        return * b < * a;
+    };
+    auto it = lower_bound( list.begin(), list.end(), value , comp );
+    list.insert( it, value );
+} //----- Fin de insertSorted
 
 #endif //GRAPH_H

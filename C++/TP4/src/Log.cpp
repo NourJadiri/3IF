@@ -1,83 +1,78 @@
 /*************************************************************************
                            Log  -  description
                              -------------------
-    début                : Mardi 17 janvier 2023
-    copyright            : (C) 2023 par Marie Roulier - Nour Eljadiri
-    e-mail               : marie.roulier@insa-lyon.fr
-                           mohamed-nour.eljadiri@insa-lyon.fr
+    début                : 17/01/2023
+    copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <Log> (fichier Log.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
+
 //-------------------------------------------------------- Include système
 #include <iostream>
-//------------------------------------------------------ Include personnel
-#include "Log.h"
 using namespace std;
 
-//------------------------------------------------------------- Constantes
+//------------------------------------------------------ Include personnel
+#include "Log.h"
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-
-const string & Log::getIp() const
+const string & Log::GetIp ( ) const
 {
     return ip;
-}
+} //----- Fin de GetIp
 
-const Referer & Log::getLongReferer() const
+const Referer & Log::GetLongReferer ( ) const
 {
     return longReferer;
-}
+} //----- Fin de GetLongReferer
 
-const Cible & Log::getCible() const
+const Cible & Log::GetCible ( ) const
 {
     return cible;
-}
+} //----- Fin de GetCible
 
-const int & Log::getHeureConsultation() const
+const int & Log::GetHeureConsultation ( ) const
 {
     return heureConsultation;
-}
+} //----- Fin de GetHeureConsultation
 
-const Referer & Log::getShortReferer() const
+const Referer & Log::GetShortReferer ( ) const
 {
     return shortReferer;
-}
+} //----- Fin de GetShortReferer
 
-int Log::getReturnCode() const
+int Log::GetReturnCode ( ) const
 {
     return returnCode;
-}
+} //----- Fin de GetReturnCode
 
-const Extension & Log::GetExtension() const
-// Algorithme :
-//
+const Extension & Log::GetExtension ( ) const
 {
     return extension;
-}
-
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-
+} //----- Fin de GetExtension
 
 
 //-------------------------------------------- Constructeurs - destructeur
-
-Log::Log( const string & logLine , int command )
+// TODO : il manque un default case dans le switch + initialisation de heureConsultation et codeRetour
+Log::Log ( const string & logLine, int command )
 // Algorithme :
-// On capture les différents éléments du log grâce à du regex
-// On répartit ces éléments en plusieurs groupes de capture
+// On capture les differents elements du log grace à du regex
+// On repartit ces elements en plusieurs groupes de capture
 // On affecte les valeurs qui nous interessent aux attributs de notre classe.
 {
+#ifdef MAP
+    cout << "Appel au constructeur de <Log>" << endl;
+#endif
     // On utilisera le regex ici pour capturer les éléments qui composent un log
     std::regex logFormat("(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" ");
     smatch matches;
 
-    if( regex_search( logLine.begin(), logLine.end(), matches, logFormat ) )
+    if ( regex_search( logLine.begin(), logLine.end(), matches, logFormat ) )
     {
         switch ( command )
         {
@@ -85,27 +80,39 @@ Log::Log( const string & logLine , int command )
                 initDefaut( matches );
                 break;
             case E:
-
-            break;
+                break;
         }
 
     }
-}
+} //----- Fin de Log
 
+// TODO : a modifier
+Log::~Log ( )
+{
+#ifdef MAP
+    cout << "Appel au destructeur de <Log>" << endl;
+#endif
+} //----- Fin de ~Log
+
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
 void Log::initDefaut ( smatch & matches )
 {
-    // Le premier élément du groupe de capture est l'ip de l'utilisateur
+    // Le 1er element du groupe de capture est l'IP de l'utilisateur
     ip = matches.str(1);
 
-    // Le 5e élément correspond
+    // Le 5e element correspond a l'heure
     heureConsultation = stoi( matches.str(5) );
 
-    // Le 8e éléments est l'url de la page requested
+    // Le 10e element est l'url de la page demandee
     cible = matches.str(10);
 
+    // le 12e element correspond au code de retour
     returnCode = stoi( matches.str(12) );
 
-    // Le 12e élément correspond au longReferer
+    // Le 14e element correspond au longReferer
     longReferer = matches.str(14);
 
     // On extrait le chemin court du shortReferer si celui ci suit un schéma d'url valide
@@ -122,11 +129,4 @@ void Log::initDefaut ( smatch & matches )
     {
         shortReferer = getBaseFromUrl( longReferer );
     }
-}
-
-
-Log::~Log() = default;
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées
-
+} //----- Fin de initDefaut

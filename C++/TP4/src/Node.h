@@ -66,7 +66,7 @@ protected:
     std :: map <Referer , int > referers; // Les différents réferers, avec leurs poids
     int hits;
 public:
-    int getHits() const;
+    int GetHits() const;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Node>

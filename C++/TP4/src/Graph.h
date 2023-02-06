@@ -1,20 +1,19 @@
 /*************************************************************************
                            Graph  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 17/01/2023
+    copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
+    e-mail               : mohamed-nour.eljadiri@insa-lyon.fr
+                           marie.roulier@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <Graph> (fichier Graph.h) ----------------
-#ifndef GRAPH_H
+#if ! defined ( GRAPH_H )
 #define GRAPH_H
+
 //--------------------------------------------------- Interfaces utilisées
 #include <list>
 #include "Node.h"
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Graph>
@@ -29,28 +28,43 @@ class Graph
 public:
 //----------------------------------------------------- Méthodes publiques
     void AddNode ( const Node & aNode );
-
-    list< shared_ptr<Node> > CommandeDefaut ( );
-
-    void Display ( );
-
-//------------------------------------------------- Surcharge d'opérateurs
-
-
-//-------------------------------------------- Constructeurs - destructeur
-    Graph ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
+    list < shared_ptr < Node > > CommandeDefaut ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    void Display ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+
+//-------------------------------------------- Constructeurs - destructeur
+    Graph ( );
+    // Mode d'emploi (constructeur par defaut) :
+    //
+    // Contrat :
+    //
+
     explicit Graph ( const std::string & path );
+    // Mode d'emploi (constructeur parametre) :
+    //
+    // Contrat :
+    //
 
     virtual ~Graph ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
+
 
 //------------------------------------------------------------------ PRIVE
 
@@ -62,9 +76,9 @@ protected:
     std::map < Cible, std::shared_ptr < Node > > nodes;
 };
 
-//------------------------------ Autres définitions dépendantes de <Graph>
+//-------------------------------- Autres définitions dépendantes de <Graph>
 template < typename T >
-void insertSorted( std::list < shared_ptr < T > > & list , const shared_ptr < T > & value )
+void insertSorted ( std::list < shared_ptr < T > > & list, const shared_ptr < T > & value )
 // Algorithme :
 //
 {

@@ -22,7 +22,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-const vector < shared_ptr< Log > > & LogFile_Manager::GetLogs ( ) const
+const vector < shared_ptr < Log > > & LogFile_Manager::GetLogs ( ) const
 {
     return logs;
 } //----- Fin de GetLogs
@@ -42,12 +42,19 @@ ostream & operator << ( ostream & os, LogFile_Manager & l )
 
 
 //-------------------------------------------- Constructeurs - destructeur
+LogFile_Manager::LogFile_Manager ( )
+{
+#ifdef MAP
+    cout << "Appel au constructeur par défaut de <LogFile_Manager>" << endl;
+#endif
+} //----- Fin de LogFile_Manager (constructeur par defaut)
+
 LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <LogFile_Manager>" << endl;
+    cout << "Appel au constructeur paramétré de <LogFile_Manager>" << endl;
 #endif
 
     logFile.open( pathToFile );
@@ -65,7 +72,7 @@ LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command 
         default:
             break;
     }
-} //----- Fin de LogFile_Manager
+} //----- Fin de LogFile_Manager (constructeur parametre)
 
 LogFile_Manager :: ~LogFile_Manager ( )
 {

@@ -34,29 +34,18 @@ static int test ( int & argcMain, char * * & argvMain )
 // Algorithme :
 // Création d'un Analog lors du lancement de l'application
 {
-/*
+
     int retour;
 
     Analog anal;
     retour = anal.Launch ( argcMain, argvMain );
-*/
-    return 0;
+
+    return retour;
 } //----- Fin de test
 
 int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-    const string log = "192.168.0.11 - - [08/Sep/2012:12:01:18 +0200] \"GET /notesif HTTP/1.1\" 301 248 \"https://intranet-if.insa-lyon.fr/temps/zizi\" \"Tiny Tiny RSS/1.5.11 (http://tt-rss.org/)\"";
-
-    LogFile_Manager l("../C++/TP4/Logs/short.log");
-
-    Graph g("../C++/TP4/Logs/short.log");
-
-    list<shared_ptr<Node>> liste = g.commandeDefaut();
-
-    for ( auto & node : liste )
-    {
-        cout << *node;
-    }
+    return test(argc,argv);
 } //----- fin de main

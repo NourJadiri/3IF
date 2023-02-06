@@ -14,8 +14,6 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "Graph.h"
 
-//------------------------------------------------------------- Constantes
-
 //------------------------------------------------------------------ Types
 typedef std::string url;
 
@@ -101,9 +99,5 @@ protected:
     LogFile_Manager logs;
     Graph graph;
 };
-
-//-------------------------------- Autres définitions dépendantes de <Analog>
-
-
 
 #endif // ANALOG_H

@@ -75,7 +75,7 @@ Graph::Graph ( )
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Graph>" << endl;
 #endif
-} //----- Fin de Graph (constructeur par défaut)
+} //----- Fin de Graph (constructeur par defaut)
 
 Graph::Graph ( const string & path )
 {

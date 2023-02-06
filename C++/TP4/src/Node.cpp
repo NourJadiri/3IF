@@ -83,6 +83,28 @@ bool operator < ( Node & a, Node & b )
 
 
 //-------------------------------------------- Constructeurs - destructeur
+Node::Node ( )
+{
+#ifdef MAP
+    cout << "Appel au constructeur par défaut de <Node>" << endl;
+#endif
+    name = "-";
+    hits = 0;
+} //----- Fin de Node (constructeur par défaut)
+
+Node::Node( const Node & aNode )
+{
+#ifdef MAP
+    cout << "Appel au constructeur de copie de <Node>" << endl;
+#endif
+    name = aNode.name;
+    hits = aNode.hits;
+    for ( auto const & i : aNode.referers )
+    {
+        referers[i.first] = i.second;
+    }
+} //----- Fin de Node (constructeur de copie)
+
 Node::Node ( const Cible & uneCible )
 {
 #ifdef MAP
@@ -103,28 +125,6 @@ Node::Node ( const Cible & uneCible, const Referer & unReferer )
     hits = 1;
     referers.insert( std::pair< Referer, int >( unReferer, 1 ) );
 } //----- Fin de Node (constructeur paramétré)
-
-Node::Node( const Node & aNode )
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <Node>" << endl;
-#endif
-    name = aNode.name;
-    hits = aNode.hits;
-    for ( auto const & i : aNode.referers )
-    {
-        referers[i.first] = i.second;
-    }
-} //----- Fin de Node (constructeur de copie)
-
-Node::Node ( )
-{
-#ifdef MAP
-    cout << "Appel au constructeur par défaut de <Node>" << endl;
-#endif
-    name = "-";
-    hits = 0;
-} //----- Fin de Node (constructeur par défaut)
 
 Node::~Node ( )
 {

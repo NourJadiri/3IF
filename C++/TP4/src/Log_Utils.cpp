@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <Log_Utils> (fichier Log_Utils.cpp) ------------
+//---------- Librairie <Log_Utils> (fichier Log_Utils.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 

@@ -24,12 +24,12 @@ Spécifie le \fIfichier\fP dans lequel il faut générer le graphique des statis
 Exclut tous les documents ayant des \fIextensions\fP de type image, css ou javascript. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
 
 .TP
-\fB-g heure\fP
+\fB-t heure\fP
 Spécifie la plage \fIhoraire\fP [heure, heure + 1[ sur laquelle il faut prendre en compte les logs. Exclut les hits qui ne font pas partie de cette fenêtre. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
 
 .TP
-\fB-g fichierTxt.txt\fP
-Spécifie le \fIfichier\fP de configuration à utiliser contenant la base URL à supprimer des logs. Si ce \fIfichier\fP est vide, l’application \fBanalog\fP sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Affiche également la liste des 10 documents les plus consultés.
+\fB-u fichierTxt.txt\fP
+Spécifie le \fIfichier\fP de configuration à utiliser contenant la base URL à supprimer des logs. Si ce \fIfichier\fP est vide, l’application \fBanalog\fP sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Sinon, l'analyse des logs se fera uniquement sur les logs dont la base URL du referer a été spécifiée dans le \fIfichier\fP. Un avertissement indiquera si cette option a été utilisée avec une base URL spécifique. Affiche également la liste des 10 documents les plus consultés.
 
 .SH CODE DE RETOUR
 \fBanalog\fP sort 0 en cas de succès, et >0 si une erreur survient.
@@ -40,7 +40,7 @@ Le \fIfichier\fP de log fichierLog.log doit exister et ne doit pas être vide.
 .PD 0
 .P
 .PD
-L’option \fB-g\fP ne fonctionne que si le \fIfichier\fP fichierDot.dot est donné et existe. Sinon, \fBanalog\fP se terminera.
+L’option \fB-g\fP ne fonctionne que si le \fIfichier\fP fichierDot.dot est donné. Sinon, \fBanalog\fP se terminera. Si ce \fIfichier\fP est non vide, il est possible de confirmer l'écrasement de son contenu, ou de poursuivre l'opération dans un autre \fIfichier\fP.
 .PD 0
 .P
 .PD

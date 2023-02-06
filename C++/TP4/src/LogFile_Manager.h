@@ -88,8 +88,15 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Attributs protégés
-    std :: ifstream logFile;
+    //----------------------------------------------------- Méthodes protégées
+    void commandeU ( std::string const & url );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    //----------------------------------------------------- Attributs protégés
+    std::ifstream logFile;
     std::vector< std::shared_ptr<Log> > logs;
 };
 

@@ -30,21 +30,23 @@ OPTIONS
        -e     Exclut tous les documents ayant des extensions de type image, css ou javascript. Un avertissement indiquera que cette option a été
               utilisée. Affiche également la liste des 10 documents les plus consultés.
 
-       -g heure
+       -t heure
               Spécifie la plage horaire [heure, heure + 1[ sur laquelle il faut prendre en compte les logs. Exclut les hits qui ne font pas partie de
               cette fenêtre. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
 
-       -g fichierTxt.txt
+       -u fichierTxt.txt
               Spécifie le fichier de configuration à utiliser contenant la base URL à supprimer des logs. Si ce fichier est vide, l’application analog
-              sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Affiche également la liste des 10 documents les
-              plus consultés.
+              sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Sinon, l'analyse des logs se fera uniquement sur
+              les logs dont la base URL du referer a été spécifiée dans le fichier. Un avertissement indiquera si cette option a été utilisée avec une
+              base URL spécifique. Affiche également la liste des 10 documents les plus consultés.
 
 CODE DE RETOUR
        analog sort 0 en cas de succès, et >0 si une erreur survient.
 
 NOTES
        Le fichier de log fichierLog.log doit exister et ne doit pas être vide.
-       L’option -g ne fonctionne que si le fichier fichierDot.dot est donné et existe. Sinon, analog se terminera.
+       L’option -g ne fonctionne que si le fichier fichierDot.dot est donné. Sinon, analog se terminera. Si ce fichier est non vide, il est possible de
+       confirmer l'écrasement de son contenu, ou de poursuivre l'opération dans un autre fichier.
        L’option -e supprime toute la ligne de log si au moins une des deux pages (cible ou referer) est de type image, css ou javascript. Par exemple,
        si un referer de type .jpg accède à une page .ics, alors ni le referer ni la cible ne seront pris en compte dans l’analyse.
        L’option -u ne fonctionne que si le fichier fichierTxt.txt est donné et existe. Il peut être vide au besoin.

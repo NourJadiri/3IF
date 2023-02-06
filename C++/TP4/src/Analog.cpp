@@ -234,8 +234,8 @@ int Analog::commandeT ( const string & hour )
         return 1;
     }
 
+    cout << "/!\\ Warning: only hits between "<< stoi(hour) <<"h and " << ( stoi(hour) + 1 ) << " h have been taken into account /!\\" << endl;
 
-    // appel de la fonction pour filtrer les hits par intervalle de temps
     return 0;
 } //----- Fin de commandeT
 
@@ -273,6 +273,7 @@ int Analog::commandeU ( const string & fichierConfig )
     }
 
     // else tout est okay on continue
+    cout << "/!\\ Warning: only hits coming grom referers with an URL-base " << urlUser <<" have been processed /!\\" << endl;
     return 0;
 } //----- Fin de commandeU
 
@@ -288,5 +289,16 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
         return 1;
     }
 
+
     return 0;
-} //----- Fin de verifFichierLog
+}
+
+void Analog::displayHeading ( ) const
+{
+    cout << endl << "Top 10 of most accessed targets:" << endl;
+    if ( commandes[E] )
+    {
+        cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl;
+    }
+}
+//----- Fin de verifFichierLog

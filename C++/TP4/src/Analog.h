@@ -70,6 +70,8 @@ protected:
     // Contrat :
     //
 
+    void displayHeading ( ) const;
+
     static int commandeT ( const string & hour ) ;
     // Mode d'emploi :
     //

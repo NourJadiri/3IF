@@ -43,5 +43,5 @@ int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-    return test ( argc , argv);
+    return test ( argc , argv );
 } //----- fin de main

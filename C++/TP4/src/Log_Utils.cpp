@@ -130,10 +130,11 @@ bool connectionSuccess ( int returnCode )
 
 bool isExcluded ( const string & ext )
 // Algorithme :
-// On effectue une recherche par dichotomie de l'extension à exclure dans le tableau extensionsToExclude
-// La fonction retourne True si l'extension est trouvée (donc à exclure)
+// On effectue une recherche par dichotomie de l'extension a exclure dans le tableau extensionsToExclude
+// donc on resonne par ordre alphabetique des extensions
+// La fonction retourne True si l'extension est trouvee (donc a exclure)
 {
-    std::array< std::string, 9 > extensionsToExclude = { "bmp", "ico", "jpeg", "jpg", "png", "tiff", "gif", "css", "js" };
+    array < string, 9 > extensionsToExclude = { "bmp", "css", "gif", "ico", "jpeg", "jpg", "js", "png", "tiff" };
     return binary_search( extensionsToExclude.begin(), extensionsToExclude.end(), ext );
 } //----- Fin de isExcluded
 

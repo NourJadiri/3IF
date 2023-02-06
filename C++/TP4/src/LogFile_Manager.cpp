@@ -50,23 +50,19 @@ std::ostream &operator<<( ostream &os, LogFile_Manager & l ) {
 
 //-------------------------------------------- Constructeurs - destructeur
 
-LogFile_Manager::LogFile_Manager( const string & pathToFile )
+LogFile_Manager::LogFile_Manager( const string & pathToFile , const int command )
 // Algorithme :
 //
 {
     logFile.open(pathToFile);
     string log;
-
-    while( getline( logFile, log ) )
+    if ( command == DEFAULT )
     {
-        logs.push_back( std::make_shared<Log>( log ) );
+        while ( getline( logFile, log ) )
+        {
+            logs.push_back(std::make_shared<Log>(log));
+        }
     }
-
-}
-
-LogFile_Manager::LogFile_Manager( const string &pathTofile, int & command )
-{
-
 }
 
 

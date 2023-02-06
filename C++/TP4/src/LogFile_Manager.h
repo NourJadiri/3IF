@@ -36,9 +36,8 @@ public:
 //-------------------------------------------- Constructeurs - destructeur
     LogFile_Manager() = default;
 
-    explicit LogFile_Manager( const std :: string & pathToFile );
+    explicit LogFile_Manager( const std :: string & pathToFile , const int command = DEFAULT );
 
-    explicit LogFile_Manager( const std::string & pathTofile , int & command);
 
 
     ~LogFile_Manager();

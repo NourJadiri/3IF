@@ -12,7 +12,6 @@
 /////////////////////////////////////////////////////////////////  INCLUDE
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <regex>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -31,7 +30,7 @@ using namespace std;
 //------------------------------------------------------ Fonctions privées
 static int test ( int & argcMain, char * * & argvMain )
 // Mode d'emploi :
-// Procédure de test appelée par le main
+// Procédure de test appelée par le Main
 // Algorithme :
 // Création d'un Analog lors du lancement de l'application
 {
@@ -41,7 +40,7 @@ static int test ( int & argcMain, char * * & argvMain )
     Analog anal;
     retour = anal.Launch ( argcMain, argvMain );
 */
-
+    return 0;
 } //----- Fin de test
 
 int main ( int argc, char * argv [ ] )
@@ -52,7 +51,12 @@ int main ( int argc, char * argv [ ] )
 
     LogFile_Manager l("../C++/TP4/Logs/short.log");
 
-    Graph g("../Logs/short.log");
+    Graph g("../C++/TP4/Logs/short.log");
 
-    g.Display();
+    list<shared_ptr<Node>> liste = g.commandeDefaut();
+
+    for ( auto & node : liste )
+    {
+        cout << *node;
+    }
 } //----- fin de main

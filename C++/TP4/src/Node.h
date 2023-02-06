@@ -39,18 +39,19 @@ public:
 
     const std::string & GetName ( ) const ;
 
-    friend std::ostream & operator<< ( std::ostream & os , Node & aNode );
 
 //------------------------------------------------- Surcharge d'opérateurs
 
+    friend bool operator < ( Node & a , Node & b );
 
+    friend std::ostream & operator<< ( std::ostream & os , Node & aNode );
 
 //-------------------------------------------- Constructeurs - destructeur
     explicit Node ();
 
     explicit Node ( const Cible & uneCible );
 
-    explicit Node ( const Node & aNode );
+    Node ( const Node & aNode );
 
     explicit Node ( const Cible & uneCible, const Referer & unReferer );
 
@@ -63,9 +64,14 @@ protected:
 //----------------------------------------------------- Attributs protégés
     std :: string name; // Nom de la cible
     std :: map <Referer , int > referers; // Les différents réferers, avec leurs poids
+    int hits;
+public:
+    int getHits() const;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Node>
+
+
 
 #endif // NODE_H
 

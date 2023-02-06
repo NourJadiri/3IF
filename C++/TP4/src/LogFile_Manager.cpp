@@ -30,7 +30,11 @@ const vector<std::shared_ptr<Log>> &LogFile_Manager::getLogs() const
     return logs;
 }
 
+void LogFile_Manager::commandeDefaut(const string &path)
+{
 
+
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -50,13 +54,19 @@ LogFile_Manager::LogFile_Manager( const string & pathToFile )
 // Algorithme :
 //
 {
-    logFile.open( pathToFile );
+    logFile.open(pathToFile);
     string log;
 
     while( getline( logFile, log ) )
     {
         logs.push_back( std::make_shared<Log>( log ) );
     }
+
+}
+
+LogFile_Manager::LogFile_Manager( const string &pathTofile, int & command )
+{
+
 }
 
 

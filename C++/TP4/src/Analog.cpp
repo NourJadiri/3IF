@@ -28,6 +28,8 @@ using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
+
+
 //----------------------------------------------------- Méthodes publiques
 int Analog::Launch ( int & argcMain, char * * & argvMain )
 // Algorithme :
@@ -44,9 +46,14 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         return 1;
     }
 
-    bool commandes [4] = { false }; // pour ne pas executer trois fois la meme commande
-    string logFile = argvMain[ argcMain - 1 ]; // dernier argument est le fichier log
-    int retour; // valeur de retour des fonctions appelees
+    // pour ne pas executer trois fois la meme commande
+    bool commandes [4] = { false };
+
+    // dernier argument est le fichier log
+    string path = argvMain[argcMain - 1];
+
+    // valeur de retour des fonctions appelees
+    int retour;
 
     for ( int i = 1; i < argcMain - 1; i++ )
     {
@@ -114,7 +121,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         }
     }
 
-    retour = verifFichierLog( logFile, mainArg );
+    retour = verifFichierLog( path, mainArg );
     if ( retour )
     {
         return retour;
@@ -122,7 +129,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
 
     // par defaut, afficher la liste des 10 documents les plus consultes
     // appel de la fonction qui execute l'application par defaut
-    commandeDefaut();
+    commandeDefaut( path );
 
     return 0;
 
@@ -145,7 +152,6 @@ Analog::Analog ( )
 #endif
 } //----- Fin de Analog
 
-
 Analog::~Analog ( )
 // Algorithme :
 //
@@ -164,9 +170,8 @@ int Analog::commandeG ( const string & dotFile ) const
 //
 {
     // si jamais l'utilisateur ne rentre pas un nom de fichier, ou pas un fichier .dot
-    if ( !( dotFile.find( ".dot" ) != string::npos ) )
+    if ( !validExtension ( dotFile , "dot") )
     {
-        cerr << endl << "Il faut insérer le fichier dot ainsi que son extension." << endl;
         cerr << "Usage : -g nomFichier.dot" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -291,54 +296,25 @@ int Analog::commandeU ( const string & fichierConfig )
     return 0;
 } //----- Fin de commandeU
 
-void Analog::commandeDefaut ( ) const
+void Analog::commandeDefaut ( const string & file )
 // Algorithme :
 //
 {
-    // appel de la fonction pour afficher les documents les plus consultes
+    Graph g( file );
+    list < shared_ptr<Node> > l = g.commandeDefaut();
 } //----- Fin de commandeDefaut
 
-int Analog::verifFichierLog ( const string & logFile, const string & mainArg ) const
+int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
 // Algorithme :
 //
 {
-    // verification du fichier de log
-    if ( !( logFile.find( ".log" ) != string::npos ) )
+    // vérification de la validité du fichier mis en paramètre
+    if ( fileNotFound( logFile ) || !validExtension( logFile , "log" ) || fileIsEmpty( logFile ) )
     {
-        cerr << endl << "Il faut insérer le fichier log existant ainsi que son extension." << endl;
         cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
-    }
-
-    // lecture du contenu du fichier de logs
-    ifstream configUrlStream ( logFile );
-    if ( !configUrlStream.good() )
-    {
-        cerr << endl << "Le fichier de log n'existe pas. Merci de rentrer un fichier existant." << endl;
-        cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
-        cerr << "Fermeture de l'application." << endl;
-        return 1;
-    }
-
-    // vérifier si le fichier est vide
-    configUrlStream.seekg( 0, ios_base::end );
-    // va a la fin du fichier
-    long size;
-    size = configUrlStream.tellg(); // get position actuelle = taille du fichier
-
-    if ( size == 0 ) // fichier est vide
-    {
-        cerr << endl << "Le fichier de log est vide. Merci de rentrer un fichier non vide." << endl;
-        cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
-        cerr << "Fermeture de l'application." << endl;
-        return 1;
-    }
-    else
-    {
-        configUrlStream.clear();
-        configUrlStream.seekg(0);
     }
 
     return 0;
-} //----- Fin de verifFichierLog
+}//----- Fin de verifFichierLog

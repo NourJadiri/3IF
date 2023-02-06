@@ -18,7 +18,7 @@
 
 //------------------------------------------------------------------ Types
 typedef std::string url;
-enum options { G, E, T, U };
+
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Analog>
@@ -85,22 +85,27 @@ protected:
     // Contrat :
     //
 
-    void commandeDefaut ( ) const;
+    void commandeDefaut ( const string & file );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    int verifFichierLog ( const string & logFile, const string & mainArg ) const;
+    static int verifFichierLog ( const string & logFile, const string & mainArg ) ;
     // Mode d'emploi :
     //
     // Contrat :
     //
+
 
 //----------------------------------------------------- Attributs protégés
     url urlUser;
+    LogFile_Manager logs;
+    Graph graph;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Analog>
+
+
 
 #endif // ANALOG_H

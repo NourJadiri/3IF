@@ -34,6 +34,7 @@ void Node::AddReferer( const Referer & aReferer )
     {
         referers[ aReferer ] = 1;
     }
+    hits++;
 }
 
 void Node::AddReferer( const Node & aNode )
@@ -60,6 +61,10 @@ void Node::Display() const
     }
 }
 
+int Node::getHits() const
+{
+    return hits;
+}
 
 //----- Fin du constructeur de Node
 
@@ -67,13 +72,13 @@ void Node::Display() const
 
 std::ostream &operator<<( ostream &os, Node &aNode ) 
 {
-    os << "Noeud : " << aNode.name << endl;
-    cout << "> Referers : " << endl;
+    os << aNode.name << " ( " << aNode.hits << " hits )" << endl;
+/*    cout << "> Referers : " << endl;
 
     for ( auto const & i : aNode.referers)
     {
         cout << "\t" << i.first << " : " << i.second << endl;
-    }
+    }*/
 
     return os;
 }
@@ -84,6 +89,7 @@ std::ostream &operator<<( ostream &os, Node &aNode )
 Node::Node ( const Cible & uneCible )
 {
     name = uneCible;
+    hits = 0;
 }
 
 Node::Node ( const Cible & uneCible, const Referer & unReferer )
@@ -91,13 +97,14 @@ Node::Node ( const Cible & uneCible, const Referer & unReferer )
 //
 {
     name = uneCible;
+    hits = 1;
     referers.insert( std :: pair<Referer , int>( unReferer , 1 ) );
 }
 
 Node::Node( const Node & aNode )
 {
     name = aNode.name;
-
+    hits = aNode.hits;
     for( auto const & i : aNode.referers )
     {
         referers[i.first] = i.second;
@@ -107,6 +114,12 @@ Node::Node( const Node & aNode )
 Node::Node()
 {
     name = "-";
+    hits = 0;
+}
+
+bool operator<( Node & a , Node & b)
+{
+    return b.hits > a.hits;
 }
 
 

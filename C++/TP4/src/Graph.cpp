@@ -16,12 +16,25 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Graph.h"
+#include "Log_Utils.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
+
+template <typename T>
+void insertSorted( std::list< shared_ptr<T> > & list , const shared_ptr<T> & value )
+{
+    auto comp = []( const shared_ptr<T> & a, const shared_ptr<T> & b )
+    {
+        return *b < *a;
+    };
+    auto it = lower_bound( list.begin(), list.end(), value , comp );
+    list.insert( it, value );
+}
+
 void Graph::AddNode( const Node & aNode )
 {
     const Cible & c = aNode.GetName();
@@ -44,6 +57,23 @@ void Graph::Display ( )
     {
         cout << *(i.second);
     }
+}
+
+list< shared_ptr<Node> > Graph::commandeDefaut()
+{
+    list < shared_ptr<Node> > top10;
+
+    for (auto & node : nodes)
+    {
+        insertSorted( top10 , node.second );
+
+        if ( top10.size( ) > 10 )
+        {
+            top10.pop_back( );
+        }
+    }
+
+    return top10;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -79,8 +109,12 @@ Graph::~Graph ( )
 {
 
 }
+
+
 //----- Fin de ~Graph
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+
+
 

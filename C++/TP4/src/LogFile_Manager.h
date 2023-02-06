@@ -2,9 +2,12 @@
 #define INC_3IF_LOGFILE_MANAGER_H
 #include <fstream>
 #include "Log.h"
+
+
 //--------------------------------------------------- Interfaces utilisées
 
 //------------------------------------------------------------- Constantes
+enum options { DEFAULT, G, E, T, U };
 
 //------------------------------------------------------------------ Types
 
@@ -21,16 +24,21 @@ typedef std::string path;
 class LogFile_Manager
 {
 //----------------------------------------------------------------- PUBLIC
+friend class Graph;
 
 public:
 //----------------------------------------------------- Méthodes publiques
 
     friend std::ostream & operator<<( std::ostream & os , LogFile_Manager & l );
 
+    void commandeDefaut ( const std::string & pathToFile );
+
 //-------------------------------------------- Constructeurs - destructeur
     LogFile_Manager() = default;
 
     explicit LogFile_Manager( const std :: string & pathToFile );
+
+    explicit LogFile_Manager( const std::string & pathTofile , int & command);
 
 
     ~LogFile_Manager();
@@ -47,6 +55,7 @@ protected:
 
     std::vector< std::shared_ptr<Log> > logs;
 public:
+
     const std::vector<std::shared_ptr<Log>> &getLogs() const;
 
 //----------------------------------------------------- Méthodes protégées

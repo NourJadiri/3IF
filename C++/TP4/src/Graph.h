@@ -10,6 +10,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 //--------------------------------------------------- Interfaces utilisées
+#include <list>
 #include "Node.h"
 //------------------------------------------------------------- Constantes
 
@@ -29,6 +30,8 @@ public:
 //----------------------------------------------------- Méthodes publiques
     void AddNode ( const Node & aNode );
 
+    list< shared_ptr<Node> > commandeDefaut ( );
+
     void Display ( );
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -41,7 +44,7 @@ public:
     // Contrat :
     //
 
-    Graph ( const std::string & path );
+    explicit Graph ( const std::string & path );
 
     virtual ~Graph ( );
     // Mode d'emploi :
@@ -61,5 +64,8 @@ protected:
 };
 
 //-------------------------------- Autres définitions dépendantes de <Graph>
+
+template <typename T>
+void insertSorted( std::list<T>& list , const T & value );
 
 #endif //GRAPH_H

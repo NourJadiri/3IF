@@ -73,7 +73,12 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             commandes[E] = true;
 
             // appel de la fonction qui execute la commande -e
-            commandeE ( path );
+            retour = commandeE ( path );
+
+            if ( retour )
+            {
+                return retour;
+            }
         }
         else if ( string( argvMain[ i ] ) == "-t" && !commandes[T] )
         {
@@ -124,7 +129,10 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
 
     // par defaut, afficher la liste des 10 documents les plus consultes
     // appel de la fonction qui execute l'application par defaut
-    commandeDefaut( path );
+    if ( !commandes[E] && !commandes[G] && !commandes[T] && !commandes[U])
+    {
+        commandeDefaut( path );
+    }
 
     return 0;
 
@@ -214,7 +222,7 @@ int Analog::commandeG ( const string & dotFile ) const
     return 0;
 } //----- Fin de commandeG
 
-void Analog::commandeE ( const string & file ) const
+int Analog::commandeE ( const string & file ) const
 // Algorithme :
 //
 {
@@ -227,6 +235,7 @@ void Analog::commandeE ( const string & file ) const
 
     cout << g;
 
+    return 0;
 } //----- Fin de commandeE
 
 int Analog::commandeT ( const string & hour )
@@ -294,7 +303,7 @@ int Analog::commandeU ( const string & fichierConfig )
     return 0;
 } //----- Fin de commandeU
 
-void Analog::commandeDefaut ( const string & file )
+int Analog::commandeDefaut ( const string & file )
 // Algorithme :
 //
 {
@@ -302,6 +311,8 @@ void Analog::commandeDefaut ( const string & file )
     Graph g( file , DEFAULT );
 
     cout << g;
+
+    return 0;
 } //----- Fin de Top10Logs
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )

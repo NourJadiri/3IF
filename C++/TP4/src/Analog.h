@@ -64,7 +64,7 @@ protected:
     // Contrat :
     //
 
-    void commandeE ( const string & ) const;
+    int commandeE ( const string & ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -82,7 +82,7 @@ protected:
     // Contrat :
     //
 
-    static void commandeDefaut ( const string & );
+    static int commandeDefaut ( const string & );
     // Mode d'emploi :
     //
     // Contrat :

@@ -1,0 +1,91 @@
+.TH analog 1 "05 février 2023" " version 1.0" "Manuel de Commandes Générales"
+
+.SH NOM
+analog \- Analyse d’un fichier de log Apache
+
+.SH SYNOPSIS
+\fBanalog\fP [\fB-g\fP \fIfichierDot.dot\fP] [\fB-e\fP] [\fB-t\fP \fIheure\fP] [\fB-u\fP \fIfichierTxt.txt\fP] fichierLog.log
+
+.SH DESCRIPTION
+.P
+\fBanalog\fP est un outil en ligne de commande qui permet d’analyser des requêtes HTTP enregistrées dans un \fIfichier\fP de log fichierLog.log de serveur web Apache. \fBanalog\fP permet d’afficher les statistiques de logs sur la sortie standard. \fBanalog\fP dispose également de quelques options de filtrage, ce qui permet d’effectuer différentes analyses. \fBanalog\fP peut éventuellement générer un document synthétique de ces statistiques, sous forme de graphique au format \fIGraphViz\fP, dans un fichier fichierDot.dot. Il est possible de combiner plusieurs options de filtrage.
+.PD 0
+.P
+.PD
+Dans tous les cas (sans et avec options), \fBanalog\fP affiche sur la console la liste des 10 documents les plus consultés, dans l’ordre décroissant de popularité, avec le nombre de consultations.
+
+.SH OPTIONS
+.TP
+\fB-g fichierDot.dot\fP
+Spécifie le \fIfichier\fP dans lequel il faut générer le graphique des statistiques au format \fIGraphViz\fP. Chaque page consultée apparaît sous forme de nœud, et chaque arc indique le nombre de traversées associées entre deux pages. Un message indiquera qu’un graphe a été généré dans le \fIfichier\fP fichierDot.dot. Affiche également la liste des 10 documents les plus consultés.
+
+.TP
+\fB-e\fP
+Exclut tous les documents ayant des \fIextensions\fP de type image, css ou javascript. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
+
+.TP
+\fB-g heure\fP
+Spécifie la plage \fIhoraire\fP [heure, heure + 1[ sur laquelle il faut prendre en compte les logs. Exclut les hits qui ne font pas partie de cette fenêtre. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
+
+.TP
+\fB-g fichierTxt.txt\fP
+Spécifie le \fIfichier\fP de configuration à utiliser contenant la base URL à supprimer des logs. Si ce \fIfichier\fP est vide, l’application \fBanalog\fP sera exécutée par défaut et déterminera elle-même la base de l’URL afin de la supprimer. Affiche également la liste des 10 documents les plus consultés.
+
+.SH CODE DE RETOUR
+\fBanalog\fP sort 0 en cas de succès, et >0 si une erreur survient.
+
+.SH NOTES
+.P
+Le \fIfichier\fP de log fichierLog.log doit exister et ne doit pas être vide.
+.PD 0
+.P
+.PD
+L’option \fB-g\fP ne fonctionne que si le \fIfichier\fP fichierDot.dot est donné et existe. Sinon, \fBanalog\fP se terminera.
+.PD 0
+.P
+.PD
+L’option \fB-e\fP supprime toute la ligne de log si au moins une des deux pages (cible ou referer) est de type image, css ou javascript. Par exemple, si un referer de type .jpg accède à une page .ics, alors ni le referer ni la cible ne seront pris en compte dans l’analyse.
+.PD 0
+.P
+.PD
+L’option \fB-u\fP ne fonctionne que si le \fIfichier\fP fichierTxt.txt est donné et existe. Il peut être vide au besoin.
+.PD 0
+.P
+.PD
+Si la même commande est entrée plusieurs fois, elle ne sera exécutée qu’une seule fois.
+.PD 0
+.P
+.PD
+Un avertissement sera affiché si les statistiques de logs ont été réalisées sur moins de 10 ou même sur aucun log.
+
+.SH EXEMPLES
+.TP
+\fB$ ./analog fichierLog.log\fP
+Comportement de l’application par défaut. Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées par ordre croissant de popularité, ainsi que leur nombre de consultations.
+
+.TP
+\fB$ ./analog -g fichierDot.dot fichierLog.log\fP
+Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées par ordre croissant de popularité, ainsi que leur nombre de consultations. Génération du \fIfichier\fP fichierDot.dot au format GraphViz qui représente graphiquement le parcours des ressources visitées.
+
+.TP
+\fB$ ./analog -e fichierLog.log\fP
+Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations.
+
+.TP
+\fB$ ./analog -t 12 fichierLog.log\fP
+Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées entre 12h et 13h, par ordre croissant de popularité, ainsi que leur nombre de consultations.
+
+.TP
+\fB$ ./analog -u fichierTxt.txt fichierLog.log\fP
+Prise en compte de la base de l’URL qui se trouve dans le \fIfichier\fP fichierTxt.txt, s’il est non vide. Sinon, exécution par défaut de l’application \fBanalog\fP. Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées par ordre croissant de popularité, ainsi que leur nombre de consultations.
+
+.TP
+\fB$ ./analog -e -g fichierDot.dot fichierLog.log\fP
+Possibilité de combiner plusieurs filtres. Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations. Génération du \fIfichier\fP fichierDot.dot au format GraphViz qui représente graphiquement le parcours des ressources visitées.
+
+.SH AUTEURS
+Nour ElJadiri (mohamed-nour.eljadiri@insa-lyon.fr)
+.PD 0
+.P
+.PD
+Marie Roulier (marie.roulier@insa-lyon.fr)

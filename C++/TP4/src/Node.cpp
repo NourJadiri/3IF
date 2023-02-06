@@ -72,7 +72,7 @@ int Node::getHits() const
 
 std::ostream &operator<<( ostream &os, Node &aNode ) 
 {
-    os << aNode.name << " (" << aNode.hits << ((aNode.hits == 1) ? "hit)" : " hits)") << endl;
+    os << aNode.name << " (" << aNode.hits << ((aNode.hits == 1) ? " hit)" : " hits)") << endl;
 
     return os;
 }

@@ -300,6 +300,7 @@ void Analog::commandeDefaut ( const string & file )
 // Algorithme :
 //
 {
+    cout << "Top 10 of most accessed targets : " << endl << endl;
     Graph g( file );
     list < shared_ptr<Node> > l = g.commandeDefaut();
 

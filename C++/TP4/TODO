@@ -6,8 +6,14 @@
 
 4. ajouter les codes 206 / 304 / 405
 
-5. faire gaffe au mktest.sh pour le test11 (copier shortTest_old dans shortTest) ---- lignes 11 à 14
-DU COUP NE PAS EXECUTER LE TEST11 AVANT D'AVOIR FAIT CETTE MODIFICATION DANS LE MKTEST.SH PLEASE
+5. faire gaffe au mktest.sh pour les test11 et 12 (copier shortTest_old dans shortTest) ---- lignes 11 à 14
+DU COUP NE PAS EXECUTER LES TEST11 & 12 AVANT D'AVOIR FAIT CETTE MODIFICATION DANS LE MKTEST.SH PLEASE
 
 6. extension à exclure : .css ; .js ; .ico ; .jpg ; .jpeg ; .png ; .gif ; .bmp ; .tiff
+
+7. a verifier mais normalement quand je fais les tests pour les commandes pour des erreurs, j'ai pas besoin de logFile
+techniquement cuz ca verifie d'abord les conditions des commandes (pour moins surcharger les directories de Tests)
+mais TO CHECK
+
+8. supprimer tous les .dot file qu'on crée lors des Tests
 

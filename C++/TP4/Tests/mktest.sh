@@ -7,11 +7,16 @@ nMis=0
 for i in Test*
 do
   ./test.sh $i results.csv
-  result=$?
-  if [ $i == 11 ]
+
+  if [ $i -eq 11 ]
   then
-    cp shortTest_old.dot shortTest.dot
+    cp shortTest_Old.dot shortTest.dot
+  elif [ $i -eq 12 ]
+  then
+      cp dontTouchTest_old.dot dontTouchTest.old
   fi
+
+  result=$?
   if [ $result -eq 0 ]
   then
     let "nKo=$nKo+1"

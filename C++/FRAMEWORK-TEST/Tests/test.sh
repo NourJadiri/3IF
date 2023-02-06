@@ -57,7 +57,7 @@ resultGlobal=1
 resultOut=2
 if [ -r "std.out" ]
 then 
-  diff -wB temp.txt stderr.out >/dev/null
+  diff -wB temp.txt std.out >/dev/null
   if [ $? -eq 0 ]
   then
     echo "                                       Stdout      : PASSED"
@@ -66,7 +66,7 @@ then
     echo "                                       Stdout      : FAILED"
     resultOut=0
     resultGlobal=0
-  diff -wB -y --side-by-side  temp.txt stderr.out
+  diff -wB -y --side-by-side  temp.txt std.out
   fi
   # clean temporary out file
   rm temp.txt

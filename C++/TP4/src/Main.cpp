@@ -12,6 +12,7 @@
 /////////////////////////////////////////////////////////////////  INCLUDE
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <regex>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -30,17 +31,12 @@ using namespace std;
 //------------------------------------------------------ Fonctions privées
 static int test ( int & argcMain, char * * & argvMain )
 // Mode d'emploi :
-// Procédure de test appelée par le Main
+// Procédure de test appelée par le main
 // Algorithme :
 // Création d'un Analog lors du lancement de l'application
 {
-
-    int retour;
-
     Analog anal;
-    retour = anal.Launch ( argcMain, argvMain );
-
-    return retour;
+    return anal.Launch ( argcMain, argvMain );
 } //----- Fin de test
 
 int main ( int argc, char * argv [ ] )

@@ -15,5 +15,8 @@ DU COUP NE PAS EXECUTER LES TEST11 & 12 AVANT D'AVOIR FAIT CETTE MODIFICATION DA
 techniquement cuz ca verifie d'abord les conditions des commandes (pour moins surcharger les directories de Tests)
 mais TO CHECK
 
-8. supprimer tous les .dot file qu'on crée lors des Tests
+8. supprimer tous les .dot file qu'on crée lors des Tests + copier les anciens lorsque des .dot deja existants sont
+modifiés par le test
+
+9. le result.csv j'ai pas trop compris comment ca fonctionne ce truc et ce qu'il faut faire dessus
 

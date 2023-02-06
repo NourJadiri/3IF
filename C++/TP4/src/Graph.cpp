@@ -35,7 +35,7 @@ void Graph::AddNode( const Node & aNode )
     }
     else
     {
-        nodes[c] = make_shared<Node>( aNode );
+        nodes[c] = make_shared < Node > ( aNode );
     }
 } //----- Fin de AddNode
 
@@ -49,9 +49,9 @@ void Graph::Display ( )
     }
 } //----- Fin de Display
 
-list< shared_ptr< Node > > Graph::Top10Logs ( )
+list < shared_ptr < Node > > Graph::Top10Logs ( )
 {
-    list < shared_ptr< Node > > top10;
+    list < shared_ptr < Node > > top10;
 
     for ( auto & node : nodes )
     {
@@ -68,13 +68,12 @@ list< shared_ptr< Node > > Graph::Top10Logs ( )
 
 //------------------------------------------------- Surcharge d'opérateurs
 
-ostream & operator<< ( ostream & os , Graph & g )
+ostream & operator << ( ostream & os , Graph & g )
 {
-    for (auto const & node : g.top10Logs )
+    for ( auto const & node : g.top10Logs )
     {
-        os << *node;
+        os << * node;
     }
-
     return os;
 }
 
@@ -94,7 +93,7 @@ Graph::Graph ( const string & path, const int command )
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
 #endif
 
-    fileManager = make_unique< LogFile_Manager >( path , command );
+    fileManager = make_unique < LogFile_Manager > ( path, command );
 
     AddNode( Node( "-" ) );
     

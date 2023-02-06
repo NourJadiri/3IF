@@ -49,7 +49,7 @@ void Graph::Display ( )
     }
 } //----- Fin de Display
 
-list< shared_ptr< Node > > Graph::CommandeDefaut ( )
+list< shared_ptr< Node > > Graph::Top10Logs ( )
 {
     list < shared_ptr< Node > > top10;
 
@@ -77,13 +77,13 @@ Graph::Graph ( )
 #endif
 } //----- Fin de Graph (constructeur par defaut)
 
-Graph::Graph ( const string & path )
+Graph::Graph ( const string & path, const int command )
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
 #endif
 
-    fileManager = make_unique< LogFile_Manager >( path );
+    fileManager = make_unique< LogFile_Manager >( path , command );
 
     AddNode( Node( "-" ) );
     

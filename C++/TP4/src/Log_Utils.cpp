@@ -98,6 +98,8 @@ bool fileNotFound ( const string & logFile )
 } //----- Fin de fileNotFound
 
 bool fileIsEmpty ( const string & logFile )
+// Algorithme :
+//
 {
     ifstream configUrlStream ( logFile );
 
@@ -117,4 +119,9 @@ bool fileIsEmpty ( const string & logFile )
 
     return false;
 } //----- Fin de fileIsEmpty
+
+bool connectionSuccess ( int & returnCode )
+{
+    return returnCode == OK || returnCode == PREMANENT_REDIRECT || returnCode == TEMPORARY_REDIRECT;
+}
 

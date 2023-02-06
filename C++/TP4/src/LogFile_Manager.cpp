@@ -67,8 +67,11 @@ LogFile_Manager::LogFile_Manager ( const string & pathToFile, const int command 
             commandeDefaut();
             break;
         case E:
-
+            commandeE();
             break;
+        case G:
+            break;
+
         default:
             break;
     }

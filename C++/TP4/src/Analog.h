@@ -64,7 +64,7 @@ protected:
     // Contrat :
     //
 
-    void commandeE ( ) const;
+    void commandeE ( const string & ) const;
     // Mode d'emploi :
     //
     // Contrat :

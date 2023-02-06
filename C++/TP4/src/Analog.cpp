@@ -73,7 +73,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             commandes[E] = true;
 
             // appel de la fonction qui execute la commande -e
-            commandeE();
+            commandeE ( path );
         }
         else if ( string( argvMain[ i ] ) == "-t" && !commandes[T] )
         {
@@ -214,11 +214,21 @@ int Analog::commandeG ( const string & dotFile ) const
     return 0;
 } //----- Fin de commandeG
 
-void Analog::commandeE ( ) const
+void Analog::commandeE ( const string & file ) const
 // Algorithme :
 //
 {
+    cout << endl << "Top 10 of most accessed targets:" << endl << endl;
+
     // appel de la fonction pour exclure les fichiers image
+    Graph g( file , E );
+    list < shared_ptr<Node> > top10 = g.Top10Logs();
+
+    for ( auto const & node : top10 )
+    {
+        cout << *node;
+    }
+
 } //----- Fin de commandeE
 
 int Analog::commandeT ( const string & hour )
@@ -291,14 +301,14 @@ void Analog::commandeDefaut ( const string & file )
 //
 {
     cout << endl << "Top 10 of most accessed targets:" << endl << endl;
-    Graph g( file );
-    list < shared_ptr<Node> > l = g.CommandeDefaut();
+    Graph g( file , DEFAULT );
+    list < shared_ptr<Node> > top10 = g.Top10Logs();
 
-    for ( auto const & node : l )
+    for ( auto const & node : top10 )
     {
         cout << *node;
     }
-} //----- Fin de CommandeDefaut
+} //----- Fin de Top10Logs
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
 // Algorithme :

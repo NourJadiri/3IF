@@ -33,7 +33,7 @@ public:
     // Contrat :
     //
 
-    list < shared_ptr < Node > > CommandeDefaut ( );
+    list < shared_ptr < Node > > Top10Logs ( );
     // Mode d'emploi :
     //
     // Contrat :
@@ -53,7 +53,7 @@ public:
     // Contrat :
     //
 
-    explicit Graph ( const std::string & path );
+    explicit Graph ( const std::string & path, const int command = DEFAULT );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :

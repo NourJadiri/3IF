@@ -22,11 +22,6 @@ typedef std::string Cible;
 typedef std::string Extension;
 typedef std::string RegexParser;
 
-enum options { DEFAULT, G, E, T, U };
-
-enum returnCodes { OK = 200, PREMANENT_REDIRECT = 301, TEMPORARY_REDIRECT = 302,
-    UNAUTHORIZED = 401, FORBIDDEN = 403, PAGE_NOT_FOUND = 404, INTERNAL_SERVER_ERROR = 500,
-    NOT_IMPLEMENTED = 501, BAD_GATEWAY = 502, SERVICE_UNAVAILABLE = 503, GATEWAY_TIMEOUT = 504 };
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Log>

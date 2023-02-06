@@ -79,7 +79,7 @@ ostream & operator << ( ostream & os , Graph & g )
     }
     else if ( g.fileManager->GetLogs().size() < 10 )
     {
-        os << "/!\\ Warning: less than 10 targets have been found /!\\" << endl;
+        os << "/!\\ Warning: less than 10 targets have been found /!\\" << endl << endl;
     }
     for ( auto const & node : g.top10Logs )
     {

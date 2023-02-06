@@ -228,7 +228,7 @@ int Analog::commandeE ( const string & file ) const
 {
 
     cout << endl << "Top 10 of most accessed targets:" << endl;
-    cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl << endl;
+    cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl;
 
     // appel de la fonction pour exclure les fichiers image
     Graph g( file , E );
@@ -307,7 +307,7 @@ int Analog::commandeDefaut ( const string & file )
 // Algorithme :
 //
 {
-    cout << endl << "Top 10 of most accessed targets:" << endl << endl;
+    cout << endl << "Top 10 of most accessed targets:" << endl;
     Graph g( file , DEFAULT );
 
     cout << g;

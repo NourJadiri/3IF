@@ -1,1 +1,1 @@
-../../bin/analog -t logTest18.log
+../../bin/analog -t 11.5 logTest18.log

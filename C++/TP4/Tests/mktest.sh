@@ -11,7 +11,7 @@ do
   # mais aussi retrouver les anciens contenus des fichiers qui doivent servir pour tester
   # lorsqu'un fichier non vide est donné sur la ligne de commande
   # (et donc verifier si on ecrase bien le contenu ou pas)
-  if [ $i -eq 8 ] || [ $i -eq 9 ] || [ $i -eq 17 ] || [ $i -eq 23 ] || [ $i -eq 25 ]
+  if [ $i -eq 8 ] || [ $i -eq 9 ] || [ $i -eq 17 ] || [ $i -eq 24 ] || [ $i -eq 26 ]
   then
     rm -f shortTest.dot
   elif [ $i -eq 11 ] || [ $i -eq 13 ]

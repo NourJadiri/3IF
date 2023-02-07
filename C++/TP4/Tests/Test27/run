@@ -1,1 +1,1 @@
-../../bin/analog -u fichierConfig.txt logTest27.log
+../../bin/analog -u fichierConfig.dot logTest27.log

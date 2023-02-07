@@ -17,7 +17,7 @@ Dans tous les cas (sans et avec options), \fBanalog\fP affiche sur la console la
 .SH OPTIONS
 .TP
 \fB-g fichierDot.dot\fP
-Spécifie le \fIfichier\fP dans lequel il faut générer le graphique des statistiques au format \fIGraphViz\fP. Chaque page consultée apparaît sous forme de nœud, et chaque arc indique le nombre de traversées associées entre deux pages. Un message indiquera qu’un graphe a été généré dans le \fIfichier\fP fichierDot.dot. Affiche également la liste des 10 documents les plus consultés.
+Spécifie le \fIfichier\fP dans lequel il faut générer le graphique des statistiques au format \fIGraphViz\fP. Chaque page consultée apparaît sous forme de nœud, et chaque arc indique le nombre de traversées associées entre deux pages. Un message indiquera qu’un graphe a été généré dans le \fIfichier\fP fichierDot.dot. Tous les logs (après filtrage si nécessaire) seront représentés graphiquement. Affiche également la liste des 10 documents les plus consultés.
 
 .TP
 \fB-e\fP
@@ -45,6 +45,10 @@ L’option \fB-g\fP ne fonctionne que si le \fIfichier\fP fichierDot.dot est don
 .P
 .PD
 L’option \fB-e\fP supprime toute la ligne de log si au moins une des deux pages (cible ou referer) est de type image, css ou javascript. Par exemple, si un referer de type .jpg accède à une page .ics, alors ni le referer ni la cible ne seront pris en compte dans l’analyse.
+.PD 0
+.P
+.PD
+L’option -t supprime toute la ligne de log si l'heure n'est pas comprise dans l'intervalle [heure, heure + 1[. L'argument heure doit être un entier compris entre 0 et 23 inclus.
 .PD 0
 .P
 .PD

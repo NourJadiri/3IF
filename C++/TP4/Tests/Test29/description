@@ -1,2 +1,1 @@
-Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur rentre un fichier de configuration d'URL non vide lors de l'utilisation de la commande -u.
-Ce test vérifie donc en particulier que le message d'avertissement de la prise en compte de la base de l'URL est bien affiché, et que seules les lignes de logs dont la base du referer est celle spécifiée sont analysées.
+Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur rentre un fichier de configuration d'URL vide lors de l'utilisation de la commande -u.

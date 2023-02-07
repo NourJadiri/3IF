@@ -25,7 +25,8 @@ OPTIONS
        -g fichierDot.dot
               Spécifie le fichier dans lequel il faut générer le graphique des statistiques au format GraphViz. Chaque page consultée apparaît sous
               forme de nœud, et chaque arc indique le nombre de traversées associées entre deux pages. Un message indiquera qu’un graphe a été généré
-              dans le fichier fichierDot.dot. Affiche également la liste des 10 documents les plus consultés.
+              dans le fichier fichierDot.dot. Tous les logs (après filtrage si nécessaire) seront représentés graphiquement. Affiche également la liste
+              des 10 documents les plus consultés.
 
        -e     Exclut tous les documents ayant des extensions de type image, css ou javascript. Un avertissement indiquera que cette option a été
               utilisée. Affiche également la liste des 10 documents les plus consultés.
@@ -49,6 +50,8 @@ NOTES
        confirmer l'écrasement de son contenu, ou de poursuivre l'opération dans un autre fichier.
        L’option -e supprime toute la ligne de log si au moins une des deux pages (cible ou referer) est de type image, css ou javascript. Par exemple,
        si un referer de type .jpg accède à une page .ics, alors ni le referer ni la cible ne seront pris en compte dans l’analyse.
+       L’option -t supprime toute la ligne de log si l'heure n'est pas comprise dans l'intervalle [heure, heure + 1[. L'argument heure doit être un
+       entier compris entre 0 et 23 inclus.
        L’option -u ne fonctionne que si le fichier fichierTxt.txt est donné et existe. Il peut être vide au besoin.
        Si la même commande est entrée plusieurs fois, elle ne sera exécutée qu’une seule fois.
        Un avertissement sera affiché si les statistiques de logs ont été réalisées sur moins de 10 ou même sur aucun log.

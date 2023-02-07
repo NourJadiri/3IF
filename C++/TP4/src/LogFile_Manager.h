@@ -80,7 +80,7 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
     std::ifstream logFile;
-    std::vector< std::shared_ptr<Log> > logs;
+    std::vector < std::shared_ptr<Log> > logs;
 };
 
 #endif // LOGFILE_MANAGER_H

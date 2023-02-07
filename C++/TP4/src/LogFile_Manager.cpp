@@ -36,29 +36,35 @@ void LogFile_Manager::Init( const bool *commandes, int temps , const string & ur
     while ( getline ( logFile , line ) )
     {
         // On extrait les informations de chaque ligne
-        auto temp = Log ( line );
+        auto temp = make_shared < Log > ( line );
+
+        // si la connexion n'a pas ete etablie
+        if ( !connectionSuccess( temp->GetReturnCode() ) )
+        {
+            continue;
+        }
 
         // Si -e et que temp a une extension invalide
-        if ( commandes[E] && isExcluded( temp.GetExtension() ) )
+        if ( commandes[E] && isExcluded( temp->GetExtension() ) )
         {
             // On ne considère pas temp
             continue;
         }
         // Si -t et que temp a un temps de consultation invalide
-        if ( commandes[T] && ( temp.GetHeureConsultation() < temps || temp.GetHeureConsultation() > temps + 1 ) )
+        if ( commandes[T] && ( temp->GetHeureConsultation() < temps || temp->GetHeureConsultation() > temps + 1 ) )
         {
             // On ne considère pas temp
             continue;
         }
 
         // Si -u et que le referer n'a pas l'url de base qui est demandée dans le fichierd e config
-        if ( commandes[U] && getBaseFromUrl( temp.GetLongReferer() ) != url )
+        if ( commandes[U] && getBaseFromUrl( temp->GetLongReferer() ) != url )
         {
             continue;
         }
 
         // Sinon on importe le log
-        logs.push_back( make_shared<Log>(temp) );
+        logs.push_back( temp );
     }
 }
 

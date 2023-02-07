@@ -51,13 +51,12 @@ public:
     // Contrat :
     //
 
-    std::map < Cible, std::shared_ptr <Node> > GetVertice ( ) const;
+    std::map < Cible, std::shared_ptr < Node > > GetVertice ( ) const;
 
-    std::map < pair<int,int>, int > GetEdges ( ) const;
+    std::map < pair < int, int >, int > GetEdges ( ) const;
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-
     friend ostream & operator << ( ostream & os , Graph & g );
     // Mode d'emploi :
     //
@@ -91,7 +90,6 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-
     void initEdges ( );
 
 //----------------------------------------------------- Attributs protégés

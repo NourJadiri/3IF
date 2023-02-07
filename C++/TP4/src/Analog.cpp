@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Analog  -  interface utilisateur & appels
+                           Analog - interface utilisateur & appels fonctions
                              -------------------
     début                : 17/01/2023
     copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
@@ -12,9 +12,7 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-#include <map>
 #include <queue>
-#include <vector>
 #include <algorithm>
 #include <iostream>
 using namespace std;
@@ -28,8 +26,11 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 int Analog::Launch ( int & argcMain, char * * & argvMain )
 // Algorithme :
-//
+// Parcours de chaque argument de la ligne de commande et garde en memoire
+// quelle commande a ete utilisee.
+// Pour chaque commande, verification des bonnes entrees correspondantes
 {
+    // le premier argument est le nom du programme
     string mainArg = argvMain[0];
 
     if ( argcMain < 2 )
@@ -52,33 +53,42 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
 
     for ( int i = 1; i < argcMain - 1; i++ )
     {
-        if ( string( argvMain[i] ) == "-g" && !commandes[G] )
+        if ( string( argvMain[i] ) == "-g" && !commandes[ G ] )
         {
             // option -g : generer fichier GraphViz
-            commandes[G] = true;
+            commandes[ G ] = true;
+            // stockage du fichier dans lequel generer le graph
             dotfile = argvMain[ ++i ];
+            // on verifie que toutes les conditions relatives a l'utilisation de -g sont OK
+            retour = checkG( dotfile );
         }
-        else if ( string( argvMain[ i ] ) == "-e" && !commandes[E] )
+        else if ( string( argvMain[ i ] ) == "-e" && !commandes[ E ] )
         {
             // option -e : exclure les fichiers images
-            commandes[E] = true;
-            commandes[DEFAULT] = false;
+            commandes[ E ] = true;
+            // filtrage extension, donc pas une utilisation par défaut
+            commandes[ DEFAULT ] = false;
         }
-        else if ( string( argvMain[ i ] ) == "-t" && !commandes[T] )
+        else if ( string( argvMain[ i ] ) == "-t" && !commandes[ T ] )
         {
             // option -t : seulement considerer hits dans un intervalle de temps
-            commandes[T] = true;
-            commandes[DEFAULT] = false;
+            commandes[ T ] = true;
+            // filtrage horaire, donc pas une utilisation par défaut
+            commandes[ DEFAULT ] = false;
+            // stockage de la plage horaire
             hour = argvMain[ ++i ];
-            retour = commandeT ( hour );
+            // on verifie que toutes les conditions relatives a l'utilisation de -t sont OK
+            retour = checkT( hour );
         }
-        else if ( string( argvMain[ i ] ) == "-u" && !commandes[U] )
+        else if ( string( argvMain[ i ] ) == "-u" && !commandes[ U ] )
         {
             // option -u : pour donner le fichier de l'url
-            commandes[U] = true;
-            commandes[DEFAULT] = false;
+            commandes[ U ] = true;
+            // filtrage URL, donc pas une utilisation par défaut
+            commandes[ DEFAULT ] = false;
             fichierConfig = argvMain[ ++i ];
-            retour = commandeU ( fichierConfig );
+            // on verifie que toutes les conditions relatives a l'utilisation de -u sont OK
+            retour = checkU( fichierConfig );
         }
         else
         {
@@ -89,43 +99,68 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             cerr << "Fermeture de l'application." << endl;
             retour = 1;
         }
+        // s'il y a eu un probleme a un moment (mauvaise utilisation d'une commande par exemple)
         if ( retour )
         {
             return retour;
         }
     }
 
+    // on verifie que toutes les conditions relatives a l'utilisation de l'application en general sont OK
     retour = verifFichierLog( path, mainArg );
     if ( retour )
     {
         return retour;
     }
 
+    // si toutes les conditions des commandes sont respectees
+
+    // filtrage des logs du fichier en fonction des commandes entrees
     logs = make_shared < LogFile_Manager > ( path );
     logs->Init( commandes, stoi( hour ), urlUser );
 
+    // creation du graph (noeuds et arcs)
     graph = make_shared < Graph > ( logs );
 
-    if ( commandes[G] )
+    // generation du graph apres filtrage des logs
+    if ( commandes[ G ] )
     {
-        retour = commandeG( dotfile );
-        if ( retour )
-        {
-            return retour;
-        }
+        executeG( dotfile );
     }
 
+    // affichage sur la console des avertissements et autres messages si besoin
     displayHeading();
 
+    // affichage du top 10 sur la console (surcharge operateur <<)
     cout << * graph;
 
     return 0;
 } //----- Fin de Launch
 
+const bool * Analog::GetCommandes ( ) const
+{
+    return commandes;
+} //----- Fin de GetCommandes
+
+const int & Analog::GetHeure ( ) const
+{
+    return heure;
+} //----- Fin de GetHeure
+
 const url & Analog::GetUrlUser ( ) const
 {
     return urlUser;
 } //----- Fin de GetUrlUser
+
+const shared_ptr < LogFile_Manager > & Analog::GetLogs ( ) const
+{
+    return logs;
+} //----- Fin de GetLogs
+
+const shared_ptr < Graph > & Analog::GetGraph ( ) const
+{
+    return graph;
+} //----- Fin de GetGraph
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -147,9 +182,12 @@ Analog::~Analog ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-int Analog::commandeG ( const string & dotFile )
+int Analog::checkG ( const string & dotFile )
 // Algorithme :
-//
+// Verification que la commande a bien ete utilisee
+// Donc verification qu'il y a un nom de fichier .dot
+// S'il existe deja et est non vide, demande a l'utilisateur s'il souhaite
+// en ecraser le contenu ou alors choisir un autre fichier .dot
 {
     // si jamais l'utilisateur ne rentre pas un nom de fichier, ou pas un fichier .dot
     if ( !validExtension ( dotFile , "dot") )
@@ -186,7 +224,7 @@ int Analog::commandeG ( const string & dotFile )
                 string newFile;
                 cin >> newFile;
 
-                return commandeG( newFile ); // on répète le meme processus avec le nouveau fichier
+                return checkG(newFile); // on répète le meme processus avec le nouveau fichier
             }
             else
             {
@@ -194,23 +232,20 @@ int Analog::commandeG ( const string & dotFile )
             }
         }
     }
-
     fileStream.close();
-
-    // appel de la fonction pour generer le fichier GraphViz
-    ofstream dotFileStream = generateDotFile( dotFile );
-
     return 0;
-} //----- Fin de commandeG
+} //----- Fin de checkG
 
-int Analog::commandeT ( const string & hour )
+int Analog::checkT ( const string & hour )
 // Algorithme :
-//
+// Verification que la commande a bien ete utilisee
+// Donc verification qu'il y a une heure donnee
+// et qu'elle est valide (entier compris entre 0 et 23 inclus)
 {
-    // si jamais l'utilisateur ne rentre pas des chiffres
+    // si jamais l'utilisateur ne rentre pas des chiffres (entiers ou non)
     if ( !all_of( hour.begin(), hour.end(), ::isdigit ) )
     {
-        cerr << endl << "Il faut insérer une heure (en numérique, entre 0 et 23, inclus)." << endl;
+        cerr << endl << "Il faut insérer une heure (entier en numérique, entre 0 et 23, inclus)." << endl;
         cerr << "Usage : -t heure" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
@@ -227,11 +262,14 @@ int Analog::commandeT ( const string & hour )
     }
 
     return 0;
-} //----- Fin de commandeT
+} //----- Fin de checkT
 
-int Analog::commandeU ( const string & fichierConfig )
+int Analog::checkU ( const string & fichierConfig )
 // Algorithme :
-//
+// Verification que la commande a bien ete utilisee
+// Donc verification qu'il y a un nom de fichier .txt et qu'il existe
+// Si le fichier est vide, execution par defaut de l'application
+// Sinon, prise en compte de l'URL donnee par l'utilisateur
 {
     // si jamais l'utilisateur ne rentre pas un nom de fichier correct
     if ( !( fichierConfig.find( ".txt" ) != string::npos ) )
@@ -261,75 +299,74 @@ int Analog::commandeU ( const string & fichierConfig )
         cout << endl << "Le fichier de configuration URL est vide." << endl;
         cout << "Execution par défaut." << endl;
     }
-
     // else tout est okay on continue
-    
+
     return 0;
-} //----- Fin de commandeU
+} //----- Fin de checkU
 
 int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
 // Algorithme :
-//
+// Verification que le programme a bien ete utilise
+// donc verification que l'utilisateur a bien donne un fichier .log, qui existe, et non vide
 {
-    // vérification de la validité du fichier mis en paramètre
-    if ( !validExtension( logFile , "log" ) || fileNotFound( logFile ) || fileIsEmpty( logFile ) )
+    // verification de la validite du fichier mis en parametre
+    if ( !validExtension( logFile, "log" ) || fileNotFound( logFile ) || fileIsEmpty( logFile ) )
     {
         cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
         cerr << "Fermeture de l'application." << endl;
         return 1;
     }
-
     return 0;
-}//----- Fin de verifFichierLog
+} //----- Fin de verifFichierLog
+
+void Analog::executeG ( const string & dotFile )
+// Algorithme :
+// appel a la fonction pour generer le graph des logs
+{
+    ofstream dotFileStream = generateDotFile( dotFile );
+} //----- Fin de executeG
 
 void Analog::displayHeading ( ) const
 {
     cout << endl << "Top 10 of most accessed targets:" << endl;
-    if ( commandes[E] )
+    if ( commandes[ E ] )
     {
-        cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl;
+        cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\" << endl;
     }
     if ( commandes[T] )
     {
-        cout << "/!\\ Warning: only hits between "<< heure <<"h and " << ( heure + 1 ) << "h have been taken into account /!\\" << endl;
+        cout << "/!\\ Warning: only hits between " << heure << "h and " << ( heure + 1 ) << "h have been taken into account /!\\" << endl;
     }
     if ( commandes[U] )
     {
-        cout << "/!\\ Warning: only hits coming grom referers with an URL-base " << urlUser <<" have been processed /!\\" << endl;
+        cout << "/!\\ Warning: only hits coming from referers with an URL-base \"" << urlUser <<"\" have been processed /!\\" << endl;
     }
-}
+} //----- Fin de displayHeading
 
 ofstream Analog::generateDotFile ( const string & path )
+// Algorithme :
+// generation du graph dans le fichier donne par l'utilisateur
 {
     ofstream dotFile;
-    if ( path.empty() )
-    {
-        dotFile.open ( "graph.dot" );
-        cout << "Dot-file graph.dot generated" << endl;
-    }
-    else
-    {
-        dotFile.open ( path );
-        cout << "Dot-file " << path << " generated" << endl;
-    }
-    cout << endl;
-    
+    dotFile.open ( path );
+    cout << "Dot-file " << path << " generated" << endl << endl;
+
     dotFile << "digraph {" << endl;
 
-    // Initialisation des noeuds
+    // initialisation des noeuds et de leur nom
     for ( auto const & vertex : graph->GetVertice() )
     {
-        dotFile << '\t' <<"node" << vertex.second->GetId();
+        dotFile << "\tnode" << vertex.second->GetId();
         dotFile << " [label=\"" << vertex.first << "\"];" << endl;
     }
 
-    // Etablissement des liens
+    // etablissement des liens entre deux noeuds
     for ( auto const & edge : graph->GetEdges() )
     {
-        dotFile << '\t' <<"node" << edge.first.first << " -> " << "node" << edge.first.second << " [label=\"" << edge.second << "\"];"<< endl;
+        dotFile << "\tnode" << edge.first.first << " -> " << "node" << edge.first.second;
+        dotFile << " [label=\"" << edge.second << "\"];"<< endl;
     }
 
     dotFile << "}";
-
     return dotFile;
-}
+} //----- Fin de generateDotFile

@@ -139,7 +139,7 @@ Analog::~Analog ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-int Analog::commandeG ( const string & dotFile ) const
+int Analog::commandeG ( const string & dotFile )
 // Algorithme :
 //
 {
@@ -189,27 +189,11 @@ int Analog::commandeG ( const string & dotFile ) const
 
     fileStream.close();
 
-    ofstream dotFileStream;
-    dotFileStream.open( dotFile.c_str() );
-
     // appel de la fonction pour generer le fichier GraphViz
+    ofstream dotFileStream = generateDotFile( dotFile );
 
-    dotFileStream.close();
     return 0;
 } //----- Fin de commandeG
-
-int Analog::commandeE ( const string & file ) const
-// Algorithme :
-//
-{
-
-    cout << endl << "Top 10 of most accessed targets:" << endl;
-    cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\"<< endl;
-
-    // appel de la fonction pour exclure les fichiers image
-
-    return 0;
-} //----- Fin de commandeE
 
 int Analog::commandeT ( const string & hour )
 // Algorithme :
@@ -287,9 +271,8 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
         return 1;
     }
 
-
     return 0;
-}
+}//----- Fin de verifFichierLog
 
 void Analog::displayHeading ( ) const
 {
@@ -307,4 +290,37 @@ void Analog::displayHeading ( ) const
         cout << "/!\\ Warning: only hits coming grom referers with an URL-base " << urlUser <<" have been processed /!\\" << endl;
     }
 }
-//----- Fin de verifFichierLog
+
+ofstream Analog::generateDotFile ( const string & path )
+{
+    ofstream dotFile;
+    if ( path.empty() )
+    {
+        dotFile.open ( "graph.dot" );
+        cout << "Dot-file graph.dot generated" << endl;
+    }
+    else
+    {
+        dotFile.open ( path );
+        cout << " Dot-file " << path << ".dot generated" << endl;
+    }
+
+    dotFile << "digraph {" << endl;
+
+    // Initialisation des noeuds
+    for ( auto const & vertex : graph->GetVertice() )
+    {
+        dotFile << "node" << vertex.second->GetId();
+        dotFile << " [label=\"" << vertex.first << "\"];" << endl;
+    }
+
+    // Etablissement des liens
+    for ( auto const & edge : graph->GetEdges() )
+    {
+        dotFile << "node" << edge.first.first << " -> " << "node" << edge.first.second << " [label=\"" << edge.second << "\"];"<< endl;
+    }
+
+    dotFile << "}";
+
+    return dotFile;
+}

@@ -68,7 +68,10 @@ int Node::GetHits ( ) const
     return hits;
 } //----- Fin de GetHits
 
-
+int Node::GetId ( ) const
+{
+    return id;
+}
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Node & aNode )
 {

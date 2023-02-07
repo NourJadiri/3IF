@@ -27,6 +27,7 @@ class Node
 //----------------------------------------------------------------- PUBLIC
 
 public:
+    friend class Graph;
 //----------------------------------------------------- Méthodes publiques
     void AddReferer ( const Referer & aReferer );
     // Mode d'emploi :
@@ -53,6 +54,12 @@ public:
     //
 
     int GetHits ( ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    int GetId ( ) const;
     // Mode d'emploi :
     //
     // Contrat :
@@ -108,6 +115,7 @@ public:
 
 protected:
 //----------------------------------------------------- Attributs protégés
+    int id;
     std::string name; // Nom de la cible
     std::map < Referer, int > referers; // Les différents referers, avec leurs poids
     int hits;

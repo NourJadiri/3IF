@@ -45,6 +45,16 @@ public:
     // Contrat :
     //
 
+    void DisplayEdges ( ) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    std::map < Cible, std::shared_ptr <Node> > GetVertice ( ) const;
+
+    std::map < pair<int,int>, int > GetEdges ( ) const;
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -68,7 +78,7 @@ public:
     // Contrat :
     //
 
-    explicit Graph ( const shared_ptr<LogFile_Manager>& );
+    explicit Graph ( const shared_ptr<LogFile_Manager> & );
 
     virtual ~Graph ( );
     // Mode d'emploi :
@@ -82,9 +92,13 @@ public:
 protected:
 //----------------------------------------------------- Méthodes protégées
 
+    void initEdges ( );
+
 //----------------------------------------------------- Attributs protégés
+    int indexMax;
     std::shared_ptr < LogFile_Manager > fileManager;
-    std::map < Cible, std::shared_ptr < Node > > nodes;
+    std::map < Cible, std::shared_ptr < Node > > vertice;
+    std::map < std::pair < int, int > , int > edges;
     std::list < std::shared_ptr < Node > > top10Logs;
 };
 

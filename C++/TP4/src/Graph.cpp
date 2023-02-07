@@ -28,14 +28,17 @@ void Graph::AddNode( const Node & aNode )
 {
     const Cible & c = aNode.GetName();
     // Si une des cibles existe déjà dans notre graph
-    if ( nodes.count( c ) > 0 )
+    if ( vertice.count(c ) > 0 )
     {
         // On ajoute les referers de aNode dans le node qui est deja present
-        nodes[c]->AddReferer( aNode );
+        vertice[c]->AddReferer( aNode );
+
     }
     else
     {
-        nodes[c] = make_shared < Node > ( aNode );
+        vertice[c] = make_shared < Node > ( aNode );
+        vertice[c]->id = indexMax;
+        indexMax++;
     }
 } //----- Fin de AddNode
 
@@ -43,9 +46,9 @@ void Graph::Display ( )
 // Algorithme :
 //
 {
-    for ( auto const & i : nodes )
+    for ( auto const & i : vertice )
     {
-        cout << * ( i.second );
+        cout << *(i.second);
     }
 } //----- Fin de Display
 
@@ -53,7 +56,7 @@ list < shared_ptr < Node > > Graph::Top10Logs ( )
 {
     list < shared_ptr < Node > > top10;
 
-    for ( auto & node : nodes )
+    for ( auto & node : vertice )
     {
         if( node.second->GetHits() > 0 )
         {
@@ -69,6 +72,23 @@ list < shared_ptr < Node > > Graph::Top10Logs ( )
     return top10;
 }
 
+void Graph::DisplayEdges ( ) const
+{
+    for (auto const & e : edges )
+    {
+        cout << "node" << e.first.first << " -> " << "node" << e.first.second << " : " << e.second << endl;
+    }
+}
+
+map< Cible, shared_ptr <Node> > Graph::GetVertice ( ) const
+{
+    return vertice;
+}
+
+map< pair<int,int> , int > Graph::GetEdges ( ) const
+{
+    return edges;
+}
 //------------------------------------------------- Surcharge d'opérateurs
 
 ostream & operator << ( ostream & os , Graph & g )
@@ -109,7 +129,7 @@ Graph::Graph ( const string & path )
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
 #endif
-
+    indexMax = 0;
     fileManager = make_shared < LogFile_Manager > ( path );
     
     for ( auto const & log : fileManager->GetLogs() )
@@ -123,6 +143,7 @@ Graph::Graph ( const string & path )
 
 Graph::Graph( const shared_ptr<LogFile_Manager> & logs )
 {
+    indexMax = 0;
     fileManager = logs;
 
     for ( auto const & log : fileManager->GetLogs() )
@@ -130,6 +151,8 @@ Graph::Graph( const shared_ptr<LogFile_Manager> & logs )
         AddNode( Node(log->GetCible(), log->GetShortReferer() ) );
         AddNode( Node(log->GetShortReferer() ) );
     }
+
+    initEdges();
 
     top10Logs = Top10Logs();
 }
@@ -150,6 +173,21 @@ Graph::~Graph ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+
+void Graph::initEdges ( )
+{
+    for ( auto const & vertex : vertice )
+    {
+        if ( vertex.second->hits == 0 )
+        {
+            continue;
+        }
+        for ( auto const & ref : vertex.second->referers )
+        {
+            edges[ pair<int,int>( vertex.second->id,vertice[ref.first]->id ) ] = ref.second;
+        }
+    }
+}
 
 
 

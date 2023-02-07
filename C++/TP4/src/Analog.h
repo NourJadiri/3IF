@@ -58,7 +58,7 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    int commandeG ( const string & dotFile ) const;
+    int commandeG ( const string & dotFile );
     // Mode d'emploi :
     //
     // Contrat :
@@ -90,6 +90,8 @@ protected:
     //
     // Contrat :
     //
+
+    ofstream generateDotFile ( const string & path );
 
 //----------------------------------------------------- Attributs protégés
     bool commandes[5] = {true, false, false, false, false };

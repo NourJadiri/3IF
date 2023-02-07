@@ -57,7 +57,6 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             // option -g : generer fichier GraphViz
             commandes[G] = true;
             dotfile = argvMain[ ++i ];
-            retour = commandeG ( dotfile );
         }
         else if ( string( argvMain[ i ] ) == "-e" && !commandes[E] )
         {
@@ -106,6 +105,15 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     logs->Init( commandes, stoi( hour ), urlUser );
 
     graph = make_shared < Graph > ( logs );
+
+    if ( commandes[G] )
+    {
+        retour = commandeG( dotfile );
+        if ( retour )
+        {
+            return retour;
+        }
+    }
 
     displayHeading();
 

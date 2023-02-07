@@ -7,3 +7,7 @@
 4. le result.csv j'ai pas trop compris comment ca fonctionne ce truc et ce qu'il faut faire dessus
 
 5. enlever les display dans graph.cpp et node.cpp
+
+6. commentaires graph et node
+
+7. appel au constructeur de log a adapter

@@ -27,6 +27,6 @@ static int test ( int & argcMain, char * * & argvMain );
 
 int main ( int argc, char * argv [ ] );
 // Mode d'emploi :
-// Appelle la procédure test
+// Appel à la procédure test
 
 #endif // MAIN_H

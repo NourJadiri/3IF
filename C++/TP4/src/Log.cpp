@@ -58,7 +58,6 @@ const Extension & Log::GetExtension ( ) const
 
 
 //-------------------------------------------- Constructeurs - destructeur
-// TODO : il manque un default case dans le switch + initialisation de heureConsultation et codeRetour
 Log::Log ( const string & logLine )
 // Algorithme :
 // On capture les differents elements du log grace à du regex
@@ -68,11 +67,11 @@ Log::Log ( const string & logLine )
 #ifdef MAP
     cout << "Appel au constructeur de <Log>" << endl;
 #endif
-    // On utilisera le regex ici pour capturer les éléments qui composent un log
+    // Utilisation du regex pour capturer les elements qui composent un log
     std::regex logFormat("(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" ");
     smatch matches;
 
-    if ( regex_search( logLine , matches , logFormat ) )
+    if ( regex_search( logLine, matches, logFormat ) )
     {
         // Le 1er element du groupe de capture est l'IP de l'utilisateur
         ip = matches.str(1);

@@ -89,7 +89,7 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    int checkG ( const string & dotFile );
+    int checkG ( const std::string & dotFile );
     // Mode d'emploi :
     // verification des conditions relatives a la commande -g
     // c'est-a-dire verification du fichier dot
@@ -100,7 +100,7 @@ protected:
     // Contrat :
     // dotFile doit etre un string valide (non vide)
 
-    int checkT ( const string & hour ) ;
+    int checkT ( const std::string & hour ) ;
     // Mode d'emploi :
     // verification des conditions relatives a la commande -t
     // c'est-a-dire verification de l'heure entree sur la ligne de commande
@@ -110,7 +110,7 @@ protected:
     // Contrat :
     // hour doit etre un string valide (non vide)
 
-    int checkU ( const string & fichierConfig );
+    int checkU ( const std::string & fichierConfig );
     // Mode d'emploi :
     // verification des conditions relatives a la commande -u
     // c'est-a-dire verification du fichier entre sur la ligne de commande
@@ -121,7 +121,7 @@ protected:
     // Contrat :
     // fichierConfig doit etre un string valide (non vide)
 
-    static int verifFichierLog ( const string & logFile, const string & mainArg ) ;
+    static int verifFichierLog ( const std::string & logFile, const std::string & mainArg ) ;
     // Mode d'emploi :
     // verification des conditions relatives a l'utilisation par defaut
     // c'est-a-dire verification de la presence du fichier log ainsi que
@@ -130,7 +130,7 @@ protected:
     // Contrat :
     // logFile et mainArg doivent etre des strings valides (non vides)
 
-    void executeG ( const string & dotFile );
+    void executeG ( const std::string & dotFile );
     // Mode d'emploi :
     // permet de generer le graph correspondant aux logs apres filtrage
     // Contrat :
@@ -144,7 +144,7 @@ protected:
     // le tableau commandes doit avoir ete correctement modifie en fonction
     // des commandes choisies par l'utilisateur
 
-    ofstream generateDotFile ( const string & path );
+    ofstream generateDotFile ( const std::string & path );
     // Mode d'emploi :
     // path correspond au fichier dans lequel il faut generer le graph
     // Contrat :

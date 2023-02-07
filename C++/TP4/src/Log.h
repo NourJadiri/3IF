@@ -20,7 +20,6 @@
 typedef std::string Referer;
 typedef std::string Cible;
 typedef std::string Extension;
-typedef std::string RegexParser;
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Log>
@@ -78,11 +77,11 @@ public:
     //
 
 //-------------------------------------------- Constructeurs - destructeur
-    Log ( const std::string & logLine );
+    explicit Log ( const std::string & logLine );
     // Mode d'emploi :
     // Constructeur pour instancier un objet Log à partir d'une ligne de texte
     // Contrat :
-    // La chaine de caractères doit suivre le bon format access_log
+    // La chaine de caracteres doit suivre le bon format access_log
 
     ~Log ( );
     // Mode d'emploi :

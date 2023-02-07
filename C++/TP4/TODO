@@ -5,3 +5,5 @@
 3. personnaliser le mktest.sh - normalement cest bon
 
 4. le result.csv j'ai pas trop compris comment ca fonctionne ce truc et ce qu'il faut faire dessus
+
+5. enlever les display dans graph.cpp et node.cpp

@@ -11,12 +11,9 @@
 
 /////////////////////////////////////////////////////////////////  INCLUDE
 //-------------------------------------------------------- Include système
-#include <iostream>
-#include <regex>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-#include "LogFile_Manager.h"
 #include "Main.h"
 #include "Analog.h"
 
@@ -66,5 +63,5 @@ int main ( int argc, char * argv [ ] )
 
 
 
-    return test(argc,argv);
+    return test( argc, argv );
 } //----- fin de main

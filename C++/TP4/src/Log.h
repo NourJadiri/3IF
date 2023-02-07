@@ -16,6 +16,9 @@
 #include <regex>
 #include "Log_Utils.h"
 
+//------------------------------------------------------------- Constantes
+std::string DEFAULTURL = "intranet-if.insa-lyon.fr";
+
 //------------------------------------------------------------------ Types
 typedef std::string Referer;
 typedef std::string Cible;
@@ -63,7 +66,7 @@ public:
     // Renvoie l'extension du log
 
 //-------------------------------------------- Constructeurs - destructeur
-    explicit Log ( const std::string & logLine, const std::string & url = "intranet-if.insa-lyon.fr" );
+    explicit Log ( const std::string & logLine, const std::string & url = DEFAULTURL );
     // Mode d'emploi :
     // Constructeur pour instancier un objet Log a partir d'une ligne de texte
     // Contrat :
@@ -82,11 +85,13 @@ private:
     std::string ip;
     int heureConsultation;
 
-    Referer longReferer; // l'adresse URL en entier
+    // l'adresse URL en entier
+    Referer longReferer;
     // l'adresse URL reduite au chemin de l'adresse si la base correspond a
     // celle voulue par l'utilisateur OU a la base par defaut (intranet-if)
     // sinon, correspond à la base de l'adresse URL (nom de domaine seulement)
     Referer shortReferer;
+
     Cible cible;
 
     Extension extension;

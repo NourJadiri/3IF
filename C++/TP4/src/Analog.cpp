@@ -310,22 +310,23 @@ ofstream Analog::generateDotFile ( const string & path )
     else
     {
         dotFile.open ( path );
-        cout << " Dot-file " << path << ".dot generated" << endl;
+        cout << "Dot-file " << path << " generated" << endl;
     }
-
+    cout << endl;
+    
     dotFile << "digraph {" << endl;
 
     // Initialisation des noeuds
     for ( auto const & vertex : graph->GetVertice() )
     {
-        dotFile << "node" << vertex.second->GetId();
+        dotFile << '\t' <<"node" << vertex.second->GetId();
         dotFile << " [label=\"" << vertex.first << "\"];" << endl;
     }
 
     // Etablissement des liens
     for ( auto const & edge : graph->GetEdges() )
     {
-        dotFile << "node" << edge.first.first << " -> " << "node" << edge.first.second << " [label=\"" << edge.second << "\"];"<< endl;
+        dotFile << '\t' <<"node" << edge.first.first << " -> " << "node" << edge.first.second << " [label=\"" << edge.second << "\"];"<< endl;
     }
 
     dotFile << "}";

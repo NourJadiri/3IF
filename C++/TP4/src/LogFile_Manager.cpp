@@ -22,51 +22,52 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
+void LogFile_Manager::Init ( const bool * commandes, int temps, const string & url )
+// Algorithme :
+// parcours de chaque log du fichier de log
+// filtrage de ces logs en fonction des commandes demandees par l'utilisateur
+// sur la ligne de commande
+{
+    string line;
+
+    // Parcours du fichier de logs
+    while ( getline ( logFile, line ) )
+    {
+        // Extraction des informations de chaque ligne de log
+        auto temp = make_shared < Log > ( line, url );
+
+        // si la connexion n'a pas ete etablie on passe au log suivant
+        if ( !connectionSuccess( temp->GetReturnCode() ) )
+        {
+            continue;
+        }
+        // si -e et que temp a une extension a exclure, on passe au log suivant
+        if ( commandes[ E ] && isExcluded( temp->GetExtension() ) )
+        {
+            continue;
+        }
+        // si -t et que temp a un temps de consultation qui n'est pas dans la plage horaire, on passe au log suivant
+        if ( commandes[ T ] && ( temp->GetHeureConsultation() < temps || temp->GetHeureConsultation() > temps + 1 ) )
+        {
+            continue;
+        }
+/*
+        // Si -u et que le referer n'a pas l'url de base qui est demandée dans le fichier de configuration
+        if ( commandes[ U ] && getBaseFromUrl( temp->GetLongReferer() ) != url )
+        {
+            continue;
+        }*/
+
+        // sinon on importe le log
+        logs.push_back( temp );
+    }
+} //----- Fin de Init
+
 const vector < shared_ptr < Log > > & LogFile_Manager::GetLogs ( ) const
 {
     return logs;
 } //----- Fin de GetLogs
 
-
-void LogFile_Manager::Init( const bool *commandes, int temps , const string & url )
-{
-    string line;
-
-    // On parcourt le fichier de logs
-    while ( getline ( logFile , line ) )
-    {
-        // On extrait les informations de chaque ligne
-        auto temp = make_shared < Log > ( line );
-
-        // si la connexion n'a pas ete etablie
-        if ( !connectionSuccess( temp->GetReturnCode() ) )
-        {
-            continue;
-        }
-
-        // Si -e et que temp a une extension invalide
-        if ( commandes[E] && isExcluded( temp->GetExtension() ) )
-        {
-            // On ne considère pas temp
-            continue;
-        }
-        // Si -t et que temp a un temps de consultation invalide
-        if ( commandes[T] && ( temp->GetHeureConsultation() < temps || temp->GetHeureConsultation() > temps + 1 ) )
-        {
-            // On ne considère pas temp
-            continue;
-        }
-
-        // Si -u et que le referer n'a pas l'url de base qui est demandée dans le fichierd e config
-        if ( commandes[U] && getBaseFromUrl( temp->GetLongReferer() ) != url )
-        {
-            continue;
-        }
-
-        // Sinon on importe le log
-        logs.push_back( temp );
-    }
-}
 
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, LogFile_Manager & l )
@@ -96,9 +97,7 @@ LogFile_Manager::LogFile_Manager ( const string & pathToFile )
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <LogFile_Manager>" << endl;
 #endif
-
     logFile.open( pathToFile );
-
 } //----- Fin de LogFile_Manager (constructeur parametre)
 
 LogFile_Manager :: ~LogFile_Manager ( )
@@ -107,8 +106,3 @@ LogFile_Manager :: ~LogFile_Manager ( )
     cout << "Appel au destructeur de <LogFile_Manager>" << endl;
 #endif
 }//----- Fin de ~LogFile_Manager
-
-
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées

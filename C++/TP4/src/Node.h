@@ -12,8 +12,8 @@
 #define NODE_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include "LogFile_Manager.h"
 #include <map>
+#include "LogFile_Manager.h"
 
 //TODO TOUS LES COMMENTAIRES
 //------------------------------------------------------------------------
@@ -28,6 +28,7 @@ class Node
 
 public:
     friend class Graph;
+
 //----------------------------------------------------- Méthodes publiques
     void AddReferer ( const Referer & aReferer );
     // Mode d'emploi :

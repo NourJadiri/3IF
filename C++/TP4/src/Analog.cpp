@@ -19,7 +19,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analog.h"
-#include "LogFile_Manager.h"
+//#include "LogFile_Manager.h"
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -333,13 +333,13 @@ void Analog::displayHeading ( ) const
     {
         cout << "/!\\ Warning: no image, css or javascript targets have been taken into account /!\\" << endl;
     }
-    if ( commandes[T] )
+    if ( commandes[ T ] )
     {
         cout << "/!\\ Warning: only hits between " << heure << "h and " << ( heure + 1 ) << "h have been taken into account /!\\" << endl;
     }
-    if ( commandes[U] )
+    if ( commandes[ U ] )
     {
-        cout << "/!\\ Warning: only hits coming from referers with an URL-base \"" << urlUser <<"\" have been processed /!\\" << endl;
+        cout << "/!\\ Warning: only hits coming from referers with an URL-base \"" << urlUser << "\" have been processed /!\\" << endl;
     }
 } //----- Fin de displayHeading
 
@@ -368,5 +368,6 @@ ofstream Analog::generateDotFile ( const string & path )
     }
 
     dotFile << "}";
+
     return dotFile;
 } //----- Fin de generateDotFile

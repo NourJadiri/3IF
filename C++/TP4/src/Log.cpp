@@ -71,6 +71,12 @@ Log::Log ( const string & logLine, const string & url )
     regex logFormat( "(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" " );
     smatch matches;
 
+    // si l'utilisateur a donne une base d'url a supprimer depuis un fichier de configuration
+    if ( !url.empty() )
+    {
+        baseRefererToDelete = url;
+    }
+
     if ( regex_search( logLine, matches, logFormat ) )
     {
         // Le 1er element du groupe de capture est l'IP de l'utilisateur
@@ -96,10 +102,12 @@ Log::Log ( const string & logLine, const string & url )
         if ( !isValidUrl( longReferer ) )
         {
             shortReferer = longReferer;
-        } else if ( getBaseFromUrl( longReferer ) == url )
+        }
+        else if ( getBaseFromUrl( longReferer ) == baseRefererToDelete )
         {
             shortReferer = getPathFromUrl( longReferer );
-        } else
+        }
+        else
         {
             shortReferer = getBaseFromUrl( longReferer );
         }

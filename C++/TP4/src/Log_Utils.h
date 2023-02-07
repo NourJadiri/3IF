@@ -40,20 +40,21 @@ enum returnCodes { OK = 200, PARTIAL_CONTENT = 206,
 //-------------------------------------------------------------- Fonctions
 bool isValidUrl ( const std::string & url );
 // Mode d'emploi :
-// verification que le parametre url est bien une adresse URL avec du regex
+// verification avec du regex que le parametre url est bien une adresse URL
+// sert surtout pour distinguer les referer '-' des referers "classiques"
 // Contrat :
 // l'url doit etre un string valide (non vide)
 
 std::string getPathFromUrl ( const std::string & url );
 // Mode d'emploi :
-// extraction du chemin du parametre URL avec du regex
+// extraction avec du regex du chemin du parametre url
 // Contrat :
 // l'url doit etre un string valide (non vide) et doit etre
 // une adresse URL
 
 std::string getBaseFromUrl ( const std::string & url );
 // Mode d'emploi :
-// extraction du nom de domaine du parametre URL avec du regex
+// extraction avec du regex du nom de domaine du parametre url
 // Contrat :
 // l'url doit etre un string valide (non vide) et doit etre
 // une adresse URL

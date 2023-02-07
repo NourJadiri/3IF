@@ -15,9 +15,6 @@
 #include <fstream>
 #include "Log.h"
 
-//------------------------------------------------------------------ Types
-typedef std::string path;
-
 //------------------------------------------------------------------------
 // Rôle de la classe <LogFile_Manager>
 //
@@ -31,17 +28,14 @@ class LogFile_Manager
 public:
     friend class Graph;
 
-
 //----------------------------------------------------- Méthodes publiques
+    void Init ( const bool * commandes, int temps = 0, const string & url = "" );
+    // Mode d'emploi :
+    // Renvoie le vector logs
 
     const std::vector < std::shared_ptr < Log > > & GetLogs ( ) const;
     // Mode d'emploi :
-    // Getter qui retourne le vector logs
-    // Contrat :
-    //
-
-    void Init ( const bool commandes[ ] , int temps = 0 , const string & url = "" );
-
+    // Renvoie le vector logs
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -75,12 +69,10 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-    //----------------------------------------------------- Méthodes protégées
-
 
     //----------------------------------------------------- Attributs protégés
     std::ifstream logFile;
-    std::vector < std::shared_ptr<Log> > logs;
+    std::vector < std::shared_ptr <Log> > logs;
 };
 
 #endif // LOGFILE_MANAGER_H

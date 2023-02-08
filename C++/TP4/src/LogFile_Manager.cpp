@@ -51,6 +51,12 @@ void LogFile_Manager::Init ( const bool * commandes, int temps, const string & u
         {
             continue;
         }
+
+        // si -g, alors on commence à alimenter le vector de logs ( il ne servira que pour la création du graph )
+        if ( commandes[ G ] )
+        {
+            logs.push_back( temp );
+        }
 /*
         // Si -u et que le referer n'a pas l'url de base qui est demandée dans le fichier de configuration
         if ( commandes[ U ] && getBaseFromUrl( temp->GetLongReferer() ) != url )
@@ -58,9 +64,11 @@ void LogFile_Manager::Init ( const bool * commandes, int temps, const string & u
             continue;
         }*/
 
-        // sinon on importe le log
-        logs.push_back( temp );
+        // Par défaut, si aucun problème n'est rencontré, on update la map qui contient les hits
+        hitTable[ temp->GetCible() ] += 1;
     }
+
+    top10Logs = Top10Logs();
 } //----- Fin de Init
 
 const vector < shared_ptr < Log > > & LogFile_Manager::GetLogs ( ) const
@@ -68,15 +76,47 @@ const vector < shared_ptr < Log > > & LogFile_Manager::GetLogs ( ) const
     return logs;
 } //----- Fin de GetLogs
 
+list < pair < Cible , int > > LogFile_Manager::Top10Logs ( )
+// Algorithme :
+// generation de la list des 10 documents les plus consultes
+{
+    list < pair < Cible , int > > top10;
+
+    // parcours de tous les noeuds dont on dispose
+    for ( auto const & hit : hitTable )
+    {
+        insertSorted( top10, pair < Cible , int >( hit.first , hit.second ) );
+
+        // si la list contient plus de 10 documents, enleve le dernier
+        // qui contient donc le moins de hits
+        if ( top10.size() > 10 )
+        {
+            top10.pop_back();
+        }
+    }
+    return top10;
+} //----- Fin de Top10Logs
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, LogFile_Manager & l )
 // Algorithme :
 //
 {
-    for ( auto & i : l.logs )
+
+    if ( l.top10Logs.empty( ) )
     {
-        os << i->GetShortReferer() << " -> " << i->GetCible() << endl;
+        os << "/!\\ Warning: no target has been found /!\\" << endl;
+    }
+    else if ( l.top10Logs.size( ) < 10 )
+    {
+        os << "/!\\ Warning: less than 10 targets have been found /!\\" << endl;
+    }
+    os << endl;
+
+    for ( auto const & aLog : l.top10Logs )
+    {
+        os << aLog.first << " (" << aLog.second << " hits)" << endl;
     }
     return os;
 } //----- Fin de operator <<
@@ -106,3 +146,16 @@ LogFile_Manager :: ~LogFile_Manager ( )
     cout << "Appel au destructeur de <LogFile_Manager>" << endl;
 #endif
 }//----- Fin de ~LogFile_Manager
+
+void insertSorted ( std::list < std::pair < Cible , int > > & list, const std::pair < Cible , int > & value )
+// Algorithme :
+//
+// Contrat :
+{
+    auto comp = [ ] ( const std::pair < Cible , int > & a, const std::pair < Cible , int > & b )
+    {
+        return  b.second != a.second ? b.second < a.second : b.first > a.first;
+    };
+    auto it = lower_bound( list.begin(), list.end(), value, comp );
+    list.insert( it, value );
+} //----- Fin de insertSorted

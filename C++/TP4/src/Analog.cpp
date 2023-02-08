@@ -51,6 +51,13 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     // valeur de retour des fonctions appelees
     int retour = 0;
 
+    // on verifie que toutes les conditions relatives a l'utilisation de l'application en general sont OK
+    retour = verifFichierLog( path, mainArg );
+    if ( retour )
+    {
+        return retour;
+    }
+
     for ( int i = 1; i < argcMain - 1; i++ )
     {
         if ( string( argvMain[i] ) == "-g" && !commandes[ G ] )
@@ -106,21 +113,12 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         }
     }
 
-    // on verifie que toutes les conditions relatives a l'utilisation de l'application en general sont OK
-    retour = verifFichierLog( path, mainArg );
-    if ( retour )
-    {
-        return retour;
-    }
 
     // si toutes les conditions des commandes sont respectees
 
     // filtrage des logs du fichier en fonction des commandes entrees
     logs = make_shared < LogFile_Manager > ( path );
     logs->Init( commandes, stoi( hour ), urlUser );
-
-    // creation du graph (noeuds et arcs)
-    graph = make_shared < Graph > ( logs );
 
     // generation du graph apres filtrage des logs
     if ( commandes[ G ] )
@@ -323,6 +321,9 @@ void Analog::executeG ( const string & dotFile )
 // Algorithme :
 // appel a la fonction pour generer le graph des logs
 {
+    // creation du graph (noeuds et arcs)
+    graph = make_shared < Graph > ( logs );
+
     ofstream dotFileStream = generateDotFile( dotFile );
 } //----- Fin de executeG
 

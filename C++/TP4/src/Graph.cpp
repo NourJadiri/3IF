@@ -60,28 +60,6 @@ void Graph::DisplayEdges ( ) const
     }
 }
 
-list < shared_ptr < Node > > Graph::Top10Logs ( )
-// Algorithme :
-// generation de la list des 10 documents les plus consultes
-{
-    list < shared_ptr < Node > > top10;
-
-    // parcours de tous les noeuds dont on dispose
-    for ( auto & node : vertice )
-    {
-        if ( node.second->GetHits() > 0 )
-        {
-            insertSorted( top10, node.second );
-        }
-        // si la list contient plus de 10 documents, enleve le dernier
-        // qui contient donc le moins de hits
-        if ( top10.size() > 10 )
-        {
-            top10.pop_back();
-        }
-    }
-    return top10;
-} //----- Fin de Top10Logs
 
 map < Cible, shared_ptr < Node > > Graph::GetVertice ( ) const
 {
@@ -100,20 +78,6 @@ ostream & operator << ( ostream & os, Graph & g )
 // Affichage des avertissements si necessaire, et affichage des elements
 // du top 10 des pages les plus consultees
 {
-    if ( g.fileManager->GetLogs().empty() )
-    {
-        os << "/!\\ Warning: no target has been found /!\\" << endl;
-    }
-    else if ( g.fileManager->GetLogs().size() < 10 )
-    {
-        os << "/!\\ Warning: less than 10 targets have been found /!\\" << endl;
-    }
-    os << endl;
-
-    for ( auto const & node : g.top10Logs )
-    {
-        os << * node;
-    }
     return os;
 } //----- Fin de operator <<
 
@@ -124,30 +88,15 @@ Graph::Graph ( )
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Graph>" << endl;
 #endif
-} //----- Fin de Graph (constructeur par defaut)
-
-Graph::Graph ( const string & path )
-// Algorithme :
-// TODO
-{
-#ifdef MAP
-    cout << "Appel au constructeur paramétré de <Graph>" << endl;
-#endif
     indexMax = 0;
-    fileManager = make_shared < LogFile_Manager > ( path );
-    
-    for ( auto const & log : fileManager->GetLogs() )
-    {
-        AddNode( Node( log->GetCible(), log->GetShortReferer() ) );
-        AddNode( Node( log->GetShortReferer() ) );
-    }
-
-    top10Logs = Top10Logs();
-} //----- Fin de Graph (constructeur parametre)
+} //----- Fin de Graph (constructeur par defaut)
 
 Graph::Graph ( const shared_ptr < LogFile_Manager > & logs )
 // Algorithme :
-// TODO
+// Prend un objet LogFile_Manager et initialise les sommets du graph à partir de l'historique des connexions.
+// On ajoutera dans la map des sommets les cibles des logs trouvées.
+// On ajoutera aussi dans la map des sommet les referers des logs trouvées (correspondent à des sommets aussi)
+// Initialise aussi les bords.
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
@@ -162,7 +111,7 @@ Graph::Graph ( const shared_ptr < LogFile_Manager > & logs )
     }
 
     initEdges();
-    top10Logs = Top10Logs();
+
 } //----- Fin de Graph (constructeur parametre)
 
 Graph::~Graph ( )
@@ -180,16 +129,23 @@ Graph::~Graph ( )
 //----------------------------------------------------- Méthodes protégées
 void Graph::initEdges ( )
 // Algorithme :
-// TODO
+// Parcourt de la map de sommets <vertice> et crée un nouveau bords
+// dans la map "edges" si le sommet possède au moins un hit ( s'il s'agit d'une cible )
+// Le edge contiendra les informations < idCible , idReferer , nombreConsultations >
 {
+    // Parcours des sommets
     for ( auto const & vertex : vertice )
     {
+        // Si le sommet correspond à un referer ( aucune page ne l'a demandé )
         if ( vertex.second->hits == 0 )
         {
+            // On le saute
             continue;
         }
+        // Sinon si le sommet est une cible, alors on parcourt tous les referers de cette cible
         for ( auto const & ref : vertex.second->referers )
         {
+            // On crée un nouveau edge qui contient < idCible , idReferer , nombreConsultations >
             edges[ pair < int, int > ( vertex.second->id,vertice[ ref.first ]->id ) ] = ref.second;
         }
     }

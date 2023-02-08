@@ -40,28 +40,15 @@ int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-/*    bool commandes[5] = {false , false , false , false , false };
-    shared_ptr<LogFile_Manager> l = make_shared<LogFile_Manager>("../C++/TP4/Logs/short.log");
-    l->Init(commandes);
+/*    bool commandes[5] = { false , false , false , false , false };
 
-    Graph graph(l);
+    commandes[G] = true;
 
-    cout << "digraph {" << endl;
-    for ( auto const & vertex : graph.GetVertice() )
-    {
-        cout << '\t' << "node" << vertex.second->GetId();
-        cout << " [label=\"" << vertex.first << "\"];" << endl;
-    }
+    LogFile_Manager l ( "../C++/TP4/Logs/anonyme.log" );
 
-    // Etablissement des liens
-    for ( auto const & edge : graph.GetEdges() )
-    {
-        cout << '\t' << "node" << edge.first.first << " -> " << "node" << edge.first.second << " [label=\"" << edge.second << "\"];"<< endl;
-    }
-    cout << "}";
-    */
+    l.Init( commandes );
 
+    cout << l;*/
 
-
-    return test( argc, argv );
+    return test ( argc , argv );
 } //----- fin de main

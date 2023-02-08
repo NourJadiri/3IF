@@ -15,7 +15,6 @@
 #include <list>
 #include "Node.h"
 
-// TODO TOUS LES COMMENTAIRES RESTANTS
 //------------------------------------------------------------------------
 // Rôle de la classe <Graph>
 //
@@ -36,12 +35,6 @@ public:
     // Contrat :
     // aNode doit etre un Node bien forme
 
-    list < shared_ptr < Node > > Top10Logs ( );
-    // Mode d'emploi :
-    // determination des 1O noeuds ayant le plus de hits
-    // Contrat :
-    // les noeuds doivent avoir ete prealablement filtres selon les
-    // commandes utilisees par l'utilisateur
 
     void Display ( );
 
@@ -69,12 +62,6 @@ public:
     // Mode d'emploi (constructeur par defaut) :
     // Constructeur d'un Graph
 
-    explicit Graph ( const std::string & path );
-    // Mode d'emploi (constructeur parametre) :
-    //
-    // Contrat :
-    //
-
     explicit Graph ( const shared_ptr < LogFile_Manager > & logs );
     // Mode d'emploi :
     //
@@ -92,33 +79,26 @@ protected:
 //----------------------------------------------------- Méthodes protégées
     void initEdges ( );
     // Mode d'emploi :
-    //
+    // Initialise les bords du graph à partir des sommets de celui-ci.
+    // Stock les bords dans une map qui associe chaque cible à son referer
+    // ainsi que le nombre de consultations de la page.
     // Contrat :
     //
 
 //----------------------------------------------------- Attributs protégés
-    int indexMax; // TODO
-    std::shared_ptr < LogFile_Manager > fileManager; // TODO
-    std::map < Cible, std::shared_ptr < Node > > vertice; // TODO
-    std::map < std::pair < int, int >, int > edges; // TODO
-    // le top 10 des documents les plus consultes
-    std::list < std::shared_ptr < Node > > top10Logs;
+    int indexMax; // Cet indice détermine l'identifiant d'un eventuel noeud créé
+
+    // Objet recensant toutes les connexions dans le fichier de logs
+    // ainsi que toutes les informations utiles ( top 10... )
+    std::shared_ptr < LogFile_Manager > fileManager;
+
+    std::map < Cible, std::shared_ptr < Node > > vertice; // Sommets du graph
+    std::map < std::pair < int, int >, int > edges; // Bords du graph
+
 };
 
 
 //-------------------------------- Autres définitions dépendantes de <Graph>
-template < typename T >
-void insertSorted ( std::list < shared_ptr < T > > & list, const shared_ptr < T > & value )
-// Algorithme :
-//
-// Contrat :
-{
-    auto comp = [ ] ( const shared_ptr < T > & a, const shared_ptr < T > & b )
-    {
-        return * b < * a;
-    };
-    auto it = lower_bound( list.begin(), list.end(), value, comp );
-    list.insert( it, value );
-} //----- Fin de insertSorted
+
 
 #endif //GRAPH_H

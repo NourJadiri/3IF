@@ -86,7 +86,7 @@ Log::Log ( const string & logLine, const string & url )
         heureConsultation = stoi( matches.str( 5 ) );
 
         // Le 10e element est l'url de la page demandee
-        cible = matches.str( 10 );
+        cible = removeParamsFromUrl( matches.str( 10 ) );
 
         // On stock l'extension du fichier
         extension = getExtensionFromFile( cible );

@@ -33,7 +33,7 @@ string getPathFromUrl ( const string & url )
 // Algorithme :
 // parcours de l'URL pour retrouver le chemin de l'adresse
 {
-    std::regex path_regex( "(ftp|https?)://[^/]+/(.*)" );
+    std::regex path_regex( "(ftp|https?)://[^/]+/(.*?)[?#]" );
     std::smatch match;
 
     if ( std::regex_search( url, match, path_regex ) )
@@ -129,7 +129,7 @@ bool connectionSuccess ( int returnCode )
 // a correctement ete etablie
 {
     return returnCode == OK || returnCode == PREMANENT_REDIRECT || returnCode == TEMPORARY_REDIRECT
-                            || returnCode == PARTIAL_CONTENT || returnCode == NOT_MODIFIED;
+           || returnCode == PARTIAL_CONTENT || returnCode == NOT_MODIFIED;
 } //----- Fin de connectionSuccess
 
 bool isExcluded ( const string & ext )
@@ -141,3 +141,24 @@ bool isExcluded ( const string & ext )
     array < string, 9 > extensionsToExclude = { "bmp", "css", "gif", "ico", "jpeg", "jpg", "js", "png", "tiff" };
     return binary_search( extensionsToExclude.begin(), extensionsToExclude.end(), ext );
 } //----- Fin de isExcluded
+
+string removeParamsFromUrl( const string & url )
+// Algorithme :
+// La fonction trouve la première occurence de "?" qui correspond à un paramètre mis en url
+// Elle supprime ensuite tout élément présent à partir du "?" afin de ne conserver que
+// le path d'une url
+{
+    std::string result = url;
+
+    // On cherche la position du "?" qui indique le début d'un paramètre
+    size_t paramStart = result.find( '?' );
+
+    // Si un "?" est trouvé
+    if ( paramStart != string::npos )
+    {
+        // On supprime tout ce qui vient après
+        result.erase( paramStart );
+    }
+
+    return result;
+}

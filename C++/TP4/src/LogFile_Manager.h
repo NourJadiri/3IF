@@ -14,6 +14,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <fstream>
 #include "Log.h"
+#include <unordered_map>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <LogFile_Manager>
@@ -36,6 +37,13 @@ public:
     const std::vector < std::shared_ptr < Log > > & GetLogs ( ) const;
     // Mode d'emploi :
     // Renvoie le vector logs
+
+    list < std::pair < Cible , int > > Top10Logs ( );
+    // Mode d'emploi :
+    // determination des 1O noeuds ayant le plus de hits
+    // Contrat :
+    // les noeuds doivent avoir ete prealablement filtres selon les
+    // commandes utilisees par l'utilisateur
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -71,8 +79,14 @@ public:
 protected:
 
     //----------------------------------------------------- Attributs protégés
-    std::ifstream logFile;
-    std::vector < std::shared_ptr <Log> > logs;
+    std::ifstream logFile; // Fichier de log à partir duquel l'import se fait
+    std::vector < std::shared_ptr <Log> > logs; // Tableau de logs qui servira à la création d'un graph si l'utilisateur le demande
+    std::unordered_map < Cible , int > hitTable; // Map qui stock toutes les cibles avec le nombre de hits
+    std::list < std::pair < Cible , int > >top10Logs; // Liste qui stock le top 10 des pages les plus visitées
+
 };
+
+void insertSorted ( std::list < std::pair < Cible , int > > & list, const std::pair < Cible , int > & value );
+
 
 #endif // LOGFILE_MANAGER_H

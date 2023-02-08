@@ -103,11 +103,20 @@ bool connectionSuccess ( int returnCode );
 
 bool isExcluded ( const std::string & ext );
 // Mode d'emploi :
-// Recherche binaire pour verifier si l'extension passee en parametre
+// Recherche binaire pour verifier si l'extension passée en paramètre
 // (l'extension d'un log) est une extension d'image / js / css
 // Contrat :
 // le string ext doit etre un string valide (non vide) et doit
 // representer une extension
-// le tableau des extensions a exclureu doit etre trie alphabetiquement
+// le tableau des extensions a exclure doit être trié alphabétiquement
+
+std::string removeParamsFromUrl( const std::string & url );
+// Mode d'emploi :
+// Enlève tout paramètre passé à l'url afin de pouvoir considérer
+// deux pages dont l'url serait le même mais les paramètres différents
+// comme la même entité
+// Fonctionne sur les url en général et les chemins en particulier.
+// Contrat :
+//
 
 #endif // LOG_UTILS_H

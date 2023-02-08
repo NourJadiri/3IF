@@ -61,7 +61,7 @@ public:
     // Mode d'emploi (constructeur par defaut) :
     // Constructeur d'un Graph
 
-    explicit Graph ( const std::shared_ptr < LogFile_Manager > & logs );
+    explicit Graph ( const std::shared_ptr < Connections > & logs );
     // Mode d'emploi :
     //
     // Contrat :
@@ -89,7 +89,7 @@ protected:
 
     // Objet recensant toutes les connexions dans le fichier de logs
     // ainsi que toutes les informations utiles (top 10)
-    std::shared_ptr < LogFile_Manager > fileManager;
+    std::shared_ptr < Connections > fileManager;
 
     std::map < Cible, std::shared_ptr < Node > > vertice; // sommets du graph
     std::map < std::pair < int, int >, int > edges; // arcs du graph

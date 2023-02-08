@@ -67,11 +67,11 @@ public:
     // Renvoie l'URL entree par l'utilisateur lors de l'utilisation
     // de la commande -u
 
-    const std::shared_ptr < LogFile_Manager > & GetLogs ( ) const;
+    const std::shared_ptr < Connections > & GetLogs ( ) const;
     // Mode d'emploi :
     // Renvoie le vector des logs apres filtrage
 
-    const std::shared_ptr < Graph > & GetGraph ( ) const;
+    const std::unique_ptr < Graph > & GetGraph ( ) const;
     // Mode d'emploi :
     // Renvoie le Graph des logs apres filtrage sous forme de noeuds et arcs
 
@@ -153,7 +153,7 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
     // stock des commandes utilisees sur la ligne de commande
-    bool commandes[5] = {true, false, false, false, false };
+    bool commandes[5] = { true, false, false, false, false };
     // si usage de la commande -g
     std::string dotFile;
     // si usage de la commande -t
@@ -161,9 +161,9 @@ protected:
     // si usage de la commande -u
     url urlUser;
     // tous les logs apres filtrage
-    std::shared_ptr < LogFile_Manager > logs;
+    std::shared_ptr < Connections > logs;
     // tous les logs apres filtrage sous forme de noeuds et arcs
-    std::shared_ptr < Graph > graph;
+    std::unique_ptr < Graph > graph;
 };
 
 #endif // ANALOG_H

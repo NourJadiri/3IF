@@ -114,7 +114,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     // si toutes les conditions des commandes sont respectees
 
     // filtrage des logs du fichier en fonction des commandes entrees
-    logs = make_shared < LogFile_Manager > ( path );
+    logs = make_shared < Connections > ( path );
     logs->Init( commandes, stoi( hour ), urlUser );
 
     // generation du graph apres filtrage des logs
@@ -147,12 +147,12 @@ const url & Analog::GetUrlUser ( ) const
     return urlUser;
 } //----- Fin de GetUrlUser
 
-const shared_ptr < LogFile_Manager > & Analog::GetLogs ( ) const
+const shared_ptr < Connections > & Analog::GetLogs ( ) const
 {
     return logs;
 } //----- Fin de GetLogs
 
-const shared_ptr < Graph > & Analog::GetGraph ( ) const
+const unique_ptr < Graph > & Analog::GetGraph ( ) const
 {
     return graph;
 } //----- Fin de GetGraph
@@ -320,7 +320,7 @@ void Analog::executeG ( )
 // appel a la fonction pour generer le graph des logs
 {
     // creation du graph (noeuds et arcs)
-    graph = make_shared < Graph > ( logs );
+    graph = make_unique < Graph > ( logs );
 
     ofstream dotFileStream = generateDotFile( );
 } //----- Fin de executeG

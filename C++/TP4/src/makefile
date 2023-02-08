@@ -43,4 +43,4 @@ Graph.o : Log_Utils.h Node.h
 Log.o : Log_Utils.h
 LogFile_Manager.o : Log.h
 Main.o : Analog.h
-Node.o : LogFile_Manager.h
+Node.o : Connections.h

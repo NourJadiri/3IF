@@ -1,5 +1,5 @@
 /*************************************************************************
-                           LogFile_Manager  -  description
+                           Connections  -  description
                              -------------------
     début                : 17/01/2023
     copyright            : (C) 2023 par Nour ELJADIRI, Marie ROULIER
@@ -7,7 +7,7 @@
                            marie.roulier@insa-lyon.fr
 *************************************************************************/
 
-//---------- Interface de la classe <LogFile_Manager> (fichier LogFile_Manager.h) ----------------
+//---------- Interface de la classe <Connections> (fichier Connections.h) ----------------
 #if ! defined ( LOGFILE_MANAGER_H )
 #define LOGFILE_MANAGER_H
 
@@ -17,12 +17,12 @@
 #include <unordered_map>
 
 //------------------------------------------------------------------------
-// Rôle de la classe <LogFile_Manager>
+// Rôle de la classe <Connections>
 //
 //
 //------------------------------------------------------------------------
 
-class LogFile_Manager
+class Connections
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -34,7 +34,7 @@ public:
     // Mode d'emploi :
     // Renvoie le vector logs
 
-    const std::vector < std::shared_ptr < Log > > & GetLogs ( ) const;
+    const std::vector < std::unique_ptr < Log > > & GetLogs ( ) const;
     // Mode d'emploi :
     // Renvoie le vector logs
 
@@ -47,7 +47,7 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend std::ostream & operator << ( std::ostream & os, LogFile_Manager & l );
+    friend std::ostream & operator << ( std::ostream & os, Connections & l );
     // Mode d'emploi :
     //
     // Contrat :
@@ -55,19 +55,19 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    LogFile_Manager ( );
+    Connections ( );
     // Mode d'emploi (constructeur par defaut) :
     //
     // Contrat :
     //
 
-    explicit LogFile_Manager ( const std::string & pathToFile );
+    explicit Connections ( const std::string & pathToFile );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :
     // Le fichier existe et a la bonne extension
 
-    ~LogFile_Manager();
+    ~Connections();
     // Mode d'emploi :
     //
     // Contrat :
@@ -81,7 +81,7 @@ protected:
     // fichier de log a partir duquel l'import se fait
     std::ifstream logFile;
     // Tableau de logs qui servira a la creation d'un graph si l'utilisateur le demande
-    std::vector < std::shared_ptr < Log > > logs;
+    std::vector < std::unique_ptr < Log > > logs;
     // Map qui stock toutes les cibles avec le nombre de hits
     std::unordered_map < Cible, int > hitTable;
     // Liste qui stock le top 10 des pages les plus visitees
@@ -89,7 +89,7 @@ protected:
 };
 
 
-//-------------------------------- Autres définitions dépendantes de <LogFile_Manager>
+//-------------------------------- Autres définitions dépendantes de <Connections>
 void insertSorted ( std::list < std::pair < Cible, int > > & list, const std::pair < Cible, int > & value );
 // Mode d'emploi :
 //

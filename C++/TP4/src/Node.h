@@ -13,7 +13,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <map>
-#include "LogFile_Manager.h"
+#include "Connections.h"
 
 //TODO TOUS LES COMMENTAIRES
 //------------------------------------------------------------------------

@@ -74,9 +74,12 @@ void Graph::DisplayEdges ( ) const
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Graph & g )
 // Algorithme :
-// Affichage des avertissements si necessaire, et affichage des elements
-// du top 10 des pages les plus consultees
 {
+    for ( auto const & e : g.edges )
+    {
+        os << "node" << e.first.first << " -> " << "node" << e.first.second << " : " << e.second << endl;
+    }
+
     return os;
 } //----- Fin de operator <<
 
@@ -90,9 +93,9 @@ Graph::Graph ( )
     indexMax = 0;
 } //----- Fin de Graph (constructeur par defaut)
 
-Graph::Graph ( const shared_ptr < LogFile_Manager > & logs )
+Graph::Graph ( const shared_ptr < Connections > & logs )
 // Algorithme :
-// Prend un objet LogFile_Manager et initialise les sommets du graph à partir de l'historique des connexions.
+// Prend un objet Connections et initialise les sommets du graph à partir de l'historique des connexions.
 // On ajoutera dans la map des sommets les cibles des logs trouvées.
 // On ajoutera aussi dans la map des sommet les referers des logs trouvées (correspondent à des sommets aussi)
 // Initialise aussi les bords.

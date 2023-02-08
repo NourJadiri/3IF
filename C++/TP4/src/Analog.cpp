@@ -130,7 +130,7 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     displayHeading();
 
     // affichage du top 10 sur la console (surcharge operateur <<)
-    cout << * graph;
+    cout << *logs ;
 
     return 0;
 } //----- Fin de Launch

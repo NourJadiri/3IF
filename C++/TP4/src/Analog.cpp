@@ -350,7 +350,7 @@ ofstream Analog::generateDotFile ( const string & path )
 {
     ofstream dotFile;
     dotFile.open ( path );
-    cout << "Dot-file " << path << " generated" << endl << endl;
+    cout << "Dot-file " << path << " generated" << endl;
 
     dotFile << "digraph {" << endl;
 

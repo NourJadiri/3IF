@@ -51,14 +51,19 @@ int Log::GetReturnCode ( ) const
     return returnCode;
 } //----- Fin de GetReturnCode
 
-const Extension & Log::GetExtension ( ) const
+const Extension & Log::GetExtensionCible ( ) const
 {
-    return extension;
+    return extensionCible;
+} //----- Fin de GetExtension
+
+const Extension & Log::GetExtensionReferer ( ) const
+{
+    return extensionReferer;
 } //----- Fin de GetExtension
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Log::Log ( const string & logLine, Referer baseRefererToDelete )
+Log::Log ( const string & logLine, const Referer & baseRefererToDelete )
 // Algorithme :
 // Capture des differents elements du log grace à du regex
 // Repartition de ces elements en plusieurs groupes de capture
@@ -83,8 +88,8 @@ Log::Log ( const string & logLine, Referer baseRefererToDelete )
         // Le 10e element est l'url de la page demandee
         cible = removeParamsFromUrl( matches.str( 10 ) );
 
-        // On stock l'extension du fichier
-        extension = getExtensionFromFile( cible );
+        // On stock l'extension du fichier cible
+        extensionCible = getExtensionFromFile(cible );
 
         // le 12e element correspond au code de retour
         returnCode = stoi( matches.str( 12 ) );
@@ -106,6 +111,9 @@ Log::Log ( const string & logLine, Referer baseRefererToDelete )
         {
             shortReferer = getBaseFromUrl( longReferer );
         }
+
+        // on stock l'extension du referer
+        extensionReferer = getExtensionFromFile ( getPathFromUrl( longReferer ) );
     }
 } //----- Fin de Log
 

@@ -1,5 +1,12 @@
-Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur utilise correctement à la fois les commandes -e, -g et -t.
-Il permet notamment de vérifier que les fichiers type image, js ou css seront bien supprimés des analyses de log,
-que les documents qui ne font pas partie de la plage horaire voulue seront également supprimés des analyses,
-et que le graph sera quand même généré, et ce sans les fichiers de type à exclure.
-On suppose pour cela que tous les tests relatifs aux commandes -g, -e et -t, et l'utilisation par défaut, considérées seules, sont vérifiés.
+Ce test permet de vérifier si la sortie est correcte
+lorsque l'utilisateur utilise correctement à la fois les
+commandes -e, -g et -t.
+Il permet notamment de vérifier que les fichiers type
+image, js ou css seront bien supprimés des analyses de log,
+que les documents qui ne font pas partie de la plage
+horaire voulue seront également supprimés des analyses,
+et que le graph sera quand même généré, et ce sans les
+fichiers de type à exclure.
+On suppose pour cela que tous les tests relatifs aux
+commandes -g, -e et -t, et l'utilisation par défaut,
+considérées seules, sont vérifiés.

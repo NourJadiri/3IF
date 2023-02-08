@@ -1,4 +1,4 @@
 
-Il faut insérer le fichier txt ainsi que son extension.
-Usage : -u nomFichier.txt
-Fermeture de l'application.
+A txt file and its extension must be entered.
+Usage: -u fileName.txt
+Stop.

@@ -1,4 +1,4 @@
 
-Le fichier de log est vide. Merci de rentrer un fichier non vide.
-Usage : ../../bin/analog nomFichier.log
-Fermeture de l'application.
+The log file is empty. Please enter a non-empty file.
+Usage: ../../bin/analog [options] fileName.log
+Stop.

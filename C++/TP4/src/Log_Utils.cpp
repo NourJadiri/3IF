@@ -59,6 +59,27 @@ string getBaseFromUrl ( const string & url )
     return url;
 } //----- Fin de getBaseFromUrl
 
+string removeParamsFromUrl ( const string & url )
+// Algorithme :
+// La fonction trouve la premiere occurence de "?" qui correspond a un parametre mis en url
+// Elle supprime ensuite tout element present a partir de ce "?" afin de ne conserver que
+// le chemin de l'url
+{
+    std::string result = url;
+
+    // trouve la position du "?" qui indique le debut d'un parametre
+    size_t paramStart = result.find( '?' );
+
+    // si un "?" est trouve
+    if ( paramStart != string::npos )
+    {
+        // suppression de la suite
+        result.erase( paramStart );
+    }
+
+    return result;
+} //----- Fin de removeParamsFromUrl
+
 string getExtensionFromFile ( const std::string & file )
 // Algorithme :
 // recherche des caracteres apres le point -> extension du fichier
@@ -78,9 +99,9 @@ bool validExtension( const string & file, const string & ext )
 // et retourne TRUE si ce sont les memes
 // sinon retourne une erreur
 {
-    if ( !(file.find("." + ext ) != string::npos ) )
+    if ( file.find( "." + ext ) == string::npos )
     {
-        cerr << endl << "Il faut insérer le fichier " << ext << " ainsi que son extension." << endl;
+        cerr << endl << "A " << ext << " file and its extension must be entered." << endl;
         return false;
     }
     return true;
@@ -94,7 +115,7 @@ bool fileNotFound ( const string & logFile )
     ifstream configUrlStream ( logFile );
     if ( !configUrlStream.good() )
     {
-        cerr << endl << "Le fichier de log n'existe pas. Merci de rentrer un fichier existant." << endl;
+        cerr << endl << "The log file does not exist. Please enter an existing file." << endl;
         return true;
     }
     return false;
@@ -114,7 +135,7 @@ bool fileIsEmpty ( const string & logFile )
 
     if ( size == 0 ) // fichier est vide
     {
-        cerr << endl << "Le fichier de log est vide. Merci de rentrer un fichier non vide." << endl;
+        cerr << endl << "The log file is empty. Please enter a non-empty file." << endl;
         return true;
     }
     configUrlStream.clear();
@@ -141,24 +162,3 @@ bool isExcluded ( const string & ext )
     array < string, 9 > extensionsToExclude = { "bmp", "css", "gif", "ico", "jpeg", "jpg", "js", "png", "tiff" };
     return binary_search( extensionsToExclude.begin(), extensionsToExclude.end(), ext );
 } //----- Fin de isExcluded
-
-string removeParamsFromUrl( const string & url )
-// Algorithme :
-// La fonction trouve la première occurence de "?" qui correspond à un paramètre mis en url
-// Elle supprime ensuite tout élément présent à partir du "?" afin de ne conserver que
-// le path d'une url
-{
-    std::string result = url;
-
-    // On cherche la position du "?" qui indique le début d'un paramètre
-    size_t paramStart = result.find( '?' );
-
-    // Si un "?" est trouvé
-    if ( paramStart != string::npos )
-    {
-        // On supprime tout ce qui vient après
-        result.erase( paramStart );
-    }
-
-    return result;
-}

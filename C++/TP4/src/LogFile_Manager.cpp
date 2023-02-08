@@ -22,7 +22,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void LogFile_Manager::Init ( const bool * commandes, int temps, const string & url )
+void LogFile_Manager::Init (const bool * commandes, int heure, const string & url )
 // Algorithme :
 // parcours de chaque log du fichier de log
 // filtrage de ces logs en fonction des commandes demandees par l'utilisateur
@@ -33,6 +33,12 @@ void LogFile_Manager::Init ( const bool * commandes, int temps, const string & u
     // Parcours du fichier de logs
     while ( getline ( logFile, line ) )
     {
+        // pour eviter une possible segfault si le fichier a des lignes vides
+        if ( line.empty() )
+        {
+            continue;
+        }
+
         // Extraction des informations de chaque ligne de log
         auto temp = make_shared < Log > ( line );
 
@@ -41,13 +47,23 @@ void LogFile_Manager::Init ( const bool * commandes, int temps, const string & u
         {
             continue;
         }
-        // si -e et que temp a une extension a exclure, on passe au log suivant
-        if ( commandes[ E ] && isExcluded( temp->GetExtension() ) )
+
+        // si -t et que temp a un heure de consultation qui n'est pas dans la plage horaire, on passe au log suivant
+        if ( commandes[ T ] && (temp->GetHeureConsultation() != heure ) )
         {
+            // on suppose que le fichier de log a bien ete ecrit chronologiquement,
+            // donc si un log depasse le maximum de l'intervalle, alors il n'est pas necessaire
+            // de parcourir le reste du fichier
+            if ( temp->GetHeureConsultation() > heure )
+            {
+                break;
+            }
             continue;
         }
-        // si -t et que temp a un temps de consultation qui n'est pas dans la plage horaire, on passe au log suivant
-        if ( commandes[ T ] && ( temp->GetHeureConsultation() < temps || temp->GetHeureConsultation() > temps + 1 ) )
+
+        // si -e et que temp a une extension a exclure, on passe au log suivant
+        if ( commandes[ E ] &&
+             ( isExcluded( temp->GetExtensionCible() ) || isExcluded( temp->GetExtensionReferer() ) ) )
         {
             continue;
         }
@@ -80,12 +96,12 @@ list < pair < Cible , int > > LogFile_Manager::Top10Logs ( )
 // Algorithme :
 // generation de la list des 10 documents les plus consultes
 {
-    list < pair < Cible , int > > top10;
+    list < pair < Cible, int > > top10;
 
     // parcours de tous les noeuds dont on dispose
     for ( auto const & hit : hitTable )
     {
-        insertSorted( top10, pair < Cible , int >( hit.first , hit.second ) );
+        insertSorted( top10, pair < Cible, int >( hit.first, hit.second ) );
 
         // si la list contient plus de 10 documents, enleve le dernier
         // qui contient donc le moins de hits
@@ -103,7 +119,6 @@ ostream & operator << ( ostream & os, LogFile_Manager & l )
 // Algorithme :
 //
 {
-
     if ( l.top10Logs.empty( ) )
     {
         os << "/!\\ Warning: no target has been found /!\\" << endl;
@@ -116,7 +131,7 @@ ostream & operator << ( ostream & os, LogFile_Manager & l )
 
     for ( auto const & aLog : l.top10Logs )
     {
-        os << aLog.first << " (" << aLog.second << " hits)" << endl;
+        os << aLog.first << " (" << aLog.second << ( ( aLog.second == 1 ) ? " hit)" : " hits)" ) << endl;
     }
     return os;
 } //----- Fin de operator <<
@@ -147,12 +162,11 @@ LogFile_Manager :: ~LogFile_Manager ( )
 #endif
 }//----- Fin de ~LogFile_Manager
 
-void insertSorted ( std::list < std::pair < Cible , int > > & list, const std::pair < Cible , int > & value )
+void insertSorted ( list < pair < Cible, int > > & list, const pair < Cible, int > & value )
 // Algorithme :
 //
-// Contrat :
 {
-    auto comp = [ ] ( const std::pair < Cible , int > & a, const std::pair < Cible , int > & b )
+    auto comp = [ ] ( const pair < Cible, int > & a, const pair < Cible, int > & b )
     {
         return  b.second != a.second ? b.second < a.second : b.first > a.first;
     };

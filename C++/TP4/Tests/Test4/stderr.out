@@ -1,4 +1,4 @@
 
-Il faut insérer le fichier log ainsi que son extension.
-Usage : ../../bin/analog [options] nomFichier.log
-Fermeture de l'application.
+An existing log file and its extension must be entered.
+Usage: ../../bin/analog [options] fileName.log
+Stop.

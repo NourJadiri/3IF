@@ -1,2 +1,5 @@
-Ce test permet de vérifier que la sortie est correcte lorsque l'utilisateur utilise correctement la commande -e.
-Ce test vérifie en particulier que la bonne sortie est affichée lorsqu'il y a plus de 10 log qui correspondent à la plage horaire souhaitée par l'utilisateur.
+Ce test permet de vérifier que la sortie est correcte
+lorsque l'utilisateur utilise correctement la commande -t.
+Ce test vérifie en particulier que la bonne sortie est
+affichée lorsqu'il y a plus de 10 logs qui correspondent
+à la plage horaire souhaitée par l'utilisateur.

@@ -28,8 +28,8 @@ OPTIONS
               dans le fichier fichierDot.dot. Tous les logs (après filtrage si nécessaire) seront représentés graphiquement. Affiche également la liste
               des 10 documents les plus consultés.
 
-       -e     Exclut tous les documents ayant des extensions de type image, css ou javascript. Un avertissement indiquera que cette option a été
-              utilisée. Affiche également la liste des 10 documents les plus consultés.
+       -e     Exclut tous les documents ayant des extensions de type image, css ou javascript, qu'ils soient cible ou referer. Un avertissement
+              indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
 
        -t heure
               Spécifie la plage horaire [heure, heure + 1[ sur laquelle il faut prendre en compte les logs. Exclut les hits qui ne font pas partie de
@@ -52,7 +52,8 @@ NOTES
        si un referer de type .jpg accède à une page .ics, alors ni le referer ni la cible ne seront pris en compte dans l’analyse.
        L’option -t supprime toute la ligne de log si l'heure n'est pas comprise dans l'intervalle [heure, heure + 1[. L'argument heure doit être un
        entier compris entre 0 et 23 inclus.
-       L’option -u ne fonctionne que si le fichier fichierTxt.txt est donné et existe. Il peut être vide au besoin.
+       L’option -u ne fonctionne que si le fichier fichierTxt.txt est donné et existe. Il peut être vide au besoin. Ne mettre que la base de l'URL (pas
+       de http(s)://)
        Si la même commande est entrée plusieurs fois, elle ne sera exécutée qu’une seule fois.
        Un avertissement sera affiché si les statistiques de logs ont été réalisées sur moins de 10 ou même sur aucun log.
 
@@ -68,7 +69,8 @@ EXEMPLES
 
        $ ./analog -e fichierLog.log
               Analyse du fichier fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css
-              ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations.
+              ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations. Ces pages n'ont par ailleurs pas été accédées
+              depuis des pages elles-mêmes de type image, css ou javascript.
 
        $ ./analog -t 12 fichierLog.log
               Analyse du fichier fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées entre 12h et 13h, par ordre
@@ -81,8 +83,9 @@ EXEMPLES
 
        $ ./analog -e -g fichierDot.dot fichierLog.log
               Possibilité de combiner plusieurs filtres. Analyse du fichier fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus
-              visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations.
-              Génération du fichier fichierDot.dot au format GraphViz qui représente graphiquement le parcours des ressources visitées.
+              visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations. Ces
+              pages n'ont par ailleurs pas été accédées depuis des pages elles-mêmes de type image, css ou javascript. Génération du fichier
+              fichierDot.dot au format GraphViz qui représente graphiquement le parcours des ressources visitées.
 
 AUTEURS
        Nour ElJadiri (mohamed-nour.eljadiri@insa-lyon.fr)

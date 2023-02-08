@@ -35,22 +35,21 @@ public:
     // Contrat :
     // aNode doit etre un Node bien forme
 
+    std::map < Cible, std::shared_ptr < Node > > GetVertice ( ) const;
+    // Mode d'emploi :
+    // Renvoie la map des noeuds
+
+    std::map < std::pair < int, int >, int > GetEdges ( ) const;
+    // Mode d'emploi :
+    // Renvoie la map des arcs
 
     void Display ( );
 
     void DisplayEdges ( ) const;
 
-    std::map < Cible, std::shared_ptr < Node > > GetVertice ( ) const;
-    // Mode d'emploi :
-    // Renvoie la map des noeuds
-
-    std::map < pair < int, int >, int > GetEdges ( ) const;
-    // Mode d'emploi :
-    // Renvoie la map des arcs
-
 
 //------------------------------------------------- Surcharge d'opérateurs
-    friend ostream & operator << ( ostream & os, Graph & g );
+    friend std::ostream & operator << ( std::ostream & os, Graph & g );
     // Mode d'emploi :
     //
     // Contrat :
@@ -62,7 +61,7 @@ public:
     // Mode d'emploi (constructeur par defaut) :
     // Constructeur d'un Graph
 
-    explicit Graph ( const shared_ptr < LogFile_Manager > & logs );
+    explicit Graph ( const std::shared_ptr < LogFile_Manager > & logs );
     // Mode d'emploi :
     //
     // Contrat :
@@ -86,19 +85,14 @@ protected:
     //
 
 //----------------------------------------------------- Attributs protégés
-    int indexMax; // Cet indice détermine l'identifiant d'un eventuel noeud créé
+    int indexMax; // determine l'identifiant d'un noeud
 
     // Objet recensant toutes les connexions dans le fichier de logs
-    // ainsi que toutes les informations utiles ( top 10... )
+    // ainsi que toutes les informations utiles (top 10)
     std::shared_ptr < LogFile_Manager > fileManager;
 
-    std::map < Cible, std::shared_ptr < Node > > vertice; // Sommets du graph
-    std::map < std::pair < int, int >, int > edges; // Bords du graph
-
+    std::map < Cible, std::shared_ptr < Node > > vertice; // sommets du graph
+    std::map < std::pair < int, int >, int > edges; // arcs du graph
 };
-
-
-//-------------------------------- Autres définitions dépendantes de <Graph>
-
 
 #endif //GRAPH_H

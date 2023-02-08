@@ -1,2 +1,5 @@
-Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur ne rentre pas de fichier .dot pour la génération de graphe.
-Cela vérifie donc qu'on a une erreur et une fermeture de l'application.
+Ce test permet de vérifier si la sortie est correcte
+lorsque l'utilisateur ne rentre pas de fichier .dot pour
+la génération de graphe.
+Cela vérifie donc qu'on a une erreur et une fermeture
+de l'application.

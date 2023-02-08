@@ -1,4 +1,4 @@
 
-Le fichier de configuration URL n'existe pas.
-Usage : -u nomFichier.txt
-Fermeture de l'application.
+The URL configuration file does not exist.
+Usage: -u fileName.txt
+Stop.

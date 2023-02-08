@@ -1,12 +1,3 @@
-1. il faut renommer le directory "Logs" en bin (c'est la où il faut mettre analog)
+1. enlever les display dans graph.cpp et node.cpp, operator << dans manager? + constructeur par defaut?
 
-2. framework de tests - normalement cest bon
-
-3. personnaliser le mktest.sh - normalement cest bon
-
-4. le result.csv j'ai pas trop compris comment ca fonctionne ce truc et ce qu'il faut faire dessus
-
-5. enlever les display dans graph.cpp et node.cpp, operator << dans manager + constructeur par defaut + a quoi sert
-manager en fait? pq pas directement faire lors de la lecture des logs dans Log
-
-6. commentaires graph et node
+2. commentaires graph et node + description de log file manager dans l'entete

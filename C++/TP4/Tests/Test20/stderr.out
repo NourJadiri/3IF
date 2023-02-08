@@ -1,4 +1,4 @@
 
-Il faut insérer une heure comprise entre 0 et 23.
-Usage : -t heure
-Fermeture de l'application.
+An hour between 0 and 23 both included must be entered.
+Usage: -t hour
+Stop.

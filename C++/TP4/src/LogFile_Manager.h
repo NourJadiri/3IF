@@ -30,7 +30,7 @@ public:
     friend class Graph;
 
 //----------------------------------------------------- Méthodes publiques
-    void Init ( const bool * commandes, int temps = 0, const string & url = "" );
+    void Init ( const bool * commandes, int heure = 0, const std::string & url = DEFAULT_URL_BASE );
     // Mode d'emploi :
     // Renvoie le vector logs
 
@@ -38,7 +38,7 @@ public:
     // Mode d'emploi :
     // Renvoie le vector logs
 
-    list < std::pair < Cible , int > > Top10Logs ( );
+    list < std::pair < Cible, int > > Top10Logs ( );
     // Mode d'emploi :
     // determination des 1O noeuds ayant le plus de hits
     // Contrat :
@@ -61,7 +61,7 @@ public:
     // Contrat :
     //
 
-    explicit LogFile_Manager ( const std :: string & pathToFile );
+    explicit LogFile_Manager ( const std::string & pathToFile );
     // Mode d'emploi (constructeur parametre) :
     //
     // Contrat :
@@ -77,16 +77,24 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-
-    //----------------------------------------------------- Attributs protégés
-    std::ifstream logFile; // Fichier de log à partir duquel l'import se fait
-    std::vector < std::shared_ptr <Log> > logs; // Tableau de logs qui servira à la création d'un graph si l'utilisateur le demande
-    std::unordered_map < Cible , int > hitTable; // Map qui stock toutes les cibles avec le nombre de hits
-    std::list < std::pair < Cible , int > >top10Logs; // Liste qui stock le top 10 des pages les plus visitées
-
+//----------------------------------------------------- Attributs protégés
+    // fichier de log a partir duquel l'import se fait
+    std::ifstream logFile;
+    // Tableau de logs qui servira a la creation d'un graph si l'utilisateur le demande
+    std::vector < std::shared_ptr < Log > > logs;
+    // Map qui stock toutes les cibles avec le nombre de hits
+    std::unordered_map < Cible, int > hitTable;
+    // Liste qui stock le top 10 des pages les plus visitees
+    std::list < std::pair < Cible, int > > top10Logs;
 };
 
-void insertSorted ( std::list < std::pair < Cible , int > > & list, const std::pair < Cible , int > & value );
+
+//-------------------------------- Autres définitions dépendantes de <LogFile_Manager>
+void insertSorted ( std::list < std::pair < Cible, int > > & list, const std::pair < Cible, int > & value );
+// Mode d'emploi :
+//
+// Contrat :
+//
 
 
 #endif // LOGFILE_MANAGER_H

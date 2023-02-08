@@ -1,1 +1,3 @@
-Ce test permet de vérifier si la sortie est correcte lorsque l'utilisateur rentre un fichier de configuration d'URL vide lors de l'utilisation de la commande -u.
+Ce test permet de vérifier si la sortie est correcte
+lorsque l'utilisateur rentre un fichier de configuration
+d'URL vide lors de l'utilisation de la commande -u.

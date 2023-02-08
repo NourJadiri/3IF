@@ -1,3 +1,7 @@
-Ce test permet de vérifier si la sortie est correcte lorsque l'on utilise correctement la commande -g, avec un fichier qui n'a qu'un seul log.
-Il vérifie donc la bonne génération du fichier .dot avec deux noeuds.
-Le fait que le top 10 contienne moins de 10 pages a déjà été testé avec les tests précédents.
+Ce test permet de vérifier si la sortie est correcte
+lorsque l'on utilise correctement la commande -g, avec
+un fichier qui n'a qu'un seul log.
+Il vérifie donc la bonne génération du fichier .dot
+avec deux noeuds.
+Le fait que le top 10 contienne moins de 10 pages a
+déjà été testé avec les tests précédents.

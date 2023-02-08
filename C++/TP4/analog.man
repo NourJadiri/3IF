@@ -21,7 +21,7 @@ Spécifie le \fIfichier\fP dans lequel il faut générer le graphique des statis
 
 .TP
 \fB-e\fP
-Exclut tous les documents ayant des \fIextensions\fP de type image, css ou javascript. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
+Exclut tous les documents ayant des \fIextensions\fP de type image, css ou javascript, qu'ils soient cible ou referer. Un avertissement indiquera que cette option a été utilisée. Affiche également la liste des 10 documents les plus consultés.
 
 .TP
 \fB-t heure\fP
@@ -52,7 +52,7 @@ L’option -t supprime toute la ligne de log si l'heure n'est pas comprise dans 
 .PD 0
 .P
 .PD
-L’option \fB-u\fP ne fonctionne que si le \fIfichier\fP fichierTxt.txt est donné et existe. Il peut être vide au besoin.
+L’option \fB-u\fP ne fonctionne que si le \fIfichier\fP fichierTxt.txt est donné et existe. Il peut être vide au besoin. Ne mettre que la base de l'URL (pas de http(s)://)
 .PD 0
 .P
 .PD
@@ -73,7 +73,7 @@ Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou m
 
 .TP
 \fB$ ./analog -e fichierLog.log\fP
-Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations.
+Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations. Ces pages n'ont par ailleurs pas été accédées depuis des pages elles-mêmes de type image, css ou javascript.
 
 .TP
 \fB$ ./analog -t 12 fichierLog.log\fP
@@ -85,7 +85,7 @@ Prise en compte de la base de l’URL qui se trouve dans le \fIfichier\fP fichie
 
 .TP
 \fB$ ./analog -e -g fichierDot.dot fichierLog.log\fP
-Possibilité de combiner plusieurs filtres. Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations. Génération du \fIfichier\fP fichierDot.dot au format GraphViz qui représente graphiquement le parcours des ressources visitées.
+Possibilité de combiner plusieurs filtres. Analyse du \fIfichier\fP fichierLog.log et affichage sur la console des 10 (ou moins) pages les plus visitées qui ne sont pas de type image, css ou javascript, par ordre croissant de popularité, ainsi que leur nombre de consultations. Ces pages n'ont par ailleurs pas été accédées depuis des pages elles-mêmes de type image, css ou javascript. Génération du \fIfichier\fP fichierDot.dot au format GraphViz qui représente graphiquement le parcours des ressources visitées.
 
 .SH AUTEURS
 Nour ElJadiri (mohamed-nour.eljadiri@insa-lyon.fr)

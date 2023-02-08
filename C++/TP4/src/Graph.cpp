@@ -42,6 +42,16 @@ void Graph::AddNode ( const Node & aNode )
     }
 } //----- Fin de AddNode
 
+map < Cible, shared_ptr < Node > > Graph::GetVertice ( ) const
+{
+    return vertice;
+} //----- Fin de GetVertice
+
+map < pair < int, int >, int > Graph::GetEdges ( ) const
+{
+    return edges;
+} //----- Fin de GetEdges
+
 void Graph::Display ( )
 // Algorithme :
 //
@@ -59,17 +69,6 @@ void Graph::DisplayEdges ( ) const
         cout << "node" << e.first.first << " -> " << "node" << e.first.second << " : " << e.second << endl;
     }
 }
-
-
-map < Cible, shared_ptr < Node > > Graph::GetVertice ( ) const
-{
-    return vertice;
-} //----- Fin de GetVertice
-
-map < pair < int, int >, int > Graph::GetEdges ( ) const
-{
-    return edges;
-} //----- Fin de GetEdges
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -129,27 +128,24 @@ Graph::~Graph ( )
 //----------------------------------------------------- Méthodes protégées
 void Graph::initEdges ( )
 // Algorithme :
-// Parcourt de la map de sommets <vertice> et crée un nouveau bords
-// dans la map "edges" si le sommet possède au moins un hit ( s'il s'agit d'une cible )
-// Le edge contiendra les informations < idCible , idReferer , nombreConsultations >
+// Parcours de la map de sommets <vertice> et creation d'un nouvel arc
+// dans la map "edges" si le sommet a au moins un hit (s'il s'agit d'une cible)
+// Le edge contiendra les informations < idCible, idReferer, nombreConsultations >
 {
     // Parcours des sommets
     for ( auto const & vertex : vertice )
     {
-        // Si le sommet correspond à un referer ( aucune page ne l'a demandé )
+        // Si le sommet correspond a un referer (aucune page ne l'a demande)
         if ( vertex.second->hits == 0 )
         {
-            // On le saute
+            // passe au suivant
             continue;
         }
         // Sinon si le sommet est une cible, alors on parcourt tous les referers de cette cible
         for ( auto const & ref : vertex.second->referers )
         {
-            // On crée un nouveau edge qui contient < idCible , idReferer , nombreConsultations >
-            edges[ pair < int, int > ( vertex.second->id,vertice[ ref.first ]->id ) ] = ref.second;
+            // creation d'un nouvel edge qui contient < idCible, idReferer, nombreConsultations >
+            edges[ pair < int, int > ( vertice[ ref.first ]->id, vertex.second->id ) ] = ref.second;
         }
     }
 } //----- Fin de initEdges
-
-
-

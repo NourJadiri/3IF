@@ -1,5 +1,5 @@
 
-Option inconnue ou non valide : z
-Usage : ../../bin/analog [options] nomFichier.log
-Les options sont : -g, -e, -t heure, -u fichierConfig.txt
-Fermeture de l'application.
+Unknown or invalid option: z
+Usage: ../../bin/analog [options] fileName.log
+Options are: -g, -e, -t hour, -u configFile.txt
+Stop.

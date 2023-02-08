@@ -9,20 +9,24 @@ LD = g++
 # options
 CXXFLAGS = -g -Wall -ansi -pedantic -std=c++14
 LDFLAGS = -g -Wall -pedantic -std=c++14
-RMFLAGS = rm -f
+RMFLAGS = -rf
+
+# repertoires
+BIN_DIR = ./../bin/
 
 # definition des cibles
 INTERFACE := $(wildcard *.h)
 REALISATION := $(INTERFACE:.h=.cpp)
 OBJETS = $(REALISATION:.cpp=.o)
 EXE = analog
+BIN = $(BIN_DIR)$(EXE)
 EFFACE = clean
 .PHONY : $(EFFACE)
 
 # edition des liens
-$(EXE) : $(OBJETS)
+$(BIN) : $(OBJETS)
 	$(ECHO) ">>>Edition des liens de <$(EXE)>"
-	$(LD) $(LDFLAGS) -o $(EXE) $(OBJETS)
+	$(LD) $(LDFLAGS) $^ -o $@
 
 # compilation des fichiers
 %.o: %.cpp
@@ -31,4 +35,12 @@ $(EXE) : $(OBJETS)
 
 $(EFFACE) :
 	@$(ECHO) ">>>Suppression des fichiers compilés" $<
-	$(RM) $(RMFLAGS) $(EXE) $(OBJETS)
+	$(RM) $(RMFLAGS) $(BIN) $(OBJETS)
+
+# dependances complementaires
+Analog.o : Graph.h
+Graph.o : Log_Utils.h Node.h
+Log.o : Log_Utils.h
+LogFile_Manager.o : Log.h
+Main.o : Analog.h
+Node.o : LogFile_Manager.h

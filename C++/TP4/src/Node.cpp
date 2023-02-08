@@ -42,7 +42,7 @@ void Node::AddReferer ( const Referer & aReferer )
 
 void Node::AddReferer ( const Node & aNode )
 // Algorithme :
-//
+// TODO
 {
     for ( auto const & i : aNode.referers )
     {

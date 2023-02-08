@@ -1,4 +1,4 @@
 
-Il faut insérer le fichier dot ainsi que son extension.
-Usage : -g nomFichier.dot
-Fermeture de l'application.
+A dot file and its extension must be entered.
+Usage: -g fileName.dot
+Stop.

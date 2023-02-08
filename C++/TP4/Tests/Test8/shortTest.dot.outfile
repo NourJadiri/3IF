@@ -1,10 +1,9 @@
 digraph {
     node10 [label="/SiteWebIF/Intranet-etudiant.php"];
-    node12 [label="/SiteWebIF/Intranet-etudiant.php?ticket=ST-341667-KHlNEzic9e5btb4JQ1Nw-dsi-vm03"];
     node9 [label="/favicon.ico"];
-    node13 [label="/stages/Listestage.php"];
+    node12 [label="/stages/Listestage.php"];
     node2 [label="/temps/"];
-    node14 [label="/temps/3IF1.ics"];
+    node13 [label="/temps/3IF1.ics"];
     node1 [label="/temps/3IF37.html"];
     node0 [label="/temps/3IF38.html"];
     node11 [label="/temps/3IF39.html"];
@@ -21,12 +20,11 @@ digraph {
     node1 -> node8 [label="1"];
     node2 -> node1 [label="1"];
     node2 -> node3 [label="1"];
-    node2 -> node10 [label="2"];
-    node2 -> node12 [label="1"];
+    node2 -> node10 [label="3"];
     node3 -> node2 [label="1"];
     node3 -> node4 [label="1"];
     node3 -> node5 [label="1"];
     node10 -> node9 [label="1"];
-    node10 -> node13 [label="1"];
-    node11 -> node14 [label="1"];
+    node10 -> node12 [label="1"];
+    node11 -> node13 [label="1"];
 }

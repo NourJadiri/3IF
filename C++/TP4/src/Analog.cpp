@@ -19,7 +19,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analog.h"
-//#include "LogFile_Manager.h"
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -36,15 +35,14 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     if ( argcMain < 2 )
     {
         // s'il n'y a pas assez d'arguments dans la ligne de commande
-        cerr << endl << "Il faut insérer le fichier log ainsi que son extension." << endl;
-        cerr << "Usage : " << mainArg << " [options] nomFichier.log" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << endl << "An existing log file and its extension must be entered." << endl;
+        cerr << "Usage: " << mainArg << " [options] fileName.log" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
 
     // le dernier argument est le fichier log
     string path = argvMain[argcMain - 1];
-    string dotfile;
     string hour = "0";
     string fichierConfig;
 
@@ -65,9 +63,9 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             // option -g : generer fichier GraphViz
             commandes[ G ] = true;
             // stockage du fichier dans lequel generer le graph
-            dotfile = argvMain[ ++i ];
+            dotFile = argvMain[ ++i ];
             // on verifie que toutes les conditions relatives a l'utilisation de -g sont OK
-            retour = checkG( dotfile );
+            retour = checkG( );
         }
         else if ( string( argvMain[ i ] ) == "-e" && !commandes[ E ] )
         {
@@ -100,10 +98,10 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
         else
         {
             // option inconnue / non valide
-            cerr << endl << "Option inconnue ou non valide : " << argvMain[i] << endl;
-            cerr << "Usage : " << argvMain[0] << " [options] nomFichier.log" << endl;
-            cerr << "Les options sont : -g, -e, -t heure, -u fichierConfig.txt" << endl;
-            cerr << "Fermeture de l'application." << endl;
+            cerr << endl << "Unknown or invalid option: " << argvMain[i] << endl;
+            cerr << "Usage: " << argvMain[0] << " [options] fileName.log" << endl;
+            cerr << "Options are: -g, -e, -t hour, -u configFile.txt" << endl;
+            cerr << "Stop." << endl;
             retour = 1;
         }
         // s'il y a eu un probleme a un moment (mauvaise utilisation d'une commande par exemple)
@@ -112,7 +110,6 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
             return retour;
         }
     }
-
 
     // si toutes les conditions des commandes sont respectees
 
@@ -123,16 +120,16 @@ int Analog::Launch ( int & argcMain, char * * & argvMain )
     // generation du graph apres filtrage des logs
     if ( commandes[ G ] )
     {
-        executeG( dotfile );
+        executeG( );
     }
 
     // affichage sur la console des avertissements et autres messages si besoin
     displayHeading();
 
     // affichage du top 10 sur la console (surcharge operateur <<)
-    cout << *logs ;
+    cout << * logs ;
 
-    return 0;
+    return retour;
 } //----- Fin de Launch
 
 const bool * Analog::GetCommandes ( ) const
@@ -180,7 +177,7 @@ Analog::~Analog ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-int Analog::checkG ( const string & dotFile )
+int Analog::checkG ( )
 // Algorithme :
 // Verification que la commande a bien ete utilisee
 // Donc verification qu'il y a un nom de fichier .dot
@@ -188,10 +185,10 @@ int Analog::checkG ( const string & dotFile )
 // en ecraser le contenu ou alors choisir un autre fichier .dot
 {
     // si jamais l'utilisateur ne rentre pas un nom de fichier, ou pas un fichier .dot
-    if ( !validExtension ( dotFile , "dot") )
+    if ( !validExtension ( dotFile, "dot" ) )
     {
-        cerr << "Usage : -g nomFichier.dot" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << "Usage: -g fileName.dot" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
 
@@ -203,8 +200,8 @@ int Analog::checkG ( const string & dotFile )
     if ( fileStream.good() && fileStream.peek() != ifstream::traits_type::eof() )
     {
         char choice;
-        cout << endl << "Le fichier " << dotFile << " existe déjà et n'est pas vide." << endl;
-        cout << "Souhaitez-vous écraser son contenu ? [y/n]" << endl;
+        cout << endl << "The file " << dotFile << " already exists and is not empty." << endl;
+        cout << "Do you wish to overwrite its contents? [y/n]" << endl;
 
         for ( ; ; )
         {
@@ -212,21 +209,20 @@ int Analog::checkG ( const string & dotFile )
 
             if (choice == 'y')
             {
-                cout << endl << "Le contenu du fichier " << dotFile << " va être écrasé." << endl;
+                cout << endl << "The contents of the file " << dotFile << " will be overwritten." << endl;
                 break;
             }
             else if (choice == 'n')
             {
-                cout << endl << "Merci d'entrer un autre nom de fichier .dot." << endl;
+                cout << endl << "Please enter another .dot file name." << endl;
 
-                string newFile;
-                cin >> newFile;
+                cin >> dotFile;
 
-                return checkG(newFile); // on répète le meme processus avec le nouveau fichier
+                return checkG(); // on répète le meme processus avec le nouveau fichier
             }
             else
             {
-                cout << endl << "Merci de rentrer une option valide (y/n)." << endl;
+                cout << endl << "Please enter a valid option (y/n)." << endl;
             }
         }
     }
@@ -243,9 +239,9 @@ int Analog::checkT ( const string & hour )
     // si jamais l'utilisateur ne rentre pas des chiffres (entiers ou non)
     if ( !all_of( hour.begin(), hour.end(), ::isdigit ) )
     {
-        cerr << endl << "Il faut insérer une heure (entier en numérique, entre 0 et 23, inclus)." << endl;
-        cerr << "Usage : -t heure" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << endl << "An hour must be entered (integer, between 0 and 23 both included)." << endl;
+        cerr << "Usage: -t hour" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
 
@@ -253,9 +249,9 @@ int Analog::checkT ( const string & hour )
 
     // si les heures ne sont pas correctes
     if ( heure < 0 || heure > 23 ) {
-        cerr << endl << "Il faut insérer une heure comprise entre 0 et 23." << endl;
-        cerr << "Usage : -t heure" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << endl << "An hour between 0 and 23 both included must be entered." << endl;
+        cerr << "Usage: -t hour" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
 
@@ -270,11 +266,11 @@ int Analog::checkU ( const string & fichierConfig )
 // Sinon, prise en compte de l'URL donnee par l'utilisateur
 {
     // si jamais l'utilisateur ne rentre pas un nom de fichier correct
-    if ( !( fichierConfig.find( ".txt" ) != string::npos ) )
+    if ( fichierConfig.find(".txt") == string::npos )
     {
-        cerr << endl << "Il faut insérer le fichier txt ainsi que son extension." << endl;
-        cerr << "Usage : -u nomFichier.txt" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << endl << "A txt file and its extension must be entered." << endl;
+        cerr << "Usage: -u fileName.txt" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
 
@@ -282,9 +278,9 @@ int Analog::checkU ( const string & fichierConfig )
     ifstream configUrlStream ( fichierConfig );
     if ( !configUrlStream.good() )
     {
-        cerr << endl << "Le fichier de configuration URL n'existe pas." << endl;
-        cerr << "Usage : -u nomFichier.txt" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << endl << "The URL configuration file does not exist." << endl;
+        cerr << "Usage: -u fileName.txt" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
 
@@ -294,8 +290,10 @@ int Analog::checkU ( const string & fichierConfig )
     if ( urlUser.empty() )
     {
         // execution par defaut du programme
-        cout << endl << "Le fichier de configuration URL est vide." << endl;
-        cout << "Execution par défaut." << endl;
+        cout << endl << "The URL configuration file is empty." << endl;
+        cout << "Default URL-base will be used." << endl;
+
+        urlUser = DEFAULT_URL_BASE;
     }
     // else tout est okay on continue
 
@@ -310,21 +308,21 @@ int Analog::verifFichierLog ( const string & logFile, const string & mainArg )
     // verification de la validite du fichier mis en parametre
     if ( !validExtension( logFile, "log" ) || fileNotFound( logFile ) || fileIsEmpty( logFile ) )
     {
-        cerr << "Usage : " << mainArg << " nomFichier.log" << endl;
-        cerr << "Fermeture de l'application." << endl;
+        cerr << "Usage: " << mainArg << " [options] fileName.log" << endl;
+        cerr << "Stop." << endl;
         return 1;
     }
     return 0;
 } //----- Fin de verifFichierLog
 
-void Analog::executeG ( const string & dotFile )
+void Analog::executeG ( )
 // Algorithme :
 // appel a la fonction pour generer le graph des logs
 {
     // creation du graph (noeuds et arcs)
     graph = make_shared < Graph > ( logs );
 
-    ofstream dotFileStream = generateDotFile( dotFile );
+    ofstream dotFileStream = generateDotFile( );
 } //----- Fin de executeG
 
 void Analog::displayHeading ( ) const
@@ -344,33 +342,31 @@ void Analog::displayHeading ( ) const
     }
 } //----- Fin de displayHeading
 
-ofstream Analog::generateDotFile ( const string & path )
+ofstream Analog::generateDotFile ( )
 // Algorithme :
 // generation du graph dans le fichier donne par l'utilisateur
 {
-    ofstream dotFile;
-    dotFile.open ( path );
+    ofstream dotFileStream;
+    dotFileStream.open ( dotFile );
+    cout << endl << "Dot-file " << dotFile << " generated" << endl;
 
-    cout << endl;
-    cout << "Dot-file " << path << " generated" << endl;
-
-    dotFile << "digraph {" << endl;
+    dotFileStream << "digraph {" << endl;
 
     // initialisation des noeuds et de leur nom
     for ( auto const & vertex : graph->GetVertice() )
     {
-        dotFile << "\tnode" << vertex.second->GetId();
-        dotFile << " [label=\"" << vertex.first << "\"];" << endl;
+        dotFileStream << "\tnode" << vertex.second->GetId();
+        dotFileStream << " [label=\"" << vertex.first << "\"];" << endl;
     }
 
     // etablissement des liens entre deux noeuds
     for ( auto const & edge : graph->GetEdges() )
     {
-        dotFile << "\tnode" << edge.first.second << " -> " << "node" << edge.first.first;
-        dotFile << " [label=\"" << edge.second << "\"];"<< endl;
+        dotFileStream << "\tnode" << edge.first.first << " -> " << "node" << edge.first.second;
+        dotFileStream << " [label=\"" << edge.second << "\"];"<< endl;
     }
 
-    dotFile << "}";
+    dotFileStream << "}";
 
-    return dotFile;
+    return dotFileStream;
 } //----- Fin de generateDotFile

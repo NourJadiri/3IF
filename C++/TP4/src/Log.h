@@ -60,12 +60,16 @@ public:
     // Mode d'emploi :
     // Renvoie le code de retour du log
 
-    const Extension & GetExtension ( ) const;
+    const Extension & GetExtensionCible ( ) const;
     // Mode d'emploi :
-    // Renvoie l'extension du log
+    // Renvoie l'extension de la cible d'une ligne de log
+
+    const Extension & GetExtensionReferer ( ) const;
+    // Mode d'emploi :
+    // Renvoie l'extension du referer d'une ligne de log
 
 //-------------------------------------------- Constructeurs - destructeur
-    explicit Log ( const std::string & logLine, Referer baseRefererToDelete = DEFAULT_URL_BASE );
+    explicit Log ( const std::string & logLine, const Referer & baseRefererToDelete = DEFAULT_URL_BASE );
     // Mode d'emploi :
     // Constructeur pour instancier un objet Log a partir d'une ligne de texte
     // Contrat :
@@ -82,7 +86,7 @@ public:
 private:
 //----------------------------------------------------- Attributs protégés
     std::string ip;
-    int heureConsultation;
+    int heureConsultation; // seulement l'heure (pas les minutes)
 
     // l'adresse URL en entier
     Referer longReferer;
@@ -93,7 +97,8 @@ private:
 
     Cible cible;
 
-    Extension extension;
+    Extension extensionCible;
+    Extension extensionReferer;
 
     int returnCode;
 };

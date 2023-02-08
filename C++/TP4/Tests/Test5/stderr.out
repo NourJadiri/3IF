@@ -1,4 +1,4 @@
 
-Le fichier de log n'existe pas. Merci de rentrer un fichier existant.
-Usage : ../../bin/analog nomFichier.log
-Fermeture de l'application.
+The log file does not exist. Please enter an existing file.
+Usage: ../../bin/analog [options] fileName.log
+Stop.

@@ -67,11 +67,11 @@ public:
     // Renvoie l'URL entree par l'utilisateur lors de l'utilisation
     // de la commande -u
 
-    const shared_ptr < LogFile_Manager > & GetLogs ( ) const;
+    const std::shared_ptr < LogFile_Manager > & GetLogs ( ) const;
     // Mode d'emploi :
     // Renvoie le vector des logs apres filtrage
 
-    const shared_ptr < Graph > & GetGraph ( ) const;
+    const std::shared_ptr < Graph > & GetGraph ( ) const;
     // Mode d'emploi :
     // Renvoie le Graph des logs apres filtrage sous forme de noeuds et arcs
 
@@ -89,7 +89,7 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    int checkG ( const std::string & dotFile );
+    int checkG ( );
     // Mode d'emploi :
     // verification des conditions relatives a la commande -g
     // c'est-a-dire verification du fichier dot
@@ -98,7 +98,7 @@ protected:
     // de la commande -g.
     // retourne 1 si les conditions ne sont pas verifiees, 0 sinon
     // Contrat :
-    // dotFile doit etre un string valide (non vide)
+    // l'attribut dotFile doit etre un string valide (non vide)
 
     int checkT ( const std::string & hour ) ;
     // Mode d'emploi :
@@ -130,11 +130,11 @@ protected:
     // Contrat :
     // logFile et mainArg doivent etre des strings valides (non vides)
 
-    void executeG ( const std::string & dotFile );
+    void executeG ( );
     // Mode d'emploi :
     // permet de generer le graph correspondant aux logs apres filtrage
     // Contrat :
-    // dotFile doit etre un string valide (non vide)
+    // l'attribut dotFile doit etre un string valide (non vide)
 
     void displayHeading ( ) const;
     // Mode d'emploi :
@@ -144,24 +144,26 @@ protected:
     // le tableau commandes doit avoir ete correctement modifie en fonction
     // des commandes choisies par l'utilisateur
 
-    ofstream generateDotFile ( const std::string & path );
+    std::ofstream generateDotFile ( );
     // Mode d'emploi :
     // path correspond au fichier dans lequel il faut generer le graph
     // Contrat :
-    // path doit etre un string valide (non vide)
+    // l'attribut dotFile doit etre un string valide (non vide)
 
 
 //----------------------------------------------------- Attributs protégés
     // stock des commandes utilisees sur la ligne de commande
     bool commandes[5] = {true, false, false, false, false };
+    // si usage de la commande -g
+    std::string dotFile;
     // si usage de la commande -t
     int heure;
     // si usage de la commande -u
     url urlUser;
     // tous les logs apres filtrage
-    shared_ptr < LogFile_Manager > logs;
+    std::shared_ptr < LogFile_Manager > logs;
     // tous les logs apres filtrage sous forme de noeuds et arcs
-    shared_ptr < Graph > graph;
+    std::shared_ptr < Graph > graph;
 };
 
 #endif // ANALOG_H

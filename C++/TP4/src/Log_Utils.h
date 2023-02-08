@@ -59,6 +59,16 @@ std::string getBaseFromUrl ( const std::string & url );
 // l'url doit etre un string valide (non vide) et doit etre
 // une adresse URL
 
+std::string removeParamsFromUrl ( const std::string & url );
+// Mode d'emploi :
+// supprime tout parametre passe a l'url afin de pouvoir considerer
+// deux pages avec la même mais avec des parametres distincts
+// comme la meme entite
+// Fonctionne sur les url en general et les chemins en particulier.
+// Contrat :
+// le string url doit etre un string valide (non vide) et doit
+// representer une adresse url
+
 std::string getExtensionFromFile ( const std:: string & file );
 // Mode d'emploi :
 // recupere l'extension d'une adresse URL (utile pour la commande -e)
@@ -109,14 +119,5 @@ bool isExcluded ( const std::string & ext );
 // le string ext doit etre un string valide (non vide) et doit
 // representer une extension
 // le tableau des extensions a exclure doit être trié alphabétiquement
-
-std::string removeParamsFromUrl( const std::string & url );
-// Mode d'emploi :
-// Enlève tout paramètre passé à l'url afin de pouvoir considérer
-// deux pages dont l'url serait le même mais les paramètres différents
-// comme la même entité
-// Fonctionne sur les url en général et les chemins en particulier.
-// Contrat :
-//
 
 #endif // LOG_UTILS_H

@@ -65,7 +65,7 @@ public:
     // Renvoie l'extension du log
 
 //-------------------------------------------- Constructeurs - destructeur
-    explicit Log ( const std::string & logLine, const std::string & url );
+    explicit Log ( const std::string & logLine, Referer baseRefererToDelete = DEFAULT_URL_BASE );
     // Mode d'emploi :
     // Constructeur pour instancier un objet Log a partir d'une ligne de texte
     // Contrat :
@@ -90,8 +90,7 @@ private:
     // celle voulue par l'utilisateur OU a la base par defaut (intranet-if)
     // sinon, correspond à la base de l'adresse URL (nom de domaine seulement)
     Referer shortReferer;
-    // la base de l'adresse URL du referer a enlever
-    Referer baseRefererToDelete = DEFAULT_URL_BASE;
+
     Cible cible;
 
     Extension extension;

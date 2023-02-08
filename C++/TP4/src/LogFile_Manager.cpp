@@ -34,7 +34,7 @@ void LogFile_Manager::Init ( const bool * commandes, int temps, const string & u
     while ( getline ( logFile, line ) )
     {
         // Extraction des informations de chaque ligne de log
-        auto temp = make_shared < Log > ( line, url );
+        auto temp = make_shared < Log > ( line );
 
         // si la connexion n'a pas ete etablie on passe au log suivant
         if ( !connectionSuccess( temp->GetReturnCode() ) )
@@ -57,12 +57,12 @@ void LogFile_Manager::Init ( const bool * commandes, int temps, const string & u
         {
             logs.push_back( temp );
         }
-/*
+
         // Si -u et que le referer n'a pas l'url de base qui est demandée dans le fichier de configuration
         if ( commandes[ U ] && getBaseFromUrl( temp->GetLongReferer() ) != url )
         {
             continue;
-        }*/
+        }
 
         // Par défaut, si aucun problème n'est rencontré, on update la map qui contient les hits
         hitTable[ temp->GetCible() ] += 1;

@@ -364,7 +364,7 @@ ofstream Analog::generateDotFile ( const string & path )
     // etablissement des liens entre deux noeuds
     for ( auto const & edge : graph->GetEdges() )
     {
-        dotFile << "\tnode" << edge.first.first << " -> " << "node" << edge.first.second;
+        dotFile << "\tnode" << edge.first.second << " -> " << "node" << edge.first.first;
         dotFile << " [label=\"" << edge.second << "\"];"<< endl;
     }
 

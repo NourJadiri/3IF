@@ -58,7 +58,7 @@ const Extension & Log::GetExtension ( ) const
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Log::Log ( const string & logLine, const string & url )
+Log::Log ( const string & logLine, Referer baseRefererToDelete )
 // Algorithme :
 // Capture des differents elements du log grace à du regex
 // Repartition de ces elements en plusieurs groupes de capture
@@ -71,11 +71,6 @@ Log::Log ( const string & logLine, const string & url )
     regex logFormat( "(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" " );
     smatch matches;
 
-    // si l'utilisateur a donne une base d'url a supprimer depuis un fichier de configuration
-    if ( !url.empty() )
-    {
-        baseRefererToDelete = url;
-    }
 
     if ( regex_search( logLine, matches, logFormat ) )
     {

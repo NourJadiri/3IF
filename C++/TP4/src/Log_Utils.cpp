@@ -33,12 +33,12 @@ string getPathFromUrl ( const string & url )
 // Algorithme :
 // parcours de l'URL pour retrouver le chemin de l'adresse
 {
-    std::regex path_regex( "(ftp|https?)://[^/]+/(.*?)[?#]" );
+    std::regex path_regex( "(ftp://|https?://)?(?:www\\\\.)?([^/]+)(\\/.*)" );
     std::smatch match;
 
     if ( std::regex_search( url, match, path_regex ) )
     {
-        return match[2];
+        return match[3];
     }
 
     return url;

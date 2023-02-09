@@ -1,1 +1,2 @@
-../../bin/analog -g shortTest.dot logTest13.log
+rm -f touchTest.dot;
+../../bin/analog -g dontTouchTest.dot logTest13.log

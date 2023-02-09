@@ -12,14 +12,14 @@ CLEAN = clean
 
 # mise a jour de l'executable analog
 $(BIN):
-	MAKE -s -C ../src ./../bin/analog
+	$(MAKE) -s -C ../src ./../bin/analog
 
 # lancement du framework de tests
 $(TEST):
-	BASH ./mktest.sh
+	$(BASH) ./mktest.sh
 
 # suppression de l'executable, des -o et des resultats des tests
 $(CLEAN):
-	MAKE -s -C ../src/ clean
+	$(MAKE) -s -C ../src/ clean
 #RM -rf results.csv
 

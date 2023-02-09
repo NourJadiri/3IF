@@ -39,8 +39,8 @@ $(EFFACE) :
 
 # dependances complementaires
 Analog.o : Graph.h
+Connections.o : Log.h
 Graph.o : Log_Utils.h Node.h
 Log.o : Log_Utils.h
-LogFile_Manager.o : Log.h
 Main.o : Analog.h
 Node.o : Connections.h

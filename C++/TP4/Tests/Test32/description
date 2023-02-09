@@ -1,0 +1,15 @@
+Ce test permet de vérifier si la sortie est correcte
+lorsque l'on utilise correctement toutes les commandes
+-t, -e, -g, -u, avec un fichier qui ne donnera qu'un seul
+log qui respectent toutes les conditions des commandes.
+Il vérifie donc la bonne génération du fichier .dot
+avec deux noeuds, qui sont dans la plage horaire voulue,
+qui ne sont pas des images/css/js, et dont le referer
+respecte la base de l'URL donnée par l'utilisateur
+dans le fichier de configuration.
+L'utilisateur donnera pour cela un fichier .dot
+déjà existant et non vide, mais un fichier de configuration
+qui lui sera vide.
+Cela donnera donc tous les messages possibles de notre
+application, sauf celui disant qu'aucune cible ne
+correspond aux attentes de l'utilisateur.

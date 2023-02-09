@@ -1,1 +1,2 @@
+rm -f shortTest.dot;
 ../../bin/analog -g shortTest.dot logTest9.log

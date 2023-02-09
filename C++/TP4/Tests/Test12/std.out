@@ -1,10 +1,10 @@
 
-The file dontTouchTest.dot already exists and is not empty.
+The file shortTest.dot already exists and is not empty.
 Do you wish to overwrite its contents? [y/n]
 
-Please enter another .dot file name.
+The contents of the file shortTest.dot will be overwritten.
 
-Dot-file touchTest.dot generated
+Dot-file shortTest.dot generated
 
 Top 10 of most accessed targets:
 /!\ Warning: less than 10 targets have been found /!\

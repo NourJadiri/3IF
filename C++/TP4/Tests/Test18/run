@@ -1,1 +1,2 @@
-../../bin/analog -t 11.5 logTest18.log
+rm -f shortTest.dot;
+../../bin/analog -g shortTest.dot -e logTest18.log

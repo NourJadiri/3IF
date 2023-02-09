@@ -1,14 +1,16 @@
 
-Top 10 of most accessed targets:
-/!\ Warning: no image, css or javascript targets have been taken into account /!\
+The file shortTest.dot already exists and is not empty.
+Do you wish to overwrite its contents? [y/n]
 
-/SiteWebIF/Intranet-etudiant.php (3 hits)
-/temps/3IF38.html (2 hits)
-/stages/Listestage.php (1 hit)
-/temps/3IF1.ics (1 hit)
-/temps/3IF37.html (1 hit)
-/temps/3IF39.html (1 hit)
-/temps/3IF40.html (1 hit)
-/temps/3IF41.html (1 hit)
-/temps/4IF1.html (1 hit)
-/temps/4IF4.html (1 hit)
+Please enter a valid option (y/n).
+
+Please enter a valid option (y/n).
+
+The contents of the file shortTest.dot will be overwritten.
+
+Dot-file shortTest.dot generated
+
+Top 10 of most accessed targets:
+/!\ Warning: less than 10 targets have been found /!\
+
+/temps/3IF38.html (1 hit)

@@ -63,15 +63,16 @@ public:
 
     explicit Connections ( const std::string & pathToFile );
     // Mode d'emploi (constructeur parametre) :
-    //
+    // Le constructeur s'occupe d'ouvrir le fichier caratérisé par le chemin pathToFile
+    // On ne vérifie pas ici si le fichier existe vraiment car cela est déja effectué
+    // au niveau de l'application ( classe Analog )
     // Contrat :
     // Le fichier existe et a la bonne extension
 
     ~Connections();
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Destructeur par défaut de Connections
+
 
 
 //------------------------------------------------------------------ PRIVE
@@ -92,9 +93,10 @@ protected:
 //-------------------------------- Autres définitions dépendantes de <Connections>
 void insertSorted ( std::list < std::pair < Cible, int > > & list, const std::pair < Cible, int > & value );
 // Mode d'emploi :
-//
+// Fonction qui permet l'insertion d'éléments dans la liste top10 en implémentant
+// notre propre relation d'ordre ( d'abord selon les hits puis par ordre alphabétique )
 // Contrat :
-//
+// la liste et les valeurs à insérer sont bien formés, et correspondent au type précisé
 
 
 #endif // LOGFILE_MANAGER_H

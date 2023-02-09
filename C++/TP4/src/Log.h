@@ -90,8 +90,9 @@ private:
 
     // l'adresse URL en entier
     Referer longReferer;
+
     // l'adresse URL reduite au chemin de l'adresse si la base correspond a
-    // celle voulue par l'utilisateur OU a la base par defaut (intranet-if)
+    // celle voulue par l'utilisateur OU a la base par defaut (intranet-if.insa-lyon.fr)
     // sinon, correspond à la base de l'adresse URL (nom de domaine seulement)
     Referer shortReferer;
 

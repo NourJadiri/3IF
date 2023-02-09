@@ -75,16 +75,17 @@ void Connections::Init ( const bool * commandes, int heure, const string & url )
             continue;
         }
 
-        // Par défaut, si aucun problème n'est rencontré, on update la map qui contient les hits
+        // Si aucun problème n'est rencontré, on update la map qui contient les hits
         hitTable[ temp->GetCible() ] += 1;
 
         // si -g, alors on commence à alimenter le vector de logs ( il ne servira que pour la création du graph )
         if ( commandes[ G ] )
         {
-            logs.push_back( move( temp ) );
+            logs.push_back( std::move( temp ) );
         }
     }
 
+    // On initialise le top 10 des pages les plus visitées à la fin de l'initialisation
     top10Logs = Top10Logs();
 } //----- Fin de Init
 
@@ -96,6 +97,7 @@ const vector < unique_ptr < Log > > & Connections::GetLogs ( ) const
 list < pair < Cible , int > > Connections::Top10Logs ( )
 // Algorithme :
 // generation de la list des 10 documents les plus consultes
+// Insère les éléments de manière triée dans la liste ( appel à insertSorted )
 {
     list < pair < Cible, int > > top10;
 
@@ -118,7 +120,8 @@ list < pair < Cible , int > > Connections::Top10Logs ( )
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Connections & l )
 // Algorithme :
-//
+// Affiche les différents warning qui sont levés durant l'execution de l'application
+// Parcourt la liste du top 10 et affiche les informations utiles (nomCible , nombreConsulations)
 {
     if ( l.top10Logs.empty( ) )
     {
@@ -148,7 +151,7 @@ Connections::Connections ( )
 
 Connections::Connections ( const string & pathToFile )
 // Algorithme :
-//
+// ouvre le stream d'entrée à partir duquel les logs seront importées
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Connections>" << endl;
@@ -165,12 +168,19 @@ Connections :: ~Connections ( )
 
 void insertSorted ( list < pair < Cible, int > > & list, const pair < Cible, int > & value )
 // Algorithme :
-//
+// crée une fonction local comp qui définit la relation d'ordre entre les éléments de ma liste
+// Appelle la fonction comp pour itérer dans la liste et insérer des éléments en suivant cette
+// relation d'ordre.
 {
+    // D'abord on trie selon le nombre de hits, et si ceux-ci sont égaux, par ordre alphabétique
     auto comp = [ ] ( const pair < Cible, int > & a, const pair < Cible, int > & b )
     {
         return  b.second != a.second ? b.second < a.second : b.first > a.first;
     };
+
+    // Création d'un insertIterator qui se place à la premiere position qui vérifie l'ordre d'insertion
     auto it = lower_bound( list.begin(), list.end(), value, comp );
+
+    // On insère value dans notre liste
     list.insert( it, value );
 } //----- Fin de insertSorted

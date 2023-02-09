@@ -42,7 +42,9 @@ void Node::AddReferer ( const Referer & aReferer )
 
 void Node::AddReferer ( const Node & aNode )
 // Algorithme :
-// TODO
+// Pour tous les referers de aNode, appel de la méthode
+// AddReferer ( const string & ) afin de les rajouter aux referers
+// du Node this
 {
     for ( auto const & i : aNode.referers )
     {
@@ -59,13 +61,7 @@ void Node::Display ( ) const
 // Algorithme :
 //
 {
-    cout << "Cible : " << name << endl;
-    cout << "Referers : " << endl;
 
-    for ( auto const & i : referers)
-    {
-        cout << "\t" << i.first << " : " << i.second << endl;
-    }
 } //----- Fin de Display
 
 int Node::GetHits ( ) const
@@ -82,10 +78,18 @@ int Node::GetId ( ) const
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Node & aNode )
 // Algorithme :
-// affichage de chaque noeud et de son nombre total de hits par une surcharge
+// affichage des informations relatives du Noeud (nom , hits)
+// Parcours de la map de referers et affichage du nom de chaque referer avec le nombre
+// d'arcs correspondant
 // de l'operateur <<
 {
-    os << aNode.name << " (" << aNode.hits << ( ( aNode.hits == 1 ) ? " hit)" : " hits)" ) << endl;
+    os << "Noeud : " << aNode.name << " (" << (aNode.hits << (aNode.hits == 1) ? "hit)" : "hits)" )<<endl;
+    os << "Referers : " << endl;
+
+    for ( auto const & i : aNode.referers )
+    {
+        os << "\t" << i.first << " : " << i.second << endl;
+    }
     return os;
 } //----- Fin de operator <<
 
@@ -100,22 +104,26 @@ bool operator < ( Node & a, Node & b )
 //-------------------------------------------- Constructeurs - destructeur
 Node::Node ( )
 // Algorithme :
-// TODO et ca initialise pas id
+// Initialise les champs du Node à des valeurs par défaut
+// name = "-" , hits = 0 , id = 0
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Node>" << endl;
 #endif
     name = "-";
     hits = 0;
+    id = 0;
 } //----- Fin de Node (constructeur par défaut)
 
 Node::Node( const Node & aNode )
 // Algorithme :
-// TODO et ca initialise pas id
+// Copie des attributs simple de aNode vers this
+// Copie en profondeur des referers de aNode
 {
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Node>" << endl;
 #endif
+    id = aNode.id;
     name = aNode.name;
     hits = aNode.hits;
     for ( auto const & i : aNode.referers )
@@ -124,24 +132,28 @@ Node::Node( const Node & aNode )
     }
 } //----- Fin de Node (constructeur de copie)
 
-Node::Node ( const Cible & uneCible )
+Node::Node ( const Referer & unReferer )
 // Algorithme :
-// TODO et ca initialise pas id
+// Initialise hits à 0 (un referer n'a par défaut aucun referer, jusqu'à preuve du contraire)
+// Le nom du Node devient celui du referer
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Node>" << endl;
 #endif
-    name = uneCible;
+    id = 0;
+    name = unReferer;
     hits = 0;
 } //----- Fin de Node (constructeur paramétré)
 
 Node::Node ( const Cible & uneCible, const Referer & unReferer )
 // Algorithme :
-// TODO et ca initialise pas id
+// Initialise le nom du Node à <uneCible>.
+// Insère le referer passé en paramètre à la map de referers de this
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Node>" << endl;
 #endif
+    id = 0;
     name = uneCible;
     hits = 1;
     referers.insert( std::pair < Referer, int > ( unReferer, 1 ) );

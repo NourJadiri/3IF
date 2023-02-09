@@ -26,6 +26,7 @@ void Graph::AddNode ( const Node & aNode )
 // Algorithme :
 // creation du noeud s'il n'existe pas deja dans les noeuds references
 // ou alors mise a jour de ses referers s'il existait deja
+// Un nouveau noeud créé aura l'indice unique indexMax (attribut de graph)
 {
     const Cible & c = aNode.GetName();
     // si la cible existe deja dans le graph
@@ -86,6 +87,8 @@ ostream & operator << ( ostream & os, Graph & g )
 
 //-------------------------------------------- Constructeurs - destructeur
 Graph::Graph ( )
+// Algorithme :
+// Initialise indexMax à 0
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Graph>" << endl;
@@ -95,7 +98,7 @@ Graph::Graph ( )
 
 Graph::Graph ( const shared_ptr < Connections > & logs )
 // Algorithme :
-// Prend un objet Connections et initialise les sommets du graph à partir de l'historique des connexions.
+// Prend un objet Connections et initialise les sommets du graph à partir de cet historique des connexions.
 // On ajoutera dans la map des sommets les cibles des logs trouvées.
 // On ajoutera aussi dans la map des sommet les referers des logs trouvées (correspondent à des sommets aussi)
 // Initialise aussi les bords.
@@ -104,9 +107,9 @@ Graph::Graph ( const shared_ptr < Connections > & logs )
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
 #endif
     indexMax = 0;
-    fileManager = logs;
+    connections = logs;
 
-    for ( auto const & log : fileManager->GetLogs() )
+    for ( auto const & log : connections->GetLogs() )
     {
         AddNode( Node( log->GetCible(), log->GetShortReferer() ) );
         AddNode( Node( log->GetShortReferer() ) );
@@ -133,7 +136,7 @@ void Graph::initEdges ( )
 // Algorithme :
 // Parcours de la map de sommets <vertice> et creation d'un nouvel arc
 // dans la map "edges" si le sommet a au moins un hit (s'il s'agit d'une cible)
-// Le edge contiendra les informations < idCible, idReferer, nombreConsultations >
+// Le edge contiendra les informations < idReferer, idCible, nombreConsultations >
 {
     // Parcours des sommets
     for ( auto const & vertex : vertice )

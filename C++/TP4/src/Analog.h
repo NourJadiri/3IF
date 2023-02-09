@@ -152,7 +152,7 @@ protected:
 
 
 //----------------------------------------------------- Attributs protégés
-    // stock des commandes utilisees sur la ligne de commande
+    // enregistre les différentes commandes entrées par l'utilisateur
     bool commandes[5] = { true, false, false, false, false };
     // si usage de la commande -g
     std::string dotFile;

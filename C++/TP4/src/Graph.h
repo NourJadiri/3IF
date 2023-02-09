@@ -17,7 +17,13 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Graph>
-//
+// Structure de données qui représente des relations entre des Nodes
+// (aussi appelés sommets). Chaque sommet peut avoir plusieurs relations
+// avec d'autres sommets, représentées par des arcs orientés.
+// Les arcs ont une direction, indiquant la source et la destination
+// d'une relation.
+// Le Graph permet de stocker toutes les informations relatives au traçage
+// du parcours de l'utilisateur pour un serveur web donné.
 //
 //------------------------------------------------------------------------
 
@@ -51,9 +57,11 @@ public:
 //------------------------------------------------- Surcharge d'opérateurs
     friend std::ostream & operator << ( std::ostream & os, Graph & g );
     // Mode d'emploi :
-    //
+    // Surcharge de << qui permet de print les informations relatives aux différents arcs
+    // présents dans le graph selon le format suivant
+    // node[i] -> node[j] : [hits]
     // Contrat :
-    //
+    // Le graph g est un graph bien formé
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -62,8 +70,11 @@ public:
     // Constructeur d'un Graph
 
     explicit Graph ( const std::shared_ptr < Connections > & logs );
-    // Mode d'emploi :
-    //
+    // Mode d'emploi (constructeur paramétré) :
+    // Le constructeur effectue une copie en surface de Connections et affecte
+    // la valeur du pointeur logs à l'attribut connections.
+    // Fait appel à la méthode AddNode pour initialiser tous les sommets du graph
+    // Fait appel à la méthode initEdges pour initialiser les arcs du graph
     // Contrat :
     //
 
@@ -89,10 +100,13 @@ protected:
 
     // Objet recensant toutes les connexions dans le fichier de logs
     // ainsi que toutes les informations utiles (top 10)
-    std::shared_ptr < Connections > fileManager;
+    std::shared_ptr < Connections > connections;
 
     std::map < Cible, std::shared_ptr < Node > > vertice; // sommets du graph
-    std::map < std::pair < int, int >, int > edges; // arcs du graph
+
+    // arcs du graph, les arcs suivent le format suivant :
+    // [ idReferer , idCible ] , hits
+    std::map < std::pair < int, int >, int > edges;
 };
 
 #endif //GRAPH_H

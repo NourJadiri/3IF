@@ -26,8 +26,8 @@ static int test ( int & argcMain, char * * & argvMain )
 // Algorithme :
 // Création d'un Analog lors du lancement de l'application
 {
-/*    Analog anal;
-    return anal.Launch ( argcMain, argvMain );*/
+    Analog anal;
+    return anal.Launch ( argcMain, argvMain );
     return 0;
 } //----- Fin de test
 
@@ -35,7 +35,7 @@ int main ( int argc, char * argv [ ] )
 // Algorithme :
 // Appel à la procédure de test
 {
-    bool commandes[5] = { false , false , false , false , false };
+/*    bool commandes[5] = { false , false , false , false , false };
 
     commandes[G] = true;
 
@@ -45,7 +45,7 @@ int main ( int argc, char * argv [ ] )
 
     Graph graph ( l );
 
-    cout << graph;
+    cout << graph;*/
 
-    return 0;
+    return test ( argc, argv );
 } //----- fin de main

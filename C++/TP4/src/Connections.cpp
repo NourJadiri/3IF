@@ -117,6 +117,27 @@ list < pair < Cible, int > > Connections::Top10Logs ( )
 } //----- Fin de Top10Logs
 
 
+//------------------------------------------- Autres fonctions dépendantes
+void insertSorted ( list < pair < Cible, int > > & list, const pair < Cible, int > & value )
+// Algorithme :
+// création d'une fonction locale comp qui définit la relation d'ordre entre les éléments de la list
+// Appel à la fonction comp pour itérer dans la list et insérer des éléments en suivant cette
+// relation d'ordre.
+{
+    // Tri selon le nombre de hits, puis par ordre alphabétique
+    auto comp = [ ] ( const pair < Cible, int > & a, const pair < Cible, int > & b )
+    {
+        return  b.second != a.second ? b.second < a.second : b.first > a.first;
+    };
+
+    // création d'un insertIterator qui se place à la première position et vérifie l'ordre d'insertion
+    auto it = lower_bound( list.begin(), list.end(), value, comp );
+
+    // insertion dans la list
+    list.insert( it, value );
+} //----- Fin de insertSorted
+
+
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Connections & l )
 // Algorithme :
@@ -165,22 +186,3 @@ Connections :: ~Connections ( )
     cout << "Appel au destructeur de <Connections>" << endl;
 #endif
 }//----- Fin de ~Connections
-
-void insertSorted ( list < pair < Cible, int > > & list, const pair < Cible, int > & value )
-// Algorithme :
-// création d'une fonction locale comp qui définit la relation d'ordre entre les éléments de la list
-// Appel à la fonction comp pour itérer dans la list et insérer des éléments en suivant cette
-// relation d'ordre.
-{
-    // Tri selon le nombre de hits, puis par ordre alphabétique
-    auto comp = [ ] ( const pair < Cible, int > & a, const pair < Cible, int > & b )
-    {
-        return  b.second != a.second ? b.second < a.second : b.first > a.first;
-    };
-
-    // création d'un insertIterator qui se place à la première position et vérifie l'ordre d'insertion
-    auto it = lower_bound( list.begin(), list.end(), value, comp );
-
-    // insertion dans la list
-    list.insert( it, value );
-} //----- Fin de insertSorted

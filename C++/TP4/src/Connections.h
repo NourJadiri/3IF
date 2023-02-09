@@ -18,7 +18,13 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Connections>
-//
+// La classe sert à stocker l'ensemble des connexions qui se sont faites
+// vers un serveur Apache donné.
+// Cette classe s'occupe de fournir la liste du top 10 des pages consultées
+// ainsi que nombre de fois qu'elles ont été consultées.
+// Cette classe permet aussi de stocker dans un vector l'ensemble des logs
+// contenus dans un fichier si l'utilisateur demande à avoir un graph (-g)
+// qui retrace l'ensemble des pages auxquelles il a accédé.
 //------------------------------------------------------------------------
 
 class Connections
@@ -48,9 +54,11 @@ public:
 //------------------------------------------------- Surcharge d'opérateurs
     friend std::ostream & operator << ( std::ostream & os, Connections & l );
     // Mode d'emploi :
-    //
+    // Affiche le top 10 des pages les plus visitées avec leur nombre
+    // de hits correspondants selon le format suivant :
+    // NOM_CIBLE ( NOMBRE_HITS hits )
     // Contrat :
-    //
+    // L'objet Connections est initialisé à partir d'un fichier qui est valide
 
 
 //-------------------------------------------- Constructeurs - destructeur

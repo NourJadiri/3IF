@@ -19,16 +19,14 @@ typedef std::string url;
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Analog>
-// La classe Analog permet de verifier que toutes les commandes entrees
-// sur la ligne de commande sont correctement utilisees.
-// C'est-a-dire qu'il faut entrer un argument en plus si necessaire
-// et surtout, pour une utilisation par defaut, il faut donner un fichier
+// La classe Analog permet de vérifier que toutes les commandes entrées
+// sur la ligne de commande sont correctement utilisées.
+// C'est-à-dire qu'il faut entrer un argument en plus si nécessaire
+// et surtout, pour quelconque utilisation, il faut donner un fichier
 // de log qui existe et qui ne soit pas vide.
-// Cette classe se charge egalement de generer le vecteur logs, qui
-// stock tous les logs apres filtrage si besoin ; ainsi que le Graph graph
-// qui stock tous les logs apres filtrage sous forme de noeuds et d'arcs, à
-// partir duquel la classe genere le graph (contenu du fichier .dot lors
-// de l'utilisation de la commande -g).
+// Cette classe se charge également de générer le vecteur logs, qui
+// stock tous les logs apres filtrage si besoin ; et génère le graph
+// (contenu du fichier .dot lors de l'utilisation de la commande -g).
 // Enfin, la classe permet d'afficher les messages/avertissements
 // ainsi que le top 10
 //------------------------------------------------------------------------
@@ -41,30 +39,30 @@ public:
 //----------------------------------------------------- Méthodes publiques
     int Launch ( int & argcMain, char * * & argvMain );
     // Mode d'emploi :
-    // Transmission des arguments de la ligne de commande lors de son appel
+    // Transmission des arguments de la ligne de commande lors de son appel.
     // argcMain correspond au nombre d'arguments, et argvMain est un tableau
     // qui stock ces arguments.
-    // C'est cette methode qui se charge d'appeler les methodes qui permettent
-    // de verifier les conditions
-    // C'est egalement elle qui se charge de l'affichage sur la console
-    // des 10 pages les plus consultees.
+    // C'est cette méthode qui se charge d'appeler les méthodes qui permettent
+    // de vérifier les conditions de chaque commande
+    // C'est également elle qui se charge de l'affichage sur la console
+    // des 10 pages les plus consultées.
     // Contrat :
-    // Les parametres doivent etre valides
+    // Les paramètres doivent être valides
     // donc toutes les conditions des commandes doivent etre valides
     // sinon, retourne la valeur 1
 
     const bool * GetCommandes ( ) const;
     // Mode d'emploi :
-    // Renvoie le tableau des commandes entree par l'utilisateur
+    // Renvoie le tableau des commandes entrées par l'utilisateur
 
-    const int & GetHeure ( ) const;
+    const std::string & GetHeure ( ) const;
     // Mode d'emploi :
-    // Renvoie l'heure entree par l'utilisateur lors de l'utilisation
+    // Renvoie l'heure entrée par l'utilisateur lors de l'utilisation
     // de la commande -t
 
     const url & GetUrlUser ( ) const;
     // Mode d'emploi :
-    // Renvoie l'URL entree par l'utilisateur lors de l'utilisation
+    // Renvoie l'URL entrée par l'utilisateur lors de l'utilisation
     // de la commande -u
 
     const std::shared_ptr < Connections > & GetLogs ( ) const;
@@ -91,64 +89,60 @@ protected:
 //----------------------------------------------------- Méthodes protégées
     int checkG ( );
     // Mode d'emploi :
-    // verification des conditions relatives a la commande -g
-    // c'est-a-dire verification du fichier dot
-    // le parametre dotFile correspond au suppose nom de fichier dot
-    // ecrit par l'utilisateur sur la ligne de commande, apres utilisation
-    // de la commande -g.
-    // retourne 1 si les conditions ne sont pas verifiees, 0 sinon
+    // vérification des conditions relatives à la commande -g
+    // c'est-à-dire vérification du fichier dot
+    // retourne 1 si les conditions ne sont pas verifiées, 0 sinon
     // Contrat :
-    // l'attribut dotFile doit etre un string valide (non vide)
+    // l'attribut dotFile doit être un string valide (non vide)
 
-    int checkT ( const std::string & hour ) ;
+    int checkT ( ) ;
     // Mode d'emploi :
-    // verification des conditions relatives a la commande -t
-    // c'est-a-dire verification de l'heure entree sur la ligne de commande
-    // le parametre hour correspond a la supposee heure ecrite par l'utilisateur
-    // sur la ligne de commande, apres utilisation de la commande -t.
-    // retourne 1 si les conditions ne sont pas verifiees, 0 sinon
+    // vérification des conditions relatives à la commande -t
+    // c'est-à-dire vérification de l'heure entrée sur la ligne de commande
+    // retourne 1 si les conditions ne sont pas verifiées, 0 sinon
     // Contrat :
-    // hour doit etre un string valide (non vide)
+    // heure doit être un string valide (non vide)
 
     int checkU ( const std::string & fichierConfig );
     // Mode d'emploi :
-    // verification des conditions relatives a la commande -u
-    // c'est-a-dire verification du fichier entre sur la ligne de commande
-    // le parametre fichierConfig correspond au suppose nom de fichier txt
-    // ecrit par l'utilisateur sur la ligne de commande, apres utilisation de
+    // vérification des conditions relatives à la commande -u
+    // c'est-à-dire vérification du fichier entré sur la ligne de commande
+    // le paramètre fichierConfig correspond au supposé nom de fichier txt
+    // écrit par l'utilisateur sur la ligne de commande, après utilisation de
     // la commande -u.
-    // retourne 1 si les conditions ne sont pas verifiees, 0 sinon
+    // retourne 1 si les conditions ne sont pas verifiées, 0 sinon
     // Contrat :
-    // fichierConfig doit etre un string valide (non vide)
+    // fichierConfig doit être un string valide (non vide)
 
     static int verifFichierLog ( const std::string & logFile, const std::string & mainArg ) ;
     // Mode d'emploi :
-    // verification des conditions relatives a l'utilisation par defaut
-    // c'est-a-dire verification de la presence du fichier log ainsi que
-    // verification qu'il n'est pas vide.
-    // retourne 1 si les conditions ne sont pas verifiees, 0 sinon
+    // vérification des conditions relatives à l'utilisation par défaut
+    // c'est-à-dire vérification de la présence du fichier log ainsi que
+    // vérification qu'il n'est pas vide.
+    // retourne 1 si les conditions ne sont pas verifiées, 0 sinon
     // Contrat :
-    // logFile et mainArg doivent etre des strings valides (non vides)
+    // logFile et mainArg doivent être des strings valides (non vides)
 
     void executeG ( );
     // Mode d'emploi :
-    // permet de generer le graph correspondant aux logs apres filtrage
+    // permet de générer le graph correspondant aux logs après filtrage
     // Contrat :
-    // l'attribut dotFile doit etre un string valide (non vide)
+    // l'attribut dotFile doit être un string valide (non vide)
 
     void displayHeading ( ) const;
     // Mode d'emploi :
     // affichage sur la console des messages/avertissements en fonction
     // des options sur la ligne de commande
     // Contrat :
-    // le tableau commandes doit avoir ete correctement modifie en fonction
+    // le tableau commandes doit avoir été correctement modifié en fonction
     // des commandes choisies par l'utilisateur
+    // les attributs heure et urlUser doivent être des string valides (non vides)
 
-    std::ofstream generateDotFile ( );
+    void generateDotFile ( );
     // Mode d'emploi :
-    // path correspond au fichier dans lequel il faut generer le graph
+    // écriture dans le fichier dot du graph
     // Contrat :
-    // l'attribut dotFile doit etre un string valide (non vide)
+    // l'attribut dotFile doit être un string valide (non vide)
 
 
 //----------------------------------------------------- Attributs protégés
@@ -157,12 +151,12 @@ protected:
     // si usage de la commande -g
     std::string dotFile;
     // si usage de la commande -t
-    int heure;
-    // si usage de la commande -u
-    url urlUser;
-    // tous les logs apres filtrage
+    std::string heure = "0";
+    // url par défaut si non usage de la commande -u / fichier de config vide
+    url urlUser = DEFAULT_URL_BASE;
+    // tous les logs après filtrage
     std::shared_ptr < Connections > logs;
-    // tous les logs apres filtrage sous forme de noeuds et arcs
+    // tous les logs après filtrage sous forme de noeuds et arcs
     std::unique_ptr < Graph > graph;
 };
 

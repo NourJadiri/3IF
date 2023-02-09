@@ -24,10 +24,10 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void Node::AddReferer ( const Referer & aReferer )
 // Algorithme :
-// si le referer existe deja, incrementation du poids de l'arc entre ce
+// si le referer existe déjà, incrémentation du poids de l'arc entre ce
 // referer et le noeud this
-// sinon, creation de ce referer et initialisation du poids de l'arc a 1
-// incrementation du nombre total de hits du noeud this
+// sinon, création de ce referer et initialisation du poids de l'arc à 1
+// incrémentation du nombre total de hits du noeud this
 {
     if ( referers.find( aReferer ) != referers.end() )
     {
@@ -42,7 +42,7 @@ void Node::AddReferer ( const Referer & aReferer )
 
 void Node::AddReferer ( const Node & aNode )
 // Algorithme :
-// Pour tous les referers de aNode, appel de la méthode
+// Pour tous les referers de aNode, appel à la méthode
 // AddReferer ( const string & ) afin de les rajouter aux referers
 // du Node this
 {
@@ -56,13 +56,6 @@ const string & Node::GetName ( ) const
 {
     return name;
 } //----- Fin de GetName
-
-void Node::Display ( ) const
-// Algorithme :
-//
-{
-
-} //----- Fin de Display
 
 int Node::GetHits ( ) const
 {
@@ -78,12 +71,11 @@ int Node::GetId ( ) const
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Node & aNode )
 // Algorithme :
-// affichage des informations relatives du Noeud (nom , hits)
+// affichage des informations relatives du Noeud (nom, hits)
 // Parcours de la map de referers et affichage du nom de chaque referer avec le nombre
 // d'arcs correspondant
-// de l'operateur <<
 {
-    os << "Node : " << aNode.name << " (" << aNode.hits << ( (aNode.hits == 1) ? "hit)" : "hits)" ) <<endl;
+    os << "Node : " << aNode.name << " (" << aNode.hits << ( ( aNode.hits == 1 ) ? "hit)" : "hits)" ) << endl;
     os << "Referers : " << endl;
 
     for ( auto const & i : aNode.referers )
@@ -95,7 +87,7 @@ ostream & operator << ( ostream & os, Node & aNode )
 
 bool operator < ( Node & a, Node & b )
 // Algorithme :
-// pour ordonner par nombre de hits, puis alphabetiquement deux noeuds differents
+// pour ordonner par nombre de hits, puis alphabétiquement deux noeuds différents
 {
     return b.hits != a.hits ? b.hits > a.hits : b.name < a.name;
 } //----- Fin de operator <
@@ -105,7 +97,7 @@ bool operator < ( Node & a, Node & b )
 Node::Node ( )
 // Algorithme :
 // Initialise les champs du Node à des valeurs par défaut
-// name = "-" , hits = 0 , id = 0
+// name = "-", hits = 0, id = 0
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Node>" << endl;
@@ -134,7 +126,8 @@ Node::Node( const Node & aNode )
 
 Node::Node ( const Referer & unReferer )
 // Algorithme :
-// Initialise hits à 0 (un referer n'a par défaut aucun referer, jusqu'à preuve du contraire)
+// Initialise hits à 0 (un referer n'a par défaut aucun referer,
+// jusqu'à ce qu'il devienne lui-même une cible)
 // Le nom du Node devient celui du referer
 {
 #ifdef MAP
@@ -147,7 +140,7 @@ Node::Node ( const Referer & unReferer )
 
 Node::Node ( const Cible & uneCible, const Referer & unReferer )
 // Algorithme :
-// Initialise le nom du Node à <uneCible>.
+// Initialise le nom du Node à uneCible
 // Insère le referer passé en paramètre à la map de referers de this
 {
 #ifdef MAP

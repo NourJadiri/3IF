@@ -1,3 +1,1 @@
-1. enlever les display dans graph.cpp et node.cpp, operator << dans manager? + constructeur par defaut?
-
-2. commentaires graph et node + description de log file manager dans l'entete
+connections.h : ROLE DE LA CLASS CONNECTIONS + mode d'emploi et contrat de operator <<

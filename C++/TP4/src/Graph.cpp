@@ -17,25 +17,24 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Graph.h"
-#include "Log_Utils.h"
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
 void Graph::AddNode ( const Node & aNode )
 // Algorithme :
-// creation du noeud s'il n'existe pas deja dans les noeuds references
-// ou alors mise a jour de ses referers s'il existait deja
-// Un nouveau noeud créé aura l'indice unique indexMax (attribut de graph)
+// création du noeud s'il n'existe pas déjà dans les noeuds referencés
+// ou bien mise à jour de ses referers s'il existait deja
+// Un nouveau noeud aura un indice unique indexMax (attribut de Graph)
 {
     const Cible & c = aNode.GetName();
-    // si la cible existe deja dans le graph
+    // si la cible existe déjà dans le graph
     if ( vertice.find( c ) != vertice.end() )
     {
-        // ajout des referers de aNode dans le node qui est deja present
+        // ajout des referers de aNode dans le node qui est déjà present
         vertice[c]->AddReferer( aNode );
     }
-    else // creation du noeud pour cette cible
+    else // création du noeud pour cette cible
     {
         vertice[c] = make_shared < Node > ( aNode );
         vertice[c]->id = indexMax;
@@ -55,7 +54,7 @@ map < pair < int, int >, int > Graph::GetEdges ( ) const
 
 void Graph::Display ( )
 // Algorithme :
-//
+// Parcours de la map vertice pour afficher le nombre de hits de chaque cible
 {
     for ( auto const & i : vertice )
     {
@@ -63,24 +62,16 @@ void Graph::Display ( )
     }
 } //----- Fin de Display
 
-void Graph::DisplayEdges ( ) const
-{
-    for ( auto const & e : edges )
-    {
-        cout << "node" << e.first.first << " -> " << "node" << e.first.second << " : " << e.second << endl;
-    }
-}
-
 
 //------------------------------------------------- Surcharge d'opérateurs
 ostream & operator << ( ostream & os, Graph & g )
 // Algorithme :
+// Parcours de la map edges pour afficher l'id du referer, de la cible, et le nombre de hits d'une cible
 {
     for ( auto const & e : g.edges )
     {
         os << "node" << e.first.first << " -> " << "node" << e.first.second << " : " << e.second << endl;
     }
-
     return os;
 } //----- Fin de operator <<
 
@@ -88,20 +79,20 @@ ostream & operator << ( ostream & os, Graph & g )
 //-------------------------------------------- Constructeurs - destructeur
 Graph::Graph ( )
 // Algorithme :
-// Initialise indexMax à 0
+// Initialise indexMax a 0
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Graph>" << endl;
 #endif
     indexMax = 0;
-} //----- Fin de Graph (constructeur par defaut)
+} //----- Fin de Graph (constructeur par défaut)
 
 Graph::Graph ( const shared_ptr < Connections > & logs )
 // Algorithme :
 // Prend un objet Connections et initialise les sommets du graph à partir de cet historique des connexions.
-// On ajoutera dans la map des sommets les cibles des logs trouvées.
-// On ajoutera aussi dans la map des sommet les referers des logs trouvées (correspondent à des sommets aussi)
-// Initialise aussi les bords.
+// Ajout dans la map des cibles des logs
+// Ajout aussi dans la map des referers des logs (correspondent à des sommets aussi)
+// Initialisation des arcs
 {
 #ifdef MAP
     cout << "Appel au constructeur paramétré de <Graph>" << endl;
@@ -111,13 +102,15 @@ Graph::Graph ( const shared_ptr < Connections > & logs )
 
     for ( auto const & log : connections->GetLogs() )
     {
+        // ajout d'une cible + son referer
         AddNode( Node( log->GetCible(), log->GetShortReferer() ) );
+        // ajout d'un simple referer
         AddNode( Node( log->GetShortReferer() ) );
     }
 
+    // initialisation des arcs
     initEdges();
-
-} //----- Fin de Graph (constructeur parametre)
+} //----- Fin de Graph (constructeur paramétré)
 
 Graph::~Graph ( )
 // Algorithme :
@@ -134,23 +127,23 @@ Graph::~Graph ( )
 //----------------------------------------------------- Méthodes protégées
 void Graph::initEdges ( )
 // Algorithme :
-// Parcours de la map de sommets <vertice> et creation d'un nouvel arc
-// dans la map "edges" si le sommet a au moins un hit (s'il s'agit d'une cible)
+// Parcours de la map de sommets <vertice> et création d'un nouvel arc
+// dans la map <edges> si le sommet a au moins un hit (s'il s'agit d'une cible)
 // Le edge contiendra les informations < idReferer, idCible, nombreConsultations >
 {
     // Parcours des sommets
     for ( auto const & vertex : vertice )
     {
-        // Si le sommet correspond a un referer (aucune page ne l'a demande)
+        // Si le sommet correspond à un referer (n'a jamais été consulté)
         if ( vertex.second->hits == 0 )
         {
             // passe au suivant
             continue;
         }
-        // Sinon si le sommet est une cible, alors on parcourt tous les referers de cette cible
+        // Sinon le sommet est une cible, alors parcours de tous les referers de cette cible
         for ( auto const & ref : vertex.second->referers )
         {
-            // creation d'un nouvel edge qui contient < idCible, idReferer, nombreConsultations >
+            // création d'un nouvel edge qui contient < idCible, idReferer, nombreConsultations >
             edges[ pair < int, int > ( vertice[ ref.first ]->id, vertex.second->id ) ] = ref.second;
         }
     }

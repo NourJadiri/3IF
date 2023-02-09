@@ -68,13 +68,14 @@ public:
     // Mode d'emploi :
     // Renvoie l'extension du referer d'une ligne de log
 
-//-------------------------------------------- Constructeurs - destructeur
+
+    //-------------------------------------------- Constructeurs - destructeur
     explicit Log ( const std::string & logLine, const Referer & baseRefererToDelete = DEFAULT_URL_BASE );
     // Mode d'emploi :
-    // Constructeur pour instancier un objet Log a partir d'une ligne de texte
+    // Constructeur pour instancier un objet Log à partir d'une ligne de texte
     // Contrat :
-    // La chaine de caracteres doit suivre le bon format access_log
-    // c'est-a-dire que le fichier de log doit suivre le modele standard
+    // La chaîne de caractères doit suivre le bon format access_log
+    // c'est-à-dire que le fichier de log doit suivre le modèle standard
 
     ~Log ( );
     // Mode d'emploi :
@@ -91,8 +92,8 @@ private:
     // l'adresse URL en entier
     Referer longReferer;
 
-    // l'adresse URL reduite au chemin de l'adresse si la base correspond a
-    // celle voulue par l'utilisateur OU a la base par defaut (intranet-if.insa-lyon.fr)
+    // l'adresse URL réduite au chemin de l'adresse si la base correspond à
+    // celle voulue par l'utilisateur OU aàla base par défaut (intranet-if.insa-lyon.fr)
     // sinon, correspond à la base de l'adresse URL (nom de domaine seulement)
     Referer shortReferer;
 

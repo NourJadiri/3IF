@@ -65,39 +65,38 @@ const Extension & Log::GetExtensionReferer ( ) const
 //-------------------------------------------- Constructeurs - destructeur
 Log::Log ( const string & logLine, const Referer & baseRefererToDelete )
 // Algorithme :
-// Capture des differents elements du log grace à du regex
-// Repartition de ces elements en plusieurs groupes de capture
-// Affectation des valeurs necessaires aux attributs de la classe.
+// Capture des différents éléments du log grâce à du regex
+// Répartition de ces éléments en plusieurs groupes de capture
+// Affectation des valeurs nécessaires aux attributs de la classe.
 {
 #ifdef MAP
     cout << "Appel au constructeur de <Log>" << endl;
 #endif
-    // Utilisation du regex pour capturer les elements qui composent un log
+    // Utilisation du regex pour capturer les éléments qui composent un log
     regex logFormat( "(\\S+) (\\S+) (\\S+) \\[([^:]+):(\\d+):(\\d+):(\\d+) ([^\\]]+)\\] \"(\\S+) (.*?) (\\S+)\" (\\S+) (\\S+) \"(\\S+)\" " );
     smatch matches;
 
-
     if ( regex_search( logLine, matches, logFormat ) )
     {
-        // Le 1er element du groupe de capture est l'IP de l'utilisateur
+        // Le 1er élément du groupe de capture est l'IP de l'utilisateur
         ip = matches.str( 1 );
 
-        // Le 5e element correspond a l'heure
+        // Le 5e élément correspond à l'heure
         heureConsultation = stoi( matches.str( 5 ) );
 
-        // Le 10e element est l'url de la page demandee
+        // Le 10e élément est l'url de la page demandée
         cible = removeParamsFromUrl( matches.str( 10 ) );
 
-        // On stock l'extension du fichier cible
+        // l'extension du fichier cible
         extensionCible = getExtensionFromFile(cible );
 
-        // le 12e element correspond au code de retour
+        // le 12e élément correspond au code de retour
         returnCode = stoi( matches.str( 12 ) );
 
-        // Le 14e element correspond au longReferer
+        // Le 14e élément correspond au longReferer
         longReferer = matches.str( 14 );
 
-        // Extraction du chemin court du shortReferer si celui-ci suit un schema d'url valide
+        // Extraction du chemin court du shortReferer si celui-ci suit un schéma d'url valide
         // Sinon le short referer sera une copie du longReferer
         if ( !isValidUrl( longReferer ) )
         {
@@ -112,7 +111,7 @@ Log::Log ( const string & logLine, const Referer & baseRefererToDelete )
             shortReferer = getBaseFromUrl( longReferer );
         }
 
-        // on stock l'extension du referer
+        // l'extension du referer
         extensionReferer = getExtensionFromFile ( getPathFromUrl( longReferer ) );
     }
 } //----- Fin de Log

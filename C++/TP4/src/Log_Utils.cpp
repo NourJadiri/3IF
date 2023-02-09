@@ -61,16 +61,16 @@ string getBaseFromUrl ( const string & url )
 
 string removeParamsFromUrl ( const string & url )
 // Algorithme :
-// La fonction trouve la premiere occurence de "?" qui correspond a un parametre mis en url
-// Elle supprime ensuite tout element present a partir de ce "?" afin de ne conserver que
+// La fonction trouve la première occurence de "?" qui correspond à un paramètre mis en url
+// Elle supprime ensuite tout élément présent à partir de ce "?" afin de ne conserver que
 // le chemin de l'url
 {
     std::string result = url;
 
-    // trouve la position du "?" qui indique le debut d'un parametre
+    // trouve la position du "?" qui indique le début d'un paramètre
     size_t paramStart = result.find( '?' );
 
-    // si un "?" est trouve
+    // si un "?" est trouvé
     if ( paramStart != string::npos )
     {
         // suppression de la suite
@@ -82,21 +82,21 @@ string removeParamsFromUrl ( const string & url )
 
 string getExtensionFromFile ( const std::string & file )
 // Algorithme :
-// recherche des caracteres apres le point -> extension du fichier
+// recherche des caractères après le point -> extension du fichier
 {
-    size_t last_dot_pos = file.find_last_of('.');
-    if (last_dot_pos == std::string::npos)
+    size_t last_dot_pos = file.find_last_of( '.') ;
+    if ( last_dot_pos == std::string::npos )
     {
         return "";
     }
 
-    return file.substr(last_dot_pos + 1);
+    return file.substr( last_dot_pos + 1 );
 } //----- getExtensionFromFile
 
 bool validExtension( const string & file, const string & ext )
 // Algorithme :
-// compare l'extension en parametre avec celle du fichier
-// et retourne TRUE si ce sont les memes
+// compare l'extension en paramètre avec celle du fichier
+// et retourne TRUE si ce sont les mêmes
 // sinon retourne une erreur
 {
     if ( file.find( "." + ext ) == string::npos )
@@ -109,7 +109,7 @@ bool validExtension( const string & file, const string & ext )
 
 bool fileNotFound ( const string & logFile )
 // Algorithme :
-// verifie si le fichier en parametre existe, sinon retourne une erreur
+// vérifie si le fichier en paramètre existe, sinon retourne une erreur
 {
     // fichier bien existant
     ifstream configUrlStream ( logFile );
@@ -123,17 +123,17 @@ bool fileNotFound ( const string & logFile )
 
 bool fileIsEmpty ( const string & logFile )
 // Algorithme :
-// verifie si le fichier en parametre est vide, sinon retourne une erreur
+// vérifie si le fichier en paramètre est vide, sinon retourne une erreur
 {
     ifstream configUrlStream ( logFile );
 
     // vérifier si le fichier est vide
     configUrlStream.seekg( 0, ios_base::end );
-    // va a la fin du fichier
+    // va à la fin du fichier
     long size;
-    size = configUrlStream.tellg(); // get position actuelle = taille du fichier
+    size = configUrlStream.tellg(); // trouve la position actuelle = taille du fichier
 
-    if ( size == 0 ) // fichier est vide
+    if ( size == 0 ) // fichier vide
     {
         cerr << endl << "The log file is empty. Please enter a non-empty file." << endl;
         return true;
@@ -146,18 +146,18 @@ bool fileIsEmpty ( const string & logFile )
 
 bool connectionSuccess ( int returnCode )
 // Algorithme :
-// verifie si le code de retour du log fait partie de ceux pour laquelle la connexion
-// a correctement ete etablie
+// vérifie si le code de retour du log fait partie de ceux pour laquelle la connexion
+// a correctement été établie
 {
     return returnCode == OK || returnCode == PREMANENT_REDIRECT || returnCode == TEMPORARY_REDIRECT
-           || returnCode == PARTIAL_CONTENT || returnCode == NOT_MODIFIED;
+                            || returnCode == PARTIAL_CONTENT || returnCode == NOT_MODIFIED;
 } //----- Fin de connectionSuccess
 
 bool isExcluded ( const string & ext )
 // Algorithme :
-// Recherche par dichotomie de l'extension a exclure dans le tableau extensionsToExclude
-// donc raisonnement par ordre alphabetique des extensions
-// Retourne TRUE si l'extension est trouvee (donc a exclure)
+// Recherche par dichotomie de l'extension à exclure dans le tableau extensionsToExclude
+// donc raisonnement par ordre alphabétique des extensions
+// Retourne TRUE si l'extension est trouvée (donc à exclure)
 {
     array < string, 9 > extensionsToExclude = { "bmp", "css", "gif", "ico", "jpeg", "jpg", "js", "png", "tiff" };
     return binary_search( extensionsToExclude.begin(), extensionsToExclude.end(), ext );

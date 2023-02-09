@@ -10,6 +10,11 @@ LD = g++
 CXXFLAGS = -g -Wall -ansi -pedantic -std=c++14
 LDFLAGS = -g -Wall -pedantic -std=c++14
 RMFLAGS = -rf
+MAP =
+
+ifdef MAP
+	CXXFLAGS += -DMAP
+endif
 
 # repertoires
 BIN_DIR = ./../bin/

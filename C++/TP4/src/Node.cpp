@@ -83,7 +83,7 @@ ostream & operator << ( ostream & os, Node & aNode )
 // d'arcs correspondant
 // de l'operateur <<
 {
-    os << "Node : " << aNode.name << " (" << aNode.hits << ( (aNode.hits == 1) ? "hit)" : "hits)" )<<endl;
+    os << "Node : " << aNode.name << " (" << aNode.hits << ( (aNode.hits == 1) ? "hit)" : "hits)" ) <<endl;
     os << "Referers : " << endl;
 
     for ( auto const & i : aNode.referers )

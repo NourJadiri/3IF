@@ -1,5 +1,6 @@
 
-La page de manuel de l'application peut être exécutée grâce à la commande suivante : man ./analog.man
+La page de manuel de l'application peut être exécutée grâce à la commande suivante : 
+$ man ./analog.man
 
 Sinon, en voici le texte :
 

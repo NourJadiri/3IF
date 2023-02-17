@@ -54,6 +54,8 @@ public:
 //------------------------------------------------- Surcharge d'opérateurs
     friend std::ostream & operator << ( std::ostream & os, Connections & l );
     // Mode d'emploi :
+    // Affichage sur la console du top 10 et des éventuels messages liés
+    // (moins de 10 cibles, aucune cible)
     // Affiche le top 10 des pages les plus visitées avec leur nombre
     // de hits correspondants selon le format suivant :
     // NOM_CIBLE ( NOMBRE_HITS hits )

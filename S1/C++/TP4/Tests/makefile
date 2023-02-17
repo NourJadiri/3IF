@@ -21,5 +21,3 @@ $(TEST):
 # suppression de l'executable, des -o et des resultats des tests
 $(CLEAN):
 	$(MAKE) -s -C ../src/ clean
-	$(RM) -rf results.csv
-

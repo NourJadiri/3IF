@@ -103,7 +103,7 @@ void calculScore ( DIGRAPH* g ){
     int count =0;
     for (int i = 0; i < g->n; i++)
     {
-        if(g->nbSucc==0)
+        if(g->nbSucc[i]==0)
         {
             sommet_abs[count]=i;
             count++;
@@ -123,31 +123,21 @@ void calculScore ( DIGRAPH* g ){
         }
         
         // iterer dans le vecteur s
-        for (int p = 0; p < g->n; ++p)
+        for (int i = 0; i < g->n; ++i)
         {
-            // parcourir les sommets
-            for (int j = 0; j < g->n; ++j)
-            {
-                // parcourir les successeurs
-                for (int i = 0; i < g->nbSucc[j]; ++i)
-                {
-                    //transformation en matrice stochastique
-                    s[p]+=qabs;
+            // ajout de qabs à chaque s[i]
+            s[i] += qabs;
 
-                    // si p est un successeur de succ[j][i]
-                    if (g->succ[j][i] == p)
-                    {
-                        // Update
-                        s[p] += s_prev[j] / g->nbSucc[j];
-                    }
-                }
+            // parcourir les sommets
+            for (int j = 0; j < g->nbSucc[i]; ++j) {
+                int p = g->succ[i][j];
+                s[p] += s_prev[i]/g->nbSucc[i];
             }
         }
 
         diff = max_diff(s_prev,s,g->n);
+        print_array(s , g->n , iter);
         copy_array(s , s_prev , g->n);
-
-        print_array(s_prev , g->n , iter);
 
         iter++;
     }

@@ -46,7 +46,7 @@ void printDigraph(DIGRAPH *g){
 }
 
 int main(){
-    FILE* fp  = fopen("exemple1.txt", "r");
+    FILE* fp  = fopen("../S2/AIAA/TP1/assets/exemple1.txt", "r");
     DIGRAPH* g = readDigraph(fp);
     fclose(fp);
     printDigraph(g);

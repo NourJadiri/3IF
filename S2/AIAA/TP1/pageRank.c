@@ -11,6 +11,51 @@ typedef struct{
     int** succ; // for each 0<=i<n and each 0<=j<nbSucc[i], succ[i][j]=jth successor of i
 } DIGRAPH;
 
+typedef struct Node{
+    double value;
+    double index;
+    struct Node* next;
+} Node;
+
+void insert_sorted (Node* n, double v , double i)
+{
+    if(n == NULL){
+        n = (Node*)malloc(sizeof(Node));
+        n->index = 0;
+        n->value = v;
+        n->next = NULL;
+        return;
+    }
+
+    Node * insert = (Node*)malloc(sizeof(Node));
+    insert->value = v;
+    insert->index = i;
+    insert->next = NULL;
+
+    if ( v < n->value )
+    {
+        insert->next = n;
+        return;
+    }
+
+    Node * iter = n;
+
+    while(iter->next != NULL)
+    {
+        if ( v >= iter->value && v < iter->next->value )
+        {
+            insert->next = iter->next;
+            iter->next = insert;
+            break;
+        }
+        iter = iter->next;
+    }
+    if (iter->next == NULL)
+    {
+        iter->next = insert;
+    }
+}
+
 double max_diff(double *v1, double *v2, int n) {
     double max = 0.0;
     for (int i = 0; i < n; i++) {
@@ -49,6 +94,17 @@ void copy_array(double *src, double *dst, int n) {
         dst[i] = src[i];
         src[i] = 0;
     }
+}
+
+Node* pageRank ( double *arr , int n ){
+    Node* r = (Node*)malloc(sizeof(Node));
+
+    for (int i = 0; i < n ; i++)
+    {
+        insert_sorted(r, arr[i] , arr[i]);
+    }
+
+    return r;
 }
 
 DIGRAPH* readDigraph(FILE *fp){
@@ -110,28 +166,30 @@ void calculScore ( DIGRAPH* g ){
         }
     }
     
-
+    // initialisation des paramètres
+    double alpha = 0.9;
+    double q = (1-alpha)/g->n;
     int iter = 1;
     double diff = 1;
     // update de s
-    while (diff >= 0.001 && iter < MAX_ITERATION)
+    while (diff >= 1.0e-10 && iter < MAX_ITERATION)
     {
         double qabs = 0;
         for (int i = 0; i < count; i++)
         {
-            qabs += s_prev[sommet_abs[i]]/g->n;
+            qabs += alpha*s_prev[sommet_abs[i]]/g->n;
         }
         
         // iterer dans le vecteur s
         for (int i = 0; i < g->n; ++i)
         {
             // ajout de qabs à chaque s[i]
-            s[i] += qabs;
+            s[i] += qabs + q;
 
             // parcourir les sommets
             for (int j = 0; j < g->nbSucc[i]; ++j) {
                 int p = g->succ[i][j];
-                s[p] += s_prev[i]/g->nbSucc[i];
+                s[p] += alpha*s_prev[i]/g->nbSucc[i];
             }
         }
 
@@ -142,16 +200,40 @@ void calculScore ( DIGRAPH* g ){
         iter++;
     }
 
+    Node* ranking = pageRank(s , g->n);
+
+    int i = 0;
+
+    while( i < 5 )
+    {
+        printf("%f " , ranking->index);
+        ranking = ranking->next;
+        i++;
+    }
+    
 }
 
 int main(){
-    FILE* fp  = fopen("../S2/AIAA/TP1/assets/exemple2.txt", "r");
+    /*FILE* fp  = fopen("/Users/isalinefoissey/Documents/3IF/3IF/S2/AIAA/TP1/assets/exemple2.txt", "r");
     DIGRAPH* g = readDigraph(fp);
     fclose(fp);
     //printDigraph(g);
 
-    calculScore(g);
+    calculScore(g);*/
 
+    Node* node = NULL;
+
+    insert_sorted(node,0.2,0.2);
+    insert_sorted(node,0.1,0.1);
+    insert_sorted(node,5,5);
+
+    int i = 0;
+    while( i < 4 )
+    {
+        printf("%f " , node->value);
+        node = node->next;
+        i++;
+    }
 
 
     return 0;

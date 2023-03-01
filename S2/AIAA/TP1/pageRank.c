@@ -97,12 +97,31 @@ void calculScore ( DIGRAPH* g ){
         s_prev[i] = 1.0/g->n;
         s[i] = 0;
     }
+    // calcul des sommets absorbants
+
+    int sommet_abs[g->n];
+    int count =0;
+    for (int i = 0; i < g->n; i++)
+    {
+        if(g->nbSucc==0)
+        {
+            sommet_abs[count]=i;
+            count++;
+        }
+    }
+    
 
     int iter = 1;
     double diff = 1;
     // update de s
     while (diff >= 0.001 && iter < MAX_ITERATION)
     {
+        double qabs = 0;
+        for (int i = 0; i < count; i++)
+        {
+            qabs += s_prev[sommet_abs[i]]/g->n;
+        }
+        
         // iterer dans le vecteur s
         for (int p = 0; p < g->n; ++p)
         {
@@ -112,6 +131,9 @@ void calculScore ( DIGRAPH* g ){
                 // parcourir les successeurs
                 for (int i = 0; i < g->nbSucc[j]; ++i)
                 {
+                    //transformation en matrice stochastique
+                    s[p]+=qabs;
+
                     // si p est un successeur de succ[j][i]
                     if (g->succ[j][i] == p)
                     {

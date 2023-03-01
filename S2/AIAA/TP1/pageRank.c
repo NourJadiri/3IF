@@ -13,44 +13,53 @@ typedef struct{
 
 typedef struct Node{
     double value;
-    double index;
+    int index;
     struct Node* next;
-} Node;
+}Node;
 
-void insert_sorted (Node* n, double v , double i)
-{
-    if(n == NULL){
-        n = (Node*)malloc(sizeof(Node));
-        n->index = 0;
-        n->value = v;
-        n->next = NULL;
+typedef struct{
+    Node* first;
+    int size;
+}List;
+
+void insertSorted ( List* l , double v, int i ){
+
+    if (l->first == NULL)
+    {
+        l->first = (Node*)malloc(sizeof(Node));
+        l->first->value = v;
+        l->first->index = i;
+        l->first->next = NULL;
+        l->size++;
         return;
     }
 
-    Node * insert = (Node*)malloc(sizeof(Node));
+    Node* insert = (Node*)malloc(sizeof(Node));
     insert->value = v;
     insert->index = i;
     insert->next = NULL;
 
-    if ( v < n->value )
+    if ( v > l->first->value )
     {
-        insert->next = n;
+        insert->next = l->first;
+        l->first = insert;
+        l->size++;
         return;
     }
 
-    Node * iter = n;
-
-    while(iter->next != NULL)
+    Node* iter = l->first;
+    while (iter->next != NULL)
     {
-        if ( v >= iter->value && v < iter->next->value )
+        if ( v < iter->value && v > iter->next->value )
         {
             insert->next = iter->next;
             iter->next = insert;
-            break;
+            return;
         }
+        l->size++;
         iter = iter->next;
     }
-    if (iter->next == NULL)
+    if(iter->next == NULL)
     {
         iter->next = insert;
     }
@@ -86,7 +95,7 @@ void print_array(double *arr, int n, int iter) {
             printf(" ");
         }
     }
-    printf(" ) %.6f\n",sum(arr,n));
+    //printf(" ) %.6f\n",sum(arr,n));
 }
 
 void copy_array(double *src, double *dst, int n) {
@@ -94,17 +103,6 @@ void copy_array(double *src, double *dst, int n) {
         dst[i] = src[i];
         src[i] = 0;
     }
-}
-
-Node* pageRank ( double *arr , int n ){
-    Node* r = (Node*)malloc(sizeof(Node));
-
-    for (int i = 0; i < n ; i++)
-    {
-        insert_sorted(r, arr[i] , arr[i]);
-    }
-
-    return r;
 }
 
 DIGRAPH* readDigraph(FILE *fp){
@@ -141,6 +139,27 @@ void printDigraph(DIGRAPH *g){
             printf("%d ", g->succ[i][j]);
         printf("\n");
     }
+}
+
+void pageRank (double *arr , int n)
+{
+    List * l = (List*)malloc(sizeof(List));
+    l->first = NULL;
+
+    for (int i = 0; i < n; ++i) {
+        insertSorted(l, arr[i], i);
+    }
+
+    Node* iter = l->first;
+    int i = 0;
+    while( i < 5 )
+    {
+        printf("%d ", iter->index);
+        iter = iter->next;
+        i++;
+    }
+
+    free(l);
 }
 
 void calculScore ( DIGRAPH* g ){
@@ -200,40 +219,19 @@ void calculScore ( DIGRAPH* g ){
         iter++;
     }
 
-    Node* ranking = pageRank(s , g->n);
+    pageRank(s_prev, g->n);
 
-    int i = 0;
-
-    while( i < 5 )
-    {
-        printf("%f " , ranking->index);
-        ranking = ranking->next;
-        i++;
-    }
-    
 }
 
+
+
 int main(){
-    /*FILE* fp  = fopen("/Users/isalinefoissey/Documents/3IF/3IF/S2/AIAA/TP1/assets/exemple2.txt", "r");
+    FILE* fp  = fopen("../S2/AIAA/TP1/assets/genetic.txt", "r");
     DIGRAPH* g = readDigraph(fp);
     fclose(fp);
     //printDigraph(g);
 
-    calculScore(g);*/
-
-    Node* node = NULL;
-
-    insert_sorted(node,0.2,0.2);
-    insert_sorted(node,0.1,0.1);
-    insert_sorted(node,5,5);
-
-    int i = 0;
-    while( i < 4 )
-    {
-        printf("%f " , node->value);
-        node = node->next;
-        i++;
-    }
+    calculScore(g);
 
 
     return 0;

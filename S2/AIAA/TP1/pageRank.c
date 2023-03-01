@@ -22,6 +22,17 @@ double max_diff(double *v1, double *v2, int n) {
     return max;
 }
 
+double sum ( const double *arr , int n ){
+
+    double s = 0;
+
+    for (int i = 0 ; i < n ; i++){
+        s+= arr[i];
+    }
+
+    return s;
+}
+
 void print_array(double *arr, int n, int iter) {
     printf("s%d = ( ", iter);
     for (int i = 0; i < n; i++) {
@@ -30,7 +41,7 @@ void print_array(double *arr, int n, int iter) {
             printf(" ");
         }
     }
-    printf(" )\n");
+    printf(" ) %.6f\n",sum(arr,n));
 }
 
 void copy_array(double *src, double *dst, int n) {
@@ -122,7 +133,7 @@ void calculScore ( DIGRAPH* g ){
 }
 
 int main(){
-    FILE* fp  = fopen("../S2/AIAA/TP1/assets/exemple1.txt", "r");
+    FILE* fp  = fopen("../S2/AIAA/TP1/assets/exemple2.txt", "r");
     DIGRAPH* g = readDigraph(fp);
     fclose(fp);
     //printDigraph(g);

@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/isalinefoissey/Documents/3IF/3IF'
-make: Leaving directory `/Users/isalinefoissey/Documents/3IF/3IF'
- 
-make: *** No targets specified and no makefile found.  Stop.
-

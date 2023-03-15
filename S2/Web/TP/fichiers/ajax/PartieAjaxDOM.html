@@ -12,29 +12,32 @@
 </head>
 
 <body>
-    <p>
+<p>
     Change le background en bleu : <br/>
-    </p>
-    <input name="button" type="button" id="myButton1" onClick="Button1_function();" value="Bouton1" />
-    <br/>
+</p>
+<input name="button" type="button" id="myButton1" onClick="Button1_function();" value="Bouton1" />
+<br/>
+<p>
+    Change le background en blanc
+</p>
+<input name="button2" type="button" id="myButton2" onClick="Button2_function();" value="Bouton2" />
+<br/>
+<div>
     <p>
-        Change le background en blanc
+        Cherche un pays à partir de son code (cca2, ccn3, cca3, cioc , callingCode)
     </p>
-    <input name="button2" type="button" id="myButton2" onClick="Button2_function();" value="Bouton2" />
-    <br/>
-    <div>
-        <p>
-            Cherche un pays à partir de son code (cca2, ccn3, cca3, cioc , callingCode)
-        </p>
-    </div>
-    <input name="button3" type="button" id="myButton3" onClick="Bouton3_cherchePays('../countriesTP.xml','cherchePays.xsl', document.getElementById('codePays').value,'pays');" value="Bouton3" />
-    <input name="code" type="text" id="codePays"/>
-    <div>
+</div>
+<input name="button3" type="button" id="myButton3" onClick="Bouton3_cherchePays('../countriesTP.xml','cherchePays.xsl', document.getElementById('codePays').value,'pays');" value="Bouton3" />
+<input name="code" type="text" id="codePays"/>
+<div>
         <span id = "pays_a_chercher">
             Please enter a country code to find...
         </span>
-    </div>
-    <svg
+</div>
+
+<input name="button4" type="button" id="myButton4" onClick="Bouton4_loadSvg('exemple.svg');" value="Bouton4" />
+<div id="exemple">
+</div>
 
 </body>
 

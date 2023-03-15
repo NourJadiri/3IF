@@ -64,7 +64,7 @@ function chargerHttpJSON(jsonDocumentUrl) {
 function Button1_function(){
     document.getElementById("myButton1").style.color = 'white';
     changeBackground('blue');
-    
+
 }
 function changeBackground(color){
     document.body.style.background = color;
@@ -81,7 +81,7 @@ function Bouton3_cherchePays(xmlDocumentUrl, xslDocumentUrl, countryCode ,balise
     // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone 
     let xslDocument = chargerHttpXML(xslDocumentUrl);
 
-	//création d'un processuer XSL
+    //création d'un processuer XSL
     let xsltProcessor = new XSLTProcessor();
 
     // Importation du .xsl
@@ -98,21 +98,23 @@ function Bouton3_cherchePays(xmlDocumentUrl, xslDocumentUrl, countryCode ,balise
 
     // Recherche du parent (dont l'id est "here") de l'�l�ment � remplacer dans le document HTML courant
     let elementHtmlParent = window.document.getElementById("pays_a_chercher");
-    
-	// ins�rer l'�lement transform� dans la page html
+
+    // ins�rer l'�lement transform� dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
-	
+
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton4_loadSvg(svgDocumentUrl){
 
+    let svg = document.getElementById('exemple');
+
     let s = chargerHttpXML(svgDocumentUrl);
 
+    let serializer = new XMLSerializer();
 
-
-
+    svg.innerHTML = serializer.serializeToString(s);
 
 }
 function Bouton4_ajaxBibliographieAvecParametres(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, paramXSL_type_reference) {
@@ -120,14 +122,14 @@ function Bouton4_ajaxBibliographieAvecParametres(xmlDocumentUrl, xslDocumentUrl,
     // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone 
     var xslDocument = chargerHttpXML(xslDocumentUrl);
 
-	//cr�ation d'un processuer XSL
+    //cr�ation d'un processuer XSL
     var xsltProcessor = new XSLTProcessor();
 
     // Importation du .xsl
     xsltProcessor.importStylesheet(xslDocument);
-	
-	//passage du param�tre � la feuille de style
-	xsltProcessor.setParameter("", "param_ref_type",paramXSL_type_reference);
+
+    //passage du param�tre � la feuille de style
+    xsltProcessor.setParameter("", "param_ref_type",paramXSL_type_reference);
 
     // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML(xmlDocumentUrl);
@@ -137,10 +139,10 @@ function Bouton4_ajaxBibliographieAvecParametres(xmlDocumentUrl, xslDocumentUrl,
 
     // Recherche du parent (dont l'id est "here") de l'�l�ment � remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
-    
-	// ins�rer l'�lement transform� dans la page html
+
+    // ins�rer l'�lement transform� dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
-	
+
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

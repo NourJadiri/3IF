@@ -150,3 +150,17 @@ function Bouton4_ajaxEmployeesTableau(xmlDocumentUrl, xslDocumentUrl) {
     //commenter la ligne suivante qui affiche la bo�te de dialogue!
     alert("Fonction � compl�ter...");
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton6_afficherCarte(svgDocumentUrl) {
+
+    let svg = document.getElementById('worldHigh');
+
+    let s = chargerHttpXML(svgDocumentUrl);
+
+    let serializer = new XMLSerializer();
+
+    svg.innerHTML = serializer.serializeToString(s);
+	
+
+}
+

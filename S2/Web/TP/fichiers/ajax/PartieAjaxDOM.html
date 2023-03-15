@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <input name="button5" type="button" id="myButton5" onClick="Bouton5_makeSvgClickable('exemple.svg');" value="Bouton5"/>
+    <input name="button5" type="button" id="myButton5" onClick="makeSvgClickable('lesFormes' , 'shapeTitle' , 'title');" value="Bouton5"/>
 
     <div>
            <p>
@@ -54,12 +54,26 @@
     </div>
     <input name="button6" type="button" id="myButton6" onClick="Bouton6_afficherCarte('worldHigh.svg');" value="Bouton6"/>
     <div id="worldHigh">
+
     </div>
         <p>
             rend la carte clickable: <br/>
         </p>
- <input name="button" type="button" id="myButton7" onClick="Button7_function('');" value="Bouton7" />
- <br/>
+    <input name="button7" type="button" id="myButton7" onClick="Bouton7_makeCountriesClickable();" value="Bouton7" />
+    <div>
+        <p>
+        Nom du pays clicked : <span id="countryNameDisplay"></span>
+        </p>
+    </div>
+    <br/>
+
+    <p>
+        Ajoute des animations au hover
+    </p>
+    <input name="button8" type="button" id="myButton8" onClick="Bouton8_captureMouseMovement();" value="Bouton8"/>
+
+
+
 
 </body>
 

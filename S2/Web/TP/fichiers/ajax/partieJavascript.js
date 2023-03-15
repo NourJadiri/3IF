@@ -117,13 +117,13 @@ function Bouton4_loadSvg(svgDocumentUrl){
     svg.innerHTML = serializer.serializeToString(s);
 }
 
-function Bouton5_makeSvgClickable(svgDocumentUrl){
+function makeSvgClickable(svgElementId , elementToReplace , attributeToDisplay){
 
-    let elements = document.getElementById("lesFormes").children[0].children;
+    let elements = document.getElementById(svgElementId).children[0].children;
 
     for(let i = 0 ; i < elements.length ; i++){
         elements[i].addEventListener('click', function(){
-            document.getElementById("shapeTitle").innerHTML = this.getAttribute('title');
+            document.getElementById(elementToReplace).innerHTML = this.getAttribute(attributeToDisplay);
         });
     }
 }
@@ -139,7 +139,39 @@ function Bouton6_afficherCarte(svgDocumentUrl) {
     let serializer = new XMLSerializer();
 
     svg.innerHTML = serializer.serializeToString(s);
-	
 
 }
+
+function Bouton7_makeCountriesClickable(){
+
+    var countries = document.getElementById('worldHigh').children[0].getElementsByTagName('g')[0].children;
+
+    for( let i = 0 ; i < countries.length ; i++ ){
+
+        countries[i].addEventListener('click', function(){
+            document.getElementById('countryNameDisplay').innerHTML = this.getAttribute('countryname');
+        });
+    }
+
+}
+
+function Bouton8_captureMouseMovement(){
+
+    var countries = document.getElementById('worldHigh').children[0].getElementsByTagName('g')[0].children;
+
+    for(let i = 0 ; i < countries.length ; i++){
+        let previousColor = countries[i].style.fill;
+
+        countries[i].addEventListener('mouseover' , function(){
+            this.style.fill = '#404040';
+        })
+
+        countries[i].addEventListener('mouseleave',function (){
+            this.style.fill = previousColor;
+        })
+    }
+
+}
+
+
 

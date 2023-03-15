@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>TP 3IF Ajax</title>
+    <meta name="author" content="Elöd EGYED-ZSIGMOND">
+    <link rel="stylesheet" type="text/css" href="ExerciceAjax.css">
+
+    <script type="text/javascript" src="partieJavascript.js"></script>
+
+</head>
+
+<body>
+    <p>
+    Change le background en bleu : <br/>
+    </p>
+    <input name="button" type="button" id="myButton1" onClick="Button1_function();" value="Bouton1" />
+    <br/>
+    <p>
+        Change le background en blanc
+    </p>
+    <input name="button2" type="button" id="myButton2" onClick="Button2_function();" value="Bouton2" />
+    <br/>
+    <div>
+        <p>
+            Cherche un pays à partir de son code (cca2, ccn3, cca3, cioc , callingCode)
+        </p>
+    </div>
+    <input name="button3" type="button" id="myButton3" onClick="Bouton3_cherchePays('../countriesTP.xml','cherchePays.xsl', document.getElementById('codePays').value,'pays');" value="Bouton3" />
+    <input name="code" type="text" id="codePays"/>
+    <div>
+        <span id = "pays_a_chercher">
+            Please enter a country code to find...
+        </span>
+    </div>
+    <svg
+
+</body>
+
+</html>

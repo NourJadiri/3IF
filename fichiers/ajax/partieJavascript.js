@@ -8,14 +8,14 @@ function recupererPremierEnfantDeTypeElement(n) {
     return x;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//change le contenu de l'élement avec l'id "nom" avec la chaine de caractéres en paramètre	  
+//change le contenu de l'ï¿½lement avec l'id "nom" avec la chaine de caractï¿½res en paramï¿½tre	  
 function setNom(nom) {
     var elementHtmlARemplir = window.document.getElementById("id_nom_a_remplacer");
     elementHtmlARemplir.innerHTML = nom;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//charge le fichier XML se trouvant à l'URL relative donné dans le paramètreet le retourne
+//charge le fichier XML se trouvant ï¿½ l'URL relative donnï¿½ dans le paramï¿½treet le retourne
 function chargerHttpXML(xmlDocumentUrl) {
 
     var httpAjax;
@@ -28,7 +28,7 @@ function chargerHttpXML(xmlDocumentUrl) {
         httpAjax.overrideMimeType('text/xml');
     }
 
-    //chargement du fichier XML à l'aide de XMLHttpRequest synchrone (le 3° paramètre est défini à false)
+    //chargement du fichier XML ï¿½ l'aide de XMLHttpRequest synchrone (le 3ï¿½ paramï¿½tre est dï¿½fini ï¿½ false)
     httpAjax.open('GET', xmlDocumentUrl, false);
     httpAjax.send();
 
@@ -36,7 +36,7 @@ function chargerHttpXML(xmlDocumentUrl) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-// Charge le fichier JSON se trouvant à l'URL donnée en paramètre et le retourne
+// Charge le fichier JSON se trouvant ï¿½ l'URL donnï¿½e en paramï¿½tre et le retourne
 function chargerHttpJSON(jsonDocumentUrl) {
 
     var httpAjax;
@@ -49,7 +49,7 @@ function chargerHttpJSON(jsonDocumentUrl) {
         httpAjax.overrideMimeType('text/xml');
     }
 
-    // chargement du fichier JSON à l'aide de XMLHttpRequest synchrone (le 3° paramètre est défini à false)
+    // chargement du fichier JSON ï¿½ l'aide de XMLHttpRequest synchrone (le 3ï¿½ paramï¿½tre est dï¿½fini ï¿½ false)
     httpAjax.open('GET', jsonDocumentUrl, false);
     httpAjax.send();
 
@@ -60,91 +60,87 @@ function chargerHttpJSON(jsonDocumentUrl) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Bouton2_ajaxEmployees(xmlDocumentUrl) {
 
+function Button1_function(){
+    document.getElementById("myButton1").style.color = 'white';
+    changeBackground('blue');
+    
+}
+function changeBackground(color){
+    document.body.style.background = color;
+}
 
-    var xmlDocument = chargerHttpXML(xmlDocumentUrl);
-
-    //extraction des noms à partir du document XML (avec une feuille de style ou en javascript)
-    var lesNoms = xmlDocument.getElementsByTagName("LastName");
-
-    // Parcours de la liste des noms avec une boucle for et 
-    // construction d'une chaine de charactères contenant les noms séparés par des espaces 
-    // Pour avoir la longueur d'une liste : attribut 'length'
-    // Accès au texte d'un noeud "LastName" : NOM_NOEUD.firstChild.nodeValue
-    var chaineDesNoms = "";
-    for (i = 0; i < lesNoms.length; i++) {
-        if (i > 0) {
-            chaineDesNoms = chaineDesNoms + ", ";
-        }
-        chaineDesNoms = chaineDesNoms + lesNoms[i].firstChild.nodeValue + " ";
-    }
-
-
-    // Appel (ou recopie) de la fonction setNom(...) ou bien autre façon de modifier le texte de l'élément "span"
-    setNom(chaineDesNoms);
-
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Button2_function(){
+    document.getElementById("myButton1").style.color = 'black';
+    changeBackground('white');
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Bouton3_ajaxBibliographie(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer) {
+function Bouton3_cherchePays(xmlDocumentUrl, xslDocumentUrl, countryCode ,baliseElementARecuperer) {
 
-    // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
-    var xslDocument = chargerHttpXML(xslDocumentUrl);
+    // Chargement du fichier XSL ï¿½ l'aide de XMLHttpRequest synchrone 
+    let xslDocument = chargerHttpXML(xslDocumentUrl);
 
-	//création d'un processuer XSL
-    var xsltProcessor = new XSLTProcessor();
+	//crÃ©ation d'un processuer XSL
+    let xsltProcessor = new XSLTProcessor();
 
     // Importation du .xsl
     xsltProcessor.importStylesheet(xslDocument);
 
-    // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
-    var xmlDocument = chargerHttpXML(xmlDocumentUrl);
+    //passage du paramï¿½tre ï¿½ la feuille de style
+    xsltProcessor.setParameter("", "code",countryCode);
 
-    // Création du document XML transformé par le XSL
-    var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+    // Chargement du fichier XML ï¿½ l'aide de XMLHttpRequest synchrone 
+    let xmlDocument = chargerHttpXML(xmlDocumentUrl);
 
-    // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
-    var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
+    // Crï¿½ation du document XML transformï¿½ par le XSL
+    let newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+
+    // Recherche du parent (dont l'id est "here") de l'ï¿½lï¿½ment ï¿½ remplacer dans le document HTML courant
+    let elementHtmlParent = window.document.getElementById("pays_a_chercher");
     
-	// insérer l'élement transformé dans la page html
+	// insï¿½rer l'ï¿½lement transformï¿½ dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
 	
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton4_loadSvg(svgDocumentUrl){
+    let s = chargerHttpXML(svgDocumentUrl);
+
+    let str = s.serializeToString()
+}
 function Bouton4_ajaxBibliographieAvecParametres(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, paramXSL_type_reference) {
 
-    // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
+    // Chargement du fichier XSL ï¿½ l'aide de XMLHttpRequest synchrone 
     var xslDocument = chargerHttpXML(xslDocumentUrl);
 
-	//création d'un processuer XSL
+	//crï¿½ation d'un processuer XSL
     var xsltProcessor = new XSLTProcessor();
 
     // Importation du .xsl
     xsltProcessor.importStylesheet(xslDocument);
 	
-	//passage du paramètre à la feuille de style
+	//passage du paramï¿½tre ï¿½ la feuille de style
 	xsltProcessor.setParameter("", "param_ref_type",paramXSL_type_reference);
 
-    // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
+    // Chargement du fichier XML ï¿½ l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML(xmlDocumentUrl);
 
-    // Création du document XML transformé par le XSL
+    // Crï¿½ation du document XML transformï¿½ par le XSL
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
 
-    // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
+    // Recherche du parent (dont l'id est "here") de l'ï¿½lï¿½ment ï¿½ remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
     
-	// insérer l'élement transformé dans la page html
+	// insï¿½rer l'ï¿½lement transformï¿½ dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
 	
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton4_ajaxEmployeesTableau(xmlDocumentUrl, xslDocumentUrl) {
-    //commenter la ligne suivante qui affiche la boîte de dialogue!
-    alert("Fonction à compléter...");
+    //commenter la ligne suivante qui affiche la boï¿½te de dialogue!
+    alert("Fonction ï¿½ complï¿½ter...");
 }

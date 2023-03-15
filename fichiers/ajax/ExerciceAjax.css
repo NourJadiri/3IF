@@ -31,3 +31,45 @@
 	font-style: italic;
 	color: #006600;
 }
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+input[type="button"] {
+    background-color: #4CAF50;
+    border: none;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+input[type="button"]:hover {
+    background-color: #3e8e41;
+}
+
+input[type="text"] {
+    font-size: 16px;
+    padding: 5px;
+    width: 200px;
+}
+
+#pays_a_chercher {
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
+}

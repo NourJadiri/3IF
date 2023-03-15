@@ -173,5 +173,44 @@ function Bouton8_captureMouseMovement(){
 
 }
 
+function Bouton9_addAutoComplete(){
+    const inputField = document.getElementById("codePays");
+
+    const button = document.getElementById("myButton9");
+
+    const XMLDocument = chargerHttpXML('../countriesTP.xml');
+
+    const parser = new DOMParser();
+
+    const xpath = "//country/country_codes/cca2";
+
+    const nodes = XMLDocument.evaluate(xpath, XMLDocument, null, XPathResult.ANY_TYPE, null);
+
+    const options = [];
+
+    // Adding the options from the XML file to the array
+    let node = nodes.iterateNext();
+    while (node) {
+        options.push(node.textContent);
+        node = nodes.iterateNext();
+    }
+
+    const datalist = document.createElement("datalist");
+    datalist.id = "autoComplete";
+
+
+    for( let option in options ){
+        const optionElement = document.createElement("option");
+
+        optionElement.setAttribute("value", options[option] );
+        datalist.appendChild(optionElement);
+    }
+
+    inputField.appendChild(datalist);
+
+    inputField.setAttribute("list" , datalist.id);
+
+}
+
 
 

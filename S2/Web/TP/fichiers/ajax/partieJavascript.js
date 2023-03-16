@@ -252,14 +252,20 @@ let infoBubble = document.createElement("div");
 infoBubble.setAttribute("id", "infoBubble");
 infoBubble.style.display = "none";
 window.onload = () => {document.body.appendChild(infoBubble)};
-let button10 = false;
 
-function mouseOver() {
+let showCurrency = false;
+let showTemperature = false;
+let inGame = false;
+
+
+async function mouseOver() {
+
+    /// Partie changement de couleur
     // Si le pays est en vert , on rend la couleur plus foncée
-    if(this.style.fill == 'green'){
+    if(this.style.fill === 'green'){
         this.style.fill = "#556B2F";
     }
-    else{
+    else if(this.style.fill !== 'red' && this.style.fill !== 'blue'){
         // Sinon on met une couleur qui montre qu'on l'a selectionné
         this.style.fill ='#404040';
     }
@@ -289,7 +295,7 @@ function mouseOver() {
     let flag = 'http://www.geonames.org/flags/x/' + countryCode.toLowerCase() + '.gif';
 
     //Si le bouton 10 est clické, on récupère la monnaie du pays aussi
-    if(button10){
+    if(showCurrency){
         let currency =  'https://restcountries.com/v2/alpha/' + countryCode.toLowerCase();
 
         // On charge le fichier JSON contenu dans l'url
@@ -298,19 +304,27 @@ function mouseOver() {
         var currencyName = jsonFile.currencies[0].name;
     }
 
+    if(showTemperature){
+
+        var temp = await getTemperatureForCountry(countryCode);
+    }
+
     // Update the infoBubble content
     infoBubble.innerHTML = `
     <div class="infoBubble__content">
       <div class="infoBubble__country">${countryName}</div>
       <div class="infoBubble__capital"><span>Capital:</span> ${capital}</div>
       <div class="infoBubble__languages"><span>Languages:</span> ${languages}</div>
-      ${button10 ? `<div class="infoBubble__currency"><span>Currency:</span> ${currencyName}</div>` : ''}
+      ${showCurrency ? `<div class="infoBubble__currency"><span>Currency:</span> ${currencyName}</div>` : ''}
+      ${showTemperature ?`<div class="infoBubble__temperature"><span>Temperature:</span> ${temp}°C</div>` : ''}
       <div class="infoBubble__flag"><img src="${flag}" width="50" alt=""></div>
     </div>
   `;
 
     // Show the infoBubble
-    infoBubble.style.display = "block";
+    if( !inGame ){
+        infoBubble.style.display = "block";
+    }
 
     document.addEventListener('mousemove', (event) => {
         infoBubble.style.left = `${event.pageX + 10}px`;
@@ -318,8 +332,6 @@ function mouseOver() {
     });
 
 }
-
-// Position the infoBubble near the mouse cursor
 
 
 
@@ -336,23 +348,25 @@ function Bouton9_addAutoComplete(){
 
     const parser = new DOMParser();
 
+    // On récupère tous les CCA2 des pays
     const xpath = "//country/country_codes/cca2";
 
     const nodes = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
 
     const options = [];
 
-    // Adding the options from the XML file to the array
+    // Adding the options from the XML file to the array options
     let node = nodes.iterateNext();
     while (node) {
         options.push(node.textContent);
         node = nodes.iterateNext();
     }
 
+    // Création de la datalist
     const datalist = document.createElement("datalist");
     datalist.id = "autoComplete";
 
-
+    // On rajoute les options du tablea options à la datalist
     for( let option in options ){
         const optionElement = document.createElement("option");
 
@@ -360,15 +374,17 @@ function Bouton9_addAutoComplete(){
         datalist.appendChild(optionElement);
     }
 
+    // On rajoute la datalist à notre document
     inputField.appendChild(datalist);
 
+    // On lie l'input et la datalist
     inputField.setAttribute("list" , datalist.id);
 
 }
 
 
 function Bouton10_addCurrency(){
-    button10 = true;
+    showCurrency = true;
 }
 
 
@@ -383,12 +399,29 @@ function getRandomCountryCode(){
 
 function getCountryNameFromCode( countryCode ){
 
-    let xpath = `//country[country_codes/cca2 = '${countryCode}']/country_name/offic_name`;
+    let xpath = `//country[country_codes/cca2 = '${countryCode}']/country_name/common_name`;
+
+    return xmlDoc.evaluate( xpath, xmlDoc, null, XPathResult.STRING_TYPE, null).stringValue;
+}
+
+function getCountryCapitalFromCode ( countryCode ){
+    let xpath = `//country[country_codes/cca2 = '${countryCode}']/capital`;
 
     return xmlDoc.evaluate( xpath, xmlDoc, null, XPathResult.STRING_TYPE, null).stringValue;
 }
 
 let mapClickable = false;
+
+function clearColors(){
+    let worldMapSVG = document.getElementById("worldMapContainer").children[0];
+
+    let countriesPaths = worldMapSVG.getElementsByTagName("path");
+
+    for (let country of countriesPaths ){
+        country.style.fill = "#CCCCCC";
+    }
+
+}
 function Bouton12_geoGuessr(){
 
     // Si la carte n'est pas chargée, on epargne la galère à l'utilisateur
@@ -396,24 +429,42 @@ function Bouton12_geoGuessr(){
         document.getElementById("myButton6").click();
     }
 
+    clearColors();
+
+    inGame = true;
+
     document.getElementById("myButton7").click();
-    document.getElementById("myButton8").click();
 
     let countryToSearch = getCountryNameFromCode( getRandomCountryCode() );
 
     let gameState = document.getElementById("countryToSearch");
 
+    let gameEnd = false;
+
     gameState.innerHTML = "Country to find : " + countryToSearch;
 
     let worldMapSVG = document.getElementById("worldMapContainer").children[0];
 
-    let countriesPaths = worldMapSVG.querySelectorAll(".land");
+    let countriesPaths = worldMapSVG.getElementsByTagName("path");
 
     let attemptNumber = 0;
 
     console.log(countriesPaths);
     for ( let country of countriesPaths ){
+
+        country.addEventListener('mouseover' , mouseOver);
+
+
+        country.addEventListener('mouseleave', function() {
+            if(this.style.fill !== 'red' && this.style.fill !== 'blue'){
+                this.style.fill = '';
+            }
+            infoBubble.style.display = "none";
+        });
+
+
         country.addEventListener('click' , function() {
+
             attemptNumber++;
 
             const userAttempt = getCountryNameFromCode(this.getAttribute("id"));
@@ -421,16 +472,83 @@ function Bouton12_geoGuessr(){
             console.log("country clicked");
 
             if(userAttempt === countryToSearch){
-                gameState.innerHTML = "NICE , you found " + countryToSearch + " in " + attemptNumber + " attempts ! ";
+                //gameState.innerHTML = "NICE , you found " + countryToSearch + " in " + attemptNumber + " attempts ! ";
+                alert(`Nice job , you found '${countryToSearch} in ${attemptNumber} attempts :)`);
                 this.style.fill = "blue";
+                clearColors();
+                gameState.innerHTML = '';
+                inGame = false;
+                gameEnd = true;
+                return;
             }else{
                 this.style.fill = "red";
             }
         });
     }
+
+    if(gameEnd === true){
+        return;
+    }
 }
 
-function countryClicked(){
+// On capture la temperature de chaque pays grace à l'API openWeather
+// L'api n'utilisant pas la m
+async function getTemperatureForCountry(countryCode) {
+    const apiKey = 'db022c2a0c5a4108bfb93433231603';
+    const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${getCountryCapitalFromCode(countryCode)}`;
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        if (!data.current) {
+            console.error(`No temperature data available for this country. ${getCountryNameFromCode(countryCode)}`);
+            return;
+        }
+        return data.current.temp_c;
+    } catch (error) {
+        console.error(error);
+        console.error(`Error fetching temperature data for this country. ${getCountryNameFromCode(countryCode)}`);
+    }
+}
+
+
+async function Bouton13_showTemperatures(){
+
+    if(!mapLoaded){
+        document.getElementById("myButton6").click();
+    }
+
+    showTemperature = true;
+
+    let worldMapSVG = document.getElementById("worldMapContainer").children[0];
+
+    const countriesPaths = worldMapSVG.querySelectorAll('.land');
+    const colors = ['#add8e6', '#f29b9b', '#e86f6f', '#d64545', '#b61818' , 'black'];
+    const colorIndexByTemp = (temp) => {
+        if (temp == null) return 5;
+        if (temp < 0) return 0;
+        if (temp < 10) return 1;
+        if (temp < 20) return 2;
+        if (temp < 30) return 3;
+        return 4;
+    };
+
+    for (let country of countriesPaths) {
+        const countryCode = country.getAttribute('id');
+
+        const temp = await getTemperatureForCountry(countryCode);
+
+        const colorIndex = colorIndexByTemp(temp);
+
+        country.style.fill = colors[colorIndex];
+
+        country.addEventListener('click', function() {
+            const countryName = getCountryNameFromCode(countryCode);
+            document.getElementById('countryNameDisplay').textContent = countryName;
+        });
+    }
+
+    captureMouseMovement();
+
 
 }
 

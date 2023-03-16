@@ -211,7 +211,7 @@
             </xsl:for-each>
         </xsl:variable>
 
-        <!--Affichage des pays qui -->
+        <!--Affichage des pays qui ont comme nombre de voisin le max nombre de voisin -->
         <div style="margin-top : 10px; margin-bottom: 10px">
             <xsl:text>Countries having the most neighbours : </xsl:text>
 

@@ -38,7 +38,7 @@
 
     <xsl:template match="country">
         <tr>
-
+            <!-- Le numéro du pays -->
             <td>
                 <xsl:value-of select="position()"/>
             </td>
@@ -54,7 +54,6 @@
                 </xsl:if>
             </td>
 
-            <!--TODO : refactor le code-->
             <td>
                 <xsl:variable name="cca2_code">
                     <xsl:value-of
@@ -148,6 +147,7 @@
     </xsl:template>
 
     <xsl:template match="coordinates">
+        <!--Selection de la longitue et latitude-->
         <td>
             <xsl:text>Latitude :</xsl:text>
             <xsl:value-of select="./@lat"/>
@@ -179,6 +179,7 @@
         <p>
             Countries where more than 2 languages are spoken :
         </p>
+        <!--On itère sur tous les pays qui ont plus d'un langage-->
         <xsl:for-each select="//country[count(languages/*) > 2]/country_name/common_name">
             <li>
                 <xsl:value-of select="current()"/>
@@ -196,14 +197,21 @@
     <xsl:template name="country_with_most_neighbour">
 
         <xsl:variable name="max_neighbours">
+            <!--On parcourt tous les pays-->
             <xsl:for-each select="//country">
+                <!--puis on les trie par ordre decroissant de nombre de voisins-->
                 <xsl:sort select="count(borders/neighbour)" data-type="number" order="descending"/>
+
+                <!--On récupère le premier de la liste-->
                 <xsl:if test="position() = 1">
+
+                    <!--Et on selectionne son nombre de voisin qu'on stock dans la variable-->
                     <xsl:value-of select="count(borders/neighbour)"/>
                 </xsl:if>
             </xsl:for-each>
         </xsl:variable>
 
+        <!--Affichage des pays qui -->
         <div style="margin-top : 10px; margin-bottom: 10px">
             <xsl:text>Countries having the most neighbours : </xsl:text>
 

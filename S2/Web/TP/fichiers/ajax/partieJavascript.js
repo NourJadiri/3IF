@@ -72,11 +72,13 @@ function Button1_function(){
 
 }
 function changeBackground(color){
+    // Changement du background du document
     document.body.style.background = color;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Button2_function(){
+    // Selection du bouton myButton1
     document.getElementById("myButton1").style.color = 'black';
     changeBackground('white');
 }
@@ -107,6 +109,7 @@ function Bouton3_cherchePays(xmlDocumentUrl, xslDocumentUrl, countryCode ,balise
     // ins�rer l'�lement transform� dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
 
+    // Si la map est chargée, on appelle colorCountry()
     if(mapLoaded){
         colorCountry(countryCode);
     }
@@ -114,7 +117,6 @@ function Bouton3_cherchePays(xmlDocumentUrl, xslDocumentUrl, countryCode ,balise
 }
 
 function colorCountry(countryCode){
-
 
     let mapContainer = document.getElementById("worldMapContainer");
     let mapSVG = mapContainer.children[0];
@@ -129,12 +131,13 @@ function colorCountry(countryCode){
 
     let xmlDoc = chargerHttpXML("../countriesTP.xml");
 
-
     // On récupère le cca2 dans le doute (si l'utilisateur entre le callingCode ou un autre code au lieu du cca2)
     let xpath = `//country[country_codes/* = '${countryCode.toUpperCase()}']/country_codes/cca2`;
     let cca2 = xmlDoc.evaluate(xpath , xmlDoc , null , XPathResult.STRING_TYPE , null ).stringValue;
 
+    // Si effectivment le code qu'a entré l'utilisateur n'est pas le cca2
     if( cca2 === '' ){
+        // On cherche le cca2 du pays correspondant
         xpath = `//country[callingCode = '${countryCode}']/country_codes/cca2`;
         cca2 =  xmlDoc.evaluate(xpath , xmlDoc , null , XPathResult.STRING_TYPE , null ).stringValue;
     }
@@ -143,13 +146,11 @@ function colorCountry(countryCode){
     xpath = `//country[country_codes/cca2 = '${cca2}']/languages/*`;
     let langList = xmlDoc.evaluate(xpath , xmlDoc, null , XPathResult.ANY_TYPE, null);
 
-
     let lang = langList.iterateNext();
 
     while(lang){
         // On récupère les cca2 des pays qui parlent les mêmes langues
         xpath = `//country[languages/* = '${lang.textContent}']/country_codes/cca2`;
-
         let matchList = xmlDoc.evaluate(xpath , xmlDoc, null , XPathResult.ANY_TYPE , null);
 
         // Then on colorie en vert les pays qui parlent la même langue
@@ -169,12 +170,14 @@ function colorCountry(countryCode){
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fonction qui charge le fichier exemple.svg
 function Bouton4_loadSvg(svgDocumentUrl){
 
     let svg = document.getElementById('exemple');
 
     let s = chargerHttpXML(svgDocumentUrl);
 
+    // On serialise le document en String
     let serializer = new XMLSerializer();
 
     svg.innerHTML = serializer.serializeToString(s);
@@ -184,7 +187,9 @@ function makeSvgClickable(svgElementId , elementToReplace , attributeToDisplay){
 
     let elements = document.getElementById(svgElementId).children[0].children;
 
+    // Parcours des pays
     for(let i = 0 ; i < elements.length ; i++){
+        // Ajout de l'eventListener au click
         elements[i].addEventListener('click', function(){
             document.getElementById(elementToReplace).innerHTML = this.getAttribute(attributeToDisplay);
         });
@@ -194,6 +199,7 @@ function makeSvgClickable(svgElementId , elementToReplace , attributeToDisplay){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let mapLoaded = false;
+// Fonction qui affiche la carte
 function Bouton6_afficherCarte(svgDocumentUrl) {
 
     let svg = document.getElementById('worldMapContainer');
@@ -215,26 +221,30 @@ function Bouton7_makeCountriesClickable(){
 
     mapClickable = true;
 
+    // On selectionne tous les elements "path" du svg de la worldmap
     let countries = document.getElementById('worldMapContainer').children[0].getElementsByTagName('g')[0].children;
 
     for( let i = 0 ; i < countries.length ; i++ ){
 
+        // On affiche le nom du pays lors du click
         countries[i].addEventListener('click', function(){
             document.getElementById('countryNameDisplay').innerHTML = this.getAttribute('countryname');
         });
+
     }
 
 }
 
 function captureMouseMovement(){
 
-    // Chargement du document xml
-    const xmlDoc = '../countriesTP.xml';
+    if(!mapLoaded){
+        loadWorlMap();
+    }
 
     let countries = document.getElementById('worldMapContainer').children[0].getElementsByTagName('g')[0].children;
 
     for(let i = 0 ; i < countries.length ; i++){
-        // On save la couleur d'avant pour ne pas perdre le formatage eventuel
+        // On save la couleur d'avant pour ne pas perdre le formatage eventuel (si jamais le pays était colorié en vert)
         let previousColor = countries[i].style.fill;
 
         countries[i].addEventListener('mouseover' , mouseOver)
@@ -325,6 +335,7 @@ async function mouseOver() {
     if( !inGame ){
         infoBubble.style.display = "block";
     }
+
 
     document.addEventListener('mousemove', (event) => {
         infoBubble.style.left = `${event.pageX + 10}px`;
@@ -426,7 +437,7 @@ function Bouton12_geoGuessr(){
 
     // Si la carte n'est pas chargée, on epargne la galère à l'utilisateur
     if( !mapLoaded ){
-        document.getElementById("myButton6").click();
+        loadWorlMap();
     }
 
     clearColors();
@@ -492,7 +503,6 @@ function Bouton12_geoGuessr(){
 }
 
 // On capture la temperature de chaque pays grace à l'API openWeather
-// L'api n'utilisant pas la m
 async function getTemperatureForCountry(countryCode) {
     const apiKey = 'db022c2a0c5a4108bfb93433231603';
     const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${getCountryCapitalFromCode(countryCode)}`;
@@ -514,7 +524,7 @@ async function getTemperatureForCountry(countryCode) {
 async function Bouton13_showTemperatures(){
 
     if(!mapLoaded){
-        document.getElementById("myButton6").click();
+        loadWorlMap();
     }
 
     showTemperature = true;
@@ -548,11 +558,12 @@ async function Bouton13_showTemperatures(){
     }
 
     captureMouseMovement();
-
-
 }
 
-
+function loadWorlMap(){
+    // Le bouton 6 active la carte
+    document.getElementById("myButton6").click();
+}
 
 
 

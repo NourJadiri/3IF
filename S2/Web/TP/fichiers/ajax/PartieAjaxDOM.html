@@ -1,88 +1,57 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-    <title>TP 3IF Ajax</title>
-    <meta name="author" content="Elöd EGYED-ZSIGMOND">
-    <link rel="stylesheet" type="text/css" href="ExerciceAjax.css">
-
-    <script type="text/javascript" src="partieJavascript.js"></script>
-
-</head>
-
-<body>
-    <p>
-        Change le background en bleu : <br/>
-    </p>
-    <input name="button" type="button" id="myButton1" onClick="Button1_function();" value="Bouton1"/>
-    <br/>
-    <p>
-        Change le background en blanc
-    </p>
-    <input name="button2" type="button" id="myButton2" onClick="Button2_function();" value="Bouton2"/>
-    <br/>
-    <div>
-        <p>
-            Cherche un pays à partir de son code (cca2, ccn3, cca3, cioc , callingCode)
-        </p>
-    </div>
-    <input name="button3" type="button" id="myButton3"
-           onClick="Bouton3_cherchePays('../countriesTP.xml','cherchePays.xsl', document.getElementById('codePays').value,'pays');"
-           value="Bouton3"/>
-    <input name="code" type="text" id="codePays" autocomplete="on">
-
-    </input>
-    <div>
-        <span id="pays_a_chercher">
-            Please enter a country code to find...
-        </span>
-    </div>
-
-    <input name="button4" type="button" id="myButton4" onClick="Bouton4_loadSvg('exemple.svg');" value="Bouton4"/>
-    <div id="wrapper">
-        <div id="exemple">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TP 3IF Ajax</title>
+        <link rel="stylesheet" type="text/css" href="ExerciceAjax.css">
+        <script type="text/javascript" src="partieJavascript.js"></script>
+    </head>
+    <body>
+        <h1>TP 3IF Ajax</h1>
+        <div>
+            <h2>Background</h2>
+            <button id="myButton1" onClick="Button1_function();">Change en bleu</button>
+            <button id="myButton2" onClick="Button2_function();">Change en blanc</button>
         </div>
-        <div id="shapeTitle">
+        <hr>
+        <div>
+            <h2>Recherche de pays</h2>
+            <label for="codePays">Cherche un pays Ã  partir de son code (cca2, ccn3, cca3, cioc, callingCode):</label>
+            <input name="code" type="text" id="codePays" autocomplete="on">
+            <button id="myButton3" onClick="Bouton3_cherchePays('../countriesTP.xml','cherchePays.xsl', document.getElementById('codePays').value,'pays');">Rechercher</button>
+            <button id="myButton9" onclick="Bouton9_addAutoComplete();">Ajouter autocomplÃ©tion</button>
+            <div>
+                <span id="pays_a_chercher">Please enter a country code to find...</span>
+            </div>
         </div>
-    </div>
+        <hr>
+        <div>
+            <h2>SVG</h2>
+            <button id="myButton4" onClick="Bouton4_loadSvg('exemple.svg');">Charger SVG</button>
+            <button id="myButton5" onClick="makeSvgClickable('lesFormes' , 'shapeTitle' , 'title');">Rendre SVG cliquable</button>
+            <div id="wrapper">
+                <div id="exemple"></div>
+                <div id="shapeTitle"></div>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h2>Carte du monde</h2>
+            <button id="myButton6" onclick="Bouton6_afficherCarte('worldHigh.svg');">Afficher la carte</button>
+            <button id="myButton7" onclick="Bouton7_makeCountriesClickable();">Rendre la carte cliquable</button>
+            <button id="myButton8" onclick="captureMouseMovement();">Capture mouvement souris</button>
+            <button id="myButton10" onclick="Bouton10_addCurrency();">Ajoute monnaie pays</button>
+            <button id="myButton12" onclick="Bouton12_geoGuessr();">Jouer !</button>
+            <div id="countryToSearch" style = "align : center;"></div>
+            <div id="infoTable"></div>
+            <div id="worldMapContainer"></div>
+            <div>
+                <p>Nom du pays cliquÃ©: <span id="countryNameDisplay"></span></p>
+            </div>
+        </div>
+        <hr>
+        <div>
 
-    <input name="button5" type="button" id="myButton5" onClick="makeSvgClickable('lesFormes' , 'shapeTitle' , 'title');" value="Bouton5"/>
-
-    <div>
-           <p>
-               Cherche et affiche la carte du monde
-           </p>
-    </div>
-    <input name="button6" type="button" id="myButton6" onClick="Bouton6_afficherCarte('worldHigh.svg');" value="Bouton6"/>
-
-    <div id="worldHigh">
-
-    </div>
-        <p>
-            rend la carte clickable: <br/>
-        </p>
-    <input name="button7" type="button" id="myButton7" onClick="Bouton7_makeCountriesClickable();" value="Bouton7" />
-    <div>
-        <p>
-        Nom du pays clicked : <span id="countryNameDisplay"></span>
-        </p>
-    </div>
-    <br/>
-
-    <p>
-        Ajoute des animations au hover
-    </p>
-    <input name="button8" type="button" id="myButton8" onClick="Bouton8_captureMouseMovement();" value="Bouton8"/>
-
-    <p>
-        Ajoute une option d'autocomplete
-    </p>
-    <input name="button9" type="button" id="myButton9" onClick="Bouton9_addAutoComplete();" value="Bouton9"/>
-
-
-
-
-</body>
-
+        </div>
+    </body>
 </html>

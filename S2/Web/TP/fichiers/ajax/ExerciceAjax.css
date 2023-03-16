@@ -45,20 +45,18 @@ p {
     font-weight: bold;
 }
 
-input[type="button"] {
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    color: white;
     background-color: #4CAF50;
     border: none;
-    color: black;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    margin: 10px 0;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    width: 150px;
 }
-
-input[type="button"]:hover {
+button:hover {
     background-color: #3e8e41;
 }
 
@@ -72,4 +70,50 @@ input[type="text"] {
     display: block;
     font-size: 16px;
     margin-top: 10px;
+}
+.button-group {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.infoBubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.infoBubble__content {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: calc(50% - 100px);
+    width: 200px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.infoBubble__content::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: calc(50% - 10px);
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #ccc transparent;
+}
+
+.infoBubble__content span {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+map{
+    width : 100%;
 }

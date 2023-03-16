@@ -6,7 +6,7 @@ let worldMapDoc = chargerHttpXML("worldHigh.svg");
 let countryCodes = xmlDoc.getElementsByTagName("cca2");
 
 function recupererPremierEnfantDeTypeElement(n) {
-    var x = n.firstChild;
+    let x = n.firstChild;
     while (x.nodeType != 1) { // Test if x is an element node (and not a text node or other)
         x = x.nextSibling;
     }
@@ -15,7 +15,7 @@ function recupererPremierEnfantDeTypeElement(n) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //change le contenu de l'�lement avec l'id "nom" avec la chaine de caract�res en param�tre	  
 function setNom(nom) {
-    var elementHtmlARemplir = window.document.getElementById("id_nom_a_remplacer");
+    let elementHtmlARemplir = window.document.getElementById("id_nom_a_remplacer");
     elementHtmlARemplir.innerHTML = nom;
 }
 
@@ -23,7 +23,7 @@ function setNom(nom) {
 //charge le fichier XML se trouvant � l'URL relative donn� dans le param�treet le retourne
 function chargerHttpXML(xmlDocumentUrl) {
 
-    var httpAjax;
+    let httpAjax;
 
     httpAjax = window.XMLHttpRequest ?
         new XMLHttpRequest() :
@@ -44,7 +44,7 @@ function chargerHttpXML(xmlDocumentUrl) {
 // Charge le fichier JSON se trouvant � l'URL donn�e en param�tre et le retourne
 function chargerHttpJSON(jsonDocumentUrl) {
 
-    var httpAjax;
+    let httpAjax;
 
     httpAjax = window.XMLHttpRequest ?
         new XMLHttpRequest() :
@@ -58,7 +58,7 @@ function chargerHttpJSON(jsonDocumentUrl) {
     httpAjax.open('GET', jsonDocumentUrl, false);
     httpAjax.send();
 
-    var responseData = eval("(" + httpAjax.responseText + ")");
+    let responseData = eval("(" + httpAjax.responseText + ")");
 
     return responseData;
 }
@@ -215,7 +215,7 @@ function Bouton7_makeCountriesClickable(){
 
     mapClickable = true;
 
-    var countries = document.getElementById('worldMapContainer').children[0].getElementsByTagName('g')[0].children;
+    let countries = document.getElementById('worldMapContainer').children[0].getElementsByTagName('g')[0].children;
 
     for( let i = 0 ; i < countries.length ; i++ ){
 
@@ -231,14 +231,18 @@ function captureMouseMovement(){
     // Chargement du document xml
     const xmlDoc = '../countriesTP.xml';
 
-    var countries = document.getElementById('worldMapContainer').children[0].getElementsByTagName('g')[0].children;
+    let countries = document.getElementById('worldMapContainer').children[0].getElementsByTagName('g')[0].children;
 
     for(let i = 0 ; i < countries.length ; i++){
+        // On save la couleur d'avant pour ne pas perdre le formatage eventuel
         let previousColor = countries[i].style.fill;
 
         countries[i].addEventListener('mouseover' , mouseOver)
 
-        countries[i].addEventListener('mouseleave',mouseOut)
+        countries[i].addEventListener('mouseleave', function() {
+            this.style.fill = previousColor;
+            infoBubble.style.display = "none";
+        })
     }
 
 }
@@ -252,11 +256,13 @@ let button10 = false;
 
 function mouseOver() {
     // Si le pays est en vert , on rend la couleur plus foncée
-    if(this.style.fill = 'green'){
+    if(this.style.fill == 'green'){
         this.style.fill = "#556B2F";
     }
-    // Sinon on met une couleur qui montre qu'on l'a selectionné
-    this.style.fill ='#404040';
+    else{
+        // Sinon on met une couleur qui montre qu'on l'a selectionné
+        this.style.fill ='#404040';
+    }
 
     const countryCode = this.getAttribute('id');
 
@@ -306,20 +312,15 @@ function mouseOver() {
     // Show the infoBubble
     infoBubble.style.display = "block";
 
-    // Position the infoBubble near the mouse cursor
     document.addEventListener('mousemove', (event) => {
-
         infoBubble.style.left = `${event.pageX + 10}px`;
         infoBubble.style.top = `${event.pageY - 10}px`;
     });
+
 }
 
-function mouseOut() {
-    if(this.style.fill != 'green'){
-        this.style.fill ='#c0c0c0';
-    }
-    infoBubble.style.display = "none";
-}
+// Position the infoBubble near the mouse cursor
+
 
 
 function Bouton9_addAutoComplete(){

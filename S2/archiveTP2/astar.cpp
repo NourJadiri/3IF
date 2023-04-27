@@ -109,7 +109,7 @@ void astarWeightedAnyTime(const State &s0, StateGraph &g, double w){
     clock_t start = clock(); // start time used to compute CPU time
     int nbIter = 0;
     HashMap map;
-    PriorityQueue q;
+    PriorityQueue q; 
     map[s0].g = 0;
     map[s0].isGrey = true;
     long borne = 1*10e100;
@@ -132,14 +132,14 @@ void astarWeightedAnyTime(const State &s0, StateGraph &g, double w){
                 map[ss].pred = s;
                 if (g.isFinal(ss))
                 {
-                    borne = g.getCost(ss, i);
+                    borne = map[ss].g; // map[ss].g correspond à la fonction g(ej) dans le cours
                     cout << "La borne vaut " << borne << endl;
                 }
                 else if(g.getCost(ss, i)+g.heuristic3(ss) < borne)
                 {
                     map[ss].isGrey = true;
-                }
-                q.push( {ss, map[ss].g + w*g.heuristic3(ss)} );
+                    q.push( {ss, map[ss].g + w*g.heuristic3(ss)} );
+                } 
             }
         }
         map[s].isGrey = false;

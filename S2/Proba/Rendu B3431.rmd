@@ -1,0 +1,236 @@
+---
+title: "TP"
+output: html_notebook
+---
+
+# Tests de générateurs pseudo aléatoires
+
+## Question 1 : implémentation des algorithmes
+
+---
+```{r}
+congruenceLineaire <- function(graine , a , b , m , n){
+  seed <- rep(graine,n)
+
+  for(i in 2:n){
+    seed[i] <- (a*seed[i-1] + b)%%m
+  }
+
+  return (seed)
+}
+```
+
+### RANDU
+---
+```{r}
+RANDU <- function(graine = 69420 , n){
+  a <- 65539
+  b <- 0
+  m <- 2^31
+  return (congruenceLineaire(graine, a , b , m , n))
+}
+```
+
+
+### Standard Minimal
+```{r}
+standardMinimal <- function(graine = 69420, n){
+  a <- 16807
+  b <- 0
+  m <- 2^31 - 1
+
+  return (congruenceLineaire(graine , a , b , m , n))
+}
+```
+
+### VonNeumann
+```{r}
+VonNeumann <- function(n, p=1, graine)
+{
+  x <-  rep(graine,n*p+1)
+  for(i in 2:(n*p+1))
+  {
+    numbers <- strsplit(format(x[i-1]^2,scientific=FALSE),'')[[1]]
+    while(length(numbers)>4){
+      numbers <- numbers[2:(length(numbers)-1)]
+    }
+    x[i] <- as.numeric(numbers)%*%(10^seq(length(numbers)-1,0,-1))
+  }
+  x <- matrix(x[2:(n*p+1)],nrow=n,ncol=p)
+  return(x)
+}
+
+```
+
+### Mersenne-Twister
+```{r}
+MersenneTwister <- function(n, p=1, graine)
+{
+  set.seed(graine,kind='Mersenne-Twister')
+  x <- sample.int(2^32-1,n*p)
+  x <- matrix(x,nrow=n,ncol=p)
+  return(x)
+}
+
+```
+
+## Question 2 : tests visuels des générateurs
+
+### 2.1 : historgramme de distributions des différents générateurs
+
+```{r}
+test_visuel <- function(k) {
+  par(mfrow = c(2,2))
+  hist(RANDU(graine = 215, n = k) , xlab = "Valeur" , ylab = "fréquence" , main = "RANDU")
+  hist(standardMinimal(graine = 215 , n = k) , xlab = "Valeur" , ylab = "fréquence" , main = "Standard Minimal")
+  hist(VonNeumann(n = k , graine = 215), main = "Von Neumann")
+  hist(MersenneTwister(n = k, graine = 215), main = "Mersenne-Twister")
+}
+
+```
+
+```{r}
+test_visuel(100)
+```
+#### Commentaire
+* <b>Von Neumann</b>
+
+Le générateur de nombres aléatoires de Von Neumann produit plus de nombres entre 0 et 2000 que entre 2000 et 9999 en raison de l'étape de troncature dans l'algorithme.
+Lorsque le nombre au carré est inférieur à 1000, il conserve ses trois chiffres, donc le nombre généré reste dans l'intervalle de 0 à 999. En revanche, lorsque le nombre au carré est compris entre 1000 et 9999, la troncature supprime le premier et le dernier chiffre, ce qui donne un nombre entre 0 et 999.
+
+Ainsi, plusieurs nombres au carré dans l'intervalle de 1000 à 9999 sont associés à la même valeur tronquée dans l'intervalle de 0 à 999. Par conséquent, il y a moins de nombres uniques dans l'intervalle de 2000 à 9999 par rapport à l'intervalle de 0 à 2000.
+
+* <b>RANDU</b>
+
+Le générateur RANDU fonctionne en appliquant de manière répétée une formule congruentielle linéaire, où chaque nombre est généré en multipliant le nombre précédent par un multiplicateur constant, puis en prenant le modulo du résultat. Le problème avec RANDU réside dans le choix de ses paramètres, qui entraînent des propriétés indésirables.
+
+Un problème majeur est la présence d'une période courte. La séquence de nombres générés par RANDU se répète après un nombre relativement faible d'itérations. Cela signifie que le générateur va parcourir un ensemble limité de valeurs, ce qui entraîne une distribution non uniforme.
+
+De plus, RANDU présente de mauvaises propriétés spectrales, ce qui signifie que les nombres générés ont tendance à se situer sur un nombre limité de plans ou d'hyperplans dans l'espace des nombres. Cet effet de regroupement introduit des motifs et des corrélations dans la séquence générée, s'éloignant ainsi d'une distribution uniforme.
+
+* <b>Standard Minimal </b>
+
+Il est conçu pour fournir une meilleure qualité de génération de nombres aléatoires par rapport à des générateurs plus simples comme RANDU.
+
+Le générateur StandardMinimal utilise des paramètres spécifiques et des techniques de permutation pour améliorer les propriétés statistiques de la séquence de nombres générés. Il a une période beaucoup plus longue, ce qui signifie qu'il génère une séquence de nombres aléatoires qui se répète après un nombre beaucoup plus grand d'itérations. Cela contribue à une meilleure distribution des nombres aléatoires et réduit les effets indésirables tels que la corrélation et les biais.
+
+* <b> Mersenne-Twister </b>
+
+Le principal avantage du générateur Mersenne Twister est sa période extrêmement longue. Il peut générer des séquences de nombres aléatoires de qualité avec une période de 2^19937 - 1, ce qui signifie qu'il peut générer un nombre immense de nombres avant que la séquence ne se répète.
+
+De plus, le générateur Mersenne Twister présente de bonnes propriétés statistiques. Il produit des nombres qui sont largement distribués et qui semblent indépendants les uns des autres. Il a une excellente uniformité, une faible corrélation et un bon mélange des bits, ce qui le rend adapté à une large gamme d'applications nécessitant une génération de nombres aléatoires de haute qualité.
+
+### 2.2 : Traçage de $S_n = f(S_{n-1})$
+
+```{r}
+n = 100
+u_RANDU <- RANDU(graine = 215, n =100)
+u_SM <- standardMinimal(graine = 215, n =100)
+u_VonNeumann <- VonNeumann(n = 100, graine = 215)
+u_MersenneTwister <- MersenneTwister(n = 100 , graine = 215)
+
+
+plot(u_RANDU[1:(n-1)] , u_RANDU[2:n] , xlab = "S(n-1)" , ylab = "(S_n)", main = "RANDU")
+plot(u_SM[1:(n-1)] , u_SM[2:n] , xlab = "S(n-1)" , ylab = "(S_n)" , main = "Standard Minimal")
+plot(u_VonNeumann[1:(n-1)] , u_VonNeumann[2:n] , xlab = "S(n-1)" , ylab = "(S_n)", main = "von Neumann")
+plot(u_MersenneTwister[1:(n-1)] , u_MersenneTwister[2:n] , xlab = "S(n-1)" , ylab = "(S_n)" , main = "Mersenne-Twister")
+```
+* <b>RANDU</b>
+A première vue, le traçage $S_n = f(S_{n-1}) pour RANDU ne montre aucun motif répétitif, ni cluster. Cependant, il est important de noter que RANDU est connu pour avoir des propriétés statistiques indésirables, telles qu'une période courte et une distribution non uniforme (en raison de sa fonction génératrice). Bien que cela ne soit pas clairement visible dans le graphique, ces problèmes peuvent avoir un impact sur la qualité des nombres pseudo-aléatoires générés par cet algorithme.
+
+* <b> Standard Minimal </b>
+Tout comme RANDU, le traçage $S_n = f(S_{n-1}) pour Standard Minimal ne montre aucun motif répétitif, ni cluster. En effet, le générateur a été conçu pour améliorer la qualité des nombres aléatoires générés par rapport à des générateurs plus simples (RANDU). On peut voir alors que la distribution du nuage de points est plus homogène que celle de RANDU.
+
+La faible présence de motifs/clusters pour ces deux algorithmes vient appuyer les distributions observées grâce aux différents histogrammes de la question précédente.
+
+* <b> Von Neumann </b>
+La présence de clusters évidents dans la visualisation de Sn en fonction de S(n-1) pour le générateur de Von Neumann peut être interprétée comme un signe de non-uniformité dans la distribution des nombres pseudo-aléatoires générés. Ces clusters indiquent que les valeurs générées tendent à être regroupées dans certaines plages spécifiques plutôt que d'être uniformément réparties sur toute la plage de valeurs possibles.
+
+D'un point de vue probabiliste, cela peut être problématique car cela signifie que certaines valeurs sont plus susceptibles d'être générées que d'autres. Cela peut introduire un biais dans les résultats d'une simulation ou d'une analyse statistique qui utilise ces nombres pseudo-aléatoires.
+
+De plus, les clusters observés peuvent également indiquer une dépendance entre les nombres générés. Dans un générateur pseudo-aléatoire idéal, les valeurs successives devraient être indépendantes les unes des autres. Cependant, la présence de clusters suggère une corrélation ou une dépendance entre les nombres générés, ce qui peut affecter la propriété d'indépendance statistique souhaitée pour les applications probabilistes.
+
+* <b> Mersenne-Twister </b>
+Dans le cas du générateur Mersenne-Twister, la visualisation de $S_n$ en fonction de $S_{n-1}$ montre une distribution uniforme des points sans la présence de clusters ou de motifs apparents. Cela indique que les nombres générés par le générateur Mersenne-Twister sont indépendants les uns des autres et qu'ils sont répartis de manière équilibrée sur toute la plage de valeurs possibles.
+
+D'un point de vue probabiliste, cette distribution uniforme suggère que chaque nombre généré par le Mersenne-Twister a la même probabilité d'apparaître. Cela correspond à l'une des propriétés souhaitées pour un générateur pseudo-aléatoire de haute qualité.
+
+De plus, la longue période du Mersenne-Twister `(2^19937 - 1)` contribue à assurer une faible corrélation entre les nombres générés successivement. Cela est crucial pour de nombreuses applications probabilistes qui dépendent de l'indépendance statistique des nombres aléatoires.
+
+## Test de fréquence monobit
+
+```{r}
+binary <- function(x)
+{
+  if((x<2^31)&(x>=0))
+    return( as.integer(intToBits(as.integer(x))) )
+  else{
+    if((x<2^32)&(x>0))
+      return( c(binary(x-2^31)[1:31], 1) )
+    else{
+      cat('Erreur dans binary : le nombre etudie n est pas un entier positif en 32 bits.\n')
+      return(c())
+    }
+  }
+}
+
+```
+
+
+### Implémentation
+On commence par implémenter la fonction de calcul du nombre de bits à 1
+
+```{r}
+Frequency <- function(x,nb = 32){
+  s <- rep(0,length(x))
+
+  for(i in 1:length(x)){
+    bSeq <- binary(x[i])[1:nb]
+    s[i] <- sum(2 * bSeq[1:nb] - 1)
+  }
+
+  s_obs <- abs(sum(s))/sqrt(nb * length(x))
+
+  p_value <- 2 * (1 - pnorm(s_obs))
+
+  return (p_value)
+}
+```
+
+### Tests
+```{r}
+
+set.seed(555)
+
+u1 <- sample.int(10000 , 100)
+freq_RANDU <- NULL
+freq_SM <- NULL
+freq_VonNeumann <- NULL
+freq_MersenneTwister <- NULL
+
+for(i in 1:length(u1)){
+  u_RANDU <- RANDU(graine = u1[i], n = 200)
+  u_SM <- standardMinimal(graine = u1[i] , n = 200)
+  u_VonNeumann <- VonNeumann(graine = u1[i] , n = 200)
+  u_MersenneTwister <- MersenneTwister(graine = u1[i] , n = 200)
+  freq_RANDU <- c(freq_RANDU,Frequency(u_RANDU , 31))
+  freq_SM <- c(freq_SM,Frequency(u_SM , 31))
+  freq_VonNeumann <- c(freq_VonNeumann,Frequency(u_VonNeumann , 14))
+  freq_MersenneTwister <- c(freq_MersenneTwister,Frequency(u_MersenneTwister))
+}
+
+# Nombre de valeurs inferieures à 0.01
+n_RANDU <- length(which(freq_RANDU < 0.01))
+n_SM <- length(which(freq_SM < 0.01))
+n_VonNeumann <- length(which(freq_VonNeumann < 0.01))
+n_MersenneTwister <- length(which(freq_MersenneTwister < 0.01))
+```
+
+
+On remarque que Mersenne-Twister et StandardMinimal ont de bien meilleures performances que les autres algorithmes. Cela vient confirmer la distribution qu'on a plot plus haut, qui montre que les distributions de ces deux algorithmes sont celles qui se rapprochent le plus d'une loi uniforme.
+
+
+
+
+
+

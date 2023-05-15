@@ -306,57 +306,124 @@ runs_VonNeumann <- NULL
 runs_MersenneTwister <- NULL
 
 for(i in 1:length(u1)){
-  u_RANDU <- RANDU(graine = u1[i], n = 200)
-  u_SM <- standardMinimal(graine = u1[i] , n = 200)
-  u_VonNeumann <- VonNeumann(graine = u1[i] , n = 200)
-  u_MersenneTwister <- MersenneTwister(graine = u1[i] , n = 200)
-
   runs_RANDU <- c(runs_RANDU,Runs(u_RANDU , 31))
   runs_SM <- c(runs_SM,Runs(u_SM , 31))
   runs_VonNeumann <- c(runs_VonNeumann,Runs(u_VonNeumann , 14))
   runs_MersenneTwister <- c(runs_MersenneTwister,Runs(u_MersenneTwister))
 }
-
-# Nombre de p-valeurs inferieures à 0.01
-n_RANDU <- length(which(runs_RANDU < 0.01))
-n_SM <- length(which(runs_SM < 0.01))
-n_VonNeumann <- length(which(runs_VonNeumann < 0.01))
-n_MersenneTwister <- length(which(runs_MersenneTwister < 0.01))
-
-#Calcul de la p_value moyenne pour chacun des générateurs
-avg_pvalue_RANDU <- mean(runs_RANDU)
-avg_pvalue_SM <- mean(runs_SM)
-avg_pvalue_VonNeumann <- mean(runs_VonNeumann)
-avg_pvalue_MersenneTwister <- mean(runs_MersenneTwister)
 ```
-Le nombre de p-value inférieures à 0,01 sont les suivants :
+ ### Question 6
+  
+```{r}
+FileMM1 <- function(lambda, mu, D){
+  
+  arrivee1 <- rexp(1,lambda)
+  fin <- arrivee1 + D
+  arrivees <- c()
+  arrivees <- c(arrivees,arrivee1)
+  
+  derniereArrivee <- arrivee1
+  it <- 2
+  
+  while(arrivees[length(arrivees)] < (arrivee1 + D) )
+  {
+    arrivees <- c(arrivees, arrivees[it-1] + rexp(1,lambda))
+    derniereArrivee <- arrivees[it]
+    it <- it + 1
+  }
+  
+  arrivees <- arrivees[-length(arrivees)] 
+  
+  
+  depart1 <- arrivee1 + rexp(1,mu)
+  departs <- c()
+  departs<- c(departs, depart1)
+  
+  for(i in 2:length(arrivees)) {
+    departs <- c(departs , max(arrivees[i],departs[i-1]) + rexp(1,mu))
+    
+    # Si le service ferme, on garde les gens prisonniers
+    if(departs[i] > arrivee1 + D){
+      departs <- departs[-length(departs)]
+      break
+    }
+    
+  }
+ 
+  ma_liste <- list(a = arrivees, d = departs)
+  
+  return (ma_liste)
 
-* Mersenne-Twister : 0
-* RANDU : 43
-* StandardMinimal : 3
-* VonNeumann : 100
+}
+```
 
-Cela suggère que pour les séquences générées :
+### Question 7
+```{r}
+evolution_nb_clients <- function(arrivees , departs){
+  a_df <- data.frame(Temps = arrivees, Tag = rep(1,length(arrivees)))
+  d_df <- data.frame(Temps = departs, Tag = rep(-1,length(departs)))
+  
+  timeline <- rbind(a_df, d_df)
+  
+  timeline <- timeline[order(timeline$Temps), ]
+  
+  timeline$nb_clients <- cumsum(timeline$Tag)
+  
+  return (timeline)
+}
+```
 
-<b>Mersenne-Twister</b> : Aucune p-valeur n'est inférieure à 0,01. Cela indique que la séquence générée par Mersenne-Twister semble être en conformité avec la distribution aléatoire équilibrée, du moins en termes de ce test spécifique.
+```{r}
 
-<b>RANDU</b> : 43 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par RANDU présente un déséquilibre significatif et ne suit pas une distribution aléatoire équilibrée selon ce test. Il peut y avoir un biais ou une structure non aléatoire dans la séquence.
+ma_liste1 <- FileMM1(10,20,12)
+df1 <- evolution_nb_clients(ma_liste1$a, ma_liste1$d)
 
-<b>StandardMinimal</b> : 3 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par StandardMinimal présente également un léger déséquilibre, et ne suit pas une distribution aléatoire équilibrée selon ce test. Le générateur reste cependant de meilleure qualité que RANDU.
-
-<b>VonNeumann</b> : 100 p-valeurs sont inférieures à 0,01. Cela indique que la séquence générée par VonNeumann présente un déséquilibre important et ne suit pas une distribution aléatoire équilibrée selon ce test. L'hypothèse de la distribution des nombres uniforme est à rejeter.
-
-Aussi, nous avons calculé la p_value moyenne pour chaque séquence générée :
-
-* RANDU : 0.260
-* StandardMinimal : 0.0.487
-* Von Neumann : 0
-* Mersenne-Twister : 0.507
-
-Bien que la moyenne de ces p_value peut suggérer que Standard Minimal est meilleur que Mersenne-Twister, il faut garder en tête que le générateur de Mersenne-Twister n'a renvoyé aucune p_valeur inférieure au niveau de signification.
-
-Ce test aussi montre que en moyenne, le générateur de Mersenne-Twister présente de meilleures performances que le générateur Standard Minimal. Cela est du au fait que les valeurs générées par `Standard Minimal`peuvent suivent des motifs.
+ma_liste2 <- FileMM1(14,20,12)
+df2 <- evolution_nb_clients(ma_liste2$a, ma_liste2$d)
 
 
+ma_liste3 <- FileMM1(20,20,12)
+df3 <- evolution_nb_clients(ma_liste3$a, ma_liste3$d)
+
+
+ma_liste4 <- FileMM1(30,20,12)
+df4 <- evolution_nb_clients(ma_liste4$a, ma_liste4$d)
+
+
+plot(df$Temps, df$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
+plot(df2$Temps, df2$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
+plot(df3$Temps, df3$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
+plot(df4$Temps, df4$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
+
+
+```
+### question 8
+
+```{r}
+mean1 <- mean(df1$nb_clients)
+mean2 <- mean(df2$nb_clients)
+mean3 <- mean(df3$nb_clients)
+mean4 <- mean(df4$nb_clients)
+
+```
+
+```{r}
+temps_presence <- function(arrivee, depart) {
+  delta <- c()
+  for(i in 1:length(depart)) {
+    delta <- c(delta, depart[i]-arrivee[i])
+  }
+  
+  return(mean(delta))
+
+}
+```
+
+```{r}
+Ew1 <- temps_presence(ma_liste1$a, ma_liste1$d)
+Ew2 <- temps_presence(ma_liste2$a, ma_liste2$d)
+Ew3 <- temps_presence(ma_liste3$a, ma_liste3$d)
+Ew4 <- temps_presence(ma_liste4$a, ma_liste4$d)
+```
 
 

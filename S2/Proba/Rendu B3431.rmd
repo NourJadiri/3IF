@@ -317,29 +317,33 @@ for(i in 1:length(u1)){
 ```{r}
 FileMM1 <- function(lambda, mu, D){
   
+  # On génère la premiere valeur d'arrivée qui suit une loi exponentielle de parametre lambda
   arrivee1 <- rexp(1,lambda)
+  # fin represente la valeur maximale d'arrivée d'un client
   fin <- arrivee1 + D
+  
+  #Vecteur contenant les temps d'arrivé des clients
   arrivees <- c()
   arrivees <- c(arrivees,arrivee1)
   
-  derniereArrivee <- arrivee1
   it <- 2
-  
-  while(arrivees[length(arrivees)] < (arrivee1 + D) )
+  # tant que l'heure d'arrivée du dernier client est inférieur à fin on rajoute une valeur d'heure d'arrivée qui correspond à l'heure d'arrivée du client précédent + une valeur générée par la loi exponentionnel
+  while(arrivees[length(arrivees)] < fin )
   {
     arrivees <- c(arrivees, arrivees[it-1] + rexp(1,lambda))
-    derniereArrivee <- arrivees[it]
     it <- it + 1
   }
   
   arrivees <- arrivees[-length(arrivees)] 
   
-  
+  #de la meme maniere, on génère l'heure de départ du premier client
   depart1 <- arrivee1 + rexp(1,mu)
   departs <- c()
   departs<- c(departs, depart1)
   
   for(i in 2:length(arrivees)) {
+    # Deux cas possibles : le client arrive lorsqu'il n'y a personne, dans ce cas son heure de départ vaut arrivée + le temps de traitement par le magasin
+    # le client arrive et il y a la queue : son heure de départ vaut l'heure de départ du client juste devant lui dans la queue + le temps de traitement de sa demande par le magasin
     departs <- c(departs , max(arrivees[i],departs[i-1]) + rexp(1,mu))
     
     # Si le service ferme, on garde les gens prisonniers
@@ -360,11 +364,15 @@ FileMM1 <- function(lambda, mu, D){
 ### Question 7
 ```{r}
 evolution_nb_clients <- function(arrivees , departs){
+
+  #on créer deux data frame qui contiennent les heures d'arrivées et de départs de clients ainsi qu'un tag valant -1 si l'horaire correspond à une heure de départ et 1 si elle correspond à une heure d'arrivée
   a_df <- data.frame(Temps = arrivees, Tag = rep(1,length(arrivees)))
   d_df <- data.frame(Temps = departs, Tag = rep(-1,length(departs)))
   
+  # On concatene ces deux data frame
   timeline <- rbind(a_df, d_df)
   
+  # On trie le data frame dans l'ordre croissant et on fait une somme cumulée des tags. Cela représente le nombre de clients dans la file à chaque arrivée de client.
   timeline <- timeline[order(timeline$Temps), ]
   
   timeline$nb_clients <- cumsum(timeline$Tag)
@@ -397,6 +405,9 @@ plot(df4$Temps, df4$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab
 
 
 ```
+#### Commentaires :
+On remarque que le nombre de clients en simultané reste acceptable dans les 2 premiers cas. Dans les cas où lambda et mu valent respectivement 20, 20 et 30,20 on remarque que le nombre de personne dans le magasin en simultané est croissant. La file d'attente deviens casiment interminable.
+
 ### question 8
 
 ```{r}
@@ -425,5 +436,7 @@ Ew2 <- temps_presence(ma_liste2$a, ma_liste2$d)
 Ew3 <- temps_presence(ma_liste3$a, ma_liste3$d)
 Ew4 <- temps_presence(ma_liste4$a, ma_liste4$d)
 ```
-
+#### Commentaire :
+On s'appercoit que le nombre de clients moyen en simultané est très élevé dans le cas 2 et 3. Les clients attendent plusieurs minutes en moyenne pour être pris en charge. 
+Problème car on ne retrouve pas la loi de Little?
 

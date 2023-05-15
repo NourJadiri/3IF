@@ -306,13 +306,56 @@ runs_VonNeumann <- NULL
 runs_MersenneTwister <- NULL
 
 for(i in 1:length(u1)){
+  u_RANDU <- RANDU(graine = u1[i], n = 200)
+  u_SM <- standardMinimal(graine = u1[i] , n = 200)
+  u_VonNeumann <- VonNeumann(graine = u1[i] , n = 200)
+  u_MersenneTwister <- MersenneTwister(graine = u1[i] , n = 200)
+
   runs_RANDU <- c(runs_RANDU,Runs(u_RANDU , 31))
   runs_SM <- c(runs_SM,Runs(u_SM , 31))
   runs_VonNeumann <- c(runs_VonNeumann,Runs(u_VonNeumann , 14))
   runs_MersenneTwister <- c(runs_MersenneTwister,Runs(u_MersenneTwister))
 }
-```
 
+# Nombre de p-valeurs inferieures à 0.01
+n_RANDU <- length(which(runs_RANDU < 0.01))
+n_SM <- length(which(runs_SM < 0.01))
+n_VonNeumann <- length(which(runs_VonNeumann < 0.01))
+n_MersenneTwister <- length(which(runs_MersenneTwister < 0.01))
+
+#Calcul de la p_value moyenne pour chacun des générateurs
+avg_pvalue_RANDU <- mean(runs_RANDU)
+avg_pvalue_SM <- mean(runs_SM)
+avg_pvalue_VonNeumann <- mean(runs_VonNeumann)
+avg_pvalue_MersenneTwister <- mean(runs_MersenneTwister)
+```
+Le nombre de p-value inférieures à 0,01 sont les suivants :
+
+* Mersenne-Twister : 0
+* RANDU : 43
+* StandardMinimal : 3
+* VonNeumann : 100
+
+Cela suggère que pour les séquences générées :
+
+<b>Mersenne-Twister</b> : Aucune p-valeur n'est inférieure à 0,01. Cela indique que la séquence générée par Mersenne-Twister semble être en conformité avec la distribution aléatoire équilibrée, du moins en termes de ce test spécifique.
+
+<b>RANDU</b> : 43 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par RANDU présente un déséquilibre significatif et ne suit pas une distribution aléatoire équilibrée selon ce test. Il peut y avoir un biais ou une structure non aléatoire dans la séquence.
+
+<b>StandardMinimal</b> : 3 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par StandardMinimal présente également un léger déséquilibre, et ne suit pas une distribution aléatoire équilibrée selon ce test. Le générateur reste cependant de meilleure qualité que RANDU.
+
+<b>VonNeumann</b> : 100 p-valeurs sont inférieures à 0,01. Cela indique que la séquence générée par VonNeumann présente un déséquilibre important et ne suit pas une distribution aléatoire équilibrée selon ce test. L'hypothèse de la distribution des nombres uniforme est à rejeter.
+
+Aussi, nous avons calculé la p_value moyenne pour chaque séquence générée :
+
+* RANDU : 0.260
+* StandardMinimal : 0.0.487
+* Von Neumann : 0
+* Mersenne-Twister : 0.507
+
+Bien que la moyenne de ces p_value peut suggérer que Standard Minimal est meilleur que Mersenne-Twister, il faut garder en tête que le générateur de Mersenne-Twister n'a renvoyé aucune p_valeur inférieure au niveau de signification.
+
+Ce test aussi montre que en moyenne, le générateur de Mersenne-Twister présente de meilleures performances que le générateur Standard Minimal. Cela est du au fait que les valeurs générées par `Standard Minimal`peuvent suivent des motifs.
 
 
 

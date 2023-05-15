@@ -197,7 +197,7 @@ Frequency <- function(x,nb = 32){
 }
 ```
 
-### Tests
+### Test de fréquence monobit
 ```{r}
 
 set.seed(555)
@@ -213,6 +213,7 @@ for(i in 1:length(u1)){
   u_SM <- standardMinimal(graine = u1[i] , n = 200)
   u_VonNeumann <- VonNeumann(graine = u1[i] , n = 200)
   u_MersenneTwister <- MersenneTwister(graine = u1[i] , n = 200)
+
   freq_RANDU <- c(freq_RANDU,Frequency(u_RANDU , 31))
   freq_SM <- c(freq_SM,Frequency(u_SM , 31))
   freq_VonNeumann <- c(freq_VonNeumann,Frequency(u_VonNeumann , 14))
@@ -224,11 +225,93 @@ n_RANDU <- length(which(freq_RANDU < 0.01))
 n_SM <- length(which(freq_SM < 0.01))
 n_VonNeumann <- length(which(freq_VonNeumann < 0.01))
 n_MersenneTwister <- length(which(freq_MersenneTwister < 0.01))
+
+#Calcul de la p_value moyenne pour chacun des générateurs
+avg_pvalue_RANDU <- mean(freq_RANDU)
+avg_pvalue_SM <- mean(freq_SM)
+avg_pvalue_VonNeumann <- mean(freq_VonNeumann)
+avg_pvalue_MersenneTwister <- mean(freq_MersenneTwister)
 ```
 
 
 On remarque que Mersenne-Twister et StandardMinimal ont de bien meilleures performances que les autres algorithmes. Cela vient confirmer la distribution qu'on a plot plus haut, qui montre que les distributions de ces deux algorithmes sont celles qui se rapprochent le plus d'une loi uniforme.
 
+Le nombre de p-value inférieures à 0,01 sont les suivants :
+
+* Mersenne-Twister : 0
+* RANDU : 54
+* StandardMinimal : 2
+* VonNeumann : 98
+
+Cela suggère que pour les séquences générées :
+
+<b>Mersenne-Twister</b> : Aucune p-valeur n'est inférieure à 0,01. Cela indique que la séquence générée par Mersenne-Twister semble être en conformité avec la distribution aléatoire équilibrée, du moins en termes de ce test spécifique.
+
+<b>RANDU</b> : 54 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par RANDU présente un déséquilibre significatif et ne suit pas une distribution aléatoire équilibrée selon ce test. Il peut y avoir un biais ou une structure non aléatoire dans la séquence.
+
+<b>StandardMinimal</b> : 2 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par StandardMinimal présente également un léger déséquilibre, et ne suit pas une distribution aléatoire équilibrée selon ce test. Le générateur reste cependant de meilleure qualité que RANDU.
+
+<b>VonNeumann</b> : 98 p-valeurs sont inférieures à 0,01. Cela indique que la séquence générée par VonNeumann présente un déséquilibre important et ne suit pas une distribution aléatoire équilibrée selon ce test.
+
+Aussi, nous avons calculé la p_value moyenne pour chaque séquence générée :
+
+* RANDU : 0.197
+* StandardMinimal : 0.504
+* Von Neumann : 0.014
+* Mersenne-Twister : 0.493
+
+Bien que la moyenne de ces p_value peut suggérer que Standard Minimal est meilleur que Mersenne-Twister, il faut garder en tête que le générateur de Mersenne-Twister n'a renvoyé aucune p_valeur inférieure au niveau de signification.
+
+### Test des runs
+```{r}
+Runs <- function(x , nb = 32){
+  tau <- 2/(sqrt(nb*length(x)))
+  bSeq <- c()
+
+  # Pre-test
+  for(i in 1 : length(x)){
+    # Concaténation de toutes les séquences de bits
+    bSeq <- c(bSeq , binary(x[i])[1:nb])
+  }
+
+  pi <- sum(bSeq == 1)/length(bSeq)
+
+  # Si le pretest échoue, on retourne p_value = 0
+  if(abs(pi - 0.5) >= tau){
+    return(0)
+  }
+
+  # Sinon on continue
+
+  V_n <- 0
+
+  for(i in 1 : (length(bSeq) - 1)){
+    if(bSeq[i] != bSeq[i+1]){
+      V_n <- V_n + 1
+    }
+  }
+
+  V_n <- V_n + 1
+
+  p_value <- 2*(1 - pnorm(abs(V_n - 2 * nb*length(x) * pi * (1-pi))/(2 * sqrt(nb*length(x)) * pi * (1-pi))))
+
+  return(p_value)
+}
+```
+On reprend alors les tests sur les séquences générées précédemment
+```{r}
+runs_RANDU <- NULL
+runs_SM <- NULL
+runs_VonNeumann <- NULL
+runs_MersenneTwister <- NULL
+
+for(i in 1:length(u1)){
+  runs_RANDU <- c(runs_RANDU,Runs(u_RANDU , 31))
+  runs_SM <- c(runs_SM,Runs(u_SM , 31))
+  runs_VonNeumann <- c(runs_VonNeumann,Runs(u_VonNeumann , 14))
+  runs_MersenneTwister <- c(runs_MersenneTwister,Runs(u_MersenneTwister))
+}
+```
 
 
 

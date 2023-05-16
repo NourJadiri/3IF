@@ -366,6 +366,7 @@ Ce test aussi montre que en moyenne, le générateur de Mersenne-Twister présen
 
 ### Test d'ordre
 ```{r}
+library(randtoolbox)
 order_RANDU <- NULL
 order_SM <- NULL
 order_VonNeumann <- NULL
@@ -523,7 +524,7 @@ On remarque que le nombre de clients en simultané reste acceptable dans les 2 p
 
 ### Question 8 : Calcul du nombre de client moyen
 
-Le calcul du nombre de clients moyen en attente se fait en prenant la moyenne pondérée par la durée d'attente. L'implémentation par dataframe permet d'utiliser la fonction weighted.mean.
+Le calcul du nombre de clients moyen en attente se fait en prenant la moyenne pondérée par la durée d'attente. L'implémentation par dataframe permet d'utiliser la fonction `weighted.mean()`.
 
 
 ```{r}
@@ -553,5 +554,22 @@ Ew4 <- temps_presence(ma_liste4$a, ma_liste4$d)
 ```
 #### Commentaire :
 On s'appercoit que le nombre de clients moyen en simultané est très élevé dans le cas 2 et 3. Les clients attendent plusieurs minutes en moyenne pour être pris en charge. 
-Problème car on ne retrouve pas la loi de Little?
+
+Après execution de nos algorithmes, on trouve que la loi de Little est presque vérifiée pour des valeurs élévées de D.
+
+| $E(W)$ | $\lambda$ | $E(N)$ | $\lambda * E(W)$ | ecart |
+|--------|-----------|--------|------------------|-------|
+| 0.077  | 10        | 1.1    | 0.77             | 30%   |
+| 0.15   | 14        | 2.4    | 2.1              | 12%   |
+| 0.43   | 20        | 8.6    | 8.6              | 0%    |
+| 1.4    | 30        | 45     | 41               | 9%    |
+
+On remarque qu'a l'exception de la moyenne du troisième test, on se rapproche de plus en plus de la formule de Little, plus le taux d'arrivée augmente.
+
+En effectuant plusieurs tests en faisant varier la durée total du service, on remarque aussi qu'on se rapproche de la formule de Little.
+
+<b> Test avec D = 40h </b>
+
+
+
 

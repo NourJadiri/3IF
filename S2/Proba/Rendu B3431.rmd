@@ -123,7 +123,7 @@ De plus, le générateur Mersenne Twister présente de bonnes propriétés stati
 ### 2.2 : Traçage de $S_n = f(S_{n-1})$
 
 ```{r}
-n = 100
+n <- 100
 u_RANDU <- RANDU(graine = 215, n =100)
 u_SM <- standardMinimal(graine = 215, n =100)
 u_VonNeumann <- VonNeumann(n = 100, graine = 215)
@@ -159,6 +159,7 @@ De plus, la longue période du Mersenne-Twister `(2^19937 - 1)` contribue à ass
 
 ## Test de fréquence monobit
 
+La fonction qui nous est fournie permet de convertir tout nombre entier en séquence de 32 bits
 ```{r}
 binary <- function(x)
 {
@@ -184,11 +185,13 @@ On commence par implémenter la fonction de calcul du nombre de bits à 1
 Frequency <- function(x,nb = 32){
   s <- rep(0,length(x))
 
-  for(i in 1:length(x)){
+  # Conversion en séquence de bits
+  for(i in seq_along(x)){
     bSeq <- binary(x[i])[1:nb]
     s[i] <- sum(2 * bSeq[1:nb] - 1)
   }
 
+  # Calcul de s_obs
   s_obs <- abs(sum(s))/sqrt(nb * length(x))
 
   p_value <- 2 * (1 - pnorm(s_obs))
@@ -198,41 +201,52 @@ Frequency <- function(x,nb = 32){
 ```
 
 ### Test de fréquence monobit
+La première étape consiste à prendre 100 graines aléatoires entre 1 et 10000.
+On utilise la fonction `set.seed()` afin que la fonction `sample.int()` retourne la même séquence.
 ```{r}
-
 set.seed(555)
-
-u1 <- sample.int(10000 , 100)
+seeds <- sample.int(10000 , 100)
+```
+On procède ensuite à la génération des séquences grâce aux générateurs pseudo-aléatoires étudiés.
+Les vecteurs `freq_GENERATEUR` stockent les différentes p-valeurs retournées par la fonction `Frequency(x , nb)` pour chaque séquence aléatoire générée par une graine différente.
+```{r}
 freq_RANDU <- NULL
 freq_SM <- NULL
 freq_VonNeumann <- NULL
 freq_MersenneTwister <- NULL
 
-for(i in 1:length(u1)){
-  u_RANDU <- RANDU(graine = u1[i], n = 200)
-  u_SM <- standardMinimal(graine = u1[i] , n = 200)
-  u_VonNeumann <- VonNeumann(graine = u1[i] , n = 200)
-  u_MersenneTwister <- MersenneTwister(graine = u1[i] , n = 200)
+# On parcourt le vecteur de seeds
+for(i in seq_along(seeds)){
+  # Pour chaque graine, on génère une séquence
+  u_RANDU <- RANDU(graine = seeds[i], n = 200)
+  u_SM <- standardMinimal(graine = seeds[i] , n = 200)
+  u_VonNeumann <- VonNeumann(graine = seeds[i] , n = 200)[,1]
+  u_MersenneTwister <- MersenneTwister(graine = seeds[i] , n = 200)[,1]
 
+  # Ensuite on rajoute la p-valeur retournée par la séquence du générateur correspondant dans le vecteur correspondant
   freq_RANDU <- c(freq_RANDU,Frequency(u_RANDU , 31))
   freq_SM <- c(freq_SM,Frequency(u_SM , 31))
   freq_VonNeumann <- c(freq_VonNeumann,Frequency(u_VonNeumann , 14))
   freq_MersenneTwister <- c(freq_MersenneTwister,Frequency(u_MersenneTwister))
 }
-
+```
+La prochaine étape consiste à effectuer une étude de la qualité des différents générateurs.
+On commence d'abord par extraire le nombre de fois qu'une p-valeur est inférieure à notre seuil de signification (0.01), cela pourra nous donner une indication de combien de valeurs <i>supposées aléatoires</i> pouvons nous être surs de rejetter pour chaque générateur.
+```{r}
 # Nombre de valeurs inferieures à 0.01
 n_RANDU <- length(which(freq_RANDU < 0.01))
 n_SM <- length(which(freq_SM < 0.01))
 n_VonNeumann <- length(which(freq_VonNeumann < 0.01))
 n_MersenneTwister <- length(which(freq_MersenneTwister < 0.01))
-
+```
+Un autre indicateur interessant est la valeur moyenne de la p-valeur pour chaque séquence de fréquences monobit générée.
+```{r}
 #Calcul de la p_value moyenne pour chacun des générateurs
 avg_pvalue_RANDU <- mean(freq_RANDU)
 avg_pvalue_SM <- mean(freq_SM)
 avg_pvalue_VonNeumann <- mean(freq_VonNeumann)
 avg_pvalue_MersenneTwister <- mean(freq_MersenneTwister)
 ```
-
 
 On remarque que Mersenne-Twister et StandardMinimal ont de bien meilleures performances que les autres algorithmes. Cela vient confirmer la distribution qu'on a plot plus haut, qui montre que les distributions de ces deux algorithmes sont celles qui se rapprochent le plus d'une loi uniforme.
 
@@ -269,7 +283,7 @@ Runs <- function(x , nb = 32){
   bSeq <- c()
 
   # Pre-test
-  for(i in 1 : length(x)){
+  for(i in seq_along(x)){
     # Concaténation de toutes les séquences de bits
     bSeq <- c(bSeq , binary(x[i])[1:nb])
   }
@@ -283,14 +297,7 @@ Runs <- function(x , nb = 32){
 
   # Sinon on continue
 
-  V_n <- 0
-
-  for(i in 1 : (length(bSeq) - 1)){
-    if(bSeq[i] != bSeq[i+1]){
-      V_n <- V_n + 1
-    }
-  }
-
+  V_n <- sum(bSeq[-length(bSeq)] != bSeq[-1])
   V_n <- V_n + 1
 
   p_value <- 2*(1 - pnorm(abs(V_n - 2 * nb*length(x) * pi * (1-pi))/(2 * sqrt(nb*length(x)) * pi * (1-pi))))
@@ -305,15 +312,122 @@ runs_SM <- NULL
 runs_VonNeumann <- NULL
 runs_MersenneTwister <- NULL
 
-for(i in 1:length(u1)){
+for(i in seq_along(seeds)){
+  # Pour chaque graine, on génère une séquence
+  u_RANDU <- RANDU(graine = seeds[i], n = 200)
+  u_SM <- standardMinimal(graine = seeds[i] , n = 200)
+  u_VonNeumann <- VonNeumann(graine = seeds[i] , n = 200)[,1]
+  u_MersenneTwister <- MersenneTwister(graine = seeds[i] , n = 200)[,1]
+
   runs_RANDU <- c(runs_RANDU,Runs(u_RANDU , 31))
   runs_SM <- c(runs_SM,Runs(u_SM , 31))
   runs_VonNeumann <- c(runs_VonNeumann,Runs(u_VonNeumann , 14))
   runs_MersenneTwister <- c(runs_MersenneTwister,Runs(u_MersenneTwister))
 }
+
+# Nombre de p-valeurs inferieures à 0.01
+n_RANDU <- length(which(runs_RANDU < 0.01))
+n_SM <- length(which(runs_SM < 0.01))
+n_VonNeumann <- length(which(runs_VonNeumann < 0.01))
+n_MersenneTwister <- length(which(runs_MersenneTwister < 0.01))
+#Calcul de la p_value moyenne pour chacun des générateurs
+avg_pvalue_RANDU <- mean(runs_RANDU)
+avg_pvalue_SM <- mean(runs_SM)
+avg_pvalue_VonNeumann <- mean(runs_VonNeumann)
+avg_pvalue_MersenneTwister <- mean(runs_MersenneTwister)
 ```
- ### Question 6
-  
+Le nombre de p-value inférieures à 0,01 sont les suivants :
+
+* Mersenne-Twister : 0
+* RANDU : 43
+* StandardMinimal : 3
+* VonNeumann : 100
+
+Cela suggère que pour les séquences générées :
+
+<b>Mersenne-Twister</b> : Aucune p-valeur n'est inférieure à 0,01. Cela indique que la séquence générée par Mersenne-Twister semble être en conformité avec la distribution aléatoire équilibrée, du moins en termes de ce test spécifique.
+
+<b>RANDU</b> : 43 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par RANDU présente un déséquilibre significatif et ne suit pas une distribution aléatoire équilibrée selon ce test. Il peut y avoir un biais ou une structure non aléatoire dans la séquence.
+
+<b>StandardMinimal</b> : 3 p-valeurs sont inférieures à 0,01. Cela suggère que la séquence générée par StandardMinimal présente également un léger déséquilibre, et ne suit pas une distribution aléatoire équilibrée selon ce test. Le générateur reste cependant de meilleure qualité que RANDU.
+
+<b>VonNeumann</b> : 100 p-valeurs sont inférieures à 0,01. Cela indique que la séquence générée par VonNeumann présente un déséquilibre important et ne suit pas une distribution aléatoire équilibrée selon ce test. L'hypothèse de la distribution des nombres uniforme est à rejeter.
+
+Aussi, nous avons calculé la p_value moyenne pour chaque séquence générée :
+
+* RANDU : 0.260
+* StandardMinimal : 0.0.487
+* Von Neumann : 0
+* Mersenne-Twister : 0.507
+
+Bien que la moyenne de ces p_value peut suggérer que Standard Minimal est meilleur que Mersenne-Twister, il faut garder en tête que le générateur de Mersenne-Twister n'a renvoyé aucune p_valeur inférieure au niveau de signification.
+
+Ce test aussi montre que en moyenne, le générateur de Mersenne-Twister présente de meilleures performances que le générateur Standard Minimal. Cela est du au fait que les valeurs générées par `Standard Minimal`peuvent suivre des motifs.
+
+### Test d'ordre
+```{r}
+order_RANDU <- NULL
+order_SM <- NULL
+order_VonNeumann <- NULL
+order_MersenneTwister <- NULL
+
+for(i in seq_along(seeds)){
+  # Pour chaque graine, on génère une séquence
+  u_RANDU <- RANDU(graine = seeds[i], n = 200)
+  u_SM <- standardMinimal(graine = seeds[i] , n = 200)
+  u_VonNeumann <- VonNeumann(graine = seeds[i] , n = 200)[,1]
+  u_MersenneTwister <- MersenneTwister(graine = seeds[i] , n = 200)[,1]
+
+  order_RANDU <- c(order_RANDU,order.test(u_RANDU , d = 4, echo = FALSE)$p.value)
+  order_SM <- c(order_SM,order.test(u_SM , d = 4, echo = FALSE)$p.value)
+  order_VonNeumann <- c(order_VonNeumann,order.test(u_VonNeumann , d = 4, echo = FALSE)$p.value)
+  order_MersenneTwister <- c(order_MersenneTwister,order.test(u_MersenneTwister , d = 4, echo = FALSE)$p.value)
+}
+
+# Nombre de p-valeurs inferieures à 0.01
+n_RANDU <- length(which(order_RANDU < 0.01))
+n_SM <- length(which(order_SM < 0.01))
+n_VonNeumann <- length(which(order_VonNeumann < 0.01))
+n_MersenneTwister <- length(which(order_MersenneTwister < 0.01))
+```
+Le nombre de p-value inférieures à 0,01 sont les suivants :
+
+* Mersenne-Twister : 1
+* RANDU : 3
+* StandardMinimal : 1
+* VonNeumann : 83
+
+<b>Mersenne-Twister</b> : Le générateur Mersenne-Twister présente seulement 1 p-valeur inférieure à 0,01 lors du test d'ordre. Cela suggère que ce générateur produit des séquences de nombres aléatoires qui sont relativement bien réparties et ne montrent pas de structure ou de biais significatifs.
+
+<b>RANDU</b> : Le générateur RANDU présente 3 p-valeurs inférieures à 0,01 lors du test d'ordre. Cela indique que les séquences générées par RANDU peuvent présenter des motifs ou des biais non aléatoires, ce qui les rend moins appropriées pour des applications nécessitant une génération de nombres véritablement aléatoires.
+
+<b>StandardMinimal</b> : Le générateur StandardMinimal montre seulement 1 p-valeur inférieure à 0,01 lors du test d'ordre. Cela suggère qu'il peut produire des séquences de nombres aléatoires relativement bien réparties, similaires au Mersenne-Twister.
+
+<b>VonNeumann</b> : Le générateur VonNeumann présente un nombre élevé de 83 p-valeurs inférieures à 0,01 lors du test d'ordre. Cela indique qu'il peut produire des séquences de nombres présentant des structures ou des biais significatifs, les rendant moins souhaitables pour des applications nécessitant une génération de nombres aléatoires de haute qualité.
+
+Nous avons testé le générateur RANDU sur 100 graines différentes et que vous obtenez des résultats relativement bons lors du test d'ordre, cela pourrait être dû à la chance ou à des particularités des graines spécifiques que nous avons utilisées. RANDU peut, dans certains cas, générer des séquences qui semblent aléatoires ou qui passent certains tests statistiques, mais il reste un générateur de nombres pseudo-aléatoires de mauvaise qualité sur le long terme.
+```{r}
+
+#Calcul de la p_value moyenne pour chacun des générateurs
+avg_pvalue_RANDU <- mean(order_RANDU)
+avg_pvalue_SM <- mean(order_SM)
+avg_pvalue_VonNeumann <- mean(order_VonNeumann)
+avg_pvalue_MersenneTwister <- mean(order_MersenneTwister)
+```
+Aussi, nous avons calculé la p_value moyenne pour chaque séquence générée :
+
+* RANDU : 0.48
+* StandardMinimal : 0.49
+* Von Neumann : 0.008
+* Mersenne-Twister : 0.52
+
+Mersenne-Twister reste le meilleur générateur en terme de qualité des nombres générés, tandis que Von Neumann est celui qui présente les plus mauvaises performances.
+Le générateur RANDU n'est pas réputé pour présenter de bons résultats lors du test d'ordre, mais plutôt pour échouer à ce test.
+
+
+# Application aux files d'attente
+
+### Question 6
 ```{r}
 FileMM1 <- function(lambda, mu, D){
   
@@ -374,7 +488,6 @@ evolution_nb_clients <- function(arrivees , departs){
   
   # On trie le data frame dans l'ordre croissant et on fait une somme cumulée des tags. Cela représente le nombre de clients dans la file à chaque arrivée de client.
   timeline <- timeline[order(timeline$Temps), ]
-  
   timeline$nb_clients <- cumsum(timeline$Tag)
   
   return (timeline)
@@ -398,30 +511,32 @@ ma_liste4 <- FileMM1(30,20,12)
 df4 <- evolution_nb_clients(ma_liste4$a, ma_liste4$d)
 
 
-plot(df$Temps, df$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
-plot(df2$Temps, df2$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
-plot(df3$Temps, df3$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
-plot(df4$Temps, df4$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente")
+plot(df1$Temps, df1$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente 10 arrivées/heure")
+plot(df2$Temps, df2$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente 14 arrivées/heure")
+plot(df3$Temps, df3$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente 20 arrivées/heure")
+plot(df4$Temps, df4$nb_clients, type ='p' , col = "black" , xlab = "time" , ylab = "nb_clients" , main = "Evolution du nombre de clients en attente 30 arrivées/heure")
 
 
 ```
 #### Commentaires :
-On remarque que le nombre de clients en simultané reste acceptable dans les 2 premiers cas. Dans les cas où lambda et mu valent respectivement 20, 20 et 30,20 on remarque que le nombre de personne dans le magasin en simultané est croissant. La file d'attente deviens casiment interminable.
+On remarque que le nombre de clients en simultané reste acceptable dans les 2 premiers cas. Dans les cas où lambda et mu valent respectivement 20, 20 et 30,20 on remarque que le nombre de personne dans le magasin en simultané est croissant. La file d'attente deviens quasiment interminable.
 
-### question 8
+### Question 8 : Calcul du nombre de client moyen
+
+Le calcul du nombre de clients moyen en attente se fait en prenant la moyenne pondérée par la durée d'attente. L'implémentation par dataframe permet d'utiliser la fonction weighted.mean.
+
 
 ```{r}
-mean1 <- mean(df1$nb_clients)
-mean2 <- mean(df2$nb_clients)
-mean3 <- mean(df3$nb_clients)
-mean4 <- mean(df4$nb_clients)
-
+mean1 <- weighted.mean(df1$nb_clients, w = c(0,diff(df1$Temps)))
+mean2 <- weighted.mean(df2$nb_clients, w = c(0,diff(df2$Temps)))
+mean3 <- weighted.mean(df3$nb_clients, w = c(0,diff(df3$Temps)))
+mean4 <- weighted.mean(df4$nb_clients, w = c(0,diff(df4$Temps)))
 ```
 
 ```{r}
 temps_presence <- function(arrivee, depart) {
   delta <- c()
-  for(i in 1:length(depart)) {
+  for(i in seq_along(depart)) {
     delta <- c(delta, depart[i]-arrivee[i])
   }
   

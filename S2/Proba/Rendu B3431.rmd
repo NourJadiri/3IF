@@ -334,3 +334,8 @@ results2 <- collect_results(means2, avg_durations2)
 ```{r}
 knitr::kable(results2, format = "markdown")
 ```
+En analysant les résultats présentés, on peut observer une situation intéressante. Le paramètre D, qui représente la durée maximale de service, a été augmenté. On constate que cette augmentation de D conduit à une diminution de l'écart relatif entre le nombre de client moyen calculé à l'aide de la formule de Little (En = lambda * Ew) et le nombre de client moyen réel.
+
+Plus précisément, à mesure que D augmente, l'écart relatif diminue. Cela peut s'expliquer par le fait que lorsque D est plus grand, les clients ont davantage de temps pour être servis, ce qui réduit la probabilité qu'ils dépassent la limite de temps et soient forcés de quitter le système. Par conséquent, la différence entre le temps moyen de séjour estimé par la formule de Little et le temps de séjour réel devient plus faible.
+
+Ces résultats indiquent que l'augmentation de la durée maximale de service a un impact positif sur la précision de la formule de Little pour estimer le temps moyen de séjour et le nombre moyen de clients.

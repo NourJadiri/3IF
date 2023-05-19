@@ -313,14 +313,14 @@ On s'aperçoit que le nombre de clients moyen en simultané est très élevé da
 Après execution de nos algorithmes, on trouve que la loi de Little est presque vérifiée pour des valeurs élévées de D.
 
 ```{r}
-knitr::kable(results, format = "markdown")
+knitr::kable(results, format = "markdown", caption = "File M/M/1 , D = 12")
 ```
 
 On remarque qu'on se rapproche de plus en plus de la formule de Little, plus le taux d'arrivée augmente.
 
 En effectuant plusieurs tests en faisant varier la durée total du service, on remarque aussi qu'on se rapproche de la formule de Little.
 
-<b> Test avec D = 40h </b>
+<b> Test avec D = 20h </b>
 
 ```{r}
 liste_de_files2 <- generateFileMM1(duration = 20)
@@ -333,7 +333,7 @@ avg_durations2 <- generate_average_duration(liste_de_files2)
 results2 <- collect_results(means2, avg_durations2)
 ```
 ```{r}
-knitr::kable(results2, format = "markdown")
+knitr::kable(results2, format = "markdown", caption = "File M/M/1 , D = 20")
 ```
 En analysant les résultats présentés, on peut observer une situation intéressante. Le paramètre D, qui représente la durée maximale de service, a été augmenté. On constate que cette augmentation de D conduit à une diminution de l'écart relatif entre le nombre de client moyen calculé à l'aide de la formule de Little (En = lambda * Ew) et le nombre de client moyen réel.
 
@@ -344,6 +344,7 @@ Ces résultats indiquent que l'augmentation de la durée maximale de service a u
 ### Question bonus : Files M/M/n
 
 <b>Cas d'une file M/M/2</b>
+
 Considérons le cas où il y a n serveurs dans le système. Les lois d’arrivées et de départ seront de
 nouveau prises selon des lois exponentielles. Le modèle est alors noté M/M/n. Nous prendrons ici
 n = 2.
@@ -383,6 +384,6 @@ resultsMM2$Ecart_Relatif <- NULL
 ```
 Nous pouvons alors résumer les résultats dans le tableau suivant :
 ```{r}
-knitr::kable(resultsMM2, format = "markdown", caption = "File M/M/2")
+knitr::kable(resultsMM2, format = "markdown", caption = "File M/M/2 , D = 12")
 ```
 Pour de faibles valeurs de $\lambda$, nous ne remarquons pas de différence significative. Cepedant, plus $\lambda$ augmente, plus on voit que le nombre de client moyen, ainsi que le temps moyen d'attente diminue (d'un facteur 2 environ), ce qui est en accord avec notre intuition : <i> deux serveurs en même temps feront avancer la file deux fois plus vite </i>

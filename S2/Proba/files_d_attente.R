@@ -121,6 +121,36 @@ FileMM2 <- function(lambda, mu, D){
   return (list(arr = arrivees,dep = departs))
 }
 
+FileMMn <- function(lambda, mu, D, n){
+
+  arrivees <- generate_arrivees(lambda, D)
+
+  # Si nous avons plus de serveurs simultanés que de clients au total qui sont arrivés
+  if(n > length(arrivees)){
+    # Chaque client se fait traiter indépendemment des autres
+    departs <- arrivees[seq_along(arrivees)] + rexp(length(arrivees) , lambda)
+    return (list(arr = arrivees,dep = departs))
+  }
+
+  # Sinon, la file d'attente sera alimentée
+  departs <- arrivees[1:n] + rexp(n, lambda)
+
+  for(i in n:length(arrivees)){
+    # Plusieurs cas sont possibles:
+    # Si le client arrive et que au moins un des serveurs est libre, alors son traitement se fait automatiquement ( arrivees[i] + rexp(1,mu) )
+    # Si tous les serveurs sont occupés, le client attend le premier serveur qui se libère ( min(departs[i-(1:n)] + rexp(1,mu) )
+    departs[i] <- max(arrivees[i],min(departs[i-(1:n)])) + rexp(1,mu)
+
+    if(departs[i] > arrivees[1] + D){
+      departs <- departs[-length(departs)]
+      break
+    }
+  }
+
+  return (list(arr = arrivees,dep = departs))
+}
+
+
 generateFileMM2 <- function(duration){
   ma_liste1 <- FileMM1(10,20,duration)
   ma_liste2 <- FileMM1(14,20,duration)

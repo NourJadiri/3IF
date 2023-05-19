@@ -285,11 +285,12 @@ On remarque que le nombre de clients en simultané reste acceptable dans les 2 p
 
 Le calcul du nombre de clients moyen en attente se fait en prenant la moyenne pondérée par la durée d'attente. L'implémentation par dataframe permet d'utiliser la fonction `weighted.mean()`.
 <b> Exemple </b>
-```{r}
+```R
 mean1 <- weighted.mean(testLittle$lambda10$nb_clients, w = c(0,diff(testLittle$lambda10$Temps)))
 ```
 En résumé, la fonction "temps_presence" calcule la durée moyenne de présence des clients dans un système en soustrayant les temps d'arrivée des temps de départ, puis en prenant la moyenne de ces écarts.
-```{r}
+
+```R
 temps_presence <- function(arrivee, depart) {
   delta <- c()
   for(i in seq_along(depart)) {
@@ -339,3 +340,49 @@ En analysant les résultats présentés, on peut observer une situation intéres
 Plus précisément, à mesure que D augmente, l'écart relatif diminue. Cela peut s'expliquer par le fait que lorsque D est plus grand, les clients ont davantage de temps pour être servis, ce qui réduit la probabilité qu'ils dépassent la limite de temps et soient forcés de quitter le système. Par conséquent, la différence entre le temps moyen de séjour estimé par la formule de Little et le temps de séjour réel devient plus faible.
 
 Ces résultats indiquent que l'augmentation de la durée maximale de service a un impact positif sur la précision de la formule de Little pour estimer le temps moyen de séjour et le nombre moyen de clients.
+
+### Question bonus : Files M/M/n
+
+<b>Cas d'une file M/M/2</b>
+Considérons le cas où il y a n serveurs dans le système. Les lois d’arrivées et de départ seront de
+nouveau prises selon des lois exponentielles. Le modèle est alors noté M/M/n. Nous prendrons ici
+n = 2.
+
+La simulation de la file d'attente se sera pas sensiblement différentes que la file M/M/1. La seule différence ici sera le fait que deux clients se font process en même temps.
+La première étape consiste à générer le vecteur des arrivées des clients de la meme manière pour la file M/M/1. Il faudra aussi générer les départs des deux premiers clients qui peuvent se calculer directement.
+
+```R
+arrivees <- generate_arrivees(lambda, D)
+departs <- c(arrivees[1] + rexp(1,mu) , arrivees[2] + rexp(1 ,mu))
+```
+
+La deuxième étape consiste à calculer les différents départs des clients.
+Plusieurs cas sont possibles:
+- Si le client arrive et que au moins un des serveurs est libre, alors son traitement se fait automatiquement : `( arrivees\[i] + rexp(1,mu) )`
+- Si les deux serveurs sont occupés, le client attend le premier serveur qui se libère, <i>i.e</i> le client dont le temps de départ est le plus petit :  `( min(departs\[i-1],departs\[i-2]) + rexp(1,mu) )`
+On prend alors le max de ces deux instants
+```R
+departs[i] <- max(arrivees[i],min(departs[i-1],departs[i-2])) + rexp(1,mu)
+```
+
+```{r}
+liste_filesMM2 <- generateFileMM2(duration = 12)
+testLittleMM2 <- compare_nb_clients(liste_filesMM2)
+```
+On remarque directement ici que le nombre maximal de clients en attente est toujours inférieur à celui d'une file MM1. Cela est du au traitement simultané de deux clients en même temps.
+
+On effectue alors la même étude que sur la file MM1, c'est à dire le calcul du nombre moyen de clients, ainsi que le temps moyen passé à attendre.
+```{r}
+means <- generate_means(testLittleMM2)
+average_wait_times <- generate_average_duration(liste_filesMM2)
+
+resultsMM2 <- collect_results(means, average_wait_times)
+# suppression de ces deux colonnes qui n'ont plus aucun sens since la formule de Little ne s'applique plus
+resultsMM2$LittleFormula <- NULL
+resultsMM2$Ecart_Relatif <- NULL
+```
+Nous pouvons alors résumer les résultats dans le tableau suivant :
+```{r}
+knitr::kable(resultsMM2, format = "markdown", caption = "File M/M/2")
+```
+Pour de faibles valeurs de $\lambda$, nous ne remarquons pas de différence significative. Cepedant, plus $\lambda$ augmente, plus on voit que le nombre de client moyen, ainsi que le temps moyen d'attente diminue (d'un facteur 2 environ), ce qui est en accord avec notre intuition : <i> deux serveurs en même temps feront avancer la file deux fois plus vite </i>

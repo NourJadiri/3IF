@@ -1,6 +1,6 @@
 ---
 title: "TP"
-authors: "Isaline Foissey, Nour Eljadiri"
+authors: "Isaline Foissey, Nour Eljadiri, Célia Djouadi"
 output: html_notebook
 ---
 
@@ -13,9 +13,9 @@ On peut effectuer des tests afin de voir à quoi ressemblent les nombres génér
 On prendra n = 10 afin de ne pas avoir des séquences beaucoup trop longues
 ```{r}
 # Une fenetre de l'explorateur de fichier s'ouvrira pour que vous choisissiez generators.R
-f <- file.choose()
+source(test.R)
 # f <- "generators.R"
-source(file = f)
+
 sequenceRANDU <- RANDU(graine = 69420, n = 10)
 sequenceSM <- standardMinimal(graine = 69420, n = 10)
 sequenceVN <- VonNeumann(graine = 69420, n = 10)[,1]

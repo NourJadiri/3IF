@@ -1,5 +1,5 @@
 # IMPORTS :
-
+install.packages("randtoolbox")
 source("C:\\Users\\Nour\\OneDrive - INSA Lyon\\Documents\\Cours\\3A\\3IF\\S2\\Proba\\generators.R")
 source("C:\\Users\\Nour\\OneDrive - INSA Lyon\\Documents\\cours\\3A\\3IF\\S2\\Proba\\util.R")
 source("C:\\Users\\Nour\\OneDrive - INSA Lyon\\Documents\\cours\\3A\\3IF\\S2\\Proba\\files_d_attente.R")

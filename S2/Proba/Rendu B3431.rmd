@@ -386,6 +386,6 @@ Nous pouvons alors résumer les résultats dans le tableau suivant :
 ```{r}
 knitr::kable(resultsMM2, format = "markdown", caption = "File M/M/2 , D = 12")
 ```
-Pour de faibles valeurs de $\lambda$, nous ne remarquons pas de différence significative. Cepedant, plus $\lambda$ augmente, plus on voit que le nombre de client moyen, ainsi que le temps moyen d'attente diminue (d'un facteur 2 environ), ce qui est en accord avec notre intuition : <i> deux serveurs en même temps feront avancer la file deux fois plus vite </i>
+Pour de faibles valeurs de $\lambda$, nous ne remarquons pas de différence significative. Cepedant, plus $\lambda$ augmente, plus on voit que le nombre de client moyen, ainsi que le temps moyen d'attente diminue, ce qui est en accord avec notre intuition : <i> deux serveurs en même temps feront avancer la file deux fois plus vite </i>
 
 <b> PS </b> : La fonction FileMMn a aussi été implémentée. Elle se trouve dans le fichier `files_d_attente.R`
